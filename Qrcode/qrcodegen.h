@@ -287,6 +287,8 @@ struct qrcodegen_Segment qrcodegen_makeAlphanumeric(const char *text, uint8_t bu
 struct qrcodegen_Segment qrcodegen_makeEci(long assignVal, uint8_t buf[]);
 
 
+
+
 /*---- Functions to extract raw data from QR Codes ----*/
 
 /* 

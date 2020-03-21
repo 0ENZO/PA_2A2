@@ -225,7 +225,7 @@ exit(1);
 
 void qrEncode()
 {
-    char *text ="try";
+    char text[500] ="try";
     strcat(text,emailchar);
     enum qrcodegen_Ecc errCorLvl = qrcodegen_Ecc_LOW;
 
@@ -247,5 +247,7 @@ void printQr(const uint8_t qrcode[]) {
 	}
 	fputs("\n", stdout);
 }
+
+
 
 
