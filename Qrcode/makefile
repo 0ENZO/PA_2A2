@@ -10,7 +10,8 @@ CFLAGS = -Wall -Wextra -c -g
 ##GTKLIB
 GTKLIB = `pkg-config --cflags --libs gtk+-3.0`
 LDSLIB = `sdl2-config --libs`
-LDFLAGS = $(PTHREAD) $(GTKLIB) -export-dynamic $(LDSLIB)
+QRCODELIB = `qrcode --libs`
+LDFLAGS = $(PTHREAD) $(GTKLIB) -export-dynamic $(LDSLIB) $(QRCODELIB)
 
 SRCS = main.c
 

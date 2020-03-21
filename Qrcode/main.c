@@ -6,12 +6,15 @@
 #include <SDL2/SDL.h>
 #include <mysql/mysql.h>
 #include <SDL2/SDL_image.h>
+#include "qrcode.h"
 
 void Accueil();
 void AccueilDestroy();
 void inscription();
 void check();
 void finish_with_error();
+void printQr();
+void qrEncode();
 
 void enterImmatriculation1();
 void enterImmatriculation2();
@@ -21,6 +24,7 @@ void enterfoodtruck();
 void enterfranchise();
 void entercapital();
 void enterpassword();
+
 
 GtkBuilder *builder;
 
@@ -205,11 +209,38 @@ void check()
         printf("the immatriculation is already used\n");
     }
     mysql_close(con);
+    qrEncode();
 }
 
- void finish_with_error(MYSQL * con)
- {
-   fprintf (stderr, "%s\n", mysql_error (con));
-   mysql_close (con);
-   exit(1);
- }
+void finish_with_error(MYSQL * con)
+{
+fprintf (stderr, "%s\n", mysql_error (con));
+mysql_close (con);
+exit(1);
+}
+
+void qrEncode()
+{
+    char text[500] ="";
+    strcat(text,emailchar);
+    enum qrcodegen_Ecc errCorLvl = qrcodegen_Ecc_LOW;
+
+    uint8_t qrcode[qrcodegen_BUFFER_LEN_MAX];
+    uint8_t tempBuffer[qrcodegen_BUFFER_LEN_MAX];
+	bool ok = qrcodegen_encodeText(text, tempBuffer, qrcode, errCorLvl,
+		qrcodegen_VERSION_MIN, qrcodegen_VERSION_MAX, qrcodegen_Mask_AUTO, true);
+	if (ok)
+		printQr(qrcode);
+}
+
+void printQr(const uint8_t qrcode[]) {
+	int size = qrcodegen_getSize(qrcode);
+	int border = 4;
+	for (int y = -border; y < size + border; y++) {
+		for (int x = -border; x < size + border; x++) {
+			fputs((qrcodegen_getModule(qrcode, x, y) ? "##" : "  "), stdout);
+		}
+		fputs("\n", stdout);
+	}
+	fputs("\n", stdout);
+}
