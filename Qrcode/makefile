@@ -10,8 +10,7 @@ CFLAGS = -Wall -Wextra -c -g
 ##GTKLIB
 GTKLIB = `pkg-config --cflags --libs gtk+-3.0`
 LDSLIB = `sdl2-config --libs`
-QRCODELIB = `qrcode --libs`
-LDFLAGS = $(PTHREAD) $(GTKLIB) -export-dynamic $(LDSLIB) $(QRCODELIB)
+LDFLAGS = $(PTHREAD) $(GTKLIB) -export-dynamic $(LDSLIB)
 
 SRCS = main.c
 
@@ -20,7 +19,7 @@ OBJS = $(SRCS:.c=.o)
 all: $(NAME)
 
 $(NAME):	$(OBJS) 
-	$(CC) -o $(NAME) $(OBJS) $(LDFLAGS) $(LIBS)  -lmysqlclient 
+	$(CC) -o $(NAME) $(OBJS) $(LDFLAGS) $(LIBS)  -lmysqlclient
 
 $(OBJS): $(SRCS)
 	$(CC) $(CFLAGS) $(GTKLIB) $(SRCS)

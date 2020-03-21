@@ -1,19 +1,21 @@
+#include <stdbool.h>
+#include <stddef.h>
 #include <stdio.h>
-#include <string.h>
 #include <stdlib.h>
+#include <string.h>
 #include <gtk-3.0/gtk/gtk.h>
 #include <gtk-3.0/gtk/gtkx.h>
 #include <SDL2/SDL.h>
 #include <mysql/mysql.h>
 #include <SDL2/SDL_image.h>
-#include "qrcode.h"
+#include "qrcodegen.h"
 
 void Accueil();
 void AccueilDestroy();
 void inscription();
 void check();
-void finish_with_error();
-void printQr();
+void finish_with_error(MYSQL *);
+static void printQr(const uint8_t qrcode[]);
 void qrEncode();
 
 void enterImmatriculation1();
@@ -87,6 +89,8 @@ void enterpassword(GtkWidget *widget,GtkWidget *entry)
 {
     passwordchar = gtk_entry_get_text(GTK_ENTRY(entry));
 }
+
+
 
 int main(int argc, char *argv[])
 {
@@ -221,16 +225,15 @@ exit(1);
 
 void qrEncode()
 {
-    char text[500] ="";
+    char *text ="try";
     strcat(text,emailchar);
     enum qrcodegen_Ecc errCorLvl = qrcodegen_Ecc_LOW;
 
     uint8_t qrcode[qrcodegen_BUFFER_LEN_MAX];
     uint8_t tempBuffer[qrcodegen_BUFFER_LEN_MAX];
-	bool ok = qrcodegen_encodeText(text, tempBuffer, qrcode, errCorLvl,
-		qrcodegen_VERSION_MIN, qrcodegen_VERSION_MAX, qrcodegen_Mask_AUTO, true);
-	if (ok)
-		printQr(qrcode);
+	bool ok = qrcodegen_encodeText(text, tempBuffer, qrcode, errCorLvl,qrcodegen_VERSION_MIN, qrcodegen_VERSION_MAX, qrcodegen_Mask_AUTO, true);
+	if (ok){printQr(qrcode);}
+
 }
 
 void printQr(const uint8_t qrcode[]) {
@@ -244,3 +247,5 @@ void printQr(const uint8_t qrcode[]) {
 	}
 	fputs("\n", stdout);
 }
+
+
