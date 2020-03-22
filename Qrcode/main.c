@@ -242,7 +242,7 @@ void printQr(const uint8_t qrcode[]) {
 	SDL_Init(SDL_INIT_VIDEO);
 	SDL_Window *window = NULL;
 
-	window = SDL_CreateWindow("QRcode",SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED,100,100,0);
+	window = SDL_CreateWindow("QRcode",SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED,47,47,0);
 	SDL_Rect square;
 	square.h =100;
 	square.w=100;
@@ -255,10 +255,10 @@ void printQr(const uint8_t qrcode[]) {
 			if(qrcodegen_getModule(qrcode,x,y))
 			{
 			    SDL_Surface *s;
-			    s = SDL_CreateRGBSurface(0,100,100,32,0,0,00,0);
+			    s = SDL_CreateRGBSurface(0,100,100,32,0,0,0,0);
 			    square.x=x+border;
 			    square.y=y+border;
-			    SDL_FillRect(s,NULL,SDL_MapRGB(s->format,255,255,255));
+			    SDL_FillRect(s,NULL,SDL_MapRGB(s->format,0,0,0));
 			    SDL_BlitSurface(s,NULL,SDL_GetWindowSurface(window),&square);
 			}
             else
@@ -267,7 +267,7 @@ void printQr(const uint8_t qrcode[]) {
 			    s = SDL_CreateRGBSurface(0,100,100,32,0,0,00,0);
 			    square.x=x+border;
 			    square.y=y+border;
-			    SDL_FillRect(s,NULL,SDL_MapRGB(s->format,0,0,0));
+			    SDL_FillRect(s,NULL,SDL_MapRGB(s->format,255,255,255));
 			    SDL_BlitSurface(s,NULL,SDL_GetWindowSurface(window),&square);
 			}
 		}
