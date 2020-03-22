@@ -10,13 +10,14 @@
 #include <SDL2/SDL_image.h>
 #include "qrcodegen.h"
 
+
 void Accueil();
 void AccueilDestroy();
 void inscription();
 void check();
 void finish_with_error(MYSQL *);
 static void printQr(const uint8_t qrcode[]);
-void qrEncode();
+void qrEncode(char *);
 
 void enterImmatriculation1();
 void enterImmatriculation2();
@@ -209,11 +210,12 @@ void check()
         {
             finish_with_error(con);
         }
+        qrEncode(reqInsert);
     }else{
         printf("the immatriculation is already used\n");
     }
     mysql_close(con);
-    qrEncode();
+
 }
 
 void finish_with_error(MYSQL * con)
@@ -223,29 +225,60 @@ mysql_close (con);
 exit(1);
 }
 
-void qrEncode()
+void qrEncode(char *insert)
 {
-    char text[500] ="try";
-    strcat(text,emailchar);
     enum qrcodegen_Ecc errCorLvl = qrcodegen_Ecc_LOW;
 
     uint8_t qrcode[qrcodegen_BUFFER_LEN_MAX];
     uint8_t tempBuffer[qrcodegen_BUFFER_LEN_MAX];
-	bool ok = qrcodegen_encodeText(text, tempBuffer, qrcode, errCorLvl,qrcodegen_VERSION_MIN, qrcodegen_VERSION_MAX, qrcodegen_Mask_AUTO, true);
+	bool ok = qrcodegen_encodeText(insert, tempBuffer, qrcode, errCorLvl,qrcodegen_VERSION_MIN, qrcodegen_VERSION_MAX, qrcodegen_Mask_AUTO, true);
 	if (ok){printQr(qrcode);}
 
 }
 
 void printQr(const uint8_t qrcode[]) {
 	int size = qrcodegen_getSize(qrcode);
-	int border = 4;
+	int border = 1;
+	SDL_Init(SDL_INIT_VIDEO);
+	SDL_Window *window = NULL;
+
+	window = SDL_CreateWindow("QRcode",SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED,100,100,0);
+	SDL_Rect square;
+	square.h =100;
+	square.w=100;
+	FILE *test;
+	test=fopen("QR-code.txt","w+");
+
 	for (int y = -border; y < size + border; y++) {
 		for (int x = -border; x < size + border; x++) {
-			fputs((qrcodegen_getModule(qrcode, x, y) ? "##" : "  "), stdout);
+			fputs((qrcodegen_getModule(qrcode, x, y) ? "##" : "  "), test);
+			if(qrcodegen_getModule(qrcode,x,y))
+			{
+			    SDL_Surface *s;
+			    s = SDL_CreateRGBSurface(0,100,100,32,0,0,00,0);
+			    square.x=x+border;
+			    square.y=y+border;
+			    SDL_FillRect(s,NULL,SDL_MapRGB(s->format,255,255,255));
+			    SDL_BlitSurface(s,NULL,SDL_GetWindowSurface(window),&square);
+			}
+            else
+			{
+			    SDL_Surface *s;
+			    s = SDL_CreateRGBSurface(0,100,100,32,0,0,00,0);
+			    square.x=x+border;
+			    square.y=y+border;
+			    SDL_FillRect(s,NULL,SDL_MapRGB(s->format,0,0,0));
+			    SDL_BlitSurface(s,NULL,SDL_GetWindowSurface(window),&square);
+			}
 		}
-		fputs("\n", stdout);
+		fputs("\n", test);
 	}
-	fputs("\n", stdout);
+	IMG_SavePNG(SDL_GetWindowSurface(window),"essai.png");
+	SDL_DestroyWindow(window);
+}
+void Finish()
+{
+    SDL_Quit();
 }
 
 

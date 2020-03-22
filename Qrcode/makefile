@@ -19,7 +19,7 @@ OBJS = $(SRCS:.c=.o)
 all: $(NAME)
 
 $(NAME):	$(OBJS) 
-	$(CC) -o $(NAME) $(OBJS) $(LDFLAGS) $(LIBS)  -lmysqlclient
+	$(CC) -o $(NAME) $(OBJS) $(LDFLAGS) $(LIBS)  -lmysqlclient -lSDL2_image
 
 $(OBJS): $(SRCS)
 	$(CC) $(CFLAGS) $(GTKLIB) $(SRCS)
