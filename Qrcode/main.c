@@ -8,16 +8,18 @@
 #include <SDL2/SDL.h>
 #include <mysql/mysql.h>
 #include <SDL2/SDL_image.h>
+#include <curl/curl.h>
 #include "qrcodegen.h"
 
-
+#undef DISABLE_SSH_AGENT
 void Accueil();
 void AccueilDestroy();
 void inscription();
 void check();
 void finish_with_error(MYSQL *);
-static void printQr(const uint8_t qrcode[]);
+ void printQr(const uint8_t qrcode[]);
 void qrEncode(char *);
+int finish();
 
 void enterImmatriculation1();
 void enterImmatriculation2();
@@ -90,7 +92,6 @@ void enterpassword(GtkWidget *widget,GtkWidget *entry)
 {
     passwordchar = gtk_entry_get_text(GTK_ENTRY(entry));
 }
-
 
 
 int main(int argc, char *argv[])
@@ -251,7 +252,7 @@ void printQr(const uint8_t qrcode[]) {
 
 	for (int y = -border; y < size + border; y++) {
 		for (int x = -border; x < size + border; x++) {
-			fputs((qrcodegen_getModule(qrcode, x, y) ? "##" : "  "), test);
+			fputs((qrcodegen_getModule(qrcode, x, y) ? "1" : "0"), test);
 			if(qrcodegen_getModule(qrcode,x,y))
 			{
 			    SDL_Surface *s;
@@ -275,10 +276,28 @@ void printQr(const uint8_t qrcode[]) {
 	}
 	IMG_SavePNG(SDL_GetWindowSurface(window),"essai.png");
 	SDL_DestroyWindow(window);
+
+
+
+
+   // CURLcode res;
+   // CURL* curl = curl_easy_init();
+   // curl_easy_setopt(curl,CURLOPT_URL,"ftps://alex:alex@51.77.158.251:37812");
+   // res = curl_easy_perform(curl);
+  //  if(res != CURLE_OK)
+   // {
+   //   fprintf(stderr, "%s\n",curl_easy_strerror(res));
+  //  }
+
+
+ // curl_easy_cleanup(curl);
+  finish();
+
 }
-void Finish()
+int finish()
 {
     SDL_Quit();
+     return 0;
 }
 
 
