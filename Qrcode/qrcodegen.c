@@ -1,26 +1,3 @@
-/* 
- * QR Code generator library (C)
- * 
- * Copyright (c) Project Nayuki. (MIT License)
- * https://www.nayuki.io/page/qr-code-generator-library
- * 
- * Permission is hereby granted, free of charge, to any person obtaining a copy of
- * this software and associated documentation files (the "Software"), to deal in
- * the Software without restriction, including without limitation the rights to
- * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
- * the Software, and to permit persons to whom the Software is furnished to do so,
- * subject to the following conditions:
- * - The above copyright notice and this permission notice shall be included in
- *   all copies or substantial portions of the Software.
- * - The Software is provided "as is", without warranty of any kind, express or
- *   implied, including but not limited to the warranties of merchantability,
- *   fitness for a particular purpose and noninfringement. In no event shall the
- *   authors or copyright holders be liable for any claim, damages or other
- *   liability, whether in an action of contract, tort or otherwise, arising from,
- *   out of or in connection with the Software or the use or other dealings in the
- *   Software.
- */
-
 #include <assert.h>
 #include <limits.h>
 #include <stdlib.h>
@@ -361,7 +338,7 @@ testable void reedSolomonComputeDivisor(int degree, uint8_t result[]) {
 	// For example the polynomial x^3 + 255x^2 + 8x + 93 is stored as the uint8 array {255, 8, 93}.
 	memset(result, 0, (size_t)degree * sizeof(result[0]));
 	result[degree - 1] = 1;  // Start off with the monomial x^0
-	
+
 	// Compute the product polynomial (x - r^0) * (x - r^1) * (x - r^2) * ... * (x - r^{degree-1}),
 	// drop the highest monomial term which is always 1x^degree.
 	// Note that r = 0x02, which is a generator element of this field GF(2^8/0x11D).
@@ -459,7 +436,7 @@ static void drawWhiteFunctionModules(uint8_t qrcode[], int version) {
 		setModule(qrcode, 6, i, false);
 		setModule(qrcode, i, 6, false);
 	}
-	
+
 	// Draw 3 finder patterns (all corners except bottom right; overwrites some timing modules)
 	for (int dy = -4; dy <= 4; dy++) {
 		for (int dx = -4; dx <= 4; dx++) {
@@ -473,7 +450,7 @@ static void drawWhiteFunctionModules(uint8_t qrcode[], int version) {
 			}
 		}
 	}
-	
+
 	// Draw numerous alignment patterns
 	uint8_t alignPatPos[7];
 	int numAlign = getAlignmentPatternPositions(version, alignPatPos);
@@ -487,7 +464,7 @@ static void drawWhiteFunctionModules(uint8_t qrcode[], int version) {
 			}
 		}
 	}
-	
+
 	// Draw version blocks
 	if (version >= 7) {
 		// Calculate error correction code and pack bits
@@ -496,7 +473,7 @@ static void drawWhiteFunctionModules(uint8_t qrcode[], int version) {
 			rem = (rem << 1) ^ ((rem >> 11) * 0x1F25);
 		long bits = (long)version << 12 | rem;  // uint18
 		assert(bits >> 18 == 0);
-		
+
 		// Draw two copies
 		for (int i = 0; i < 6; i++) {
 			for (int j = 0; j < 3; j++) {
@@ -744,7 +721,7 @@ static void finderPenaltyAddHistory(int currentRunLength, int runHistory[7], int
 
 
 
-/*---- Basic QR Code information ----*/
+
 
 // Public function - see documentation comment in header file.
 int qrcodegen_getSize(const uint8_t qrcode[]) {
@@ -836,14 +813,6 @@ size_t qrcodegen_calcSegmentBufferSize(enum qrcodegen_Mode mode, size_t numChars
 }
 
 
-// Returns the number of data bits needed to represent a segment
-// containing the given number of characters using the given mode. Notes:
-// - Returns -1 on failure, i.e. numChars > INT16_MAX or
-//   the number of needed bits exceeds INT16_MAX (i.e. 32767).
-// - Otherwise, all valid results are in the range [0, INT16_MAX].
-// - For byte mode, numChars measures the number of bytes, not Unicode code points.
-// - For ECI mode, numChars must be 0, and the worst-case number of bits is returned.
-//   An actual ECI segment can have shorter data. For non-ECI modes, the result is exact.
 testable int calcSegmentBitLength(enum qrcodegen_Mode mode, size_t numChars) {
 	// All calculations are designed to avoid overflow on all platforms
 	if (numChars > (unsigned int)INT16_MAX)
@@ -870,19 +839,7 @@ testable int calcSegmentBitLength(enum qrcodegen_Mode mode, size_t numChars) {
 }
 
 
-// Public function - see documentation comment in header file.
-struct qrcodegen_Segment qrcodegen_makeBytes(const uint8_t data[], size_t len, uint8_t buf[]) {
-	assert(data != NULL || len == 0);
-	struct qrcodegen_Segment result;
-	result.mode = qrcodegen_Mode_BYTE;
-	result.bitLength = calcSegmentBitLength(result.mode, len);
-	assert(result.bitLength != -1);
-	result.numChars = (int)len;
-	if (len > 0)
-		memcpy(buf, data, len * sizeof(buf[0]));
-	result.data = buf;
-	return result;
-}
+
 
 
 // Public function - see documentation comment in header file.
@@ -897,7 +854,7 @@ struct qrcodegen_Segment qrcodegen_makeNumeric(const char *digits, uint8_t buf[]
 	if (bitLen > 0)
 		memset(buf, 0, ((size_t)bitLen + 7) / 8 * sizeof(buf[0]));
 	result.bitLength = 0;
-	
+
 	unsigned int accumData = 0;
 	int accumCount = 0;
 	for (; *digits != '\0'; digits++) {
@@ -931,7 +888,7 @@ struct qrcodegen_Segment qrcodegen_makeAlphanumeric(const char *text, uint8_t bu
 	if (bitLen > 0)
 		memset(buf, 0, ((size_t)bitLen + 7) / 8 * sizeof(buf[0]));
 	result.bitLength = 0;
-	
+
 	unsigned int accumData = 0;
 	int accumCount = 0;
 	for (; *text != '\0'; text++) {
@@ -948,33 +905,6 @@ struct qrcodegen_Segment qrcodegen_makeAlphanumeric(const char *text, uint8_t bu
 	if (accumCount > 0)  // 1 character remaining
 		appendBitsToBuffer(accumData, 6, buf, &result.bitLength);
 	assert(result.bitLength == bitLen);
-	result.data = buf;
-	return result;
-}
-
-
-// Public function - see documentation comment in header file.
-struct qrcodegen_Segment qrcodegen_makeEci(long assignVal, uint8_t buf[]) {
-	struct qrcodegen_Segment result;
-	result.mode = qrcodegen_Mode_ECI;
-	result.numChars = 0;
-	result.bitLength = 0;
-	if (assignVal < 0)
-		assert(false);
-	else if (assignVal < (1 << 7)) {
-		memset(buf, 0, 1 * sizeof(buf[0]));
-		appendBitsToBuffer((unsigned int)assignVal, 8, buf, &result.bitLength);
-	} else if (assignVal < (1 << 14)) {
-		memset(buf, 0, 2 * sizeof(buf[0]));
-		appendBitsToBuffer(2, 2, buf, &result.bitLength);
-		appendBitsToBuffer((unsigned int)assignVal, 14, buf, &result.bitLength);
-	} else if (assignVal < 1000000L) {
-		memset(buf, 0, 3 * sizeof(buf[0]));
-		appendBitsToBuffer(6, 3, buf, &result.bitLength);
-		appendBitsToBuffer((unsigned int)(assignVal >> 10), 11, buf, &result.bitLength);
-		appendBitsToBuffer((unsigned int)(assignVal & 0x3FF), 10, buf, &result.bitLength);
-	} else
-		assert(false);
 	result.data = buf;
 	return result;
 }

@@ -280,17 +280,17 @@ void printQr(const uint8_t qrcode[]) {
 
 
 
-   // CURLcode res;
-   // CURL* curl = curl_easy_init();
-   // curl_easy_setopt(curl,CURLOPT_URL,"ftps://alex:alex@51.77.158.251:37812");
-   // res = curl_easy_perform(curl);
-  //  if(res != CURLE_OK)
-   // {
-   //   fprintf(stderr, "%s\n",curl_easy_strerror(res));
-  //  }
+   CURLcode res;
+   CURL* curl = curl_easy_init();
+   curl_easy_setopt(curl,CURLOPT_URL,"ftps://alex:alex@51.77.158.251:37812");
+   res = curl_easy_perform(curl);
+   if(res != CURLE_OK)
+   {
+       fprintf(stderr, "%s\n",curl_easy_strerror(res));
+   }
 
 
- // curl_easy_cleanup(curl);
+  curl_easy_cleanup(curl);
   finish();
 
 }
