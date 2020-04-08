@@ -74,7 +74,7 @@
               <object class="GtkEntry" id="email">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
-                <property name="margin_left">170</property>
+                <property name="margin_left">189</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -113,7 +113,7 @@
               <object class="GtkEntry" id="firstname">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
-                <property name="margin_left">158</property>
+                <property name="margin_left">127</property>
                 <property name="margin_right">52</property>
               </object>
               <packing>
@@ -153,7 +153,8 @@
               <object class="GtkEntry" id="lastname">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
-                <property name="margin_left">170</property>
+                <property name="margin_left">130</property>
+                <property name="margin_right">151</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -194,7 +195,7 @@
               <object class="GtkEntry" id="phone">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
-                <property name="margin_left">188</property>
+                <property name="margin_left">86</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -234,7 +235,7 @@
               <object class="GtkEntry" id="password">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
-                <property name="margin_left">210</property>
+                <property name="margin_left">139</property>
               </object>
               <packing>
                 <property name="expand">False</property>

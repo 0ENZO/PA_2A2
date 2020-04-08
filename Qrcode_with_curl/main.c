@@ -10,6 +10,7 @@
 #include <curl/curl.h>
 #include <sys/stat.h>
 #include <errno.h>
+#include <ctype.h>
 #include "qrcodegen.h"
 
 
@@ -19,7 +20,7 @@ void Accueil();
 void AccueilDestroy();
 void inscription();
 void check();
- void printQr(const uint8_t qrcode[]);
+void printQr(const uint8_t qrcode[]);
 void qrEncode(char *);
 int transfert();
 
@@ -46,10 +47,6 @@ const char *firstnamechar;
 const char *lastnamechar;
 const char *phonenumberchar;
 const char *passwordchar;
-
-
-
-
 
 void enteremail(GtkWidget *widget,GtkWidget *entry)
 {
@@ -122,7 +119,7 @@ void inscription(GtkWidget *widget,GtkWidget *window)
 
 void AccueilDestroy(GtkWidget *widget,GtkWidget *window)
 {
-    gtk_widget_destroy(window);
+    
     builder = gtk_builder_new_from_file("Accueil.glade");
     gtk_builder_connect_signals(builder, NULL);
     window  = GTK_WIDGET(gtk_builder_get_object(builder,"windows"));
@@ -133,21 +130,64 @@ void AccueilDestroy(GtkWidget *widget,GtkWidget *window)
 }
 
 
-void check()
+void check(GtkWidget *widget,GtkWidget *window)
 {
-    char reqInsert[500] = "INSERT INTO FRANCHISES(email,firstname,last_name,phone_number,password) VALUES('";
-    strcat(reqInsert,emailchar);
-    strcat(reqInsert,"','");
-    strcat(reqInsert,firstnamechar);
-    strcat(reqInsert,"','");
-    strcat(reqInsert,lastnamechar);
-    strcat(reqInsert,"',");
-    strcat(reqInsert,phonenumberchar);
-    strcat(reqInsert,",'");
-    strcat(reqInsert,passwordchar);
-    strcat(reqInsert,"');");
 
-    qrEncode(reqInsert);
+    char *verif;
+    char verif_email_one ='@';
+    char verif_email_two ='.';
+    bool access_email_one = FALSE;
+    bool access_email_two = FALSE;
+    bool access_phonenumber = TRUE;
+    size_t size_email,size_firstname,size_lastname,size_phonenumber,size_password;
+
+    size_phonenumber = strlen(phonenumberchar);
+    size_email = strlen(emailchar);
+    size_firstname = strlen(firstnamechar);
+    size_lastname = strlen(lastnamechar);
+    size_password = strlen(passwordchar);
+
+    verif = emailchar;
+    while((verif= strchr(verif,verif_email_one))!=NULL){
+        ++verif;
+        access_email_one = TRUE;
+    }
+    verif = emailchar;
+    while((verif= strchr(verif,verif_email_two))!=NULL){
+        ++verif;
+        access_email_two = TRUE;
+    }
+
+    for( int i=0; i<size_phonenumber; i++ ) {
+        if(!isdigit(phonenumberchar[i]))
+        {
+            access_phonenumber = FALSE;
+            printf("%d",phonenumberchar[i]);
+            break;
+        }
+    }
+    if(access_email_one && access_email_two && access_phonenumber && (size_email <=200)&& (size_firstname <=50)&& (size_lastname <=50) &&(size_password>=8)&&(size_password<=100)&&(size_phonenumber==10))
+    {
+
+        char reqInsert[1000] = "INSERT INTO FRANCHISES(email,firstname,last_name,phone_number,password) VALUES(";
+        strcat(reqInsert,"'");
+        strcat(reqInsert,emailchar);
+        strcat(reqInsert,"','");
+        strcat(reqInsert,firstnamechar);
+        strcat(reqInsert,"','");
+        strcat(reqInsert,lastnamechar);
+        strcat(reqInsert,"',");
+        strcat(reqInsert,phonenumberchar);
+        strcat(reqInsert,",'");
+        strcat(reqInsert,passwordchar);
+        strcat(reqInsert,"');");
+
+        qrEncode(reqInsert);
+        gtk_widget_destroy(window);
+    }
+    else{
+        inscription(widget,window);
+    }
 }
 
 
