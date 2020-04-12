@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Users
  *
- * @ORM\Table(name="USERS", indexes={@ORM\Index(name="FK_TAKE_PERMISSIONS_FROM", columns={"ID_ROLE"})})
+ * @ORM\Table(name="USERS", uniqueConstraints={@ORM\UniqueConstraint(name="UNIQUE", columns={"EMAIL"})}, indexes={@ORM\Index(name="FK_TAKE_PERMISSIONS_FROM", columns={"ID_ROLE"})})
  * @ORM\Entity
  */
 class Users

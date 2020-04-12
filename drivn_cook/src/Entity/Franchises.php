@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Franchises
  *
- * @ORM\Table(name="FRANCHISES", indexes={@ORM\Index(name="FK_LIVE_AT", columns={"ID_ADRESSE"})})
+ * @ORM\Table(name="FRANCHISES", uniqueConstraints={@ORM\UniqueConstraint(name="UNIQUE", columns={"EMAIL"})}, indexes={@ORM\Index(name="FK_LIVE_AT", columns={"ID_ADRESSE"})})
  * @ORM\Entity
  */
 class Franchises
@@ -43,13 +43,6 @@ class Franchises
      * @ORM\Column(name="LAST_NAME", type="string", length=50, nullable=true)
      */
     private $lastName;
-
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="PASSWORD2", type="string", length=10, nullable=true)
-     */
-    private $password2;
 
     /**
      * @var string|null
@@ -174,18 +167,6 @@ class Franchises
     public function setLastName(?string $lastName): self
     {
         $this->lastName = $lastName;
-
-        return $this;
-    }
-
-    public function getPassword2(): ?string
-    {
-        return $this->password2;
-    }
-
-    public function setPassword2(?string $password2): self
-    {
-        $this->password2 = $password2;
 
         return $this;
     }
