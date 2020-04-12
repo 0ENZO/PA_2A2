@@ -24,30 +24,30 @@ class Franchises
     private $idFranchise;
 
     /**
-     * @var string|null
+     * @var string
      *
-     * @ORM\Column(name="EMAIL", type="string", length=200, nullable=true)
+     * @ORM\Column(name="EMAIL", type="string", length=200, nullable=false)
      */
     private $email;
 
     /**
-     * @var string|null
+     * @var string
      *
-     * @ORM\Column(name="FIRST_NAME", type="string", length=50, nullable=true)
+     * @ORM\Column(name="FIRST_NAME", type="string", length=50, nullable=false)
      */
     private $firstName;
 
     /**
-     * @var string|null
+     * @var string
      *
-     * @ORM\Column(name="LAST_NAME", type="string", length=50, nullable=true)
+     * @ORM\Column(name="LAST_NAME", type="string", length=50, nullable=false)
      */
     private $lastName;
 
     /**
-     * @var string|null
+     * @var string
      *
-     * @ORM\Column(name="PASSWORD", type="string", length=100, nullable=true)
+     * @ORM\Column(name="PASSWORD", type="string", length=100, nullable=false)
      */
     private $password;
 
@@ -59,9 +59,9 @@ class Franchises
     private $profilePicture;
 
     /**
-     * @var \DateTime|null
+     * @var \DateTime
      *
-     * @ORM\Column(name="BIRTH_DATE", type="date", nullable=true)
+     * @ORM\Column(name="BIRTH_DATE", type="date", nullable=false)
      */
     private $birthDate;
 
@@ -140,7 +140,7 @@ class Franchises
         return $this->email;
     }
 
-    public function setEmail(?string $email): self
+    public function setEmail(string $email): self
     {
         $this->email = $email;
 
@@ -152,7 +152,7 @@ class Franchises
         return $this->firstName;
     }
 
-    public function setFirstName(?string $firstName): self
+    public function setFirstName(string $firstName): self
     {
         $this->firstName = $firstName;
 
@@ -164,7 +164,7 @@ class Franchises
         return $this->lastName;
     }
 
-    public function setLastName(?string $lastName): self
+    public function setLastName(string $lastName): self
     {
         $this->lastName = $lastName;
 
@@ -176,7 +176,7 @@ class Franchises
         return $this->password;
     }
 
-    public function setPassword(?string $password): self
+    public function setPassword(string $password): self
     {
         $this->password = $password;
 
@@ -200,7 +200,7 @@ class Franchises
         return $this->birthDate;
     }
 
-    public function setBirthDate(?\DateTimeInterface $birthDate): self
+    public function setBirthDate(\DateTimeInterface $birthDate): self
     {
         $this->birthDate = $birthDate;
 

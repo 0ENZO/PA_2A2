@@ -22,30 +22,30 @@ class CreditCards
     private $idCreditCard;
 
     /**
-     * @var string|null
+     * @var string
      *
-     * @ORM\Column(name="CARD_NUMBER", type="string", length=16, nullable=true)
+     * @ORM\Column(name="CARD_NUMBER", type="string", length=16, nullable=false)
      */
     private $cardNumber;
 
     /**
-     * @var \DateTime|null
+     * @var \DateTime
      *
-     * @ORM\Column(name="EXPIRATION_DATE", type="date", nullable=true)
+     * @ORM\Column(name="EXPIRATION_DATE", type="date", nullable=false)
      */
     private $expirationDate;
 
     /**
-     * @var string|null
+     * @var string
      *
-     * @ORM\Column(name="VERIFICATION_CODE", type="string", length=3, nullable=true)
+     * @ORM\Column(name="VERIFICATION_CODE", type="string", length=3, nullable=false)
      */
     private $verificationCode;
 
     /**
-     * @var string|null
+     * @var string
      *
-     * @ORM\Column(name="NAME", type="string", length=50, nullable=true)
+     * @ORM\Column(name="NAME", type="string", length=50, nullable=false)
      */
     private $name;
 
@@ -69,7 +69,7 @@ class CreditCards
         return $this->cardNumber;
     }
 
-    public function setCardNumber(?string $cardNumber): self
+    public function setCardNumber(string $cardNumber): self
     {
         $this->cardNumber = $cardNumber;
 
@@ -81,7 +81,7 @@ class CreditCards
         return $this->expirationDate;
     }
 
-    public function setExpirationDate(?\DateTimeInterface $expirationDate): self
+    public function setExpirationDate(\DateTimeInterface $expirationDate): self
     {
         $this->expirationDate = $expirationDate;
 
@@ -93,7 +93,7 @@ class CreditCards
         return $this->verificationCode;
     }
 
-    public function setVerificationCode(?string $verificationCode): self
+    public function setVerificationCode(string $verificationCode): self
     {
         $this->verificationCode = $verificationCode;
 
@@ -105,7 +105,7 @@ class CreditCards
         return $this->name;
     }
 
-    public function setName(?string $name): self
+    public function setName(string $name): self
     {
         $this->name = $name;
 

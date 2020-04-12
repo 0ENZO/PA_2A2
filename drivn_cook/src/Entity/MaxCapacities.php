@@ -22,30 +22,30 @@ class MaxCapacities
     private $idMaxCapacity;
 
     /**
-     * @var int|null
+     * @var int
      *
-     * @ORM\Column(name="MAX_INGREDIENTS", type="integer", nullable=true)
+     * @ORM\Column(name="MAX_INGREDIENTS", type="integer", nullable=false)
      */
     private $maxIngredients;
 
     /**
-     * @var int|null
+     * @var int
      *
-     * @ORM\Column(name="MAX_DRINKS", type="integer", nullable=true)
+     * @ORM\Column(name="MAX_DRINKS", type="integer", nullable=false)
      */
     private $maxDrinks;
 
     /**
-     * @var int|null
+     * @var int
      *
-     * @ORM\Column(name="MAX_DESSERTS", type="integer", nullable=true)
+     * @ORM\Column(name="MAX_DESSERTS", type="integer", nullable=false)
      */
     private $maxDesserts;
 
     /**
-     * @var int|null
+     * @var int
      *
-     * @ORM\Column(name="MAX_MEALS", type="integer", nullable=true)
+     * @ORM\Column(name="MAX_MEALS", type="integer", nullable=false)
      */
     private $maxMeals;
 
@@ -59,7 +59,7 @@ class MaxCapacities
         return $this->maxIngredients;
     }
 
-    public function setMaxIngredients(?int $maxIngredients): self
+    public function setMaxIngredients(int $maxIngredients): self
     {
         $this->maxIngredients = $maxIngredients;
 
@@ -71,7 +71,7 @@ class MaxCapacities
         return $this->maxDrinks;
     }
 
-    public function setMaxDrinks(?int $maxDrinks): self
+    public function setMaxDrinks(int $maxDrinks): self
     {
         $this->maxDrinks = $maxDrinks;
 
@@ -83,7 +83,7 @@ class MaxCapacities
         return $this->maxDesserts;
     }
 
-    public function setMaxDesserts(?int $maxDesserts): self
+    public function setMaxDesserts(int $maxDesserts): self
     {
         $this->maxDesserts = $maxDesserts;
 
@@ -95,7 +95,7 @@ class MaxCapacities
         return $this->maxMeals;
     }
 
-    public function setMaxMeals(?int $maxMeals): self
+    public function setMaxMeals(int $maxMeals): self
     {
         $this->maxMeals = $maxMeals;
 

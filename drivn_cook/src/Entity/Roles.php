@@ -22,9 +22,9 @@ class Roles
     private $idRole;
 
     /**
-     * @var string|null
+     * @var string
      *
-     * @ORM\Column(name="NAME", type="string", length=50, nullable=true)
+     * @ORM\Column(name="NAME", type="string", length=50, nullable=false)
      */
     private $name;
 
@@ -38,7 +38,7 @@ class Roles
         return $this->name;
     }
 
-    public function setName(?string $name): self
+    public function setName(string $name): self
     {
         $this->name = $name;
 

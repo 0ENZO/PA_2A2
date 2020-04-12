@@ -24,9 +24,9 @@ class Breakdowns
     private $idBreakdown;
 
     /**
-     * @var string|null
+     * @var string
      *
-     * @ORM\Column(name="STATEMENT", type="string", length=100, nullable=true)
+     * @ORM\Column(name="STATEMENT", type="string", length=100, nullable=false)
      */
     private $statement;
 
@@ -65,7 +65,7 @@ class Breakdowns
         return $this->statement;
     }
 
-    public function setStatement(?string $statement): self
+    public function setStatement(string $statement): self
     {
         $this->statement = $statement;
 

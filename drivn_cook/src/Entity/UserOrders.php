@@ -31,23 +31,23 @@ class UserOrders
     private $comment;
 
     /**
-     * @var \DateTime|null
+     * @var \DateTime
      *
-     * @ORM\Column(name="DATE", type="date", nullable=true)
+     * @ORM\Column(name="DATE", type="date", nullable=false)
      */
     private $date;
 
     /**
-     * @var string|null
+     * @var string
      *
-     * @ORM\Column(name="STATUS", type="string", length=50, nullable=true)
+     * @ORM\Column(name="STATUS", type="string", length=50, nullable=false)
      */
     private $status;
 
     /**
-     * @var string|null
+     * @var string
      *
-     * @ORM\Column(name="BILL", type="text", length=65535, nullable=true)
+     * @ORM\Column(name="BILL", type="text", length=65535, nullable=false)
      */
     private $bill;
 
@@ -98,7 +98,7 @@ class UserOrders
         return $this->date;
     }
 
-    public function setDate(?\DateTimeInterface $date): self
+    public function setDate(\DateTimeInterface $date): self
     {
         $this->date = $date;
 
@@ -110,7 +110,7 @@ class UserOrders
         return $this->status;
     }
 
-    public function setStatus(?string $status): self
+    public function setStatus(string $status): self
     {
         $this->status = $status;
 
@@ -122,7 +122,7 @@ class UserOrders
         return $this->bill;
     }
 
-    public function setBill(?string $bill): self
+    public function setBill(string $bill): self
     {
         $this->bill = $bill;
 

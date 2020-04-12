@@ -24,16 +24,16 @@ class Addresses
     private $idAdresse;
 
     /**
-     * @var string|null
+     * @var string
      *
-     * @ORM\Column(name="STREET", type="string", length=100, nullable=true)
+     * @ORM\Column(name="STREET", type="string", length=100, nullable=false)
      */
     private $street;
 
     /**
-     * @var int|null
+     * @var int
      *
-     * @ORM\Column(name="NUMBER", type="integer", nullable=true)
+     * @ORM\Column(name="NUMBER", type="integer", nullable=false)
      */
     private $number;
 
@@ -97,7 +97,7 @@ class Addresses
         return $this->street;
     }
 
-    public function setStreet(?string $street): self
+    public function setStreet(string $street): self
     {
         $this->street = $street;
 
@@ -109,7 +109,7 @@ class Addresses
         return $this->number;
     }
 
-    public function setNumber(?int $number): self
+    public function setNumber(int $number): self
     {
         $this->number = $number;
 

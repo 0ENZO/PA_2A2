@@ -22,9 +22,9 @@ class Categories
     private $idCategory;
 
     /**
-     * @var string|null
+     * @var string
      *
-     * @ORM\Column(name="NAME", type="string", length=50, nullable=true)
+     * @ORM\Column(name="NAME", type="string", length=50, nullable=false)
      */
     private $name;
 
@@ -36,9 +36,9 @@ class Categories
     private $description;
 
     /**
-     * @var string|null
+     * @var string
      *
-     * @ORM\Column(name="IMAGE", type="text", length=65535, nullable=true)
+     * @ORM\Column(name="IMAGE", type="text", length=65535, nullable=false)
      */
     private $image;
 
@@ -52,7 +52,7 @@ class Categories
         return $this->name;
     }
 
-    public function setName(?string $name): self
+    public function setName(string $name): self
     {
         $this->name = $name;
 
@@ -76,7 +76,7 @@ class Categories
         return $this->image;
     }
 
-    public function setImage(?string $image): self
+    public function setImage(string $image): self
     {
         $this->image = $image;
 

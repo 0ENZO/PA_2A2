@@ -22,9 +22,9 @@ class Departments
     private $idDepartment;
 
     /**
-     * @var string|null
+     * @var string
      *
-     * @ORM\Column(name="DEPARTMENT", type="string", length=200, nullable=true)
+     * @ORM\Column(name="DEPARTMENT", type="string", length=200, nullable=false)
      */
     private $department;
 
@@ -38,7 +38,7 @@ class Departments
         return $this->department;
     }
 
-    public function setDepartment(?string $department): self
+    public function setDepartment(string $department): self
     {
         $this->department = $department;
 

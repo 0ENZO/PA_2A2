@@ -24,16 +24,9 @@ class SaleRecords
     /**
      * @var \DateTime|null
      *
-     * @ORM\Column(name="MONTH", type="date", nullable=true)
+     * @ORM\Column(name="DATE", type="date", nullable=true)
      */
-    private $month;
-
-    /**
-     * @var \DateTime|null
-     *
-     * @ORM\Column(name="YEAR", type="date", nullable=true)
-     */
-    private $year;
+    private $date;
 
     /**
      * @var string|null
@@ -78,26 +71,14 @@ class SaleRecords
         return $this->idSaleRecord;
     }
 
-    public function getMonth(): ?\DateTimeInterface
+    public function getDate(): ?\DateTimeInterface
     {
-        return $this->month;
+        return $this->date;
     }
 
-    public function setMonth(?\DateTimeInterface $month): self
+    public function setDate(?\DateTimeInterface $date): self
     {
-        $this->month = $month;
-
-        return $this;
-    }
-
-    public function getYear(): ?\DateTimeInterface
-    {
-        return $this->year;
-    }
-
-    public function setYear(?\DateTimeInterface $year): self
-    {
-        $this->year = $year;
+        $this->date = $date;
 
         return $this;
     }

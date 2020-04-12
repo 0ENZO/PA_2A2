@@ -24,9 +24,9 @@ class Products
     private $idProduct;
 
     /**
-     * @var string|null
+     * @var string
      *
-     * @ORM\Column(name="NAME", type="string", length=50, nullable=true)
+     * @ORM\Column(name="NAME", type="string", length=50, nullable=false)
      */
     private $name;
 
@@ -38,44 +38,44 @@ class Products
     private $description;
 
     /**
-     * @var string|null
+     * @var string
      *
-     * @ORM\Column(name="IMAGE", type="text", length=65535, nullable=true)
+     * @ORM\Column(name="IMAGE", type="text", length=65535, nullable=false)
      */
     private $image;
 
     /**
-     * @var string|null
+     * @var string
      *
-     * @ORM\Column(name="PRICE", type="decimal", precision=8, scale=2, nullable=true)
+     * @ORM\Column(name="PRICE", type="decimal", precision=8, scale=2, nullable=false)
      */
     private $price;
 
     /**
-     * @var string|null
+     * @var string
      *
-     * @ORM\Column(name="STATUS", type="string", length=50, nullable=true)
+     * @ORM\Column(name="STATUS", type="string", length=50, nullable=false)
      */
     private $status;
 
     /**
-     * @var string|null
+     * @var string
      *
-     * @ORM\Column(name="VAT", type="decimal", precision=8, scale=2, nullable=true)
+     * @ORM\Column(name="VAT", type="decimal", precision=8, scale=2, nullable=false)
      */
     private $vat;
 
     /**
-     * @var \DateTime|null
+     * @var \DateTime
      *
-     * @ORM\Column(name="EXPIRY_DATE", type="date", nullable=true)
+     * @ORM\Column(name="EXPIRY_DATE", type="date", nullable=false)
      */
     private $expiryDate;
 
     /**
-     * @var int|null
+     * @var int
      *
-     * @ORM\Column(name="QUANTITY", type="integer", nullable=true)
+     * @ORM\Column(name="QUANTITY", type="integer", nullable=false)
      */
     private $quantity;
 
@@ -146,7 +146,7 @@ class Products
         return $this->name;
     }
 
-    public function setName(?string $name): self
+    public function setName(string $name): self
     {
         $this->name = $name;
 
@@ -170,7 +170,7 @@ class Products
         return $this->image;
     }
 
-    public function setImage(?string $image): self
+    public function setImage(string $image): self
     {
         $this->image = $image;
 
@@ -182,7 +182,7 @@ class Products
         return $this->price;
     }
 
-    public function setPrice(?string $price): self
+    public function setPrice(string $price): self
     {
         $this->price = $price;
 
@@ -194,7 +194,7 @@ class Products
         return $this->status;
     }
 
-    public function setStatus(?string $status): self
+    public function setStatus(string $status): self
     {
         $this->status = $status;
 
@@ -206,7 +206,7 @@ class Products
         return $this->vat;
     }
 
-    public function setVat(?string $vat): self
+    public function setVat(string $vat): self
     {
         $this->vat = $vat;
 
@@ -218,7 +218,7 @@ class Products
         return $this->expiryDate;
     }
 
-    public function setExpiryDate(?\DateTimeInterface $expiryDate): self
+    public function setExpiryDate(\DateTimeInterface $expiryDate): self
     {
         $this->expiryDate = $expiryDate;
 
@@ -230,7 +230,7 @@ class Products
         return $this->quantity;
     }
 
-    public function setQuantity(?int $quantity): self
+    public function setQuantity(int $quantity): self
     {
         $this->quantity = $quantity;
 

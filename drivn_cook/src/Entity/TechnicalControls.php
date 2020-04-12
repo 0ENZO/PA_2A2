@@ -22,16 +22,16 @@ class TechnicalControls
     private $idTechnicalControl;
 
     /**
-     * @var \DateTime|null
+     * @var \DateTime
      *
-     * @ORM\Column(name="DATE", type="date", nullable=true)
+     * @ORM\Column(name="DATE", type="date", nullable=false)
      */
     private $date;
 
     /**
-     * @var string|null
+     * @var string
      *
-     * @ORM\Column(name="PICTURE", type="text", length=65535, nullable=true)
+     * @ORM\Column(name="PICTURE", type="text", length=65535, nullable=false)
      */
     private $picture;
 
@@ -62,7 +62,7 @@ class TechnicalControls
         return $this->date;
     }
 
-    public function setDate(?\DateTimeInterface $date): self
+    public function setDate(\DateTimeInterface $date): self
     {
         $this->date = $date;
 
@@ -74,7 +74,7 @@ class TechnicalControls
         return $this->picture;
     }
 
-    public function setPicture(?string $picture): self
+    public function setPicture(string $picture): self
     {
         $this->picture = $picture;
 

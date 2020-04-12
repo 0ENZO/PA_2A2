@@ -31,23 +31,23 @@ class FranchiseOrders
     private $comment;
 
     /**
-     * @var \DateTime|null
+     * @var \DateTime
      *
-     * @ORM\Column(name="DATE", type="date", nullable=true)
+     * @ORM\Column(name="DATE", type="date", nullable=false)
      */
     private $date;
 
     /**
-     * @var string|null
+     * @var string
      *
-     * @ORM\Column(name="STATUS", type="string", length=50, nullable=true)
+     * @ORM\Column(name="STATUS", type="string", length=50, nullable=false)
      */
     private $status;
 
     /**
-     * @var string|null
+     * @var string
      *
-     * @ORM\Column(name="TOTAL_PRICE", type="decimal", precision=8, scale=2, nullable=true)
+     * @ORM\Column(name="TOTAL_PRICE", type="decimal", precision=8, scale=2, nullable=false)
      */
     private $totalPrice;
 
@@ -130,7 +130,7 @@ class FranchiseOrders
         return $this->date;
     }
 
-    public function setDate(?\DateTimeInterface $date): self
+    public function setDate(\DateTimeInterface $date): self
     {
         $this->date = $date;
 
@@ -142,7 +142,7 @@ class FranchiseOrders
         return $this->status;
     }
 
-    public function setStatus(?string $status): self
+    public function setStatus(string $status): self
     {
         $this->status = $status;
 
@@ -154,7 +154,7 @@ class FranchiseOrders
         return $this->totalPrice;
     }
 
-    public function setTotalPrice(?string $totalPrice): self
+    public function setTotalPrice(string $totalPrice): self
     {
         $this->totalPrice = $totalPrice;
 

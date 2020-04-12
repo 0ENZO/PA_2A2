@@ -22,37 +22,37 @@ class MaintenanceManuals
     private $idMaintenanceManual;
 
     /**
-     * @var string|null
+     * @var string
      *
-     * @ORM\Column(name="IMMATRICULATION", type="string", length=20, nullable=true)
+     * @ORM\Column(name="IMMATRICULATION", type="string", length=20, nullable=false)
      */
     private $immatriculation;
 
     /**
-     * @var int|null
+     * @var int
      *
-     * @ORM\Column(name="MILEAGE", type="integer", nullable=true)
+     * @ORM\Column(name="MILEAGE", type="integer", nullable=false)
      */
     private $mileage;
 
     /**
-     * @var string|null
+     * @var string
      *
-     * @ORM\Column(name="GREY_CARD", type="text", length=65535, nullable=true)
+     * @ORM\Column(name="GREY_CARD", type="text", length=65535, nullable=false)
      */
     private $greyCard;
 
     /**
-     * @var string|null
+     * @var string
      *
-     * @ORM\Column(name="INSURANCE", type="string", length=30, nullable=true)
+     * @ORM\Column(name="INSURANCE", type="string", length=30, nullable=false)
      */
     private $insurance;
 
     /**
-     * @var int|null
+     * @var int
      *
-     * @ORM\Column(name="AGE", type="integer", nullable=true)
+     * @ORM\Column(name="AGE", type="integer", nullable=false)
      */
     private $age;
 
@@ -90,7 +90,7 @@ class MaintenanceManuals
         return $this->immatriculation;
     }
 
-    public function setImmatriculation(?string $immatriculation): self
+    public function setImmatriculation(string $immatriculation): self
     {
         $this->immatriculation = $immatriculation;
 
@@ -102,7 +102,7 @@ class MaintenanceManuals
         return $this->mileage;
     }
 
-    public function setMileage(?int $mileage): self
+    public function setMileage(int $mileage): self
     {
         $this->mileage = $mileage;
 
@@ -114,7 +114,7 @@ class MaintenanceManuals
         return $this->greyCard;
     }
 
-    public function setGreyCard(?string $greyCard): self
+    public function setGreyCard(string $greyCard): self
     {
         $this->greyCard = $greyCard;
 
@@ -126,7 +126,7 @@ class MaintenanceManuals
         return $this->insurance;
     }
 
-    public function setInsurance(?string $insurance): self
+    public function setInsurance(string $insurance): self
     {
         $this->insurance = $insurance;
 
@@ -138,7 +138,7 @@ class MaintenanceManuals
         return $this->age;
     }
 
-    public function setAge(?int $age): self
+    public function setAge(int $age): self
     {
         $this->age = $age;
 

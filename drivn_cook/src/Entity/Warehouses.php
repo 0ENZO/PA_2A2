@@ -24,23 +24,23 @@ class Warehouses
     private $idWarehouse;
 
     /**
-     * @var string|null
+     * @var string
      *
-     * @ORM\Column(name="NAME", type="string", length=50, nullable=true)
+     * @ORM\Column(name="NAME", type="string", length=50, nullable=false)
      */
     private $name;
 
     /**
-     * @var string|null
+     * @var string
      *
-     * @ORM\Column(name="PHONE_NUMBER", type="string", length=10, nullable=true)
+     * @ORM\Column(name="PHONE_NUMBER", type="string", length=10, nullable=false)
      */
     private $phoneNumber;
 
     /**
-     * @var string|null
+     * @var string
      *
-     * @ORM\Column(name="EMAIL", type="string", length=200, nullable=true)
+     * @ORM\Column(name="EMAIL", type="string", length=200, nullable=false)
      */
     private $email;
 
@@ -89,7 +89,7 @@ class Warehouses
         return $this->name;
     }
 
-    public function setName(?string $name): self
+    public function setName(string $name): self
     {
         $this->name = $name;
 
@@ -101,7 +101,7 @@ class Warehouses
         return $this->phoneNumber;
     }
 
-    public function setPhoneNumber(?string $phoneNumber): self
+    public function setPhoneNumber(string $phoneNumber): self
     {
         $this->phoneNumber = $phoneNumber;
 
@@ -113,7 +113,7 @@ class Warehouses
         return $this->email;
     }
 
-    public function setEmail(?string $email): self
+    public function setEmail(string $email): self
     {
         $this->email = $email;
 

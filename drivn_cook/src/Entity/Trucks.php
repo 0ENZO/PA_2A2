@@ -24,30 +24,30 @@ class Trucks
     private $idTruck;
 
     /**
-     * @var string|null
+     * @var string
      *
-     * @ORM\Column(name="BRAND", type="string", length=50, nullable=true)
+     * @ORM\Column(name="BRAND", type="string", length=50, nullable=false)
      */
     private $brand;
 
     /**
-     * @var string|null
+     * @var string
      *
-     * @ORM\Column(name="MODEL", type="string", length=50, nullable=true)
+     * @ORM\Column(name="MODEL", type="string", length=50, nullable=false)
      */
     private $model;
 
     /**
-     * @var string|null
+     * @var string
      *
-     * @ORM\Column(name="STATUS", type="string", length=50, nullable=true)
+     * @ORM\Column(name="STATUS", type="string", length=50, nullable=false)
      */
     private $status;
 
     /**
-     * @var \DateTime|null
+     * @var \DateTime
      *
-     * @ORM\Column(name="FACTORY_DATE", type="date", nullable=true)
+     * @ORM\Column(name="FACTORY_DATE", type="date", nullable=false)
      */
     private $factoryDate;
 
@@ -104,7 +104,7 @@ class Trucks
         return $this->brand;
     }
 
-    public function setBrand(?string $brand): self
+    public function setBrand(string $brand): self
     {
         $this->brand = $brand;
 
@@ -116,7 +116,7 @@ class Trucks
         return $this->model;
     }
 
-    public function setModel(?string $model): self
+    public function setModel(string $model): self
     {
         $this->model = $model;
 
@@ -128,7 +128,7 @@ class Trucks
         return $this->status;
     }
 
-    public function setStatus(?string $status): self
+    public function setStatus(string $status): self
     {
         $this->status = $status;
 
@@ -140,7 +140,7 @@ class Trucks
         return $this->factoryDate;
     }
 
-    public function setFactoryDate(?\DateTimeInterface $factoryDate): self
+    public function setFactoryDate(\DateTimeInterface $factoryDate): self
     {
         $this->factoryDate = $factoryDate;
 

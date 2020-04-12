@@ -22,16 +22,16 @@ class Cities
     private $idCity;
 
     /**
-     * @var string|null
+     * @var string
      *
-     * @ORM\Column(name="POSTAL_NUMBER", type="string", length=5, nullable=true)
+     * @ORM\Column(name="POSTAL_NUMBER", type="string", length=5, nullable=false)
      */
     private $postalNumber;
 
     /**
-     * @var string|null
+     * @var string
      *
-     * @ORM\Column(name="CITY", type="string", length=200, nullable=true)
+     * @ORM\Column(name="CITY", type="string", length=200, nullable=false)
      */
     private $city;
 
@@ -55,7 +55,7 @@ class Cities
         return $this->postalNumber;
     }
 
-    public function setPostalNumber(?string $postalNumber): self
+    public function setPostalNumber(string $postalNumber): self
     {
         $this->postalNumber = $postalNumber;
 
@@ -67,7 +67,7 @@ class Cities
         return $this->city;
     }
 
-    public function setCity(?string $city): self
+    public function setCity(string $city): self
     {
         $this->city = $city;
 

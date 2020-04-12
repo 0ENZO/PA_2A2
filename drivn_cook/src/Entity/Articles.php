@@ -24,9 +24,9 @@ class Articles
     private $idArticle;
 
     /**
-     * @var string|null
+     * @var string
      *
-     * @ORM\Column(name="NAME", type="string", length=50, nullable=true)
+     * @ORM\Column(name="NAME", type="string", length=50, nullable=false)
      */
     private $name;
 
@@ -38,23 +38,23 @@ class Articles
     private $description;
 
     /**
-     * @var string|null
+     * @var string
      *
-     * @ORM\Column(name="IMAGE", type="text", length=65535, nullable=true)
+     * @ORM\Column(name="IMAGE", type="text", length=65535, nullable=false)
      */
     private $image;
 
     /**
-     * @var string|null
+     * @var string
      *
-     * @ORM\Column(name="PRICE", type="decimal", precision=8, scale=2, nullable=true)
+     * @ORM\Column(name="PRICE", type="decimal", precision=8, scale=2, nullable=false)
      */
     private $price;
 
     /**
-     * @var string|null
+     * @var string
      *
-     * @ORM\Column(name="VAT", type="decimal", precision=8, scale=2, nullable=true)
+     * @ORM\Column(name="VAT", type="decimal", precision=8, scale=2, nullable=false)
      */
     private $vat;
 
@@ -117,7 +117,7 @@ class Articles
         return $this->name;
     }
 
-    public function setName(?string $name): self
+    public function setName(string $name): self
     {
         $this->name = $name;
 
@@ -141,7 +141,7 @@ class Articles
         return $this->image;
     }
 
-    public function setImage(?string $image): self
+    public function setImage(string $image): self
     {
         $this->image = $image;
 
@@ -153,7 +153,7 @@ class Articles
         return $this->price;
     }
 
-    public function setPrice(?string $price): self
+    public function setPrice(string $price): self
     {
         $this->price = $price;
 
@@ -165,7 +165,7 @@ class Articles
         return $this->vat;
     }
 
-    public function setVat(?string $vat): self
+    public function setVat(string $vat): self
     {
         $this->vat = $vat;
 

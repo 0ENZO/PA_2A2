@@ -24,16 +24,16 @@ class Rewards
     private $idReward;
 
     /**
-     * @var string|null
+     * @var string
      *
-     * @ORM\Column(name="NAME", type="string", length=50, nullable=true)
+     * @ORM\Column(name="NAME", type="string", length=50, nullable=false)
      */
     private $name;
 
     /**
-     * @var int|null
+     * @var int
      *
-     * @ORM\Column(name="MINIMAL_POINTS", type="integer", nullable=true)
+     * @ORM\Column(name="MINIMAL_POINTS", type="integer", nullable=false)
      */
     private $minimalPoints;
 
@@ -78,7 +78,7 @@ class Rewards
         return $this->name;
     }
 
-    public function setName(?string $name): self
+    public function setName(string $name): self
     {
         $this->name = $name;
 
@@ -90,7 +90,7 @@ class Rewards
         return $this->minimalPoints;
     }
 
-    public function setMinimalPoints(?int $minimalPoints): self
+    public function setMinimalPoints(int $minimalPoints): self
     {
         $this->minimalPoints = $minimalPoints;
 

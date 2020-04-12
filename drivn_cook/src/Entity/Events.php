@@ -24,9 +24,9 @@ class Events
     private $idEvent;
 
     /**
-     * @var string|null
+     * @var string
      *
-     * @ORM\Column(name="NAME", type="string", length=50, nullable=true)
+     * @ORM\Column(name="NAME", type="string", length=50, nullable=false)
      */
     private $name;
 
@@ -38,23 +38,23 @@ class Events
     private $description;
 
     /**
-     * @var \DateTime|null
+     * @var \DateTime
      *
-     * @ORM\Column(name="DATE_BEGIN", type="date", nullable=true)
+     * @ORM\Column(name="DATE_BEGIN", type="date", nullable=false)
      */
     private $dateBegin;
 
     /**
-     * @var \DateTime|null
+     * @var \DateTime
      *
-     * @ORM\Column(name="DATE_END", type="date", nullable=true)
+     * @ORM\Column(name="DATE_END", type="date", nullable=false)
      */
     private $dateEnd;
 
     /**
-     * @var string|null
+     * @var string
      *
-     * @ORM\Column(name="PRICE", type="decimal", precision=8, scale=2, nullable=true)
+     * @ORM\Column(name="PRICE", type="decimal", precision=8, scale=2, nullable=false)
      */
     private $price;
 
@@ -83,7 +83,7 @@ class Events
         return $this->name;
     }
 
-    public function setName(?string $name): self
+    public function setName(string $name): self
     {
         $this->name = $name;
 
@@ -107,7 +107,7 @@ class Events
         return $this->dateBegin;
     }
 
-    public function setDateBegin(?\DateTimeInterface $dateBegin): self
+    public function setDateBegin(\DateTimeInterface $dateBegin): self
     {
         $this->dateBegin = $dateBegin;
 
@@ -119,7 +119,7 @@ class Events
         return $this->dateEnd;
     }
 
-    public function setDateEnd(?\DateTimeInterface $dateEnd): self
+    public function setDateEnd(\DateTimeInterface $dateEnd): self
     {
         $this->dateEnd = $dateEnd;
 
@@ -131,7 +131,7 @@ class Events
         return $this->price;
     }
 
-    public function setPrice(?string $price): self
+    public function setPrice(string $price): self
     {
         $this->price = $price;
 
