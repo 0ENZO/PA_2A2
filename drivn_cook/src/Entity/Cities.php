@@ -31,9 +31,9 @@ class Cities
     /**
      * @var string
      *
-     * @ORM\Column(name="CITY", type="string", length=200, nullable=false)
+     * @ORM\Column(name="NAME", type="string", length=200, nullable=false)
      */
-    private $city;
+    private $name;
 
     /**
      * @var \Departments
@@ -62,14 +62,14 @@ class Cities
         return $this;
     }
 
-    public function getCity(): ?string
+    public function getName(): ?string
     {
-        return $this->city;
+        return $this->name;
     }
 
-    public function setCity(string $city): self
+    public function setName(string $name): self
     {
-        $this->city = $city;
+        $this->name = $name;
 
         return $this;
     }

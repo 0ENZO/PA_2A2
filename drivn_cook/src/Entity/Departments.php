@@ -24,23 +24,23 @@ class Departments
     /**
      * @var string
      *
-     * @ORM\Column(name="DEPARTMENT", type="string", length=200, nullable=false)
+     * @ORM\Column(name="NAME", type="string", length=200, nullable=false)
      */
-    private $department;
+    private $name;
 
     public function getIdDepartment(): ?int
     {
         return $this->idDepartment;
     }
 
-    public function getDepartment(): ?string
+    public function getName(): ?string
     {
-        return $this->department;
+        return $this->name;
     }
 
-    public function setDepartment(string $department): self
+    public function setName(string $name): self
     {
-        $this->department = $department;
+        $this->name = $name;
 
         return $this;
     }
