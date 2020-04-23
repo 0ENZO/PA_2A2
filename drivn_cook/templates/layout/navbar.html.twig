@@ -1,20 +1,32 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-camel">
-    <a class="navbar-brand ml-4" href="">Driv'n Cook</a>
+    <a href="{{ path('home') }}" class="navbar-brand ml-4">Driv'n Cook</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
   
     <div class="collapse navbar-collapse " id="navbarSupportedContent">
       <ul class="navbar-nav ml-auto">
-        <li class="nav-item mr-">
+        <li class="nav-item mr-4">
           <a class="nav-link" href="#">Une petite faim ?</a>
         </li>
         <li class="nav-item mr-4">
           <a class="nav-link" href="#">Actualités</a>
         </li>
-        <li class="nav-item mr-4">
+        <li class="nav-item mr-4 dropdown">
+          {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              {{ app.user.email }}
+              <i class="fas fa-user"></i>
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+              <a class="dropdown-item" href="{{ path('franchise_profil') }}">Mon compte</a>
+              <a class="dropdown-item" href="{{ path('app_logout') }}">Déconnexion</a>
+            </div>
+          {% else %}
             <a class="nav-link" href="{{ path('app_login') }}">Connexion</a>
-          </li>
+          {% endif %}
+        </li>
+
       </ul>
     </div>
   </nav>

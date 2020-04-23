@@ -12,5 +12,6 @@ import '../css/app.scss';
 import $ from 'jquery';
 
 require('bootstrap');
+require('@fortawesome/fontawesome-free/js/all.js');
 
 console.log('Hello Webpack Encore! Edit me in assets/js/app.js');

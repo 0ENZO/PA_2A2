@@ -1,0 +1,116 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Profil{% endblock %}
+
+{% block body %}
+
+    <div class="container mt-5">
+
+        <div class="row profile">
+
+            <div class="col-md-3">
+                <div class="profile-sidebar px-1">
+
+                    <div class="profile-userpic text-center">
+                        <img src="https://via.placeholder.com/150" class="img-responsive" alt="">
+                    </div>
+
+                    <div class="profile-usertitle">
+                        <div class="profile-usertitle-name">
+                            {% if franchise.firstName %}
+                                {{ franchise.firstName}} {{ franchise.lastName}}
+                            {% else %}
+                               {{ franchise.email }}
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="profile-usermenu">
+                        <ul class="nav nav-tabs flex-column ml-4" id="myTab" role="tablist">
+                            <li class="nav-item">
+                              <a class="nav-link active" href="" id="nav_profile" data-target="#pane_profile" data-toggle="tab">
+                                  <i class="mr-2 fas fa-id-card"></i>Mon profil
+                              </a>
+                            </li>
+                            <li class="nav-item">
+                              <a class="nav-link" href="" id="nav_edit" data-target="#pane_edit" data-toggle="tab">
+                                  <i class="mr-2 fas fa-user-edit"></i>Modifier
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                              <a class="nav-link" href="" id="nav_franchise" data-target="#pane_franchise" data-toggle="tab">
+                                  <i class="mr-2 far fa-file-alt"></i>Ma franchise
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                              <a class="nav-link" href="" id="nav_truck" data-target="#pane_truck" data-toggle="tab">
+                                  <i class="mr-2 fas fa-truck"></i>Mon camion
+                                </a>
+                            </li>
+                          </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-9">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="tab-content" id="myTabContent">
+
+                            <div class="tab-pane active" id="pane_profile" role="tabpanel">
+                                <div class="col-md-8 mx-auto mt-3">
+                                    <h2 class="text-bold text-center">Mon profil</h2>
+
+                                    <table class="table table-borderless my-5">
+                                        <tbody>
+                                            <tr>
+                                                <td>Prénom</td>
+                                                <td>{{ franchise.firstName }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Nom</td>
+                                                <td>{{ franchise.lastName }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Email</td>
+                                                <td>{{ franchise.email }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Numéro de téléphone</td>
+                                                <td>Indisponible pour le moment</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Date d'anniversaire </td>
+                                                <td>{{ franchise.birthDate|date("d/m/Y") }}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                            </div>
+
+                            <div class="tab-pane" id="pane_edit" role="tabpanel">
+                                <div class="col-md-8 mx-auto mt-3">
+                                    <h3 class="text-bold mt-3 mb-5">Modifier mes informations</h3>
+                                    {{ include('franchises/_form.html.twig') }}
+                                </div>
+                            </div>
+
+                            <div class="tab-pane" id="pane_franchise" role="tabpanel">
+                                franchise
+                            </div>
+
+                            <div class="tab-pane" id="pane_truck" role="tabpanel">
+                                truck
+                            </div>
+
+                        </div>
+                        
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
