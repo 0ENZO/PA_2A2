@@ -2,21 +2,26 @@
 
 namespace App\DataFixtures;
 
-use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Common\Persistence\ObjectManager;
-
 use App\Entity\Roles;
 use App\Entity\Users;
-use App\Entity\Franchises;
-use App\Entity\Departments;
+
 use App\Entity\Cities;
 use App\Entity\Addresses;
+use App\Entity\Franchises;
+use App\Entity\Departments;
+use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Validator\Constraints\Date;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class AppFixtures extends Fixture
 {
+    private $passwordEncoder;
 
-    // Security password à configurer 
+    public function __construct(UserPasswordEncoderInterface $passwordEncoder)
+    {
+        $this->passwordEncoder = $passwordEncoder;
+    }
 
     public function load(ObjectManager $manager)
     {
@@ -52,7 +57,7 @@ class AppFixtures extends Fixture
         $address->setIdCity($city);
         $manager->persist($address);
 
-                // Création des premiers users : Client et Admin
+        // Création des premiers users : Client et Admin
 
         $client = new Users();
         $client->setIdRole($role_client);
@@ -81,9 +86,12 @@ class AppFixtures extends Fixture
         $franchise = new Franchises();
         $franchise->setFirstName('Michel');
         $franchise->setLastName('Aubri');
-        $franchise->setEmail('franchise@drivn_cook.fr');
+        $franchise->setEmail('franchise@drivncook.fr');
         $franchise->setIdAdresse($address);
-        $franchise->setPassword('azerty');
+        $franchise->setPassword($this->passwordEncoder->encodePassword(
+            $franchise,
+            'azerty'
+        ));
         $franchise->setBirthDate(new \DateTime());
         $manager->persist($franchise);
 
