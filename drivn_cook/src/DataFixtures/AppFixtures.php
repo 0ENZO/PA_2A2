@@ -66,7 +66,10 @@ class AppFixtures extends Fixture
         $client->setLastName('Sin');
         $client->setEmail('client@drivn_cook.fr');
         $client->setBirthDate(new \DateTime());
-        $client->setPassword('azerty');
+        $client->setPassword($this->passwordEncoder->encodePassword(
+            $client,
+            'azerty'
+        ));
         $client->setIsActivated(true);
         $manager->persist($client);
 
@@ -77,23 +80,29 @@ class AppFixtures extends Fixture
         $admin->setPseudo('Admin');
         $admin->setEmail('drivn.cook.equipe@gmail.com');
         $admin->setBirthDate(new \DateTime());
-        $admin->setPassword('azerty');
+        $admin->setPassword($this->passwordEncoder->encodePassword(
+            $admin,
+            'azerty'
+        ));
         $admin->setIsActivated(true);
         $manager->persist($admin);
 
         // Création premier franchisé
 
-        $franchise = new Franchises();
-        $franchise->setFirstName('Michel');
-        $franchise->setLastName('Aubri');
-        $franchise->setEmail('franchise@drivncook.fr');
-        $franchise->setIdAdresse($address);
-        $franchise->setPassword($this->passwordEncoder->encodePassword(
-            $franchise,
-            'azerty'
-        ));
-        $franchise->setBirthDate(new \DateTime());
-        $manager->persist($franchise);
+        for($i = 0 ; $i < 10 ; $i++){
+            $franchise = new Franchises();
+            $franchise->setFirstName('Franchise'. $i);
+            $franchise->setLastName('Default');
+            $franchise->setEmail('franchise'. $i .'@drivncook.fr');
+            $franchise->setIdAdresse($address);
+            $franchise->setPassword($this->passwordEncoder->encodePassword(
+                $franchise,
+                'azerty'
+            ));
+            $franchise->setBirthDate(new \DateTime());
+            $manager->persist($franchise);
+        }
+
 
         $manager->flush();
     }

@@ -14,4 +14,12 @@ import $ from 'jquery';
 require('bootstrap');
 require('@fortawesome/fontawesome-free/js/all.js');
 
-console.log('Hello Webpack Encore! Edit me in assets/js/app.js');
+
+// confirm delete modal in franchises.html.twig
+$('[data-toggle="modal"][title]').tooltip();
+
+$('#delete_franchise').on('show.bs.modal', function(e) {
+    $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
+});
+
+

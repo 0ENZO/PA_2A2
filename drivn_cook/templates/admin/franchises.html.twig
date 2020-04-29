@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion des franchisés{% endblock %}
+
+{% block body %}
+
+    <div class="container mt-5">
+
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                <th scope="col">id</th>
+                <th scope="col">Nom</th>
+                <th scope="col">Prenom</th>
+                <th scope="col">Ville</th>
+                <th scope="col">Email</th>
+                <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for franchise in franchises %}
+                    <tr>
+                        <th scope="row">{{ franchise.idFranchise}}</th>
+                        <td>{{ franchise.lastName }}</td>
+                        <td>{{ franchise.firstName }}</td>
+                        <td>{{ franchise.idAdresse.idCity.name }}</td>
+                        <td>{{ franchise.email }}</td>
+                        <td>
+                            <a class="mr-2" data-toggle="tooltip" data-placement="top" title="Modifier" href="{{ path('admin_franchise_edit', { 'id': franchise.idFranchise}) }}"><i class="fas fa-pen"></i></a>
+                            {# <a class="" data-toggle="tooltip" data-placement="top" title="Supprimer" href="{{ path('admin_franchise_delete', { 'id': franchise.idFranchise}) }}"><i class="fas fa-trash-alt"></i></a> #}
+                            
+                            <a href="#" data-href="{{ path('admin_franchise_delete', { 'id': franchise.idFranchise}) }}" class="" data-placement="bottom" 
+                            title="Supprimer" data-toggle="modal" data-target="#delete_franchise">
+                                <i class="fas fa-trash-alt"></i>
+                            </a>  
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="modal fade" id="delete_franchise" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        Supprimer un franchisé
+                    </div>
+                    <div class="modal-body">
+                        Êtes-vous sûr de vouloir supprimer ce franchisé ?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Fermer</button>
+                        <a class="btn btn-danger btn-ok text-white">Supprimer</a>
+                    </div>
+                </div>
+            </div>
+        </div
+
+    </div>
+    
+{% endblock %}
+
+{% block scripts %}
+    {{ parent() }}
+{% endblock %}
+

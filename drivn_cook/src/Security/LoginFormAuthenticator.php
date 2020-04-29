@@ -3,6 +3,7 @@
 namespace App\Security;
 
 use App\Entity\Franchises;
+use App\Entity\Users;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -68,6 +69,11 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
         }
 
         $user = $this->entityManager->getRepository(Franchises::class)->findOneBy(['email' => $credentials['email']]);
+        // A changer car conflits possibles
+        if (!$user) {
+            $user = $this->entityManager->getRepository(Users::class)->findOneBy(['email' => $credentials['email']]);
+        }
+        
 
         if (!$user) {
             // fail authentication with a custom error

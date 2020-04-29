@@ -2,17 +2,18 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * Users
  *
  * @ORM\Table(name="USERS", uniqueConstraints={@ORM\UniqueConstraint(name="UNIQUE", columns={"EMAIL"})}, indexes={@ORM\Index(name="FK_TAKE_PERMISSIONS_FROM", columns={"ID_ROLE"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\UsersRepository")
  */
-class Users
+class Users implements UserInterface
 {
     /**
      * @var int
@@ -359,6 +360,57 @@ class Users
         }
 
         return $this;
+    }
+
+    /**
+     * Returns the username used to authenticate the user.
+     *
+     * @return string The username
+     */
+    public function getUsername()
+    {
+    return $this->email;
+    }
+
+    /**
+    * Returns the roles granted to the user.
+    *
+    *     public function getRoles()
+    *     {
+    *         return ['ROLE_USER'];
+    *     }
+    *
+    * Alternatively, the roles might be stored on a ``roles`` property,
+    * and populated in any number of different ways when the user object
+    * is created.
+    *
+    * @return string[] The user roles
+    */
+    public function getRoles()
+    {
+    return ['ROLE_ADMIN'];
+    }
+
+    /**
+    * Returns the salt that was originally used to encode the password.
+    *
+    * This can return null if the password was not encoded using a salt.
+    *
+    * @return string|null The salt
+    */
+    public function getSalt()
+    {
+    return null;
+    }
+
+    /**
+    * Removes sensitive data from the user.
+    *
+    * This is important if, at any given point, sensitive information like
+    * the plain-text password is stored on this object.
+    */
+    public function eraseCredentials(){
+
     }
 
 }

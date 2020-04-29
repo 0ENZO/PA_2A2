@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Administration{% endblock %}
+
+{% block body %}
+
+    <div class="container mt-5">
+        <div class="d-flex p-5">
+            <div class="col-md-3 mt-3 px-2 bg-black text-white text-center">
+                <a href="{{ path('admin_franchise_show') }}">
+                    <h3>Gestion franchisés</h3>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
