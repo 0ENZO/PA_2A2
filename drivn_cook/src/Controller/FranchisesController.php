@@ -3,8 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Franchises;
+use App\Entity\Trucks;
 use App\Form\FranchisesType;
 use App\Repository\FranchisesRepository;
+use App\Repository\TrucksRepository;
+
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -22,7 +25,10 @@ class FranchisesController extends AbstractController
      */
     public function profil(Request $request){
 
+        $em = $this->getDoctrine()->getManager();
         $franchise = $this->getUser();
+        $truck = $em->getRepository(Trucks::class)->findOneByIdFranchise($franchise);
+
         $form = $this->createForm(FranchisesType::class, $franchise);
         $form->handleRequest($request);
 
@@ -35,6 +41,7 @@ class FranchisesController extends AbstractController
 
         return $this->render('franchises/profil.html.twig', [
             'franchise' => $franchise,
+            'truck' => $truck,
             'form' => $form->createView()
         ]);
 

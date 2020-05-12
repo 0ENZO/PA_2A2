@@ -20,7 +20,14 @@
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
               {% if is_granted('ROLE_USER') %}
-                <a class="dropdown-item" href="{{ path('franchise_profil') }}">Mon compte</a>
+                <a class="dropdown-item" href="{{ path('franchise_profil') }}">
+                  <i class="mr-2 far fa-id-card"></i>
+                  Mon compte
+                </a>
+                <a class="dropdown-item" href="{{ path('franchise_order_show') }}">
+                  <i class="mr-2 fas fa-shopping-basket"></i>
+                  Passer commande
+                </a>
               {% elseif is_granted('ROLE_ADMIN') %}
                 <a class="dropdown-item" href="{{ path('admin_show') }}">
                   <i class="mr-2 fas fa-user-cog"></i>

@@ -101,7 +101,38 @@
                             </div>
 
                             <div class="tab-pane" id="pane_truck" role="tabpanel">
-                                truck
+                                <div class="col-md-6 mx-auto mt-5">
+                                    <img class="img-fluid" src="{{ asset('/images/food_truck.jpg') }}" alt="">
+
+                                    <div>
+
+                                        <table class="table table-borderless my-5">
+                                            <tbody>
+                                                <tr>
+                                                    <td>Marque</td>
+                                                    <td>{{ truck.brand }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Modèle</td>
+                                                    <td>{{ truck.model }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Capacités max</td>
+                                                    <td>{{ truck.idMaxCapacity }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Date de sortie d'usine</td>
+                                                    <td>{{ truck.factoryDate|date("d/m/Y") }}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <div class="d-flex justify-content-end">
+                                    <button class="btn btn-primary" href="#">Voir plus<i class="fas fa-search-plus ml-3"></i></button>
+                                </div>
+
                             </div>
 
                         </div>
