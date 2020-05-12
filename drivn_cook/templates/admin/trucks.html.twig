@@ -1,0 +1,69 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion des camions{% endblock %}
+
+{% block body %}
+
+    <div class="container mt-5">
+
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                <th scope="col">id</th>
+                <th scope="col">Franchise</th>
+                <th scope="col">Capacité max</th>
+                <th scope="col">Marque</th>
+                <th scope="col">Modèle</th>
+                <th scope="col">Status</th>
+                <th scope="col">Date usine</th>
+                <th scope="col">Actions</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for truck in trucks %}
+                    <tr>
+                        <th scope="row">{{ truck.idTruck}}</th>
+                        <td>{{ truck.idFranchise }}</td>
+                        <td>{{ truck.idMaxCapacity }}</td>
+                        <td>{{ truck.brand}}</td>
+                        <td>{{ truck.model }}</td>
+                        <td>{{ truck.status }}</td>
+                        <td>{{ truck.factoryDate|date("d/m/Y") }}</td>
+                        <td>
+                            <a class="mr-2" data-toggle="tooltip" data-placement="top" title="Modifier" href="{{ path('admin_truck_edit', { 'id': truck.idTruck}) }}"><i class="fas fa-pen"></i></a>
+                            <a href="#" data-href="{{ path('admin_truck_delete', { 'id': truck.idTruck}) }}" class="" data-placement="bottom" 
+                            title="Supprimer" data-toggle="modal" data-target="#delete_truck">
+                                <i class="fas fa-trash-alt"></i>
+                            </a>  
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="modal fade" id="delete_truck" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        Supprimer un camion
+                    </div>
+                    <div class="modal-body">
+                        Êtes-vous sûr de vouloir supprimer ce camion ?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Fermer</button>
+                        <a class="btn btn-danger btn-ok text-white">Supprimer</a>
+                    </div>
+                </div>
+            </div>
+        </div
+
+    </div>
+    
+{% endblock %}
+
+{% block scripts %}
+    {{ parent() }}
+{% endblock %}
+

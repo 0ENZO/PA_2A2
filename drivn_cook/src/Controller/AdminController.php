@@ -3,8 +3,19 @@
 namespace App\Controller;
 
 use App\Entity\Franchises;
+use App\Entity\Trucks;
+use App\Entity\Users;
+use App\Entity\Roles;
+
 use App\Form\FranchisesType;
+use App\Form\TrucksType;
+use App\Form\UsersType;
+
 use App\Repository\FranchisesRepository;
+use App\Repository\TrucksRepository;
+use App\Repository\UsersRepository;
+use App\Repository\RolesRepository;
+
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -69,7 +80,6 @@ class AdminController extends AbstractController
      */
     public function franchise_delete(Franchises $franchise)
     {
-        
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->remove($franchise);
         $entityManager->flush();
@@ -78,4 +88,121 @@ class AdminController extends AbstractController
 
     }
     
+    /**
+     * @Route("/truck", name="admin_truck_show")
+     */
+    public function truck_show()
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $trucks = $em->getRepository(Trucks::class)->findAll();
+        
+        return $this->render('admin/trucks.html.twig', [
+            'trucks' => $trucks
+        ]);
+    }
+
+    /**
+     * @Route("/truck/edit/{id}", name="admin_truck_edit")
+     */
+    public function truck_edit(Trucks $truck, Request $request)
+    {
+
+        $form = $this->createForm(TrucksType::class, $truck);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->flush();
+
+            return $this->redirectToRoute('admin_truck_show');
+        }
+
+        return $this->render('admin/trucks_edit.html.twig', [
+            'truck' => $truck,
+            'form' => $form->createView()
+        ]);
+
+    }
+
+    /**
+     * @Route("/truck/delete/{id}", name="admin_truck_delete", methods={"GET","POST"})
+     */
+    public function truck_delete(Trucks $truck)
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->remove($truck);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('admin_truck_show');
+
+    }
+
+/**
+     * @Route("/user", name="admin_user_show")
+     */
+    public function user_show(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $users = $em->getRepository(Users::class)->findAll();
+
+        $role = $em->getRepository(Roles::class)->findOneByName('Client');
+        $user = new Users();
+        $user->setIdRole($role);
+        $form = $this->createForm(UsersType::class, $user);
+        $form->remove('idRole');
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($user);
+            $em->flush();
+
+            return $this->redirectToRoute('admin_user_show');
+        }
+        
+        return $this->render('admin/users.html.twig', [
+            'users' => $users,
+            'form' => $form->createView()
+        ]);
+    }
+
+    /**
+     * @Route("/user/edit/{id}", name="admin_user_edit")
+     */
+    public function user_edit(Users $user, Request $request)
+    {
+
+        $form = $this->createForm(UsersType::class, $user);
+        $form->remove('idRole');
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->flush();
+
+            return $this->redirectToRoute('admin_user_show');
+        }
+
+        return $this->render('admin/Users_edit.html.twig', [
+            'user' => $user,
+            'form' => $form->createView()
+        ]);
+
+    }
+
+    /**
+     * @Route("/user/delete/{id}", name="admin_user_delete", methods={"GET","POST"})
+     */
+    public function user_delete(Users $user)
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->remove($user);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('admin_user_show');
+
+    }
+
 }
