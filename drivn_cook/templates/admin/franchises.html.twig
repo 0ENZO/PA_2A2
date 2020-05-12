@@ -6,6 +6,10 @@
 
     <div class="container mt-5">
 
+        <button class="btn btn-primary rounded-circlez mb-3" id="button_add_franchise" data-toggle="modal" data-target="#add_franchise">
+            <span class="fa fa-plus mr-2"></span>Ajouter un franchisé
+        </button>
+
         <table class="table">
             <thead class="thead-dark">
                 <tr>
@@ -52,7 +56,25 @@
                     </div>
                 </div>
             </div>
-        </div
+        </div>
+
+        <div class="modal fade" id="add_franchise" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header d-flex align-items-center">
+                        <h4 class="modal-title mb-0" id="add_franchise">Ajouter un franchisé</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true"><i class="fas fa-times"></i></span>
+                        </button>
+                    </div>
+                    <div class="modal-body bg-body">
+                        {{ form_start(form) }}
+                            {{ form_widget(form) }}
+                        {{ form_end(form) }}
+                    </div>
+                </div>
+            </div>
+        </div>
 
     </div>
     

@@ -300,7 +300,7 @@ class Franchises implements UserInterface
 
     public function __toString()
     {
-        return 'Franchise de '.$this->firstName.' '.$this->lastName;
+        return $this->firstName.' '.$this->lastName;
     }
 
     /**

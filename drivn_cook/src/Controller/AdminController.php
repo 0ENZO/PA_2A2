@@ -41,14 +41,27 @@ class AdminController extends AbstractController
     /**
      * @Route("/franchise", name="admin_franchise_show")
      */
-    public function franchise_show()
+    public function franchise_show(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
 
         $franchises = $em->getRepository(Franchises::class)->findAll();
+
+        $franchise = new Franchises();
+        $form = $this->createForm(FranchisesType::class, $franchise);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($franchise);
+            $em->flush();
+
+            return $this->redirectToRoute('admin_franchise_show');
+        }
         
         return $this->render('admin/franchises.html.twig', [
-            'franchises' => $franchises
+            'franchises' => $franchises,
+            'form' => $form->createView()
         ]);
     }
 
@@ -91,14 +104,27 @@ class AdminController extends AbstractController
     /**
      * @Route("/truck", name="admin_truck_show")
      */
-    public function truck_show()
+    public function truck_show(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
 
         $trucks = $em->getRepository(Trucks::class)->findAll();
+
+        $truck = new Trucks();
+        $form = $this->createForm(TrucksType::class, $truck);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($truck);
+            $em->flush();
+
+            return $this->redirectToRoute('admin_truck_show');
+        }
         
         return $this->render('admin/trucks.html.twig', [
-            'trucks' => $trucks
+            'trucks' => $trucks,
+            'form' => $form->createView()
         ]);
     }
 
