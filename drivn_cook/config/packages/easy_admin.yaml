@@ -9,3 +9,6 @@ easy_admin:
         - App\Entity\Roles
         - App\Entity\Trucks
         - App\Entity\MaxCapacities
+        - App\Entity\SubCategories
+        - App\Entity\Categories
+        - App\Entity\Products
