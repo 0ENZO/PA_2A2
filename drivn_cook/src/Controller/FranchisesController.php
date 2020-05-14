@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\FranchiseOrders;
 use App\Entity\Franchises;
 use App\Entity\Trucks;
 use App\Form\FranchisesType;
@@ -28,6 +29,7 @@ class FranchisesController extends AbstractController
         $em = $this->getDoctrine()->getManager();
         $franchise = $this->getUser();
         $truck = $em->getRepository(Trucks::class)->findOneByIdFranchise($franchise);
+        $orders = $em->getRepository(FranchiseOrders::class)->findByIdFranchise($franchise);
 
         $form = $this->createForm(FranchisesType::class, $franchise);
         $form->handleRequest($request);
@@ -42,6 +44,7 @@ class FranchisesController extends AbstractController
         return $this->render('franchises/profil.html.twig', [
             'franchise' => $franchise,
             'truck' => $truck,
+            'orders' => $orders,
             'form' => $form->createView()
         ]);
 

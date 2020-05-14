@@ -1,58 +1,102 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Mon panier{% endblock %}
-
+{% block title %}Facture{% endblock %}
+{% block stylesheets %}
+    {# <link rel="stylesheet" href="{{ asset('/css/pdf.css') }}"> #}
+    {% for path in encore_entry_css_files('app') %}
+        <link rel="stylesheet" href="{{ absolute_url(path) }}">
+    {% endfor %}
+{% endblock %}
+{% block assets%} {% endblock %}
 {% block body %}
-    <div class="container pt-5">
 
-        <div class="p-3">
-            <h1>Votre panier</h1>
+    <body class="body_pdf">
+
+        <h1 class="h1_pdf">Facture</h1>
+
+        <div class="address address-from">
+            <div class="address_label">De</div>
+            <div class="address_content">
+                <strong>{{ order.idWarehouse.name }}</strong><br>
+                {{ order.idWarehouse.idAdresse.number }} {{ order.idWarehouse.idAdresse.street }}<br>
+                {{ order.idWarehouse.idAdresse.idCity.name }}, {{ order.idWarehouse.idAdresse.idCity.postalNumber }}<br>
+                SIRET : 732 829 320 00074
+            </div>
         </div>
 
-        {% if items|length > 0 %}
-            <table class="table">
-                <thead>
-                    <tr>
-                        <td>Produit</td>
-                        <td>Prix</td>
-                        <td>Quantité</td>
-                        <td>Total</td>
-                        <td>Actions</td>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for item in items %}
-                        <tr>
-                            <td>{{item.product.name}}</td>
-                            <td>{{item.product.price}} €</td>
-                            <td>{{item.quantity}}</td>
-                            <td>{{  item.product.price * item.quantity }} €</td>
-                            <td>
-                                <a href="{{ path('franchise_cart_delete', {id: item.product.idProduct}) }}" class="btn btn-danger btn-sm">
-                                    <i class="fas fa-trash"></i>
-                                </a>
-                            </td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-                <tfoot>
-                    <tr>
-                        <td class="text-right" colspan="3">Total : </td>
-                        <td>{{ total }} €</td>
-                        <td></td>
-                    </tr>
-                </tfoot>
-            </table>
-
-            <div class="d-flex justify-content-end mt-5">
-                <a class="btn btn-success" href="{{ path('franchise_cart_validate') }}">
-                    Valider mon panier<i class="fas fa-check ml-2"></i>
-                </a>
+        <div class="address address-to">
+            <div class="address_label">Pour</div>
+            <div class="address_content">
+                <strong>{{ order.idFranchise.firstName }} {{ order.idFranchise.lastName }}</strong><br>
+                {{ order.idFranchise.idAdresse.number }} {{ order.idFranchise.idAdresse.street }}<br>
+                {{ order.idFranchise.idAdresse.idCity.name }}, {{ order.idFranchise.idAdresse.idCity.postalNumber }}
             </div>
+        </div>
 
-        {% else %}
-            <h3>Votre panier est vide.</h3>
-        {% endif %}
-    </div>
+        <div class="infos">
+            <div class="infos_label">Facture n°</div>
+            <div class="infos_content"><strong>{{ order.idFranchiseOrder }}</strong></div>
+            <div class="infos_label">Émise le </div>
+            <div class="infos_content">{{ order.date|date("d/m/Y")}}</div>
+        </div>
+
+        <div class="cb"></div>
+
+        <table class="items">
+            <thead>
+            <tr>
+                <th>Description</th>
+                <th style="width: 78px;">Prix HT</th>
+                <th style="width: 108px;">Prix TTC</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for product in order.idProduct %}
+                <tr>
+                    <td>{{ product.name }}</td>
+                    <td>{{ product.price }}</td>
+                    <td>{{ product.price + product.vat }}</td>
+                </tr>
+            {% endfor %}
+
+            <tr class="total total-first">
+                <td colspan="2" class="total_label">Sous-total</td>
+                <td><strong>
+                    {% set sousTotal = 0 %}
+                    {% for product in order.idProduct %}
+                        {% set sousTotal = sousTotal + product.price %}    
+                    {% endfor %}
+                    {{ sousTotal }}€
+                </strong></td>
+            </tr>
+            <tr class="total">
+                <td colspan="2" class="total_label">Taxe (20.00%)</td>
+                <td><strong>
+                    {% set vat = 0 %}
+                    {% for product in order.idProduct %}
+                        {% set vat = vat + product.vat %}    
+                    {% endfor %}
+                    {{ vat }}€
+                </strong></td>
+            </tr>
+            <tr class="total total-big">
+                <td colspan="2" class="total_label">Total</td>
+                <td><strong>
+                    {% set total = 0 %}
+                    {% for product in order.idProduct %}
+                        {% set total = total + product.price + product.vat %}    
+                    {% endfor %}
+                    {{ total }}€
+                </strong></td>
+            </tr>
+            </tbody>
+        </table>
+
+        <footer class="footer_pdf">
+            Lorem Ipsum is simply dummy text of the printing and typesetting industry. 
+            Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. 
+        </footer>
+
+    </body>
 
 {% endblock %}

@@ -1,14 +1,17 @@
 easy_admin:
     entities:
         # List the entity class name you want to manage
+        - App\Entity\Roles
+        - App\Entity\Users
+        - App\Entity\Franchises
+        - App\Entity\Trucks
+        - App\Entity\Warehouses
         - App\Entity\Addresses
         - App\Entity\Cities
         - App\Entity\Departments
-        - App\Entity\Franchises
-        - App\Entity\Users
-        - App\Entity\Roles
-        - App\Entity\Trucks
         - App\Entity\MaxCapacities
         - App\Entity\SubCategories
         - App\Entity\Categories
         - App\Entity\Products
+        - App\Entity\FranchiseOrders
+

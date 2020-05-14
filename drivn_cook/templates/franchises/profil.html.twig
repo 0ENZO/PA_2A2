@@ -47,6 +47,11 @@
                                   <i class="mr-2 fas fa-truck"></i>Mon camion
                                 </a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="" id="nav_orders" data-target="#pane_orders" data-toggle="tab">
+                                    <i class="mr-2 fas fa-cart-arrow-down"></i>Mes commandes
+                                  </a>
+                              </li>
                           </ul>
                     </div>
                 </div>
@@ -133,6 +138,35 @@
                                     <button class="btn btn-primary" href="#">Voir plus<i class="fas fa-search-plus ml-3"></i></button>
                                 </div>
 
+                            </div>
+
+                            <div class="tab-pane" id="pane_orders" role="tabpanel">
+                                <div class="col-md-8 mx-auto mt-3">
+                                    <h3 class="text-bold text-center mt-3 mb-5">Mes commandes</h3>
+                                    <h5>Mes dernères commandes :</h5>
+
+                                    {% if orders is defined and orders is not empty%}
+                                        {% for order in orders %}
+
+                                            <div class="mt-4">
+                                                <a href="{{ path('franchise_order_show', {id: order.idFranchiseOrder}) }}">
+                                                    Commande du {{order.date|date("d/m/Y") }} - {{ order.totalPrice }} €
+                                                </a>
+                                            </div>
+
+                                        {% endfor %}
+                                    {% else %}
+
+                                        <div class="mt-5">
+                                            Vous n'avez pas encore passé de commande. 
+                                            <a href="{{ path('product_index') }}" class="btn btn-primary">
+                                                Passer commande<i class="fas fa-chevron-right ml-2"></i>
+                                            </a>
+                                        </div>
+
+                                    {% endif %}
+
+                                </div>
                             </div>
 
                         </div>

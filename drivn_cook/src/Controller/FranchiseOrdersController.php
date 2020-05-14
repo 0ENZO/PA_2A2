@@ -2,25 +2,32 @@
 
 namespace App\Controller;
 
+use Faker;
 use App\Entity\Products;
 use App\Entity\Warehouses;
 use App\Entity\FranchiseOrders;
+
 use App\Repository\ProductsRepository;
+use App\Repository\FranchiseOrdersRepository;
+
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Knp\Bundle\SnappyBundle\Snappy\Response\PdfResponse;
 
 /**
  * @Route("/franchiseOrder") 
  */
 class FranchiseOrdersController extends AbstractController
 {
+
     /**
      * @Route("/panier", name="franchise_cart_show")
      */
-    public function show(SessionInterface $session, ProductsRepository $productsRepository)
+    public function index(SessionInterface $session, ProductsRepository $productsRepository)
     {
         $cart = $session->get('cart', []);
         $filledCart = [];
@@ -38,7 +45,10 @@ class FranchiseOrdersController extends AbstractController
             $totalProduct = $item['product']->getPrice() * $item['quantity'];
             $total += $totalProduct;
         }
-        return $this->render('franchises/orders/show.html.twig', [
+
+        $session->set('cart_total', $total);
+
+        return $this->render('franchises/orders/index.html.twig', [
             'items' => $filledCart,
             'total' => $total 
         ]);
@@ -83,8 +93,80 @@ class FranchiseOrdersController extends AbstractController
     /**
      * @Route("/panier/validate", name="franchise_cart_validate")
      */
-    public function validate(SessionInterface $session)
+    public function validate(SessionInterface $session, ProductsRepository $productsRepository)
     {
+        $cart = $session->get('cart', []);
+        $em = $this->getDoctrine()->getManager();
+        $total = $session->get('cart_total');
 
+        if (!empty($cart)){
+
+            $warehouse = $em->getRepository(Warehouses::class)->findOneByEmail('entrepot1@drivncook.fr');
+
+            $order = new FranchiseOrders();
+            $order->setIdFranchise($this->getUser());
+            $order->setIdWarehouse($warehouse);
+            $order->setDate(new \DateTime());
+            $order->setStatus(1);
+            $order->setTotalPrice($total);
+            
+            foreach ($cart as $item){
+                $product = $productsRepository->find($item);
+                $order->addIdProduct($product);
+            }
+
+        
+            $em->persist($order);
+            $em->flush();
+
+            // trouver une autre méthode pour vider le panier de la session
+            $session->invalidate();
+        } else {
+            throw $this->createNotFoundException('Votre panier est vide.');
+        }
+
+        return $this->render('franchises/orders/validate.html.twig');
+    }
+
+    /**
+     * @Route("/{id}", name="franchise_order_show")
+     */
+    public function show($id){
+
+        //Vérif si cette commande appartient bien au franchisé connecté sinon exception 
+
+        $em = $this->getDoctrine()->getManager();
+        $order = $em->getRepository(FranchiseOrders::class)->findOneByIdFranchiseOrder($id);
+        // $faker = Faker\Factory::create();
+
+        return $this->render('franchises/orders/show.html.twig', [
+            'order' => $order
+            //'faker' => $faker
+        ]);
+    }
+
+    /**
+     * @Route("/pdf/{id}", name="franchise_order_pdf", methods={"GET"}, requirements={"id"="\d+"})
+     */
+    public function pdf($id, \Knp\Snappy\Pdf $knpSnappy)
+    {  
+
+        $em = $this->getDoctrine()->getManager();
+        $order = $em->getRepository(FranchiseOrders::class)->findOneByIdFranchiseOrder($id);
+        
+        $knpSnappy->setOption("encoding","UTF-8");
+        $filename = "mypdf";
+        $html = $this->renderView('franchises/orders/show.html.twig' , array(
+            'order' => $order,
+        ));
+        
+        return new Response(
+            $knpSnappy->getOutputFromHtml($html),
+            200,
+            array(
+                'Content-Type' => 'application/pdf',
+                'Content-Disposition' => 'inline; filename="'.$filename.'.pdf"'
+            )
+        );
     }
 }
