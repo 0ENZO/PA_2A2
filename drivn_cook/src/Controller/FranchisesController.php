@@ -44,7 +44,7 @@ class FranchisesController extends AbstractController
         return $this->render('franchises/profil.html.twig', [
             'franchise' => $franchise,
             'truck' => $truck,
-            'orders' => $orders,
+            'orders' => array_reverse($orders),
             'form' => $form->createView()
         ]);
 

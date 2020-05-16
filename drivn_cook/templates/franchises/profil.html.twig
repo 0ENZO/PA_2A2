@@ -28,7 +28,7 @@
                     <div class="profile-usermenu">
                         <ul class="nav nav-tabs flex-column ml-4" id="myTab" role="tablist">
                             <li class="nav-item">
-                              <a class="nav-link active" href="" id="nav_profile" data-target="#pane_profile" data-toggle="tab">
+                              <a class="nav-link" href="" id="nav_profile" data-target="#pane_profile" data-toggle="tab">
                                   <i class="mr-2 fas fa-id-card"></i>Mon profil
                               </a>
                             </li>
@@ -48,7 +48,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="" id="nav_orders" data-target="#pane_orders" data-toggle="tab">
+                                <a class="nav-link active" href="" id="nav_orders" data-target="#pane_orders" data-toggle="tab">
                                     <i class="mr-2 fas fa-cart-arrow-down"></i>Mes commandes
                                   </a>
                               </li>
@@ -62,7 +62,7 @@
                     <div class="card-body">
                         <div class="tab-content" id="myTabContent">
 
-                            <div class="tab-pane active" id="pane_profile" role="tabpanel">
+                            <div class="tab-pane" id="pane_profile" role="tabpanel">
                                 <div class="col-md-8 mx-auto mt-3">
                                     <h2 class="text-bold text-center">Mon profil</h2>
 
@@ -140,32 +140,125 @@
 
                             </div>
 
-                            <div class="tab-pane" id="pane_orders" role="tabpanel">
+                            <div class="tab-pane active" id="pane_orders" role="tabpanel">
                                 <div class="col-md-8 mx-auto mt-3">
                                     <h3 class="text-bold text-center mt-3 mb-5">Mes commandes</h3>
-                                    <h5>Mes dernères commandes :</h5>
 
-                                    {% if orders is defined and orders is not empty%}
-                                        {% for order in orders %}
+                                    <ul class="nav nav-tabs">
+                                        <li class="nav-item">
+                                          <a class="nav-link active" href="#" id="nav_last_orders" data-target="#pane_last_orders" data-toggle="tab">Mes dernères commandes </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="#" id="nax_generic_orders" data-target="#pane_generic_orders" data-toggle="tab">Mes commandes types</a>
+                                          </li>
+                                    </ul>
 
-                                            <div class="mt-4">
-                                                <a href="{{ path('franchise_order_show', {id: order.idFranchiseOrder}) }}">
-                                                    Commande du {{order.date|date("d/m/Y") }} - {{ order.totalPrice }} €
-                                                </a>
+                                    <div class="tab-content">
+
+                                        <div class="tab-pane active" id="pane_last_orders">
+
+                                            <div class="mt-4" id="accordion">
+                                                {% if orders is defined and orders is not empty%}
+                                                    {% for order in orders %}
+            
+                                                            {# <a href="{{ path('franchise_order_show', {id: order.idFranchiseOrder}) }}"></a> #}
+
+                                                        <div class="card">
+                                                            <div class="card-header" id="headingOne">
+                                                              <h5 class="mb-0">
+                                                                <button class="btn btn-link" data-toggle="collapse" data-target="#collapse{{loop.index}}" aria-expanded="true" aria-controls="collapse{{loop.index}}">
+                                                                    Commande du {{order.date|date("d/m/Y") }} - {{ order.totalPrice }} €
+                                                                </button>
+                                                                {% if order.status < 2 %}
+                                                                    <a href="{{ path('franchise_fav_order', {id: order.idFranchiseOrder}) }}">
+                                                                        <i class="ml-2 far fa-star"></i>
+                                                                    </a>
+                                                                {% else %}
+                                                                    <a href="{{ path('franchise_unfav_order', {id: order.idFranchiseOrder}) }}">
+                                                                        <i class="ml-2 fas fa-star"></i>
+                                                                    </a>
+                                                                {% endif %}
+
+                                                              </h5>
+                                                            </div>
+                                                        
+                                                            <div id="collapse{{loop.index}}" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+                                                              <div class="card-body">
+                                                                {% for product in order.idProduct %}
+                                                                    <p>{{ product.name }}</p>
+                                                                {% endfor %}
+
+                                                                <a class="btn btn-primary" href="{{ path('franchise_order_show', {id: order.idFranchiseOrder}) }}">
+                                                                    Voir ma facture <i class="fas fa-chevron-right ml-2"></i>
+                                                                </a>
+                                                                
+                                                              </div>
+                                                            </div>
+                                                        </div>
+                                                    {% endfor %}
+                                                {% else %}
+                                                    <div class="mt-5">
+                                                        Vous n'avez pas encore passé de commande. 
+                                                        <a href="{{ path('product_index') }}" class="btn btn-primary">
+                                                            Passer commande<i class="fas fa-chevron-right ml-2"></i>
+                                                        </a>
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                            
+                                        <div class="tab-pane" id="pane_generic_orders">
+                                            
+                                            <div class="mt-4" id="accordion">
+                                                {% if orders is defined and orders is not empty%}
+                                                    {% for order in orders %}
+                                                        {% if order.status > 1 %}
+                                                            {# <a href=""></a> #}
+
+                                                            <div class="card">
+                                                                <div class="card-header" id="headingOne">
+                                                                    <h5 class="mb-0">
+                                                                        <button class="btn btn-link" data-toggle="collapse" data-target="#collapse{{loop.index}}" aria-expanded="true" aria-controls="collapse{{loop.index}}">
+                                                                            Commande du {{order.date|date("d/m/Y") }} - {{ order.totalPrice }} €
+                                                                        </button>
+                                                                        {% if order.status < 2 %}
+                                                                            <a href="{{ path('franchise_fav_order', {id: order.idFranchiseOrder}) }}">
+                                                                                <i class="ml-2 far fa-star"></i>
+                                                                            </a>
+                                                                        {% else %}
+                                                                            <a href="{{ path('franchise_unfav_order', {id: order.idFranchiseOrder}) }}">
+                                                                                <i class="ml-2 fas fa-star"></i>
+                                                                            </a>
+                                                                        {% endif %}
+                                                                    </h5>
+                                                                </div>
+                                                            
+                                                                <div id="collapse{{loop.index}}" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+                                                                <div class="card-body">
+                                                                    {% for product in order.idProduct %}
+                                                                        <p>{{ product.name }}</p>
+                                                                    {% endfor %}
+
+                                                                    <a class="btn btn-primary" href="{{ path('franchise_order_show', {id: order.idFranchiseOrder}) }}">
+                                                                        Voir ma facture <i class="fas fa-chevron-right ml-2"></i>
+                                                                    </a>
+
+                                                                </div>
+                                                                </div>
+                                                            </div>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                {% else %}
+                                                    <div class="mt-5">
+                                                        Vous n'avez pas encore de commande type. 
+                                                    </div>
+                                                {% endif %}
                                             </div>
 
-                                        {% endfor %}
-                                    {% else %}
-
-                                        <div class="mt-5">
-                                            Vous n'avez pas encore passé de commande. 
-                                            <a href="{{ path('product_index') }}" class="btn btn-primary">
-                                                Passer commande<i class="fas fa-chevron-right ml-2"></i>
-                                            </a>
                                         </div>
-
-                                    {% endif %}
-
+                                    
+                        
+                                    </div>
                                 </div>
                             </div>
 
