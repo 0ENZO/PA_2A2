@@ -6,6 +6,7 @@ use App\Entity\FranchiseOrders;
 use App\Entity\Franchises;
 use App\Entity\Trucks;
 use App\Form\FranchisesType;
+use App\Repository\FranchiseOrdersRepository;
 use App\Repository\FranchisesRepository;
 use App\Repository\TrucksRepository;
 
@@ -30,7 +31,13 @@ class FranchisesController extends AbstractController
         $franchise = $this->getUser();
         $truck = $em->getRepository(Trucks::class)->findOneByIdFranchise($franchise);
         $orders = $em->getRepository(FranchiseOrders::class)->findByIdFranchise($franchise);
-
+/*
+        $order = $em->getRepository(FranchiseOrders::class)->findOneByIdFranchiseOrder('12');
+        $products = $order->getIdProduct();
+        foreach ($products as $product) {
+            var_dump($product);
+        }
+*/
         $form = $this->createForm(FranchisesType::class, $franchise);
         $form->handleRequest($request);
 

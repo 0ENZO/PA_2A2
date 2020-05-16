@@ -191,7 +191,7 @@
                                                                 <a class="btn btn-primary" href="{{ path('franchise_order_show', {id: order.idFranchiseOrder}) }}">
                                                                     Voir ma facture <i class="fas fa-chevron-right ml-2"></i>
                                                                 </a>
-                                                                
+
                                                               </div>
                                                             </div>
                                                         </div>
@@ -221,15 +221,15 @@
                                                                         <button class="btn btn-link" data-toggle="collapse" data-target="#collapse{{loop.index}}" aria-expanded="true" aria-controls="collapse{{loop.index}}">
                                                                             Commande du {{order.date|date("d/m/Y") }} - {{ order.totalPrice }} €
                                                                         </button>
-                                                                        {% if order.status < 2 %}
-                                                                            <a href="{{ path('franchise_fav_order', {id: order.idFranchiseOrder}) }}">
-                                                                                <i class="ml-2 far fa-star"></i>
-                                                                            </a>
-                                                                        {% else %}
-                                                                            <a href="{{ path('franchise_unfav_order', {id: order.idFranchiseOrder}) }}">
-                                                                                <i class="ml-2 fas fa-star"></i>
-                                                                            </a>
-                                                                        {% endif %}
+
+                                                                        <a href="{{ path('franchise_unfav_order', {id: order.idFranchiseOrder}) }}">
+                                                                            <i class="ml-2 fas fa-star"></i>
+                                                                        </a>
+
+                                                                        <a href="{{ path('franchise_duplicate_order', {id: order.idFranchiseOrder}) }}">
+                                                                            <i class="ml-2 fas fa-shopping-basket"></i>
+                                                                        </a>
+                                                                        
                                                                     </h5>
                                                                 </div>
                                                             

@@ -25,7 +25,7 @@
             <div class="tab-pane active" id="pane_fruits_legumes">
 
                 <div class="row d-flex align-items-stretch">
-                    {% for product in products %}
+                    {% for product in pagination %}
                         <div class="col-3 mt-4">
                             <div class="border border-dark rounded p-2 clearfix">
                                 <h3 class="text-center">
@@ -49,6 +49,10 @@
             
                         </div>
                     {% endfor %}
+                </div>
+
+                <div class="navigation mt-2 py-4">
+                    {{ knp_pagination_render(pagination) }}
                 </div>
 
                 <a class="btn btn-primary position-fixed" href="{{ path('franchise_cart_show') }}" style="bottom: 3.5vh; right: 5vh;">

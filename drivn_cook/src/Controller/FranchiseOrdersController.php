@@ -140,6 +140,7 @@ class FranchiseOrdersController extends AbstractController
         $em->persist($order);
         $em->flush();
 
+        $request->getSession()->getFlashBag()->add('info', 'Commande type ajoutéee.');
         return $this->redirectToRoute('franchise_profil');
     }
 
@@ -154,8 +155,38 @@ class FranchiseOrdersController extends AbstractController
         $em->persist($order);
         $em->flush();
 
+        $request->getSession()->getFlashBag()->add('info', 'Commande type supprimée.');
         return $this->redirectToRoute('franchise_profil');
     }
+
+    /**
+     * @Route("/duplicate/{id}", name="franchise_duplicate_order")
+     */
+    public function duplicate($id, Request $request, FranchiseOrdersRepository $franchiseOrdersRepository, EntityManagerInterface $em){
+
+        $order = $franchiseOrdersRepository->find($id);
+
+        $newOrder = new FranchiseOrders();
+        
+        $newOrder->setIdFranchise($this->getUser());
+        $newOrder->setIdWarehouse($order->getIdWarehouse());
+        $newOrder->setDate(new \DateTime());
+        $newOrder->setStatus(1);
+        $newOrder->setTotalPrice($order->getTotalPrice());
+
+        $products = $order->getIdProduct();
+        foreach ($products as $product) {
+            $newOrder->addIdProduct($product);
+        }
+
+        $em->persist($newOrder);
+        $em->flush();
+
+        $request->getSession()->getFlashBag()->add('info', 'Commande passée.');
+        return $this->redirectToRoute('franchise_profil');
+    }
+
+    
 
     /**
      * @Route("/{id}", name="franchise_order_show")
