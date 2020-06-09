@@ -64,7 +64,7 @@ class AppFixtures extends Fixture
         $client->setPseudo('Client_lambda');
         $client->setFirstName('Lee');
         $client->setLastName('Sin');
-        $client->setEmail('client@drivn_cook.fr');
+        $client->setEmail('client@drivncook.fr');
         $client->setBirthDate(new \DateTime());
         $client->setPassword($this->passwordEncoder->encodePassword(
             $client,
@@ -86,6 +86,20 @@ class AppFixtures extends Fixture
         ));
         $admin->setIsActivated(true);
         $manager->persist($admin);
+
+        $romain = new Users();
+        $romain->setIdRole($role_admin);
+        $romain->setFirstName('Romain');
+        $romain->setLastName('Pierucci');
+        $romain->setPseudo('Norudah');
+        $romain->setEmail('pierucci.romain@gmail.com');
+        $romain->setBirthDate(new \DateTime());
+        $romain->setPassword($this->passwordEncoder->encodePassword(
+            $romain,
+            'azerty'
+        ));
+        $romain->setIsActivated(true);
+        $manager->persist($romain);
 
         // Création premier franchisé
 
