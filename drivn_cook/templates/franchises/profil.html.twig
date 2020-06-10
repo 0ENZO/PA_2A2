@@ -111,6 +111,8 @@
 
                                     <div>
 
+                                        {% if truck is defined and truck is not null %}
+
                                         <table class="table table-borderless my-5">
                                             <tbody>
                                                 <tr>
@@ -131,6 +133,13 @@
                                                 </tr>
                                             </tbody>
                                         </table>
+
+                                            {% else %}
+
+                                            <h1>Vous ne possédez pas de camion</h1>
+
+                                        {% endif %}
+
                                     </div>
                                 </div>
 
