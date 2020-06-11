@@ -6,6 +6,12 @@
 
     <div class="container mt-5 bg-white">
 
+        <div class="mt-3" id="searchBar">
+            {{ render(controller(
+                'App\\Controller\\SearchController::searchBar'
+            )) }}
+        </div>
+
         <ul class="nav nav-tabs">
             <li class="nav-item">
               <a class="nav-link active" href="#" id="nav_fruits_legumes" data-target="#pane_fruits_legumes" data-toggle="tab">Fruits & légumes</a>
