@@ -2,11 +2,13 @@
 
 namespace App\Controller;
 
+use App\Entity\Categories;
 use App\Entity\Franchises;
 use App\Entity\Trucks;
 use App\Entity\Users;
 use App\Entity\Roles;
 
+use App\Form\CategoriesType;
 use App\Form\FranchisesType;
 use App\Form\TrucksType;
 use App\Form\UsersType;
@@ -230,5 +232,68 @@ class AdminController extends AbstractController
         return $this->redirectToRoute('admin_user_show');
 
     }
+
+    /**
+     * @Route("/category",name="admin_category_show")
+     */
+    public function category_show(Request $request) {
+
+        $manager = $this->getDoctrine()->getManager();
+
+        $category = new Categories();
+        $repo = $manager->getRepository(Categories::class);
+
+        $categories = $repo->findAll();
+        $form = $this->createForm(CategoriesType::class, $category);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() and $form->isValid()) {
+            $manager->persist($category);
+            $manager->flush();
+
+            $this->redirectToRoute("admin_category_show");
+        }
+
+        return $this->render("admin/categories.html.twig", [
+            "form" => $form->createView(),
+            "categories" => $categories,
+        ]);
+
+
+    }
+
+//    /**
+//     * @Route("/category/edit/{id}", name="admin_category_edit")
+//     */
+//    public function category_edit(Categories $category, Request $request) {
+//        $form = $this->createForm(CategoriesType::class, $category);
+//        $form->handleRequest($request);
+//
+//        if ($form->isSubmitted() and $form->isValid()) {
+//            $manager = $this->getDoctrine()->getManager();
+//            $manager->flush();
+//        }
+//
+//    }
+
+    /**
+     * @Route("/category/delete/{id}", name="admin_category_delete", methods={"GET", "POST"})
+     * Notes : Execute un service, qui prend automatiquement l'objet associé à l'ID de Categorie envoyé depuis la page twig
+     */
+    public function category_delete($id) {
+
+        // error : Expected argument of type "string", "null" given at property path "fileName".
+
+        $manager = $this->getDoctrine()->getManager();
+        $category = $manager->getRepository(Categories::class)->findOneBy(["idCategory" => $id]);
+        $manager->remove($category);
+        $manager->flush();
+
+        return $this->redirectToRoute("admin_category_show");
+    }
+
+
+
 
 }

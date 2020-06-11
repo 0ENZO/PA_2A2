@@ -5,3 +5,34 @@ vich_uploader:
     #    products:
     #        uri_prefix: /images/products
     #        upload_destination: '%kernel.project_dir%/public/images/products'
+
+    mappings:
+
+        categorie_images:
+            uri_prefix: /images/categories
+            upload_destination: '%kernel.project_dir%/public/images/categories'
+            inject_on_load:     true
+            delete_on_update:   true
+            delete_on_remove:   false
+
+        sub_categorie_images:
+            uri_prefix: /images/sub-categories
+            upload_destination: '%kernel.project_dir%/public/images/sub-categories'
+            inject_on_load:     true
+            delete_on_update:   true
+            delete_on_remove:   false
+
+        product_images:
+            uri_prefix: /images/products
+            upload_destination: '%kernel.project_dir%/public/images/products'
+            inject_on_load:     true
+            delete_on_update:   true
+            delete_on_remove:   false
+
+
+
+
+
+
+
+

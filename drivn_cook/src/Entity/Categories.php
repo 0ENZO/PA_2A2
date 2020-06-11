@@ -3,12 +3,15 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * Categories
  *
  * @ORM\Table(name="CATEGORIES")
  * @ORM\Entity
+ * @Vich\Uploadable
  */
 class Categories
 {
@@ -24,9 +27,16 @@ class Categories
     /**
      * @var string
      *
-     * @ORM\Column(name="NAME", type="string", length=50, nullable=false)
+     * @ORM\Column(name="NAME", type="string", length=250, nullable=false)
      */
     private $name;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="NAMEFILE", type="string", length=250, nullable=true)
+     */
+    private $fileName;
 
     /**
      * @var string|null
@@ -36,11 +46,22 @@ class Categories
     private $description;
 
     /**
-     * @var string
+     * @var File | null
      *
-     * @ORM\Column(name="IMAGE", type="text", length=65535, nullable=false)
+     * @Vich\UploadableField(mapping="categorie_images", fileNameProperty="fileName")
+     *
+     *
      */
+    //@ORM\Column(name="IMAGE", type="text", length=65535, nullable=true)
     private $image;
+
+    /**
+     * @ORM\Column(name="UploadDate" ,type="datetime", nullable=true)
+     *
+     * @var \DateTimeInterface|null
+     */
+    private $updatedAt;
+
 
     public function getIdCategory(): ?int
     {
@@ -71,21 +92,50 @@ class Categories
         return $this;
     }
 
-    public function getImage(): ?string
-    {
+//    public function getImage(): ?string
+//    {
+//        return $this->image;
+//    }
+
+    // Nouveau getter pour VichUploader
+    public function getImage(): ?File {
         return $this->image;
     }
 
-    public function setImage(string $image): self
-    {
-        $this->image = $image;
+//    public function setImage(string $image): self
+//    {
+//        $this->image = $image;
+//
+//        return $this;
+//    }
 
-        return $this;
+
+    // Nouveau setter pour VichUploaderBundle
+    /**
+     * @param File|null $imageFile
+     */
+    public function setImage(?File $imageFile = null): void {
+        $this->image = $imageFile;
+
+        if (null !== $imageFile) {
+            // It is required that at least one field changes if you are using doctrine
+            // otherwise the event listeners won't be called and the file is lost
+            $this->updatedAt = new \DateTimeImmutable();
+        }
     }
 
     public function __toString()
     {
         return $this->name;
+    }
+
+
+    public function getFileName() : ?string {
+        return $this->fileName;
+    }
+
+    public function setFileName(string $fileName) : void {
+        $this->fileName = $fileName;
     }
 
 

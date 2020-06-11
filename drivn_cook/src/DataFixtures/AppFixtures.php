@@ -263,7 +263,10 @@ class AppFixtures extends Fixture
 
         // Créations des catégories et sous-catégories
 
-        $ingredient = new Categories();
+//        $boisson = new Categories();
+//        $boisson
+//            ->setImage("")
+
 
 
         $manager->flush();
