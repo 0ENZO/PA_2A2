@@ -7,13 +7,13 @@
     <div class="collapse navbar-collapse " id="navbarSupportedContent">
       <ul class="navbar-nav ml-auto">
         <li class="nav-item mr-4">
-          <a class="nav-link" href="#">Une petite faim ?</a>
+          <a class="nav-link" href="#">{{'Une petite faim ?'|trans}}</a>
         </li>
         <li class="nav-item mr-4">
-          <a class="nav-link" href="#">Actualités</a>
+          <a class="nav-link" href="#">{{'Actualités'|trans}}</a>
         </li>
-        <li class="nav-item mr-4 dropdown">
-          {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+          <li class="nav-item mr-4 dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <i class="mr-2 fas fa-user"></i>
               {{ app.user.email }}
@@ -22,27 +22,36 @@
               {% if is_granted('ROLE_USER') %}
                 <a class="dropdown-item" href="{{ path('franchise_profil') }}">
                   <i class="mr-2 far fa-id-card"></i>
-                  Mon compte
+                  {{'Mon compte'|trans}}
                 </a>
                 <a class="dropdown-item" href="{{ path('product_index') }}">
                   <i class="mr-2 fas fa-shopping-basket"></i>
-                  Passer commande
+                  {{'Passer commande'|trans}}
                 </a>
               {% elseif is_granted('ROLE_ADMIN') %}
                 <a class="dropdown-item" href="{{ path('admin_show') }}">
                   <i class="mr-2 fas fa-user-cog"></i>
-                  Administration
+                  {{'Administration'|trans}}
                 </a>
               {% endif %}
               <a class="dropdown-item" href="{{ path('app_logout') }}">
                 <i class="mr-2 fas fa-sign-out-alt"></i>
-                Déconnexion
+                {{'Déconnexion'|trans}}
               </a>
             </div>
+          </li>
+          <li class="nav-item">
+            {% for locale in locales %}
+              {%if locale != app.request.locale %}
+                <a class="nav-link" href="{{ path('change_locale', {'locale':locale}) }}">{{ locale|upper }}</a>
+              {% endif %}
+            {% endfor %}
+          </li>
           {% else %}
-            <a class="nav-link" href="{{ path('app_login') }}">Connexion</a>
-          {% endif %}
-        </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ path('app_login') }}">{{'Connexion'|trans}}</a>
+          </li>
+        {% endif %}
 
       </ul>
     </div>

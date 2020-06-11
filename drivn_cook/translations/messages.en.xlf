@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="fr" target-language="en" datatype="plaintext" original="file.ext">
+    <header>
+      <tool tool-id="symfony" tool-name="Symfony"/>
+    </header>
+    <body>
+      <trans-unit id="HbxlzO1" resname="Commande">
+        <source>Commande</source>
+        <target>Order</target>
+      </trans-unit>
+      <trans-unit id="X_P3OiT" resname="Fruits &amp; légumes">
+        <source>Fruits &amp; légumes</source>
+        <target>fruits &amp; vegetables></target>
+      </trans-unit>
+      <trans-unit id="tN_Qr2S" resname="Viandes poissons">
+        <source>Viandes poissons</source>
+        <target>Meats fishs</target>
+      </trans-unit>
+      <trans-unit id="xWQIoBW" resname="Produits laitiers">
+        <source>Produits laitiers</source>
+        <target>Dairy products</target>
+      </trans-unit>
+      <trans-unit id="2dRxLsp" resname="Epicerie">
+        <source>Epicerie</source>
+        <target>Stuffs</target>
+      </trans-unit>
+      <trans-unit id="APnFM0V" resname="Ajouter">
+        <source>Ajouter</source>
+        <target>Add</target>
+      </trans-unit>
+      <trans-unit id="csf.tct" resname="Voir mon panier">
+        <source>Voir mon panier</source>
+        <target>See my basket</target>
+      </trans-unit>
+      <trans-unit id="Q0vbbKQ" resname="Viandes &amp; poissons">
+        <source>Viandes &amp; poissons</source>
+        <target>Meats &amp; fish></target>
+      </trans-unit>
+      <trans-unit id="azitPzb" resname="Une petite faim ?">
+        <source>Une petite faim ?</source>
+        <target>Hungry ?</target>
+      </trans-unit>
+      <trans-unit id="2iiN0qP" resname="Actualités">
+        <source>Actualités</source>
+        <target>News</target>
+      </trans-unit>
+      <trans-unit id="KPRXHyi" resname="Mon compte">
+        <source>Mon compte</source>
+        <target>Profile</target>
+      </trans-unit>
+      <trans-unit id="OUHtg_x" resname="Passer commande">
+        <source>Passer commande</source>
+        <target>Make order</target>
+      </trans-unit>
+      <trans-unit id="S0LGaQ6" resname="Administration">
+        <source>Administration</source>
+        <target>Backoffice</target>
+      </trans-unit>
+      <trans-unit id="_1_eksG" resname="Déconnexion">
+        <source>Déconnexion</source>
+        <target>Logout</target>
+      </trans-unit>
+      <trans-unit id="YdaVBBA" resname="Connexion">
+        <source>Connexion</source>
+        <target>Login</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

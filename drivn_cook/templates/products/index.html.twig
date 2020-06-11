@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Commande{% endblock %}
+{% block title %}{% trans %}Commande{% endtrans %}{% endblock %}
 
 {% block body %}
 
@@ -14,16 +14,16 @@
 
         <ul class="nav nav-tabs">
             <li class="nav-item">
-              <a class="nav-link active" href="#" id="nav_fruits_legumes" data-target="#pane_fruits_legumes" data-toggle="tab">Fruits & légumes</a>
+              <a class="nav-link active" href="#" id="nav_fruits_legumes" data-target="#pane_fruits_legumes" data-toggle="tab">{% trans %}Fruits & légumes{% endtrans %}</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#" id="nav_meat" data-target="#pane_meat" data-toggle="tab">Viandes poissons</a>
+                <a class="nav-link" href="#" id="nav_meat" data-target="#pane_meat" data-toggle="tab">{% trans %}Viandes poissons{% endtrans %}</a>
               </li>
             <li class="nav-item">
-              <a class="nav-link" href="#" id="nav_milk" data-target="#pane_milk" data-toggle="tab">Produits laitiers</a>
+              <a class="nav-link" href="#" id="nav_milk" data-target="#pane_milk" data-toggle="tab">{% trans %}Produits laitiers{% endtrans %}</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#" id="nav_others" data-target="#pane_others" data-toggle="tab">Epicerie</a>
+              <a class="nav-link" href="#" id="nav_others" data-target="#pane_others" data-toggle="tab">{% trans %}Epicerie{% endtrans %}</a>
             </li>
         </ul>
 
@@ -47,7 +47,7 @@
                                     </h5>
                                     <a href="{{ path('franchise_cart_add', {id: product.idProduct}) }}" class="btn btn-success float-right">
                                         <i class="fas fa-shopping-cart mr-1"></i>
-                                        Ajouter
+                                        {% trans %}Ajouter{% endtrans %}
                                     </a>
                                 </div>
 
@@ -62,21 +62,21 @@
                 </div>
 
                 <a class="btn btn-primary position-fixed" href="{{ path('franchise_cart_show') }}" style="bottom: 3.5vh; right: 5vh;">
-                    Voir mon panier<i class="fas fa-chevron-right ml-2"></i>
+                    {% trans %}Voir mon panier{% endtrans %}<i class="fas fa-chevron-right ml-2"></i>
                 </a>
                 
             </div>
 
             <div class="tab-pane" id="pane_meat">
-                Viandes & poissons
+                {% trans %}Viandes & poissons{% endtrans %}
             </div>
         
             <div class="tab-pane" id="pane_milk">
-                Produits laitiers
+                {% trans %}Produits laitiers{% endtrans %}
             </div>
 
             <div class="tab-pane" id="pane_others">
-                Epicerie
+                {% trans %}Epicerie{% endtrans %}
             </div>
 
         </div>
