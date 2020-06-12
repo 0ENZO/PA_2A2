@@ -2,25 +2,25 @@
 
 namespace App\Repository;
 
-use App\Entity\FranchiseOrders;
+use App\Entity\FranchiseOrder;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method FranchiseOrders|null find($id, $lockMode = null, $lockVersion = null)
- * @method FranchiseOrders|null findOneBy(array $criteria, array $orderBy = null)
- * @method FranchiseOrders[]    findAll()
- * @method FranchiseOrders[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method FranchiseOrder|null find($id, $lockMode = null, $lockVersion = null)
+ * @method FranchiseOrder|null findOneBy(array $criteria, array $orderBy = null)
+ * @method FranchiseOrder[]    findAll()
+ * @method FranchiseOrder[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class FranchiseOrdersRepository extends ServiceEntityRepository
+class FranchiseOrderRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, FranchiseOrders::class);
+        parent::__construct($registry, FranchiseOrder::class);
     }
 
     // /**
-    //  * @return FranchiseOrders[] Returns an array of FranchiseOrders objects
+    //  * @return FranchiseOrder[] Returns an array of FranchiseOrder objects
     //  */
     /*
     public function findByExampleField($value)
@@ -37,7 +37,7 @@ class FranchiseOrdersRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?FranchiseOrders
+    public function findOneBySomeField($value): ?FranchiseOrder
     {
         return $this->createQueryBuilder('f')
             ->andWhere('f.exampleField = :val')

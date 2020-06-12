@@ -2,25 +2,25 @@
 
 namespace App\Repository;
 
-use App\Entity\Trucks;
+use App\Entity\Franchise;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method Trucks|null find($id, $lockMode = null, $lockVersion = null)
- * @method Trucks|null findOneBy(array $criteria, array $orderBy = null)
- * @method Trucks[]    findAll()
- * @method Trucks[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Franchise|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Franchise|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Franchise[]    findAll()
+ * @method Franchise[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class TrucksRepository extends ServiceEntityRepository
+class FranchiseRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Trucks::class);
+        parent::__construct($registry, Franchise::class);
     }
 
     // /**
-    //  * @return Trucks[] Returns an array of Trucks objects
+    //  * @return Franchise[] Returns an array of Franchise objects
     //  */
     /*
     public function findByExampleField($value)
@@ -37,7 +37,7 @@ class TrucksRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?Trucks
+    public function findOneBySomeField($value): ?Franchise
     {
         return $this->createQueryBuilder('f')
             ->andWhere('f.exampleField = :val')
