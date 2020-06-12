@@ -18,8 +18,7 @@ class CategoriesType extends AbstractType
             ->add('description')
             ->add('fileName')
             ->add('image', VichImageType::class, [
-                'required' => true,
-                'allow_delete' => true,
+                'required' => false,
                 'download_uri' => true,
                 'image_uri' => true,
                 'asset_helper' => true,

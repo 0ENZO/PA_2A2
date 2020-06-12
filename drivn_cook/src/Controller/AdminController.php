@@ -252,7 +252,7 @@ class AdminController extends AbstractController
             $manager->persist($category);
             $manager->flush();
 
-            $this->redirectToRoute("admin_category_show");
+            return $this->redirectToRoute("admin_category_show");
         }
 
         return $this->render("admin/categories.html.twig", [
@@ -263,26 +263,35 @@ class AdminController extends AbstractController
 
     }
 
-//    /**
-//     * @Route("/category/edit/{id}", name="admin_category_edit")
-//     */
-//    public function category_edit(Categories $category, Request $request) {
-//        $form = $this->createForm(CategoriesType::class, $category);
-//        $form->handleRequest($request);
-//
-//        if ($form->isSubmitted() and $form->isValid()) {
-//            $manager = $this->getDoctrine()->getManager();
-//            $manager->flush();
-//        }
-//
-//    }
+    /**
+     * @Route("/category/edit/{id}", name="admin_category_edit")
+     */
+    public function category_edit($id, Request $request) {
+
+        $manager = $this->getDoctrine()->getManager();
+        $category = $manager->getRepository(Categories::class)->find($id);
+
+        $form = $this->createForm(CategoriesType::class, $category);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() and $form->isValid()) {
+            $manager->flush();
+
+            return $this->redirectToRoute("admin_category_show");
+        }
+
+        return $this->render("admin/categories_edit.html.twig", [
+            "form" => $form->createView(),
+        ]);
+
+    }
 
     /**
      * @Route("/category/delete/{id}", name="admin_category_delete", methods={"GET", "POST"})
-     * Notes : Execute un service, qui prend automatiquement l'objet associé à l'ID de Categorie envoyé depuis la page twig
      */
     public function category_delete($id) {
 
+        // Configurer VichUploader sur : delete_on_remove : false, ou on aura l'erreur suivante
         // error : Expected argument of type "string", "null" given at property path "fileName".
 
         $manager = $this->getDoctrine()->getManager();
