@@ -4,12 +4,14 @@ namespace App\Controller;
 
 use App\Entity\Categories;
 use App\Entity\Franchises;
+use App\Entity\SubCategories;
 use App\Entity\Trucks;
 use App\Entity\Users;
 use App\Entity\Roles;
 
 use App\Form\CategoriesType;
 use App\Form\FranchisesType;
+use App\Form\SubCategoriesType;
 use App\Form\TrucksType;
 use App\Form\UsersType;
 
@@ -233,6 +235,13 @@ class AdminController extends AbstractController
 
     }
 
+
+
+
+
+
+    // GESTION CATEGORIES
+
     /**
      * @Route("/category",name="admin_category_show")
      */
@@ -259,8 +268,6 @@ class AdminController extends AbstractController
             "form" => $form->createView(),
             "categories" => $categories,
         ]);
-
-
     }
 
     /**
@@ -283,7 +290,6 @@ class AdminController extends AbstractController
         return $this->render("admin/categories_edit.html.twig", [
             "form" => $form->createView(),
         ]);
-
     }
 
     /**
@@ -301,6 +307,78 @@ class AdminController extends AbstractController
 
         return $this->redirectToRoute("admin_category_show");
     }
+
+
+
+
+
+
+
+    // GESTION SOUS CATGEGORIES
+
+    /**
+     * @Route("/sub_category", name="admin_sub_categories_show")
+     */
+    public function sub_category_show(Request $request) {
+
+        $manager = $this->getDoctrine()->getManager();
+
+        $sub_categories = $manager->getRepository(SubCategories::class)->findAll();
+        $sub_category = new SubCategories();
+
+        $form = $this->createForm(SubCategoriesType::class, $sub_category);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() and $form->isValid()) {
+            $manager->persist($sub_category);
+            $manager->flush();
+
+            return $this->redirectToRoute("admin_sub_categories_show");
+        }
+
+        return $this->render("admin/sub_categories.html.twig", [
+            "sub_categories" => $sub_categories,
+            "form" => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/sub_category/edit/{id}", name="admin_sub_category_edit")
+     */
+    public function sub_category_edit($id, Request $request) {
+
+        $manager = $this->getDoctrine()->getManager();
+        $sub_category = $manager->getRepository(SubCategories::class)->find($id);
+
+        $form = $this->createForm(SubCategoriesType::class, $sub_category);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() and $form->isValid()) {
+            $manager->flush();
+
+            return $this->redirectToRoute("admin_sub_categories_show");
+        }
+
+        return $this->render("admin/sub_categories_edit.html.twig", [
+            "form" => $form->createView(),
+        ]);
+    }
+
+
+    /**
+     * @Route("/sub_category/delete/{id}", name="admin_sub_category_delete")
+     */
+    public function sub_category_delete($id, Request $request) {
+
+        $manager = $this->getDoctrine()->getManager();
+        $sub_category = $manager->getRepository(SubCategories::class)->find($id);
+        $manager->remove($sub_category);
+        $manager->flush();
+
+        return $this->redirectToRoute("admin_sub_categories_show");
+    }
+
+
 
 
 

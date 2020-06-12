@@ -49,10 +49,7 @@ class Categories
      * @var File | null
      *
      * @Vich\UploadableField(mapping="categorie_images", fileNameProperty="fileName")
-     *
-     *
      */
-    //@ORM\Column(name="IMAGE", type="text", length=65535, nullable=true)
     private $image;
 
     /**
