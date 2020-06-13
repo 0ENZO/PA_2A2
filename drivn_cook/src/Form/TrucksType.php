@@ -4,7 +4,7 @@ namespace App\Form;
 
 use App\Entity\Truck;
 use App\Entity\Franchise;
-use App\Entity\MaxCapacities;
+use App\Entity\MaxCapacity;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 
@@ -28,7 +28,7 @@ class TruckType extends AbstractType
                 'required' => false
             ])
             ->add('idMaxCapacity', EntityType::class, [
-                'class' => MaxCapacities::class,
+                'class' => MaxCapacity::class,
                 'label' => 'Capacité max (Ingrédients, Boissons, Desserts, Plats)',
                 'required' => false
             ])

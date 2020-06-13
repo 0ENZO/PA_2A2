@@ -28,7 +28,7 @@ class SubCategory
     private $description;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="subCategories")
+     * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="subCategory")
      * @ORM\JoinColumn(nullable=false)
      */
     private $category;

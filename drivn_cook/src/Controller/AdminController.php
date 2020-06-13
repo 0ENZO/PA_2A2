@@ -175,7 +175,7 @@ class AdminController extends AbstractController
 
         $role = $em->getRepository(Role::class)->findOneByName('Client');
         $user = new User();
-        $user->setIdRole($role);
+        $user->setRole($role);
         $form = $this->createForm(UserType::class, $user);
         $form->remove('idRole');
         $form->handleRequest($request);

@@ -105,8 +105,8 @@ class FranchiseOrderController extends AbstractController
             $warehouse = $em->getRepository(Warehouse::class)->findOneByEmail('entrepot1@drivncook.fr');
 
             $order = new FranchiseOrder();
-            $order->setIdFranchise($this->getUser());
-            $order->setIdWarehouse($warehouse);
+            $order->setFranchise($this->getUser());
+            $order->setWarehouse($warehouse);
             $order->setDate(new \DateTime());
             $order->setStatus(1);
             $order->setTotalPrice($total);
@@ -114,7 +114,7 @@ class FranchiseOrderController extends AbstractController
             foreach ($cart as $id => $quantity){
                 $product = $productsRepository->find($id);
                 for ($i=0; $i < $quantity; $i++) { 
-                    $order->addIdProduct($product);
+                    $order->addProduct($product);
                 }
             }
 
@@ -168,15 +168,15 @@ class FranchiseOrderController extends AbstractController
 
         $newOrder = new FranchiseOrder();
         
-        $newOrder->setIdFranchise($this->getUser());
-        $newOrder->setIdWarehouse($order->getIdWarehouse());
+        $newOrder->setFranchise($this->getUser());
+        $newOrder->setWarehouse($order->getWarehouse());
         $newOrder->setDate(new \DateTime());
         $newOrder->setStatus(1);
         $newOrder->setTotalPrice($order->getTotalPrice());
 
-        $products = $order->getIdProduct();
+        $products = $order->getProduct();
         foreach ($products as $product) {
-            $newOrder->addIdProduct($product);
+            $newOrder->addProduct($product);
         }
 
         $em->persist($newOrder);
@@ -196,7 +196,7 @@ class FranchiseOrderController extends AbstractController
         //Vérif si cette commande appartient bien au franchisé connecté sinon exception 
 
         $em = $this->getDoctrine()->getManager();
-        $order = $em->getRepository(FranchiseOrder::class)->findOneByIdFranchiseOrder($id);
+        $order = $em->getRepository(FranchiseOrder::class)->findOneByFranchiseOrder($id);
 
         return $this->render('franchises/orders/show.html.twig', [
             'order' => $order
@@ -210,7 +210,7 @@ class FranchiseOrderController extends AbstractController
     {  
 
         $em = $this->getDoctrine()->getManager();
-        $order = $em->getRepository(FranchiseOrder::class)->findOneByIdFranchiseOrder($id);
+        $order = $em->getRepository(FranchiseOrder::class)->findOneByFranchiseOrder($id);
         
         $knpSnappy->setOption("encoding","UTF-8");
         $filename = "mypdf";

@@ -9,9 +9,9 @@ easy_admin:
         - App\Entity\Address
         - App\Entity\City
         - App\Entity\Department
-        - App\Entity\MaxCapacities
-        - App\Entity\SubCategories
-        - App\Entity\Categories
+        - App\Entity\MaxCapacity
+        - App\Entity\SubCategory
+        - App\Entity\Category
         - App\Entity\Product
         - App\Entity\FranchiseOrder
 

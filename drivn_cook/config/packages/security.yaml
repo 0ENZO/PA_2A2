@@ -9,12 +9,12 @@ security:
             
     providers:
         # users_in_memory: { memory: null }
-        franchises:
+        franchise:
             entity:
                 class: App\Entity\Franchise
                 property: email
             
-        users:
+        user:
             entity:
                 class: App\Entity\User
                 property: email
@@ -26,7 +26,7 @@ security:
             security: false
         main:
             anonymous: lazy
-            provider: 'franchises'
+            provider: 'franchise'
             guard:
                 authenticators:
                     - App\Security\LoginFormAuthenticator

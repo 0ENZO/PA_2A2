@@ -29,11 +29,11 @@ class FranchiseController extends AbstractController
 
         $em = $this->getDoctrine()->getManager();
         $franchise = $this->getUser();
-        $truck = $em->getRepository(Truck::class)->findOneByIdFranchise($franchise);
-        $orders = $em->getRepository(FranchiseOrder::class)->findByIdFranchise($franchise);
+        $truck = $em->getRepository(Truck::class)->findOneByFranchise($franchise);
+        $orders = $em->getRepository(FranchiseOrder::class)->findByFranchise($franchise);
 /*
-        $order = $em->getRepository(FranchiseOrder::class)->findOneByIdFranchiseOrder('12');
-        $products = $order->getIdProduct();
+        $order = $em->getRepository(FranchiseOrder::class)->findOneByFranchiseOrder('12');
+        $products = $order->getProduct();
         foreach ($products as $product) {
             var_dump($product);
         }

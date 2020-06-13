@@ -32,7 +32,7 @@ class Category
     /**
      * @ORM\OneToMany(targetEntity=SubCategory::class, mappedBy="category")
      */
-    private $subCategories;
+    private $subCategory;
 
     /**
      * @ORM\OneToMany(targetEntity=Product::class, mappedBy="category")
@@ -46,7 +46,7 @@ class Category
 
     public function __construct()
     {
-        $this->subCategories = new ArrayCollection();
+        $this->subCategory = new ArrayCollection();
         $this->products = new ArrayCollection();
         $this->articles = new ArrayCollection();
     }
@@ -83,15 +83,15 @@ class Category
     /**
      * @return Collection|SubCategory[]
      */
-    public function getSubCategories(): Collection
+    public function getSubCategory(): Collection
     {
-        return $this->subCategories;
+        return $this->subCategory;
     }
 
     public function addSubCategory(SubCategory $subCategory): self
     {
-        if (!$this->subCategories->contains($subCategory)) {
-            $this->subCategories[] = $subCategory;
+        if (!$this->subCategory->contains($subCategory)) {
+            $this->subCategory[] = $subCategory;
             $subCategory->setCategory($this);
         }
 
@@ -100,8 +100,8 @@ class Category
 
     public function removeSubCategory(SubCategory $subCategory): self
     {
-        if ($this->subCategories->contains($subCategory)) {
-            $this->subCategories->removeElement($subCategory);
+        if ($this->subCategory->contains($subCategory)) {
+            $this->subCategory->removeElement($subCategory);
             // set the owning side to null (unless already changed)
             if ($subCategory->getCategory() === $this) {
                 $subCategory->setCategory(null);

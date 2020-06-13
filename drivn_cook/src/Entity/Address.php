@@ -244,4 +244,9 @@ class Address
 
         return $this;
     }
+    
+    public function __toString()
+    {
+        return $this->number.' '.$this->street.', '.$this->getIdCity()->getPostalNumber().' '.$this->getIdCity()->getName();
+    }
 }

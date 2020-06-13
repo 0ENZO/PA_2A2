@@ -30,7 +30,7 @@ class Warehouse
     private $email;
 
     /**
-     * @ORM\Column(type="smallint")
+     * @ORM\Column(type="string", length=10, nullable=false)
      */
     private $phoneNumber;
 
@@ -42,7 +42,7 @@ class Warehouse
 
     /**
      * @ORM\ManyToOne(targetEntity=MaxCapacity::class, inversedBy="warehouses")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $maxCapacity;
 
@@ -187,5 +187,10 @@ class Warehouse
         }
 
         return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->name;
     }
 }
