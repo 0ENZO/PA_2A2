@@ -64,9 +64,27 @@ class Product
      */
     private $franchiseOrders;
 
+    /**
+     * @ORM\OneToMany(targetEntity=FranchiseOrderContent::class, mappedBy="product")
+     */
+    private $franchiseOrderContents;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Recipe::class, mappedBy="product")
+     */
+    private $recipes;
+
+    /**
+     * @ORM\OneToMany(targetEntity=WarehouseStock::class, mappedBy="product")
+     */
+    private $warehouseStocks;
+
     public function __construct()
     {
         $this->franchiseOrders = new ArrayCollection();
+        $this->franchiseOrderContents = new ArrayCollection();
+        $this->recipes = new ArrayCollection();
+        $this->warehouseStocks = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -193,6 +211,99 @@ class Product
         if ($this->franchiseOrders->contains($franchiseOrder)) {
             $this->franchiseOrders->removeElement($franchiseOrder);
             $franchiseOrder->removeContent($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|FranchiseOrderContent[]
+     */
+    public function getFranchiseOrderContents(): Collection
+    {
+        return $this->franchiseOrderContents;
+    }
+
+    public function addFranchiseOrderContent(FranchiseOrderContent $franchiseOrderContent): self
+    {
+        if (!$this->franchiseOrderContents->contains($franchiseOrderContent)) {
+            $this->franchiseOrderContents[] = $franchiseOrderContent;
+            $franchiseOrderContent->setProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFranchiseOrderContent(FranchiseOrderContent $franchiseOrderContent): self
+    {
+        if ($this->franchiseOrderContents->contains($franchiseOrderContent)) {
+            $this->franchiseOrderContents->removeElement($franchiseOrderContent);
+            // set the owning side to null (unless already changed)
+            if ($franchiseOrderContent->getProduct() === $this) {
+                $franchiseOrderContent->setProduct(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Recipe[]
+     */
+    public function getRecipes(): Collection
+    {
+        return $this->recipes;
+    }
+
+    public function addRecipe(Recipe $recipe): self
+    {
+        if (!$this->recipes->contains($recipe)) {
+            $this->recipes[] = $recipe;
+            $recipe->setProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRecipe(Recipe $recipe): self
+    {
+        if ($this->recipes->contains($recipe)) {
+            $this->recipes->removeElement($recipe);
+            // set the owning side to null (unless already changed)
+            if ($recipe->getProduct() === $this) {
+                $recipe->setProduct(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|WarehouseStock[]
+     */
+    public function getWarehouseStocks(): Collection
+    {
+        return $this->warehouseStocks;
+    }
+
+    public function addWarehouseStock(WarehouseStock $warehouseStock): self
+    {
+        if (!$this->warehouseStocks->contains($warehouseStock)) {
+            $this->warehouseStocks[] = $warehouseStock;
+            $warehouseStock->setProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeWarehouseStock(WarehouseStock $warehouseStock): self
+    {
+        if ($this->warehouseStocks->contains($warehouseStock)) {
+            $this->warehouseStocks->removeElement($warehouseStock);
+            // set the owning side to null (unless already changed)
+            if ($warehouseStock->getProduct() === $this) {
+                $warehouseStock->setProduct(null);
+            }
         }
 
         return $this;

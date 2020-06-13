@@ -52,13 +52,13 @@ class FranchiseOrder
     private $warehouse;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Product::class, inversedBy="franchiseOrders")
+     * @ORM\OneToMany(targetEntity=FranchiseOrderContent::class, mappedBy="franchiseOrder")
      */
-    private $content;
+    private $franchiseOrderContents;
 
     public function __construct()
     {
-        $this->content = new ArrayCollection();
+        $this->franchiseOrderContents = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -139,26 +139,31 @@ class FranchiseOrder
     }
 
     /**
-     * @return Collection|Product[]
+     * @return Collection|FranchiseOrderContent[]
      */
-    public function getContent(): Collection
+    public function getFranchiseOrderContents(): Collection
     {
-        return $this->content;
+        return $this->franchiseOrderContents;
     }
 
-    public function addContent(Product $content): self
+    public function addFranchiseOrderContent(FranchiseOrderContent $franchiseOrderContent): self
     {
-        if (!$this->content->contains($content)) {
-            $this->content[] = $content;
+        if (!$this->franchiseOrderContents->contains($franchiseOrderContent)) {
+            $this->franchiseOrderContents[] = $franchiseOrderContent;
+            $franchiseOrderContent->setFranchiseOrder($this);
         }
 
         return $this;
     }
 
-    public function removeContent(Product $content): self
+    public function removeFranchiseOrderContent(FranchiseOrderContent $franchiseOrderContent): self
     {
-        if ($this->content->contains($content)) {
-            $this->content->removeElement($content);
+        if ($this->franchiseOrderContents->contains($franchiseOrderContent)) {
+            $this->franchiseOrderContents->removeElement($franchiseOrderContent);
+            // set the owning side to null (unless already changed)
+            if ($franchiseOrderContent->getFranchiseOrder() === $this) {
+                $franchiseOrderContent->setFranchiseOrder(null);
+            }
         }
 
         return $this;

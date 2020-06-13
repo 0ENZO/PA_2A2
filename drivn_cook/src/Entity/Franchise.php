@@ -60,10 +60,28 @@ class Franchise
      */
     private $franchiseOrders;
 
+    /**
+     * @ORM\OneToMany(targetEntity=SaleRecord::class, mappedBy="franchise")
+     */
+    private $saleRecords;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Menu::class, mappedBy="franchise")
+     */
+    private $menus;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Vote::class, mappedBy="franchise")
+     */
+    private $votes;
+
     public function __construct()
     {
         $this->trucks = new ArrayCollection();
         $this->franchiseOrders = new ArrayCollection();
+        $this->saleRecords = new ArrayCollection();
+        $this->menus = new ArrayCollection();
+        $this->votes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -199,6 +217,99 @@ class Franchise
             // set the owning side to null (unless already changed)
             if ($franchiseOrder->getFranchise() === $this) {
                 $franchiseOrder->setFranchise(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|SaleRecord[]
+     */
+    public function getSaleRecords(): Collection
+    {
+        return $this->saleRecords;
+    }
+
+    public function addSaleRecord(SaleRecord $saleRecord): self
+    {
+        if (!$this->saleRecords->contains($saleRecord)) {
+            $this->saleRecords[] = $saleRecord;
+            $saleRecord->setFranchise($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSaleRecord(SaleRecord $saleRecord): self
+    {
+        if ($this->saleRecords->contains($saleRecord)) {
+            $this->saleRecords->removeElement($saleRecord);
+            // set the owning side to null (unless already changed)
+            if ($saleRecord->getFranchise() === $this) {
+                $saleRecord->setFranchise(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Menu[]
+     */
+    public function getMenus(): Collection
+    {
+        return $this->menus;
+    }
+
+    public function addMenu(Menu $menu): self
+    {
+        if (!$this->menus->contains($menu)) {
+            $this->menus[] = $menu;
+            $menu->setFranchise($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMenu(Menu $menu): self
+    {
+        if ($this->menus->contains($menu)) {
+            $this->menus->removeElement($menu);
+            // set the owning side to null (unless already changed)
+            if ($menu->getFranchise() === $this) {
+                $menu->setFranchise(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Vote[]
+     */
+    public function getVotes(): Collection
+    {
+        return $this->votes;
+    }
+
+    public function addVote(Vote $vote): self
+    {
+        if (!$this->votes->contains($vote)) {
+            $this->votes[] = $vote;
+            $vote->setFranchise($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVote(Vote $vote): self
+    {
+        if ($this->votes->contains($vote)) {
+            $this->votes->removeElement($vote);
+            // set the owning side to null (unless already changed)
+            if ($vote->getFranchise() === $this) {
+                $vote->setFranchise(null);
             }
         }
 

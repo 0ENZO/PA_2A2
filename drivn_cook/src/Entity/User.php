@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -76,6 +78,28 @@ class User
      * @ORM\ManyToOne(targetEntity=Address::class, inversedBy="users")
      */
     private $address;
+
+    /**
+     * @ORM\OneToMany(targetEntity=CreditCard::class, mappedBy="user")
+     */
+    private $creditCards;
+
+    /**
+     * @ORM\OneToMany(targetEntity=UserOrder::class, mappedBy="user")
+     */
+    private $userOrders;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Vote::class, mappedBy="user")
+     */
+    private $votes;
+
+    public function __construct()
+    {
+        $this->creditCards = new ArrayCollection();
+        $this->userOrders = new ArrayCollection();
+        $this->votes = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -222,6 +246,99 @@ class User
     public function setAddress(?Address $address): self
     {
         $this->address = $address;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|CreditCard[]
+     */
+    public function getCreditCards(): Collection
+    {
+        return $this->creditCards;
+    }
+
+    public function addCreditCard(CreditCard $creditCard): self
+    {
+        if (!$this->creditCards->contains($creditCard)) {
+            $this->creditCards[] = $creditCard;
+            $creditCard->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCreditCard(CreditCard $creditCard): self
+    {
+        if ($this->creditCards->contains($creditCard)) {
+            $this->creditCards->removeElement($creditCard);
+            // set the owning side to null (unless already changed)
+            if ($creditCard->getUser() === $this) {
+                $creditCard->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|UserOrder[]
+     */
+    public function getUserOrders(): Collection
+    {
+        return $this->userOrders;
+    }
+
+    public function addUserOrder(UserOrder $userOrder): self
+    {
+        if (!$this->userOrders->contains($userOrder)) {
+            $this->userOrders[] = $userOrder;
+            $userOrder->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserOrder(UserOrder $userOrder): self
+    {
+        if ($this->userOrders->contains($userOrder)) {
+            $this->userOrders->removeElement($userOrder);
+            // set the owning side to null (unless already changed)
+            if ($userOrder->getUser() === $this) {
+                $userOrder->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Vote[]
+     */
+    public function getVotes(): Collection
+    {
+        return $this->votes;
+    }
+
+    public function addVote(Vote $vote): self
+    {
+        if (!$this->votes->contains($vote)) {
+            $this->votes[] = $vote;
+            $vote->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVote(Vote $vote): self
+    {
+        if ($this->votes->contains($vote)) {
+            $this->votes->removeElement($vote);
+            // set the owning side to null (unless already changed)
+            if ($vote->getUser() === $this) {
+                $vote->setUser(null);
+            }
+        }
 
         return $this;
     }
