@@ -34,6 +34,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class AdminController extends AbstractController
 {
 
+    // MENU ADMINISTRATEUR
+
     /**
      * @Route("/show", name="admin_show")
      */
@@ -41,6 +43,12 @@ class AdminController extends AbstractController
     {
         return $this->render('admin/show.html.twig');
     }
+
+
+
+
+
+    // GESTION FRANCHISÉS
 
     /**
      * @Route("/franchise", name="admin_franchise_show")
@@ -60,6 +68,7 @@ class AdminController extends AbstractController
             $em->persist($franchise);
             $em->flush();
 
+            $this->addFlash("success", "Un nouveau franchisé a été ajouté");
             return $this->redirectToRoute('admin_franchise_show');
         }
         
@@ -82,6 +91,7 @@ class AdminController extends AbstractController
             $em = $this->getDoctrine()->getManager();
             $em->flush();
 
+            $this->addFlash("primary", "Un franchisé a été modifié.");
             return $this->redirectToRoute('admin_franchise_show');
         }
 
@@ -101,10 +111,17 @@ class AdminController extends AbstractController
         $entityManager->remove($franchise);
         $entityManager->flush();
 
+        $this->addFlash("danger", "Le franchisé que vous avez sélectionné a été supprimé.");
         return $this->redirectToRoute('admin_franchise_show');
 
     }
-    
+
+
+
+
+
+    // GESTION CAMIONS
+
     /**
      * @Route("/truck", name="admin_truck_show")
      */
@@ -123,6 +140,7 @@ class AdminController extends AbstractController
             $em->persist($truck);
             $em->flush();
 
+            $this->addFlash("success", "Un nouveau camion a été ajouté");
             return $this->redirectToRoute('admin_truck_show');
         }
         
@@ -145,6 +163,7 @@ class AdminController extends AbstractController
             $em = $this->getDoctrine()->getManager();
             $em->flush();
 
+            $this->addFlash("primary", "Un camion a été modifié.");
             return $this->redirectToRoute('admin_truck_show');
         }
 
@@ -164,11 +183,20 @@ class AdminController extends AbstractController
         $entityManager->remove($truck);
         $entityManager->flush();
 
+        $this->addFlash("danger", "Le camion que vous avez sélectionné a été supprimé.");
         return $this->redirectToRoute('admin_truck_show');
 
     }
 
-/**
+
+
+
+
+
+
+    // GESTION UTILISATEURS
+
+    /**
      * @Route("/user", name="admin_user_show")
      */
     public function user_show(Request $request)
@@ -189,6 +217,7 @@ class AdminController extends AbstractController
             $em->persist($user);
             $em->flush();
 
+            $this->addFlash("success", "Un nouvel utilisateur a été ajouté");
             return $this->redirectToRoute('admin_user_show');
         }
         
@@ -212,6 +241,7 @@ class AdminController extends AbstractController
             $em = $this->getDoctrine()->getManager();
             $em->flush();
 
+            $this->addFlash("primary", "Un utilisateur a été modifié.");
             return $this->redirectToRoute('admin_user_show');
         }
 
@@ -219,7 +249,6 @@ class AdminController extends AbstractController
             'user' => $user,
             'form' => $form->createView()
         ]);
-
     }
 
     /**
@@ -231,6 +260,7 @@ class AdminController extends AbstractController
         $entityManager->remove($user);
         $entityManager->flush();
 
+        $this->addFlash("danger", "L'utilisateur que vous avez sélectionné a été supprimé.");
         return $this->redirectToRoute('admin_user_show');
 
     }
@@ -261,6 +291,7 @@ class AdminController extends AbstractController
             $manager->persist($category);
             $manager->flush();
 
+            $this->addFlash("success", "Une nouvelle catégorie a été ajoutée");
             return $this->redirectToRoute("admin_category_show");
         }
 
@@ -284,6 +315,7 @@ class AdminController extends AbstractController
         if ($form->isSubmitted() and $form->isValid()) {
             $manager->flush();
 
+            $this->addFlash("primary", "Une catégorie a été modifiée");
             return $this->redirectToRoute("admin_category_show");
         }
 
@@ -305,6 +337,7 @@ class AdminController extends AbstractController
         $manager->remove($category);
         $manager->flush();
 
+        $this->addFlash("danger", "La catégorie que vous avez sélectionné a été supprimée");
         return $this->redirectToRoute("admin_category_show");
     }
 
@@ -333,6 +366,7 @@ class AdminController extends AbstractController
             $manager->persist($sub_category);
             $manager->flush();
 
+            $this->addFlash("success", "Une nouvelle sous-catégorie a été ajoutée");
             return $this->redirectToRoute("admin_sub_categories_show");
         }
 
@@ -356,6 +390,7 @@ class AdminController extends AbstractController
         if ($form->isSubmitted() and $form->isValid()) {
             $manager->flush();
 
+            $this->addFlash("primary", "Une sous-catégorie a été modifiée");
             return $this->redirectToRoute("admin_sub_categories_show");
         }
 
@@ -375,6 +410,7 @@ class AdminController extends AbstractController
         $manager->remove($sub_category);
         $manager->flush();
 
+        $this->addFlash("danger", "La sous-catégorie que vous avez sélectionné a été supprimée");
         return $this->redirectToRoute("admin_sub_categories_show");
     }
 
