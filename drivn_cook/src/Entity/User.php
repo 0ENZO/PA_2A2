@@ -284,7 +284,7 @@ class User
     /**
      * @return Collection|UserOrder[]
      */
-    public function getUserOrders(): Collection
+    public function getUserOrder(): Collection
     {
         return $this->userOrders;
     }

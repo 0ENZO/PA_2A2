@@ -2,13 +2,13 @@
 
 namespace App\Controller;
 
-use App\Entity\FranchiseOrders;
-use App\Entity\Franchises;
-use App\Entity\Trucks;
-use App\Form\FranchisesType;
-use App\Repository\FranchiseOrdersRepository;
-use App\Repository\FranchisesRepository;
-use App\Repository\TrucksRepository;
+use App\Entity\FranchiseOrder;
+use App\Entity\Franchise;
+use App\Entity\Truck;
+use App\Form\FranchiseType;
+use App\Repository\FranchiseOrderRepository;
+use App\Repository\FranchiseRepository;
+use App\Repository\TruckRepository;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,7 +19,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 /**
  * @Route("/franchise") 
  */
-class FranchisesController extends AbstractController
+class FranchiseController extends AbstractController
 {
 
     /**
@@ -29,16 +29,16 @@ class FranchisesController extends AbstractController
 
         $em = $this->getDoctrine()->getManager();
         $franchise = $this->getUser();
-        $truck = $em->getRepository(Trucks::class)->findOneByIdFranchise($franchise);
-        $orders = $em->getRepository(FranchiseOrders::class)->findByIdFranchise($franchise);
+        $truck = $em->getRepository(Truck::class)->findOneByIdFranchise($franchise);
+        $orders = $em->getRepository(FranchiseOrder::class)->findByIdFranchise($franchise);
 /*
-        $order = $em->getRepository(FranchiseOrders::class)->findOneByIdFranchiseOrder('12');
+        $order = $em->getRepository(FranchiseOrder::class)->findOneByIdFranchiseOrder('12');
         $products = $order->getIdProduct();
         foreach ($products as $product) {
             var_dump($product);
         }
 */
-        $form = $this->createForm(FranchisesType::class, $franchise);
+        $form = $this->createForm(FranchiseType::class, $franchise);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

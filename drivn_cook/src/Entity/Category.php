@@ -114,7 +114,7 @@ class Category
     /**
      * @return Collection|Product[]
      */
-    public function getProducts(): Collection
+    public function getProduct(): Collection
     {
         return $this->products;
     }
@@ -145,7 +145,7 @@ class Category
     /**
      * @return Collection|Article[]
      */
-    public function getArticles(): Collection
+    public function getArticle(): Collection
     {
         return $this->articles;
     }

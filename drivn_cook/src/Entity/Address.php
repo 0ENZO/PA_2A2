@@ -124,7 +124,7 @@ class Address
     /**
      * @return Collection|User[]
      */
-    public function getUsers(): Collection
+    public function getUser(): Collection
     {
         return $this->users;
     }
@@ -155,7 +155,7 @@ class Address
     /**
      * @return Collection|Franchise[]
      */
-    public function getFranchises(): Collection
+    public function getFranchise(): Collection
     {
         return $this->franchises;
     }
@@ -186,7 +186,7 @@ class Address
     /**
      * @return Collection|Warehouse[]
      */
-    public function getWarehouses(): Collection
+    public function getWarehouse(): Collection
     {
         return $this->warehouses;
     }

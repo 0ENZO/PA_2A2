@@ -2,8 +2,8 @@
 
 namespace App\Form;
 
-use App\Entity\Trucks;
-use App\Entity\Franchises;
+use App\Entity\Truck;
+use App\Entity\Franchise;
 use App\Entity\MaxCapacities;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -17,13 +17,13 @@ use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
-class TrucksType extends AbstractType
+class TruckType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
             ->add('idFranchise', EntityType::class, [
-                'class' => Franchises::class,
+                'class' => Franchise::class,
                 'label' => 'Franchisé',
                 'required' => false
             ])
@@ -45,7 +45,7 @@ class TrucksType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Trucks::class,
+            'data_class' => Truck::class,
         ]);
     }
 }

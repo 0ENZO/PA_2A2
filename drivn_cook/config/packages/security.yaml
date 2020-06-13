@@ -1,22 +1,22 @@
 security:
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     encoders:
-        App\Entity\Franchises:
+        App\Entity\Franchise:
             algorithm: auto
 
-        App\Entity\Users:
+        App\Entity\User:
             algorithm: auto
             
     providers:
         # users_in_memory: { memory: null }
         franchises:
             entity:
-                class: App\Entity\Franchises
+                class: App\Entity\Franchise
                 property: email
             
         users:
             entity:
-                class: App\Entity\Users
+                class: App\Entity\User
                 property: email
 
 

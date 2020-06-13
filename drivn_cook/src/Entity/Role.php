@@ -60,7 +60,7 @@ class Role
     /**
      * @return Collection|User[]
      */
-    public function getUsers(): Collection
+    public function getUser(): Collection
     {
         return $this->users;
     }
@@ -91,7 +91,7 @@ class Role
     /**
      * @return Collection|Franchise[]
      */
-    public function getFranchises(): Collection
+    public function getFranchise(): Collection
     {
         return $this->franchises;
     }

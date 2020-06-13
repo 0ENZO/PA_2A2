@@ -164,7 +164,7 @@ class Franchise
     /**
      * @return Collection|Truck[]
      */
-    public function getTrucks(): Collection
+    public function getTruck(): Collection
     {
         return $this->trucks;
     }
@@ -195,7 +195,7 @@ class Franchise
     /**
      * @return Collection|FranchiseOrder[]
      */
-    public function getFranchiseOrders(): Collection
+    public function getFranchiseOrder(): Collection
     {
         return $this->franchiseOrders;
     }

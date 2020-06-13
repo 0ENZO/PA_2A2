@@ -54,7 +54,7 @@ class Department
     /**
      * @return Collection|City[]
      */
-    public function getCities(): Collection
+    public function getCity(): Collection
     {
         return $this->cities;
     }

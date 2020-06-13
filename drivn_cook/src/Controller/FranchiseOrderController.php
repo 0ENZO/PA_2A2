@@ -3,14 +3,14 @@
 namespace App\Controller;
 
 use Faker;
-use App\Entity\Products;
-use App\Entity\Warehouses;
-use App\Entity\FranchiseOrders;
+use App\Entity\Product;
+use App\Entity\Warehouse;
+use App\Entity\FranchiseOrder;
 
-use App\Repository\ProductsRepository;
+use App\Repository\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
-use App\Repository\FranchiseOrdersRepository;
+use App\Repository\FranchiseOrderRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -22,13 +22,13 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 /**
  * @Route("/franchiseOrder") 
  */
-class FranchiseOrdersController extends AbstractController
+class FranchiseOrderController extends AbstractController
 {
 
     /**
      * @Route("/panier", name="franchise_cart_show")
      */
-    public function index(SessionInterface $session, ProductsRepository $productsRepository)
+    public function index(SessionInterface $session, ProductRepository $productsRepository)
     {
         $cart = $session->get('cart', []);
         $filledCart = [];
@@ -94,7 +94,7 @@ class FranchiseOrdersController extends AbstractController
     /**
      * @Route("/panier/validate", name="franchise_cart_validate")
      */
-    public function validate(SessionInterface $session, ProductsRepository $productsRepository)
+    public function validate(SessionInterface $session, ProductRepository $productsRepository)
     {
         $cart = $session->get('cart', []);
         $em = $this->getDoctrine()->getManager();
@@ -102,9 +102,9 @@ class FranchiseOrdersController extends AbstractController
 
         if (!empty($cart)){
 
-            $warehouse = $em->getRepository(Warehouses::class)->findOneByEmail('entrepot1@drivncook.fr');
+            $warehouse = $em->getRepository(Warehouse::class)->findOneByEmail('entrepot1@drivncook.fr');
 
-            $order = new FranchiseOrders();
+            $order = new FranchiseOrder();
             $order->setIdFranchise($this->getUser());
             $order->setIdWarehouse($warehouse);
             $order->setDate(new \DateTime());
@@ -133,7 +133,7 @@ class FranchiseOrdersController extends AbstractController
     /**
      * @Route("/fav/{id}", name="franchise_fav_order")
      */
-    public function fav($id, FranchiseOrdersRepository $franchiseOrdersRepository, EntityManagerInterface $em){
+    public function fav($id, FranchiseOrderRepository $franchiseOrdersRepository, EntityManagerInterface $em){
 
         $order = $franchiseOrdersRepository->find($id);
         $order->setStatus($order->getStatus()+1);
@@ -148,7 +148,7 @@ class FranchiseOrdersController extends AbstractController
     /**
      * @Route("/unfav/{id}", name="franchise_unfav_order")
      */
-    public function unfav($id, FranchiseOrdersRepository $franchiseOrdersRepository, EntityManagerInterface $em){
+    public function unfav($id, FranchiseOrderRepository $franchiseOrdersRepository, EntityManagerInterface $em){
 
         $order = $franchiseOrdersRepository->find($id);
         $order->setStatus('1');
@@ -162,11 +162,11 @@ class FranchiseOrdersController extends AbstractController
     /**
      * @Route("/duplicate/{id}", name="franchise_duplicate_order")
      */
-    public function duplicate($id, Request $request, FranchiseOrdersRepository $franchiseOrdersRepository, EntityManagerInterface $em){
+    public function duplicate($id, Request $request, FranchiseOrderRepository $franchiseOrdersRepository, EntityManagerInterface $em){
 
         $order = $franchiseOrdersRepository->find($id);
 
-        $newOrder = new FranchiseOrders();
+        $newOrder = new FranchiseOrder();
         
         $newOrder->setIdFranchise($this->getUser());
         $newOrder->setIdWarehouse($order->getIdWarehouse());
@@ -196,7 +196,7 @@ class FranchiseOrdersController extends AbstractController
         //Vérif si cette commande appartient bien au franchisé connecté sinon exception 
 
         $em = $this->getDoctrine()->getManager();
-        $order = $em->getRepository(FranchiseOrders::class)->findOneByIdFranchiseOrder($id);
+        $order = $em->getRepository(FranchiseOrder::class)->findOneByIdFranchiseOrder($id);
 
         return $this->render('franchises/orders/show.html.twig', [
             'order' => $order
@@ -210,7 +210,7 @@ class FranchiseOrdersController extends AbstractController
     {  
 
         $em = $this->getDoctrine()->getManager();
-        $order = $em->getRepository(FranchiseOrders::class)->findOneByIdFranchiseOrder($id);
+        $order = $em->getRepository(FranchiseOrder::class)->findOneByIdFranchiseOrder($id);
         
         $knpSnappy->setOption("encoding","UTF-8");
         $filename = "mypdf";

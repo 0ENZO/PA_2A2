@@ -130,7 +130,7 @@ class Warehouse
     /**
      * @return Collection|FranchiseOrder[]
      */
-    public function getFranchiseOrders(): Collection
+    public function getFranchiseOrder(): Collection
     {
         return $this->franchiseOrders;
     }

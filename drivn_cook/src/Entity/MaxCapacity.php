@@ -111,7 +111,7 @@ class MaxCapacity
     /**
      * @return Collection|Truck[]
      */
-    public function getTrucks(): Collection
+    public function getTruck(): Collection
     {
         return $this->trucks;
     }
@@ -142,7 +142,7 @@ class MaxCapacity
     /**
      * @return Collection|Warehouse[]
      */
-    public function getWarehouses(): Collection
+    public function getWarehouse(): Collection
     {
         return $this->warehouses;
     }

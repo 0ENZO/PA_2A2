@@ -89,7 +89,7 @@ class City
     /**
      * @return Collection|Address[]
      */
-    public function getAddresses(): Collection
+    public function getAddress(): Collection
     {
         return $this->addresses;
     }

@@ -2,10 +2,10 @@
 
 namespace App\Controller;
 
-use App\Entity\Products;
-use App\Entity\Warehouses;
-use App\Entity\FranchiseOrders;
-use App\Repository\ProductsRepository;
+use App\Entity\Product;
+use App\Entity\Warehouse;
+use App\Entity\FranchiseOrder;
+use App\Repository\ProductRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,13 +15,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 /**
  * @Route("/product") 
  */
-class ProductsController extends AbstractController
+class ProductController extends AbstractController
 {
 
     /**
      * @Route("/", name="product_index")
      */
-    public function index(ProductsRepository $productsRepository, PaginatorInterface $paginator, Request $request)
+    public function index(ProductRepository $productsRepository, PaginatorInterface $paginator, Request $request)
     {
 
         $pagination = $paginator->paginate(
