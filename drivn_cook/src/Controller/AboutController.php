@@ -11,11 +11,8 @@ class AboutController extends AbstractController
     /**
      * @Route("/about", name="about")
      */
-    public function index(): Response
+    public function show()
     {
-        return $this->render('about/about.html.twig', [
-
-        ]);
+        return $this->render('about/about.html.twig');
     }
-
 }
