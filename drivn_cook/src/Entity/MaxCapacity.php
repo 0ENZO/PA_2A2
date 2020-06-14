@@ -169,4 +169,9 @@ class MaxCapacity
 
         return $this;
     }
+
+    public function __toString()
+    {
+        return $this->maxIngredients.','.$this->maxDrinks.','.$this->maxDesserts.','.$this->maxMeals;
+    }
 }

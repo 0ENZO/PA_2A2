@@ -2,17 +2,17 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\Categories;
-use App\Entity\MaxCapacities;
-use App\Entity\Roles;
-use App\Entity\Trucks;
-use App\Entity\Users;
+use App\Entity\Category;
+use App\Entity\MaxCapacity;
+use App\Entity\Role;
+use App\Entity\Truck;
+use App\Entity\User;
 
-use App\Entity\Cities;
-use App\Entity\Addresses;
-use App\Entity\Franchises;
-use App\Entity\Departments;
-use App\Entity\Warehouses;
+use App\Entity\City;
+use App\Entity\Address;
+use App\Entity\Franchise;
+use App\Entity\Department;
+use App\Entity\Warehouse;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Validator\Constraints\Date;
@@ -34,15 +34,15 @@ class AppFixtures extends Fixture
 
         // Création des rôles client / franchise / admin
 
-        $role_client = new Roles();
+        $role_client = new Role();
         $role_client->setName('Client');
         $manager->persist($role_client);
 
-        $role_franchise = new Roles();
+        $role_franchise = new Role();
         $role_franchise->setName('Franchise');
         $manager->persist($role_franchise);
 
-        $role_admin = new Roles();
+        $role_admin = new Role();
         $role_admin->setName('Admin');
         $manager->persist($role_admin);
 
@@ -55,49 +55,44 @@ class AppFixtures extends Fixture
 
         // Départements
 
-        $department = new Departments();
+        $department = new Department();
         $department->setName('Ile de France');
         $manager->persist($department);
 
         // Villes
 
-        $city = new Cities();
+        $city = new City();
         $city->setName('Creteil');
-        $city->setPostalNumber('94000');
-        $city->setIdDepartment($department);
+        $city->setPostalCode('94000');
+        $city->setDepartment($department);
         $manager->persist($city);
 
-        $city2 = new Cities();
+        $city2 = new City();
         $city2
             ->setName("Paris")
-            ->setIdDepartment($department)
-            ->setPostalNumber("75000");
+            ->setDepartment($department)
+            ->setPostalCode("75000");
         $manager->persist($city2);
 
-        // Adresse finale (ville + département + rue)
+        // Addresse finale (ville + département + rue)
 
-        $address = new Addresses();
+        $address = new Address();
         $address->setStreet('Avenue de la france libre');
         $address->setNumber('1');
-        $address->setIdCity($city);
+        $address->setCity($city);
         $manager->persist($address);
 
-        $address_warehouse = new Addresses();
+        $address_warehouse = new Address();
         $address_warehouse
             ->setStreet("Rue de vendeaume")
             ->setNumber("42")
-            ->setIdCity($city2);
+            ->setCity($city2);
         $manager->persist($address_warehouse);
-
-
-
-
-
 
         // Création des premiers users : Client et Admin
 
-        $client = new Users();
-        $client->setIdRole($role_client);
+        $client = new User();
+        $client->setRole($role_client);
         $client->setPseudo('Client_lambda');
         $client->setFirstName('Lee');
         $client->setLastName('Sin');
@@ -110,8 +105,8 @@ class AppFixtures extends Fixture
         $client->setIsActivated(true);
         $manager->persist($client);
 
-        $admin = new Users();
-        $admin->setIdRole($role_admin);
+        $admin = new User();
+        $admin->setRole($role_admin);
         $admin->setFirstName('Prenom');
         $admin->setLastName('Nom');
         $admin->setPseudo('Admin');
@@ -124,8 +119,8 @@ class AppFixtures extends Fixture
         $admin->setIsActivated(true);
         $manager->persist($admin);
 
-        $romain = new Users();
-        $romain->setIdRole($role_admin);
+        $romain = new User();
+        $romain->setRole($role_admin);
         $romain->setFirstName('Romain');
         $romain->setLastName('Pierucci');
         $romain->setPseudo('Norudah');
@@ -144,26 +139,27 @@ class AppFixtures extends Fixture
         // Création franchisés
 
         for($i = 0 ; $i < 10 ; $i++){
-            $franchise = new Franchises();
+            $franchise = new Franchise();
+            $franchise->setRole($role_franchise);
             $franchise->setFirstName('Franchise'. $i);
             $franchise->setLastName('Default');
             $franchise->setEmail('franchise'. $i .'@drivncook.fr');
-            $franchise->setIdAdresse($address);
+            $franchise->setAddress($address);
             $franchise->setPassword($this->passwordEncoder->encodePassword(
                 $franchise,
                 'azerty'
             ));
-            $franchise->setBirthDate(new \DateTime());
+            // $franchise->setBirthDate(new \DateTime());
             $manager->persist($franchise);
         }
 
 
-
+/*
 
         // Création des capacité max
 
         // camion
-        $truck_capacity = new MaxCapacities();
+        $truck_capacity = new MaxCapacity();
         $truck_capacity
             ->setMaxIngredients(1000)
             ->setMaxDrinks(500)
@@ -172,7 +168,7 @@ class AppFixtures extends Fixture
         $manager->persist($truck_capacity);
 
         // entrepôts
-        $warehouse_capacity = new MaxCapacities();
+        $warehouse_capacity = new MaxCapacity();
         $warehouse_capacity
             ->setMaxIngredients(10000)
             ->setMaxMeals(5000)
@@ -186,39 +182,39 @@ class AppFixtures extends Fixture
 
         // Création des entrepôts
 
-        $warhouse = new Warehouses();
+        $warhouse = new Warehouse();
         $name = "Alpha";
         $warhouse
             ->setName($name)
             ->setEmail($name."@drivncook.fr")
-            ->setIdAdresse($address_warehouse)
+            ->setAddress($address_warehouse)
             ->setPhoneNumber("0645733429");
         $manager->persist($warhouse);
 
-        $warhouse = new Warehouses();
+        $warhouse = new Warehouse();
         $name = "Beta";
         $warhouse
             ->setName($name)
             ->setEmail($name."@drivncook.fr")
-            ->setIdAdresse($address_warehouse)
+            ->setAddress($address_warehouse)
             ->setPhoneNumber("0645733429");
         $manager->persist($warhouse);
 
-        $warhouse = new Warehouses();
+        $warhouse = new Warehouse();
         $name = "Omega";
         $warhouse
             ->setName($name)
             ->setEmail($name."@drivncook.fr")
-            ->setIdAdresse($address_warehouse)
+            ->setAddress($address_warehouse)
             ->setPhoneNumber("0645733429");
         $manager->persist($warhouse);
 
-        $warhouse = new Warehouses();
+        $warhouse = new Warehouse();
         $name = "Zeta";
         $warhouse
             ->setName($name)
             ->setEmail($name."@drivncook.fr")
-            ->setIdAdresse($address_warehouse)
+            ->setAddress($address_warehouse)
             ->setPhoneNumber("0645733429");
         $manager->persist($warhouse);
 
@@ -228,44 +224,44 @@ class AppFixtures extends Fixture
         // Création des camions
 
         // Appartient à personne
-        $empty_truck = new Trucks();
+        $empty_truck = new Truck();
         $empty_truck
             ->setBrand("Citroen")
             ->setFactoryDate(new \DateTime())
             ->setModel("XH-456-FR")
             ->setStatus("Available")
-            ->setIdMaxCapacity($truck_capacity);
+            ->setMaxCapacity($truck_capacity);
         $manager->persist($empty_truck);
 
         // occupé par le dernier franchisé crée (le n°10)
-        $occupied_truck = new Trucks();
+        $occupied_truck = new Truck();
         $occupied_truck
             ->setBrand("Peugeot")
             ->setFactoryDate(new \DateTime())
             ->setModel("TG-5648-FR")
             ->setStatus("Occupied")
-            ->setIdMaxCapacity($truck_capacity)
-            ->setIdFranchise($franchise);
+            ->setMaxCapacity($truck_capacity)
+            ->setFranchise($franchise);
         $manager->persist($occupied_truck);
 
 
         // En réparation ou autre -> Indisponible
-        $indisponible_truck = new Trucks();
+        $indisponible_truck = new Truck();
         $indisponible_truck
             ->setBrand("Lambo")
             ->setFactoryDate(new \DateTime())
             ->setModel("ET-9263-FR")
             ->setStatus("Indisponible")
-            ->setIdMaxCapacity($truck_capacity);
+            ->setMaxCapacity($truck_capacity);
         $manager->persist($indisponible_truck);
 
 
 
         // Créations des catégories et sous-catégories
 
-        $ingredient = new Categories();
+        $ingredient = new Category();
 
-
+*/
         $manager->flush();
     }
 }

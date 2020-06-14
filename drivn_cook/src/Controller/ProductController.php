@@ -2,10 +2,10 @@
 
 namespace App\Controller;
 
-use App\Entity\Products;
+use App\Entity\Product;
 use App\Entity\Warehouses;
 use App\Entity\FranchiseOrders;
-use App\Repository\ProductsRepository;
+use App\Repository\ProductRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,22 +15,22 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 /**
  * @Route("/product") 
  */
-class ProductsController extends AbstractController
+class ProductController extends AbstractController
 {
 
     /**
      * @Route("/", name="product_index")
      */
-    public function index(ProductsRepository $productsRepository, PaginatorInterface $paginator, Request $request)
+    public function index(ProductRepository $productRepository, PaginatorInterface $paginator, Request $request)
     {
 
         $pagination = $paginator->paginate(
-            $productsRepository->findAllQuery(),
+            $productRepository->findAllQuery(),
             $request->query->getInt('page', 1),
             10
         );
 
-        return $this->render('products/index.html.twig', [
+        return $this->render('product/index.html.twig', [
             'pagination' => $pagination
         ]);
     }

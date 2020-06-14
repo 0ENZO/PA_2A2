@@ -204,4 +204,9 @@ class Truck
 
         return $this;
     }
+    
+    public function __toString()
+    {
+        return $this->brand . $this->model;
+    }
 }

@@ -17,5 +17,14 @@ class HomeController extends AbstractController
             
         ]);
     }
+    /**
+     * @Route("/blank", name="blank")
+     */
+    public function blank(): Response
+    {
+        return $this->render('home/blank.html.twig', [
+            
+        ]);
+    }
 
 }

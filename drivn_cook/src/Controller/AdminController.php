@@ -2,19 +2,19 @@
 
 namespace App\Controller;
 
-use App\Entity\Franchises;
-use App\Entity\Trucks;
-use App\Entity\Users;
-use App\Entity\Roles;
+use App\Entity\Franchise;
+use App\Entity\Truck;
+use App\Entity\User;
+use App\Entity\Role;
 
-use App\Form\FranchisesType;
-use App\Form\TrucksType;
-use App\Form\UsersType;
+use App\Form\FranchiseType;
+use App\Form\TruckType;
+use App\Form\UserType;
 
-use App\Repository\FranchisesRepository;
-use App\Repository\TrucksRepository;
-use App\Repository\UsersRepository;
-use App\Repository\RolesRepository;
+use App\Repository\FranchiseRepository;
+use App\Repository\TruckRepository;
+use App\Repository\UserRepository;
+use App\Repository\RoleRepository;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -45,10 +45,10 @@ class AdminController extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $franchises = $em->getRepository(Franchises::class)->findAll();
+        $franchise = $em->getRepository(Franchise::class)->findAll();
 
-        $franchise = new Franchises();
-        $form = $this->createForm(FranchisesType::class, $franchise);
+        $franchise = new Franchise();
+        $form = $this->createForm(FranchiseType::class, $franchise);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -59,8 +59,8 @@ class AdminController extends AbstractController
             return $this->redirectToRoute('admin_franchise_show');
         }
         
-        return $this->render('admin/franchises.html.twig', [
-            'franchises' => $franchises,
+        return $this->render('admin/franchise.html.twig', [
+            'franchise' => $franchise,
             'form' => $form->createView()
         ]);
     }
@@ -68,10 +68,10 @@ class AdminController extends AbstractController
     /**
      * @Route("/franchise/edit/{id}", name="admin_franchise_edit")
      */
-    public function franchise_edit(Franchises $franchise, Request $request)
+    public function franchise_edit(Franchise $franchise, Request $request)
     {
 
-        $form = $this->createForm(FranchisesType::class, $franchise);
+        $form = $this->createForm(FranchiseType::class, $franchise);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -81,7 +81,7 @@ class AdminController extends AbstractController
             return $this->redirectToRoute('admin_franchise_show');
         }
 
-        return $this->render('admin/franchises_edit.html.twig', [
+        return $this->render('admin/franchise_edit.html.twig', [
             'franchise' => $franchise,
             'form' => $form->createView()
         ]);
@@ -91,7 +91,7 @@ class AdminController extends AbstractController
     /**
      * @Route("/franchise/delete/{id}", name="admin_franchise_delete", methods={"GET","POST"})
      */
-    public function franchise_delete(Franchises $franchise)
+    public function franchise_delete(Franchise $franchise)
     {
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->remove($franchise);
@@ -108,10 +108,10 @@ class AdminController extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $trucks = $em->getRepository(Trucks::class)->findAll();
+        $truck = $em->getRepository(Truck::class)->findAll();
 
-        $truck = new Trucks();
-        $form = $this->createForm(TrucksType::class, $truck);
+        $truck = new Truck();
+        $form = $this->createForm(TruckType::class, $truck);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -122,8 +122,8 @@ class AdminController extends AbstractController
             return $this->redirectToRoute('admin_truck_show');
         }
         
-        return $this->render('admin/trucks.html.twig', [
-            'trucks' => $trucks,
+        return $this->render('admin/truck.html.twig', [
+            'truck' => $truck,
             'form' => $form->createView()
         ]);
     }
@@ -131,10 +131,10 @@ class AdminController extends AbstractController
     /**
      * @Route("/truck/edit/{id}", name="admin_truck_edit")
      */
-    public function truck_edit(Trucks $truck, Request $request)
+    public function truck_edit(Truck $truck, Request $request)
     {
 
-        $form = $this->createForm(TrucksType::class, $truck);
+        $form = $this->createForm(TruckType::class, $truck);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -144,7 +144,7 @@ class AdminController extends AbstractController
             return $this->redirectToRoute('admin_truck_show');
         }
 
-        return $this->render('admin/trucks_edit.html.twig', [
+        return $this->render('admin/truck_edit.html.twig', [
             'truck' => $truck,
             'form' => $form->createView()
         ]);
@@ -154,7 +154,7 @@ class AdminController extends AbstractController
     /**
      * @Route("/truck/delete/{id}", name="admin_truck_delete", methods={"GET","POST"})
      */
-    public function truck_delete(Trucks $truck)
+    public function truck_delete(Truck $truck)
     {
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->remove($truck);
@@ -171,12 +171,12 @@ class AdminController extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
 
-        $users = $em->getRepository(Users::class)->findAll();
+        $user = $em->getRepository(User::class)->findAll();
 
-        $role = $em->getRepository(Roles::class)->findOneByName('Client');
-        $user = new Users();
+        $role = $em->getRepository(Role::class)->findOneByName('Client');
+        $user = new User();
         $user->setIdRole($role);
-        $form = $this->createForm(UsersType::class, $user);
+        $form = $this->createForm(UserType::class, $user);
         $form->remove('idRole');
         $form->handleRequest($request);
 
@@ -188,8 +188,8 @@ class AdminController extends AbstractController
             return $this->redirectToRoute('admin_user_show');
         }
         
-        return $this->render('admin/users.html.twig', [
-            'users' => $users,
+        return $this->render('admin/user.html.twig', [
+            'user' => $user,
             'form' => $form->createView()
         ]);
     }
@@ -197,10 +197,10 @@ class AdminController extends AbstractController
     /**
      * @Route("/user/edit/{id}", name="admin_user_edit")
      */
-    public function user_edit(Users $user, Request $request)
+    public function user_edit(User $user, Request $request)
     {
 
-        $form = $this->createForm(UsersType::class, $user);
+        $form = $this->createForm(UserType::class, $user);
         $form->remove('idRole');
         $form->handleRequest($request);
 
@@ -211,7 +211,7 @@ class AdminController extends AbstractController
             return $this->redirectToRoute('admin_user_show');
         }
 
-        return $this->render('admin/Users_edit.html.twig', [
+        return $this->render('admin/User_edit.html.twig', [
             'user' => $user,
             'form' => $form->createView()
         ]);
@@ -221,7 +221,7 @@ class AdminController extends AbstractController
     /**
      * @Route("/user/delete/{id}", name="admin_user_delete", methods={"GET","POST"})
      */
-    public function user_delete(Users $user)
+    public function user_delete(User $user)
     {
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->remove($user);

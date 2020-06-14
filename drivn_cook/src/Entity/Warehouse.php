@@ -30,7 +30,7 @@ class Warehouse
     private $email;
 
     /**
-     * @ORM\Column(type="smallint")
+     * @ORM\Column(type="string", length=10)
      */
     private $phoneNumber;
 
@@ -187,5 +187,10 @@ class Warehouse
         }
 
         return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->name;
     }
 }

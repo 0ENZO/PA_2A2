@@ -2,8 +2,8 @@
 
 namespace App\Form;
 
-use App\Entity\Franchises;
-use App\Entity\Addresses;
+use App\Entity\Franchise;
+use App\Entity\Address;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -13,9 +13,9 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Mime\Address;
+// use Symfony\Component\Mime\Address;
 
-class FranchisesType extends AbstractType
+class FranchiseType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -23,7 +23,7 @@ class FranchisesType extends AbstractType
             ->add('firstName', TextType::class)
             ->add('lastName', TextType::class)
             ->add('email', EmailType::class)
-            ->add('idAdresse', EntityType::class, [
+            ->add('Address', EntityType::class, [
                 'class' => Addresses::class,
                 'label' => 'Adresse :'
             ])

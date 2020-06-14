@@ -25,7 +25,7 @@ class City
     private $name;
 
     /**
-     * @ORM\Column(type="smallint")
+     * @ORM\Column(type="string", length=5)
      */
     private $postal_code;
 
