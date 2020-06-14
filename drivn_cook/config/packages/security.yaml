@@ -1,22 +1,22 @@
 security:
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     encoders:
-        App\Entity\Franchises:
+        App\Entity\Franchise:
             algorithm: auto
 
-        App\Entity\Users:
+        App\Entity\User:
             algorithm: auto
             
     providers:
         # users_in_memory: { memory: null }
-        franchises:
+        franchise:
             entity:
-                class: App\Entity\Franchises
+                class: App\Entity\Franchise
                 property: email
             
-        users:
+        user:
             entity:
-                class: App\Entity\Users
+                class: App\Entity\User
                 property: email
 
 
@@ -26,10 +26,12 @@ security:
             security: false
         main:
             anonymous: lazy
-            provider: 'franchises'
+            provider: 'franchise'
             guard:
                 authenticators:
                     - App\Security\LoginFormAuthenticator
+                    - App\Security\LoginForm2Authenticator
+                entry_point: App\Security\LoginForm2Authenticator
             logout:
                 path: app_logout
                 # where to redirect after logout
@@ -46,4 +48,5 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
         - { path: ^/admin, roles: ROLE_ADMIN }
+        - { path: ^/login$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         # - { path: ^/profile, roles: ROLE_USER }
