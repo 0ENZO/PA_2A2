@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello CreditCardController!{% endblock %}
+
+{% block body %}
+
+    <div class="container">
+        <p>hello</p>
+        <p>{{ user }}</p>
+
+        {{ dump(user) }}
+        {{ dump(user_id) }}
+        {{ dump(franchise) }}
+
+
+
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+        {{ form_end(form)}}
+
+    </div>
+
+{% endblock %}

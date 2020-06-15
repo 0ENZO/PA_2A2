@@ -122,6 +122,11 @@ class Franchises implements UserInterface
     private $idUser;
 
     /**
+     * @ORM\OneToMany(targetEntity=CreditCards::class, mappedBy="franchises")
+     */
+    private $creditCard;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -129,6 +134,7 @@ class Franchises implements UserInterface
         $this->idProduct = new \Doctrine\Common\Collections\ArrayCollection();
         $this->idEvent = new \Doctrine\Common\Collections\ArrayCollection();
         $this->idUser = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->creditCard = new ArrayCollection();
     }
 
     public function getIdFranchise(): ?int
@@ -352,6 +358,37 @@ class Franchises implements UserInterface
         */
     public function eraseCredentials(){
         
+    }
+
+    /**
+     * @return Collection|CreditCards[]
+     */
+    public function getCreditCard(): Collection
+    {
+        return $this->creditCard;
+    }
+
+    public function addCreditCard(CreditCards $creditCard): self
+    {
+        if (!$this->creditCard->contains($creditCard)) {
+            $this->creditCard[] = $creditCard;
+            $creditCard->setFranchises($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCreditCard(CreditCards $creditCard): self
+    {
+        if ($this->creditCard->contains($creditCard)) {
+            $this->creditCard->removeElement($creditCard);
+            // set the owning side to null (unless already changed)
+            if ($creditCard->getFranchises() === $this) {
+                $creditCard->setFranchises(null);
+            }
+        }
+
+        return $this;
     }
 
 }

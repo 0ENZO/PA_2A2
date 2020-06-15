@@ -413,4 +413,8 @@ class Users implements UserInterface
 
     }
 
+    public function __toString() : string {
+        return ($this->firstName.$this->lastName);
+    }
+
 }

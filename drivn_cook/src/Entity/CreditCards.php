@@ -59,6 +59,11 @@ class CreditCards
      */
     private $idUser;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Franchises::class, inversedBy="creditCard")
+     */
+    private $franchises;
+
     public function getIdCreditCard(): ?int
     {
         return $this->idCreditCard;
@@ -120,6 +125,18 @@ class CreditCards
     public function setIdUser(?Users $idUser): self
     {
         $this->idUser = $idUser;
+
+        return $this;
+    }
+
+    public function getFranchises(): ?Franchises
+    {
+        return $this->franchises;
+    }
+
+    public function setFranchises(?Franchises $franchises): self
+    {
+        $this->franchises = $franchises;
 
         return $this;
     }
