@@ -7,7 +7,6 @@ use App\Entity\MaxCapacity;
 use App\Entity\Role;
 use App\Entity\Truck;
 use App\Entity\User;
-
 use App\Entity\City;
 use App\Entity\Address;
 use App\Entity\Franchise;
@@ -182,7 +181,8 @@ class AppFixtures extends Fixture
             ->setName($name)
             ->setEmail($name."@drivncook.fr")
             ->setAddress($address_warehouse)
-            ->setPhoneNumber("0645733429");
+            ->setPhoneNumber("0645733429")
+            ->setMaxCapacity($warehouse_capacity);
         $manager->persist($warhouse);
 
         $warhouse = new Warehouse();
@@ -191,7 +191,8 @@ class AppFixtures extends Fixture
             ->setName($name)
             ->setEmail($name."@drivncook.fr")
             ->setAddress($address_warehouse)
-            ->setPhoneNumber("0645733429");
+            ->setPhoneNumber("0645733429")
+            ->setMaxCapacity($warehouse_capacity);
         $manager->persist($warhouse);
 
         $warhouse = new Warehouse();
@@ -200,7 +201,8 @@ class AppFixtures extends Fixture
             ->setName($name)
             ->setEmail($name."@drivncook.fr")
             ->setAddress($address_warehouse)
-            ->setPhoneNumber("0645733429");
+            ->setPhoneNumber("0645733429")
+            ->setMaxCapacity($warehouse_capacity);
         $manager->persist($warhouse);
 
         $warhouse = new Warehouse();
@@ -209,7 +211,8 @@ class AppFixtures extends Fixture
             ->setName($name)
             ->setEmail($name."@drivncook.fr")
             ->setAddress($address_warehouse)
-            ->setPhoneNumber("0645733429");
+            ->setPhoneNumber("0645733429")
+            ->setMaxCapacity($warehouse_capacity);
         $manager->persist($warhouse);
 
 
