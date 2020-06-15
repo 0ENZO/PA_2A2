@@ -11,6 +11,8 @@ use App\Entity\City;
 use App\Entity\Address;
 use App\Entity\Franchise;
 use App\Entity\Department;
+use App\Entity\Product;
+use App\Entity\SubCategory;
 use App\Entity\Warehouse;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -255,6 +257,151 @@ class AppFixtures extends Fixture
         // Créations des catégories et sous-catégories
 
         $ingredient = new Category();
+        $ingredient
+            ->setName('ingredients');
+        $manager->persist($ingredient);
+
+        $vegetables = new SubCategory();
+        $vegetables
+            ->setName('legumes')
+            ->setCategory($ingredient);
+        $manager->persist($vegetables);
+
+        $fruits = new SubCategory();
+        $fruits
+            ->setName('legumes')
+            ->setCategory($ingredient);
+        $manager->persist($fruits);
+
+        $product = new Product();
+        $product
+            ->setName('orange')
+            ->setSubCategory($fruits)
+            ->setPrice('2')
+            ->setVat('3')
+            ->setExpiryDate(new\ Datetime())
+            ->setQuantity('1');
+        $manager->persist($product);
+
+        $product = new Product();
+        $product
+            ->setName('pomme')
+            ->setSubCategory($fruits)
+            ->setPrice('2')
+            ->setVat('3')
+            ->setExpiryDate(new\ Datetime())
+            ->setQuantity('1');
+        $manager->persist($product);
+
+        $product = new Product();
+        $product
+            ->setName('banane')
+            ->setSubCategory($fruits)
+            ->setPrice('2')
+            ->setVat('3')
+            ->setExpiryDate(new\ Datetime())
+            ->setQuantity('1');
+        $manager->persist($product);
+
+        $product = new Product();
+        $product
+            ->setName('mangue')
+            ->setSubCategory($fruits)
+            ->setPrice('2')
+            ->setVat('3')
+            ->setExpiryDate(new\ Datetime())
+            ->setQuantity('1');
+        $manager->persist($product);
+
+        $product = new Product();
+        $product
+            ->setName('kiwi')
+            ->setSubCategory($fruits)
+            ->setPrice('2')
+            ->setVat('3')
+            ->setExpiryDate(new\ Datetime())
+            ->setQuantity('1');
+        $manager->persist($product);
+
+        $product = new Product();
+        $product
+            ->setName('ananas')
+            ->setSubCategory($fruits)
+            ->setPrice('2')
+            ->setVat('3')
+            ->setExpiryDate(new\ Datetime())
+            ->setQuantity('1');
+        $manager->persist($product);
+
+        $product = new Product();
+        $product
+            ->setName('poire')
+            ->setSubCategory($fruits)
+            ->setPrice('2')
+            ->setVat('3')
+            ->setExpiryDate(new\ Datetime())
+            ->setQuantity('1');
+        $manager->persist($product);
+
+        $product = new Product();
+        $product
+            ->setName('grenade')
+            ->setSubCategory($fruits)
+            ->setPrice('2')
+            ->setVat('3')
+            ->setExpiryDate(new\ Datetime())
+            ->setQuantity('1');
+        $manager->persist($product);
+
+        $product = new Product();
+        $product
+            ->setName('brocolis')
+            ->setSubCategory($vegetables)
+            ->setPrice('2')
+            ->setVat('3')
+            ->setExpiryDate(new\ Datetime())
+            ->setQuantity('1');
+        $manager->persist($product);
+
+        $product = new Product();
+        $product
+            ->setName('epinards')
+            ->setSubCategory($vegetables)
+            ->setPrice('2')
+            ->setVat('3')
+            ->setExpiryDate(new\ Datetime())
+            ->setQuantity('1');
+        $manager->persist($product);
+
+        $product = new Product();
+        $product
+            ->setName('patate')
+            ->setSubCategory($vegetables)
+            ->setPrice('2')
+            ->setVat('3')
+            ->setExpiryDate(new\ Datetime())
+            ->setQuantity('1');
+        $manager->persist($product);
+
+        $product = new Product();
+        $product
+            ->setName('oignon')
+            ->setSubCategory($vegetables)
+            ->setPrice('2')
+            ->setVat('3')
+            ->setExpiryDate(new\ Datetime())
+            ->setQuantity('1');
+        $manager->persist($product);
+
+        $product = new Product();
+        $product
+            ->setName('echalotte')
+            ->setSubCategory($vegetables)
+            ->setPrice('2')
+            ->setVat('3')
+            ->setExpiryDate(new\ Datetime())
+            ->setQuantity('1');
+        $manager->persist($product);
 
         $manager->flush();
     }
