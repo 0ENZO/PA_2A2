@@ -1,0 +1,283 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Profil{% endblock %}
+
+{% block body %}
+
+    <div class="container mt-5">
+
+        <div class="row profile">
+
+            <div class="col-md-3">
+                <div class="profile-sidebar px-1">
+
+                    <div class="profile-userpic text-center">
+                        <img src="https://via.placeholder.com/150" class="img-responsive" alt="">
+                    </div>
+
+                    <div class="profile-usertitle">
+                        <div class="profile-usertitle-name">
+                            {% if franchise.firstName %}
+                                {{ franchise.firstName}} {{ franchise.lastName}}
+                            {% else %}
+                               {{ franchise.email }}
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="profile-usermenu">
+                        <ul class="nav nav-tabs flex-column ml-4" id="myTab" role="tablist">
+                            <li class="nav-item">
+                              <a class="nav-link" href="" id="nav_profile" data-target="#pane_profile" data-toggle="tab">
+                                  <i class="mr-2 fas fa-id-card"></i>Mon profil
+                              </a>
+                            </li>
+                            <li class="nav-item">
+                              <a class="nav-link" href="" id="nav_edit" data-target="#pane_edit" data-toggle="tab">
+                                  <i class="mr-2 fas fa-user-edit"></i>Modifier
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                              <a class="nav-link" href="" id="nav_franchise" data-target="#pane_franchise" data-toggle="tab">
+                                  <i class="mr-2 far fa-file-alt"></i>Ma franchise
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                              <a class="nav-link" href="" id="nav_truck" data-target="#pane_truck" data-toggle="tab">
+                                  <i class="mr-2 fas fa-truck"></i>Mon camion
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link active" href="" id="nav_orders" data-target="#pane_orders" data-toggle="tab">
+                                    <i class="mr-2 fas fa-cart-arrow-down"></i>Mes commandes
+                                  </a>
+                              </li>
+                          </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-9">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="tab-content" id="myTabContent">
+
+                            <div class="tab-pane" id="pane_profile" role="tabpanel">
+                                <div class="col-md-8 mx-auto mt-3">
+                                    <h2 class="text-bold text-center">Mon profil</h2>
+
+                                    <table class="table table-borderless my-5">
+                                        <tbody>
+                                            <tr>
+                                                <td>Prénom</td>
+                                                <td>{{ franchise.firstName }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Nom</td>
+                                                <td>{{ franchise.lastName }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Email</td>
+                                                <td>{{ franchise.email }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Numéro de téléphone</td>
+                                                <td>Indisponible pour le moment</td>
+                                            </tr>
+                                            {# <tr>
+                                                <td>Date d'anniversaire </td>
+                                                <td>{{ franchise.birthDate|date("d/m/Y") }}</td>
+                                            </tr> #}
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                            </div>
+
+                            <div class="tab-pane" id="pane_edit" role="tabpanel">
+                                <div class="col-md-8 mx-auto mt-3">
+                                    <h3 class="text-bold mt-3 mb-5">Modifier mes informations</h3>
+                                    {{ include('franchise/_form.html.twig') }}
+                                </div>
+                            </div>
+
+                            <div class="tab-pane" id="pane_franchise" role="tabpanel">
+                                franchise
+                            </div>
+
+                            <div class="tab-pane" id="pane_truck" role="tabpanel">
+                                <div class="col-md-6 mx-auto mt-5">
+                                    <img class="img-fluid" src="{{ asset('/images/food_truck.jpg') }}" alt="">
+
+                                    <div>
+
+                                        {% if truck is defined and truck is not null %}
+
+                                        <table class="table table-borderless my-5">
+                                            <tbody>
+                                                <tr>
+                                                    <td>Marque</td>
+                                                    <td>{{ truck.brand }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Modèle</td>
+                                                    <td>{{ truck.model }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Capacités max</td>
+                                                    <td>{{ truck.idMaxCapacity }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Date de sortie d'usine</td>
+                                                    <td>{{ truck.factoryDate|date("d/m/Y") }}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+
+                                            {% else %}
+
+                                            <h1>Vous ne possédez pas de camion</h1>
+
+                                        {% endif %}
+
+                                    </div>
+                                </div>
+
+                                <div class="d-flex justify-content-end">
+                                    <button class="btn btn-primary" href="#">Voir plus<i class="fas fa-search-plus ml-3"></i></button>
+                                </div>
+
+                            </div>
+
+                            <div class="tab-pane active" id="pane_orders" role="tabpanel">
+                                <div class="col-md-8 mx-auto mt-3">
+                                    <h3 class="text-bold text-center mt-3 mb-5">Mes commandes</h3>
+
+                                    <ul class="nav nav-tabs">
+                                        <li class="nav-item">
+                                          <a class="nav-link active" href="#" id="nav_last_orders" data-target="#pane_last_orders" data-toggle="tab">Mes dernères commandes </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="#" id="nax_generic_orders" data-target="#pane_generic_orders" data-toggle="tab">Mes commandes types</a>
+                                          </li>
+                                    </ul>
+
+                                    <div class="tab-content">
+
+                                        <div class="tab-pane active" id="pane_last_orders">
+
+                                            <div class="mt-4" id="accordion">
+                                                {% if orders is defined and orders is not empty%}
+                                                    {% for order in orders %}
+            
+                                                            {# <a href="{{ path('franchise_order_show', {id: order.franchiseOrder}) }}"></a> #}
+
+                                                        <div class="card">
+                                                            <div class="card-header" id="headingOne">
+                                                              <h5 class="mb-0">
+                                                                <button class="btn btn-link" data-toggle="collapse" data-target="#collapse{{loop.index}}" aria-expanded="true" aria-controls="collapse{{loop.index}}">
+                                                                    Commande du {{order.date|date("d/m/Y") }} - {{ order.totalPrice }} €
+                                                                </button>
+                                                                {% if order.status < 2 %}
+                                                                    <a href="{{ path('franchise_fav_order', {id: order.franchiseOrder}) }}">
+                                                                        <i class="ml-2 far fa-star"></i>
+                                                                    </a>
+                                                                {% else %}
+                                                                    <a href="{{ path('franchise_unfav_order', {id: order.franchiseOrder}) }}">
+                                                                        <i class="ml-2 fas fa-star"></i>
+                                                                    </a>
+                                                                {% endif %}
+
+                                                              </h5>
+                                                            </div>
+                                                        
+                                                            <div id="collapse{{loop.index}}" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+                                                              <div class="card-body">
+                                                                {% for product in order.idProduct %}
+                                                                    <p>{{ product.name }}</p>
+                                                                {% endfor %}
+
+                                                                <a class="btn btn-primary" href="{{ path('franchise_order_show', {id: order.franchiseOrder}) }}">
+                                                                    Voir ma facture <i class="fas fa-chevron-right ml-2"></i>
+                                                                </a>
+
+                                                              </div>
+                                                            </div>
+                                                        </div>
+                                                    {% endfor %}
+                                                {% else %}
+                                                    <div class="mt-5">
+                                                        Vous n'avez pas encore passé de commande. 
+                                                        <a href="{{ path('product_index') }}" class="btn btn-primary">
+                                                            Passer commande<i class="fas fa-chevron-right ml-2"></i>
+                                                        </a>
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                            
+                                        <div class="tab-pane" id="pane_generic_orders">
+                                            
+                                            <div class="mt-4" id="accordion">
+                                                {% if orders is defined and orders is not empty%}
+                                                    {% for order in orders %}
+                                                        {% if order.status > 1 %}
+                                                            {# <a href=""></a> #}
+
+                                                            <div class="card">
+                                                                <div class="card-header" id="headingOne">
+                                                                    <h5 class="mb-0">
+                                                                        <button class="btn btn-link" data-toggle="collapse" data-target="#collapse{{loop.index}}" aria-expanded="true" aria-controls="collapse{{loop.index}}">
+                                                                            Commande du {{order.date|date("d/m/Y") }} - {{ order.totalPrice }} €
+                                                                        </button>
+
+                                                                        <a href="{{ path('franchise_unfav_order', {id: order.franchiseOrder}) }}">
+                                                                            <i class="ml-2 fas fa-star"></i>
+                                                                        </a>
+
+                                                                        <a href="{{ path('franchise_duplicate_order', {id: order.franchiseOrder}) }}">
+                                                                            <i class="ml-2 fas fa-shopping-basket"></i>
+                                                                        </a>
+                                                                        
+                                                                    </h5>
+                                                                </div>
+                                                            
+                                                                <div id="collapse{{loop.index}}" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+                                                                <div class="card-body">
+                                                                    {% for product in order.idProduct %}
+                                                                        <p>{{ product.name }}</p>
+                                                                    {% endfor %}
+
+                                                                    <a class="btn btn-primary" href="{{ path('franchise_order_show', {id: order.franchiseOrder}) }}">
+                                                                        Voir ma facture <i class="fas fa-chevron-right ml-2"></i>
+                                                                    </a>
+
+                                                                </div>
+                                                                </div>
+                                                            </div>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                {% else %}
+                                                    <div class="mt-5">
+                                                        Vous n'avez pas encore de commande type. 
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+
+                                        </div>
+                                    
+                        
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
