@@ -1,0 +1,81 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion des event{% endblock %}
+
+{% block body %}
+
+	<div class="container mt-5">
+
+		<button class="btn btn-primary rounded-circlez mb-3" id="button_add_truck" data-toggle="modal" data-target="#add_truck">
+			<span class="fa fa-plus mr-2"></span>Ajouter un camion
+		</button>
+
+		<table class="table">
+			<thead class="thead-dark">
+				<tr>
+					<th scope="col">id</th>
+					<th scope="col">Name</th>
+					<th scope="col">Description</th>
+					<th scope="col">Date begin</th>
+					<th scope="col">Date end</th>
+					<th scope="col">price</th>
+
+				</tr>
+			</thead>
+
+			<tbody>
+				{% for event in events %}
+					<tr>
+						<th scope="row">{{ event.idEvent}}</th>
+						<td>{{ event.name }}</td>
+						<td>{{ event.description }}</td>
+						<td>{{ event.dateBegin|date("d/m/Y") }}</td>
+						<td>{{ event.dateEnd|date("d/m/Y")  }}</td>
+						<td>{{ event.price }}</td>
+
+						<td></td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+
+		<div class="modal fade" id="delete_truck" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content">
+					<div class="modal-header">
+						Supprimer un camion
+					</div>
+					<div class="modal-body">
+						Êtes-vous sûr de vouloir supprimer ce camion ?
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary" data-dismiss="modal">Fermer</button>
+						<a class="btn btn-danger btn-ok text-white">Supprimer</a>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="modal fade" id="add_truck" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered" role="document">
+				<div class="modal-content">
+					<div class="modal-header d-flex align-items-center">
+						<h4 class="modal-title mb-0" id="add_truck">Ajouter un camion</h4>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">
+								<i class="fas fa-times"></i>
+							</span>
+						</button>
+					</div>
+					<div class="modal-body bg-body"></div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+{% endblock %}
+
+{% block scripts %}
+	{{ parent() }}
+{% endblock %}

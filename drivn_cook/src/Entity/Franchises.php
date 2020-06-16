@@ -254,6 +254,13 @@ class Franchises implements UserInterface
         return $this->idEvent;
     }
 
+    public function setIdEvent(Franchises $idEvent): self
+    {
+        $this->idEvent[] = $idEvent;
+        $idEvent->addIdEvent($this);
+        return $this;
+    }
+
     public function addIdEvent(Events $idEvent): self
     {
         if (!$this->idEvent->contains($idEvent)) {

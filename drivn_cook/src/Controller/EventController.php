@@ -7,6 +7,7 @@ use App\Form\EventType;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Exception\RouteNotFoundException;
 use Symfony\Component\HttpFoundation\Response;
 
 use Symfony\Component\HttpFoundation\Request;
@@ -17,7 +18,7 @@ use Symfony\Component\HttpFoundation\Request;
 class EventController extends AbstractController
 {
     /**
-     * @Route("/", name="event_show")
+     * @Route("/show", name="show")
      */
     public function show()
     {
@@ -25,15 +26,26 @@ class EventController extends AbstractController
     }
 
     /**
-     * @Route("/create", name="event_create")
+     * @Route("/create", name="create")
      */
     public function create(Request $request)
     {
         $event = new Events();
         $form = $this->createForm(EventType::class, $event);
+        $formView = $form->createView();
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted()&& $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+
+            $em ->persist($event);
+            $em->flush();
+
+            return $this->redirectToRoute('eventshow');
+        }
 
         return $this->render('event/eventCreate.html.twig', [
-             'form' => $form->createView()
+            'form' =>$formView
          ]);
     }
 }

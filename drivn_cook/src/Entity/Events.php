@@ -6,11 +6,13 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
+use App\Entity\Franchises;
+
 /**
  * Events
  *
  * @ORM\Table(name="EVENTS")
- * @ORM\Entity
+ *  @ORM\Entity(repositoryClass="App\Repository\EventsRepository")
  */
 class Events
 {
@@ -138,12 +140,20 @@ class Events
         return $this;
     }
 
+
     /**
      * @return Collection|Franchises[]
      */
     public function getIdFranchise(): Collection
     {
         return $this->idFranchise;
+    }
+
+    public function setIdFranchise(Franchises $idFranchise): self
+    {
+        $this->idFranchise[] = $idFranchise;
+        $idFranchise->addIdEvent($this);
+        return $this;
     }
 
     public function addIdFranchise(Franchises $idFranchise): self
@@ -165,5 +175,4 @@ class Events
 
         return $this;
     }
-
 }

@@ -6,22 +6,24 @@ use App\Entity\Franchises;
 use App\Entity\Trucks;
 use App\Entity\Users;
 use App\Entity\Roles;
+use App\Entity\Events;
 
 use App\Form\FranchisesType;
 use App\Form\TrucksType;
 use App\Form\UsersType;
+use App\Form\EventType;
 
 use App\Repository\FranchisesRepository;
 use App\Repository\TrucksRepository;
 use App\Repository\UsersRepository;
 use App\Repository\RolesRepository;
+use App\Repository\EventRepository;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-
 
 /**
  * @Route("/admin")
@@ -58,7 +60,7 @@ class AdminController extends AbstractController
 
             return $this->redirectToRoute('admin_franchise_show');
         }
-        
+
         return $this->render('admin/franchises.html.twig', [
             'franchises' => $franchises,
             'form' => $form->createView()
@@ -70,7 +72,6 @@ class AdminController extends AbstractController
      */
     public function franchise_edit(Franchises $franchise, Request $request)
     {
-
         $form = $this->createForm(FranchisesType::class, $franchise);
         $form->handleRequest($request);
 
@@ -85,7 +86,6 @@ class AdminController extends AbstractController
             'franchise' => $franchise,
             'form' => $form->createView()
         ]);
-
     }
 
     /**
@@ -98,9 +98,8 @@ class AdminController extends AbstractController
         $entityManager->flush();
 
         return $this->redirectToRoute('admin_franchise_show');
-
     }
-    
+
     /**
      * @Route("/truck", name="admin_truck_show")
      */
@@ -121,7 +120,7 @@ class AdminController extends AbstractController
 
             return $this->redirectToRoute('admin_truck_show');
         }
-        
+
         return $this->render('admin/trucks.html.twig', [
             'trucks' => $trucks,
             'form' => $form->createView()
@@ -133,7 +132,6 @@ class AdminController extends AbstractController
      */
     public function truck_edit(Trucks $truck, Request $request)
     {
-
         $form = $this->createForm(TrucksType::class, $truck);
         $form->handleRequest($request);
 
@@ -148,7 +146,6 @@ class AdminController extends AbstractController
             'truck' => $truck,
             'form' => $form->createView()
         ]);
-
     }
 
     /**
@@ -161,12 +158,11 @@ class AdminController extends AbstractController
         $entityManager->flush();
 
         return $this->redirectToRoute('admin_truck_show');
-
     }
 
-/**
-     * @Route("/user", name="admin_user_show")
-     */
+    /**
+         * @Route("/user", name="admin_user_show")
+         */
     public function user_show(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -187,7 +183,7 @@ class AdminController extends AbstractController
 
             return $this->redirectToRoute('admin_user_show');
         }
-        
+
         return $this->render('admin/users.html.twig', [
             'users' => $users,
             'form' => $form->createView()
@@ -199,7 +195,6 @@ class AdminController extends AbstractController
      */
     public function user_edit(Users $user, Request $request)
     {
-
         $form = $this->createForm(UsersType::class, $user);
         $form->remove('idRole');
         $form->handleRequest($request);
@@ -215,7 +210,6 @@ class AdminController extends AbstractController
             'user' => $user,
             'form' => $form->createView()
         ]);
-
     }
 
     /**
@@ -228,7 +222,23 @@ class AdminController extends AbstractController
         $entityManager->flush();
 
         return $this->redirectToRoute('admin_user_show');
-
     }
 
+    /**
+    * @Route("/event", name="admin_event_show")
+    */
+    public function event_show(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $events = $em->getRepository(Events::class)->findAll();
+
+        $event = $em->getRepository(Events::class)->findOneByidEvent('16');
+        dump($event);
+        $list = $em->getRepository(Franchises::class)->findByidEvent('16');
+
+
+        return $this->render('admin/event.html.twig', [
+            'events' => $events,
+        ]);
+    }
 }
