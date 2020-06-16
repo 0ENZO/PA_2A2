@@ -16,7 +16,7 @@ body {
 }
 
 .bg-white{
-    background-color: whitesmoke;
+    background-color: #F2F2F2;
 }
 
 .cover{
@@ -26,3 +26,24 @@ body {
     height: 95vh;
 }
 
+
+// Bouttons Menu Admin
+
+.admin-icon {
+    font-size: 80px;
+    padding-bottom: 10px;
+}
+
+.div-admin-button {
+    margin-left: 80px;
+    margin-bottom: 50px;
+}
+
+.div-admin-button-1 {
+    margin-bottom: 50px;
+}
+
+.admin-link {
+    min-width: 300px;
+    min-height: 180px;
+}

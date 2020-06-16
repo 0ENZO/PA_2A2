@@ -4,6 +4,7 @@
 
 {% block body %}
 
+
     <div class="container mt-5">
 
         <button class="btn btn-primary rounded-circlez mb-3" id="button_add_user" data-toggle="modal" data-target="#add_user">
@@ -15,7 +16,7 @@
                 <tr>
                 <th scope="col">id</th>
                 <th scope="col">Pseudo</th>
-                {# <th scope="col">Roles</th> #}
+                 <th scope="col">Rôles</th>
                 <th scope="col">Nom</th>
                 <th scope="col">Prenom</th>
                 <th scope="col">Email</th>
@@ -28,7 +29,7 @@
                     <tr>
                         <th scope="row">{{ user.id}}</th>
                         <td>{{ user.pseudo }}</td>
-                        {# <td>{{ user.roles }}</td> #}
+                         <td>{{ user.role.name }}</td>
                         <td>{{ user.lastName }}</td>
                         <td>{{ user.firstName }}</td>
                         <td>{{ user.email }}</td>

@@ -2,12 +2,16 @@
 
 namespace App\Controller;
 
+use App\Entity\Category;
 use App\Entity\Franchise;
+use App\Entity\SubCategory;
 use App\Entity\Truck;
 use App\Entity\User;
 use App\Entity\Role;
 
+use App\Form\CategoryType;
 use App\Form\FranchiseType;
+use App\Form\SubCategoryType;
 use App\Form\TruckType;
 use App\Form\UserType;
 
@@ -30,6 +34,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class AdminController extends AbstractController
 {
 
+    // MENU ADMINISTRATEUR
+
     /**
      * @Route("/show", name="admin_show")
      */
@@ -37,6 +43,11 @@ class AdminController extends AbstractController
     {
         return $this->render('admin/show.html.twig');
     }
+
+
+
+
+    // GESTION FRANCHISÉ
 
     /**
      * @Route("/franchise", name="admin_franchise_show")
@@ -56,6 +67,7 @@ class AdminController extends AbstractController
             $em->persist($franchise);
             $em->flush();
 
+            $this->addFlash("success", "Un nouveau franchisé a été ajouté");
             return $this->redirectToRoute('admin_franchise_show');
         }
         
@@ -78,6 +90,7 @@ class AdminController extends AbstractController
             $em = $this->getDoctrine()->getManager();
             $em->flush();
 
+            $this->addFlash("primary", "Un franchisé a été modifié.");
             return $this->redirectToRoute('admin_franchise_show');
         }
 
@@ -97,10 +110,17 @@ class AdminController extends AbstractController
         $entityManager->remove($franchise);
         $entityManager->flush();
 
+        $this->addFlash("danger", "Le franchisé que vous avez sélectionné a été supprimé.");
         return $this->redirectToRoute('admin_franchise_show');
 
     }
-    
+
+
+
+
+
+    // GESTION CAMIONS
+
     /**
      * @Route("/truck", name="admin_truck_show")
      */
@@ -119,6 +139,7 @@ class AdminController extends AbstractController
             $em->persist($truck);
             $em->flush();
 
+            $this->addFlash("success", "Un nouveau camion a été ajouté");
             return $this->redirectToRoute('admin_truck_show');
         }
         
@@ -141,6 +162,7 @@ class AdminController extends AbstractController
             $em = $this->getDoctrine()->getManager();
             $em->flush();
 
+            $this->addFlash("primary", "Un camion a été modifié.");
             return $this->redirectToRoute('admin_truck_show');
         }
 
@@ -160,11 +182,17 @@ class AdminController extends AbstractController
         $entityManager->remove($truck);
         $entityManager->flush();
 
+        $this->addFlash("danger", "Le camion que vous avez sélectionné a été supprimé.");
         return $this->redirectToRoute('admin_truck_show');
 
     }
 
-/**
+
+
+
+    // GESTION UTILISATEURS
+
+    /**
      * @Route("/user", name="admin_user_show")
      */
     public function user_show(Request $request)
@@ -185,6 +213,7 @@ class AdminController extends AbstractController
             $em->persist($user);
             $em->flush();
 
+            $this->addFlash("success", "Un nouvel utilisateur a été ajouté");
             return $this->redirectToRoute('admin_user_show');
         }
         
@@ -208,6 +237,7 @@ class AdminController extends AbstractController
             $em = $this->getDoctrine()->getManager();
             $em->flush();
 
+            $this->addFlash("primary", "Un utilisateur a été modifié.");
             return $this->redirectToRoute('admin_user_show');
         }
 
@@ -227,8 +257,155 @@ class AdminController extends AbstractController
         $entityManager->remove($user);
         $entityManager->flush();
 
+        $this->addFlash("danger", "L'utilisateur que vous avez sélectionné a été supprimé.");
         return $this->redirectToRoute('admin_user_show');
 
+    }
+
+
+
+
+
+    // GESTION CATEGORIES
+
+    /**
+     * @Route("/category",name="admin_category_show")
+     */
+    public function category_show(Request $request) {
+
+        $manager = $this->getDoctrine()->getManager();
+
+        $category = new Category();
+        $repo = $manager->getRepository(Category::class);
+
+        $categories = $repo->findAll();
+        $form = $this->createForm(CategoryType::class, $category);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() and $form->isValid()) {
+            $manager->persist($category);
+            $manager->flush();
+
+            $this->addFlash("success", "Une nouvelle catégorie a été ajoutée");
+            return $this->redirectToRoute("admin_category_show");
+        }
+
+        return $this->render("admin/categories.html.twig", [
+            "form" => $form->createView(),
+            "categories" => $categories,
+        ]);
+    }
+
+    /**
+     * @Route("/category/edit/{id}", name="admin_category_edit")
+     */
+    public function category_edit($id, Request $request) {
+
+        $manager = $this->getDoctrine()->getManager();
+        $category = $manager->getRepository(Category::class)->find($id);
+
+        $form = $this->createForm(CategoryType::class, $category);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() and $form->isValid()) {
+            $manager->flush();
+
+            $this->addFlash("primary", "Une catégorie a été modifiée");
+            return $this->redirectToRoute("admin_category_show");
+        }
+
+        return $this->render("admin/categories_edit.html.twig", [
+            "form" => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/category/delete/{id}", name="admin_category_delete", methods={"GET", "POST"})
+     */
+    public function category_delete($id) {
+
+        // Configurer VichUploader sur : delete_on_remove : false, ou on aura l'erreur suivante
+        // error : Expected argument of type "string", "null" given at property path "fileName".
+
+        $manager = $this->getDoctrine()->getManager();
+        $category = $manager->getRepository(Category::class)->findOneBy(["id" => $id]);
+        $manager->remove($category);
+        $manager->flush();
+
+        $this->addFlash("danger", "La catégorie que vous avez sélectionné a été supprimée");
+        return $this->redirectToRoute("admin_category_show");
+    }
+
+
+
+
+
+    // GESTION SOUS CATGEGORIES
+
+    /**
+     * @Route("/sub_category", name="admin_sub_categories_show")
+     */
+    public function sub_category_show(Request $request) {
+
+        $manager = $this->getDoctrine()->getManager();
+
+        $sub_categories = $manager->getRepository(SubCategory::class)->findAll();
+        $sub_category = new SubCategory();
+
+        $form = $this->createForm(SubCategoryType::class, $sub_category);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() and $form->isValid()) {
+            $manager->persist($sub_category);
+            $manager->flush();
+
+            $this->addFlash("success", "Une nouvelle sous-catégorie a été ajoutée");
+            return $this->redirectToRoute("admin_sub_categories_show");
+        }
+
+        return $this->render("admin/sub_categories.html.twig", [
+            "sub_categories" => $sub_categories,
+            "form" => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/sub_category/edit/{id}", name="admin_sub_category_edit")
+     */
+    public function sub_category_edit($id, Request $request) {
+
+        $manager = $this->getDoctrine()->getManager();
+        $sub_category = $manager->getRepository(SubCategory::class)->find($id);
+
+        $form = $this->createForm(SubCategoryType::class, $sub_category);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() and $form->isValid()) {
+            $manager->flush();
+
+            $this->addFlash("primary", "Une sous-catégorie a été modifiée");
+            return $this->redirectToRoute("admin_sub_categories_show");
+        }
+
+        return $this->render("admin/sub_categories_edit.html.twig", [
+            "form" => $form->createView(),
+        ]);
+    }
+
+
+    /**
+     * @Route("/sub_category/delete/{id}", name="admin_sub_category_delete")
+     */
+    public function sub_category_delete($id, Request $request) {
+
+        $manager = $this->getDoctrine()->getManager();
+        $sub_category = $manager->getRepository(SubCategory::class)->find($id);
+        $manager->remove($sub_category);
+        $manager->flush();
+
+        $this->addFlash("danger", "La sous-catégorie que vous avez sélectionné a été supprimée");
+        return $this->redirectToRoute("admin_sub_categories_show");
     }
 
 }

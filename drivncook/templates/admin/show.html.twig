@@ -4,23 +4,92 @@
 
 {% block body %}
 
+    {# A voir pour mettre dans un include et utiliser des varriables à la place, pour l'utiliser plus tard ailleurs #}
+    <div class="container mt-3">
+        <div class="jumbotron">
+            <h1 class="display-4">Menu Administrateur !</h1>
+            <p class="lead">Bienvenue dans le menu reservé au administrateurs.</p>
+            <hr class="my-4">
+            <p> Veuillez sélectionner le domaine avec lequel vous voulez intéragir.</p>
+            <p class="text-muted">Et n'oubliez pas : Un grand pouvoir implique de grandes responsabilités</p>
+        </div>
+    </div>
+
+
     <div class="container mt-5">
-        <div class="d-flex p-5">
-            <div class="col-md-3 mt-3 px-2 bg-black text-white text-center">
-                <a href="{{ path('admin_franchise_show') }}">
-                    <h3>Gestion franchisés</h3>
+        <div class="row justify-content-center">
+
+
+
+            <div class="col-3 div-admin-button-1">
+                <a class="btn btn-primary row admin-link align-items-center" href="{{ path('admin_user_show') }}" role="button">
+                    <div class="row -align-center">
+                        <div class="col">
+                            <i class="fas fa-users admin-icon"></i>
+                        </div>
+                    </div>
+                    <h3>Gestions des Utilisateurs</h3>
                 </a>
             </div>
-            <div class="col-md-3 mt-3 px-2 bg-black text-white text-center">
-                <a href="{{ path('admin_truck_show') }}">
-                    <h3>Gestion camions</h3>
+
+            <div class="col-3 div-admin-button">
+                <a class="btn btn-primary row admin-link" href="{{ path('admin_franchise_show') }}" role="button">
+                    <div class="row -align-center">
+                        <div class="col">
+                            <i class="fas fa-address-card admin-icon"></i>
+                        </div>
+                    </div>
+                    <h3>Gestions des Franchisés</h3>
                 </a>
             </div>
-            <div class="col-md-3 mt-3 px-2 bg-black text-white text-center">
-                <a href="{{ path('admin_user_show') }}">
-                    <h3>Gestion utilisateurs</h3>
+
+            <div class="col-3 div-admin-button">
+                <a class="btn btn-primary row admin-link" href="{{ path('admin_truck_show') }}" role="button">
+                    <div class="row -align-center">
+                        <div class="col">
+                            <i class="fas fa-truck admin-icon"></i>
+                        </div>
+                    </div>
+                    <h3>Gestions des Camions</h3>
                 </a>
             </div>
+
+            <div class="col-3 div-admin-button-1">
+                <a class="btn btn-primary row admin-link" href="{{ path('admin_category_show') }}" role="button">
+                    <div class="row -align-center">
+                        <div class="col">
+                            <i class="fas fa-cube admin-icon"></i>
+                        </div>
+                    </div>
+                    <h3>Gestions des Catégories</h3>
+                </a>
+            </div>
+
+            <div class="col-3 div-admin-button">
+                <a class="btn btn-primary row admin-link" href="{{ path('admin_sub_categories_show') }}" role="button">
+                    <div class="row -align-center">
+                        <div class="col">
+                            <i class="fas fa-cubes admin-icon"></i>
+                        </div>
+                    </div>
+                    <h3>Gestions des Sous-Catégories</h3>
+                </a>
+            </div>
+
+
+            <div class="col-3 div-admin-button">
+                <a class="btn btn-dark row admin-link" href="#" role="button">
+                    <div class="row -align-center">
+                        <div class="col">
+                            <i class="fas fa-tags admin-icon"></i>
+                        </div>
+                    </div>
+                    <h3>Gestions des Produits disponibles</h3>
+                </a>
+            </div>
+
+
+
         </div>
     </div>
 
