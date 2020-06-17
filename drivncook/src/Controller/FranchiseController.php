@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\CreditCard;
 use App\Entity\FranchiseOrder;
 use App\Entity\Franchise;
 use App\Entity\Truck;
@@ -31,6 +32,7 @@ class FranchiseController extends AbstractController
         $franchise = $this->getUser();
         $truck = $em->getRepository(Truck::class)->findOneByFranchise($franchise);
         $orders = $em->getRepository(FranchiseOrder::class)->findByFranchise($franchise);
+        $credit_cards = $em->getRepository(CreditCard::class)->findBy(["franchise" => $franchise]);
 /*
         $order = $em->getRepository(FranchiseOrder::class)->findOneByFranchiseOrder('12');
         $products = $order->getIdProduct();
@@ -52,7 +54,8 @@ class FranchiseController extends AbstractController
             'franchise' => $franchise,
             'truck' => $truck,
             'orders' => array_reverse($orders),
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            "credit_cards" => $credit_cards
         ]);
 
     }

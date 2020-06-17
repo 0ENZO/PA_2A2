@@ -25,6 +25,9 @@ class PaymentController extends AbstractController
         ]);
     }
 
+
+    // CARTE BANCAIRE
+
     /**
      * @Route("/credit-card/new", name="credit_card_add")
      */
@@ -35,15 +38,14 @@ class PaymentController extends AbstractController
         $form = $this->createForm(CreditCardType::class, $credit_card);
         $user = $this->getUser();
 
-        // Savoir si celui qui crée sa carte est un franchisé ou un utilisateur
+        // Savoir si celui qui créer sa carte est un franchisé ou un utilisateur
         if ($user instanceof Franchise) {
-//            echo "C'est un franchisé !";
             $credit_card->setFranchise($user);
         } elseif ($user instanceof  User) {
-//            echo "C'est un client (user)";
             $credit_card->setUser($user);
         } else {
-            $this->addFlash("danger", "J'sais pas qui tu es, mais t'es pas sensé être ici ! Dégage !");
+            $this->addFlash("danger", "Erreur d'identitifcation");
+            $this->redirectToRoute("home");
         }
 
         $form
@@ -53,19 +55,59 @@ class PaymentController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() and $form->isValid()) {
-            echo "form envoyé";
 
             $manager->persist($credit_card);
             $manager->flush();
-            echo "objet en bdd";
+
+            $this->addFlash("success", "Vous avez ajouté un nouveau moyen de paiement.");
+            return $this->redirectToRoute("franchise_profil");
         }
 
         return $this->render("payment/credit_card.html.twig", [
             "form" => $form->createView(),
-            "user" => $user,
             "credit_card" => $credit_card,
         ]);
     }
 
+
+    /**
+     * @Route("/credit-card/edit/{id}", name="credit_card_edit")
+     */
+    public function credit_card_edit($id, Request $request) {
+        $manager = $this->getDoctrine()->getManager();
+        $credit_card = $manager->getRepository(CreditCard::class)->find($id);
+        $form = $this->createForm(CreditCardType::class, $credit_card);
+
+        $form
+            ->remove("franchise")
+            ->remove("user");
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() and $form->isValid()) {
+            $manager->flush();
+
+            $this->addFlash("primary", "Vous avez modifié vos informations relatives à vos moyens de paiement.");
+            return $this->redirectToRoute("franchise_profil");
+        }
+
+        return $this->render("payment/credit_card.html.twig", [
+            "form" => $form->createView()
+        ]);
+    }
+
+
+    /**
+     * @Route("/credit-card/delete/{id}", name="credit_card_delete")
+     */
+    public function credit_card_delete($id, Request $request) {
+        $manager = $this->getDoctrine()->getManager();
+        $credit_card = $manager->getRepository(CreditCard::class)->find($id);
+        $manager->remove($credit_card);
+        $manager->flush();
+
+        $this->addFlash("danger", "Vous avez supprimé un moyen de paiement.");
+        return $this->redirectToRoute("franchise_profil");
+    }
 
 }
