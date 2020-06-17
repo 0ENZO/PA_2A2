@@ -450,4 +450,8 @@ class User implements UserInterface
     public function eraseCredentials(){
 
     }
+
+    public function __toString() : string {
+        return $this->firstName." ".$this->lastName;
+    }
 }

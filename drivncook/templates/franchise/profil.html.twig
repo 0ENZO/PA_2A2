@@ -52,6 +52,11 @@
                                     <i class="mr-2 fas fa-cart-arrow-down"></i>Mes commandes
                                   </a>
                               </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="" id="nav_truck" data-target="#pane_credit_card" data-toggle="tab">
+                                    <i class="mr-2 fas fa-credit-card"></i>Mes informations bancaires
+                                </a>
+                            </li>
                           </ul>
                     </div>
                 </div>
@@ -125,7 +130,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td>Capacités max</td>
-                                                    <td>{{ truck.idMaxCapacity }}</td>
+                                                    <td>{{ truck.maxCapacity }}</td>
                                                 </tr>
                                                 <tr>
                                                     <td>Date de sortie d'usine</td>
@@ -268,6 +273,15 @@
                                     
                         
                                     </div>
+                                </div>
+                            </div>
+
+                            <div class="tab-pane" id="pane_credit_card" role="tabpanel">
+                                <div class="col-md-8 mx-auto mt-3">
+                                    <h3 class="text-bold mt-3 mb-5">Mes information bancaires</h3>
+                                    <p>cartes bancaires</p>
+                                    <p>modifier une carte bancaire</p>
+                                    <a href="{{ path('credit_card_add') }}">Ajouter un moyen de paiement</a>
                                 </div>
                             </div>
 
