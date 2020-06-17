@@ -39,13 +39,13 @@ class CreditCard
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="creditCards")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $user;
 
     /**
      * @ORM\ManyToOne(targetEntity=Franchise::class, inversedBy="creditCards")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $franchise;
 

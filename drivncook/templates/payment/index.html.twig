@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Paiement{% endblock %}
+
+{% block body %}
+
+    <div>Mais oui c'est clair</div>
+
+    {{ form_start(customer_form) }}
+        {{ form_widget(customer_form) }}
+    {{ form_end(customer_form) }}
+
+    {{ dump(customer_form) }}
+    {{ dump(credit_cards) }}
+    {{ dump(credit_card) }}
+    {{ dump(pre_tax_price) }}
+    {{ dump(tax) }}
+    {{ dump(including_taxes_price) }}
+    {{ dump(consignee) }}
+    {{ dump(source) }}
+
+{% endblock %}
