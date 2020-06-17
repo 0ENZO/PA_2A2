@@ -9,6 +9,7 @@ use App\Form\CreditCardType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use function Sodium\add;
 
 /**
  * @Route("/payment")
@@ -17,11 +18,54 @@ class PaymentController extends AbstractController
 {
 
     /**
+     * Info : Page de paiement par laquelle doivent passer chaque paiment, peut importe la source et destination.
+     * Le Paiement de 50k euros des franchisé est deja pris en compte ultérieurement.l
      * @Route("/", name="payment")
      */
-    public function index() {
+    public function index(Request $request) {
+
+        $manager = $this->getDoctrine()->getManager();
+        $user = $this->getUser();
+
+        $credit_card = new CreditCard();
+        $credit_cards = $manager->getRepository(CreditCard::class)->findBy(["franchise" => $user]);
+
+        $customer_form = $this->createForm(CreditCardType::class, $credit_card);
+        $customer_form
+            ->remove("franchise")
+            ->remove("user");
+
+        $customer_form->handleRequest($request);
+
+        if ($customer_form->isSubmitted() and $customer_form->isValid()) {
+            // La carte rentré par le client est bonne, il peut maintenant payer avec
+            $this->addFlash("succes", "La carte que vous avez rentré est correcte. Vous pouvez maintenant procéder au paiment.");
+            return $this->redirectToRoute("payment");   // retour sur la même page, avec les informations de la CB okay.
+        }
+
+        // Fausses informations en attendant une vraie commande
+        $pre_tax_price = 536.90;
+        $tax = $pre_tax_price / 20;     // 20% de taxe, puisqu'on est en France
+        $including_taxes_price = $pre_tax_price + $tax;
+
+        $consignee = $manager->getRepository(Franchise::class)->find(rand(0, 9));
+        if (!empty($user)) {
+            $source = "A Random Customer";
+        } else {
+            $source = $user;
+        }
+
+
         return $this->render('payment/index.html.twig', [
-            'controller_name' => 'PaymentController',
+           "customer_form" => $customer_form->createView(),
+            "credit_cards" => $credit_cards,
+            "credit_card" => $credit_card,      // La carte vide, ou bien remplie par le client
+            // Envoie des fausses informations
+            "pre_tax_price" => $pre_tax_price,
+            "tax" => $tax,
+            "including_taxes_price" => $including_taxes_price,
+            "consignee" => $consignee,
+            "source" => $source
         ]);
     }
 
