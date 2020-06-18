@@ -9,7 +9,6 @@ use App\Form\CreditCardType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use function Sodium\add;
 
 /**
  * @Route("/payment")
@@ -20,7 +19,7 @@ class PaymentController extends AbstractController
     /**
      * Info : Page de paiement par laquelle doivent passer chaque paiment, peut importe la source et destination.
      * Le Paiement de 50k euros des franchisé est deja pris en compte ultérieurement.l
-     * @Route("/", name="payment")
+     * @Route("/", name="payment_process")
      */
     public function index(Request $request) {
 
@@ -39,17 +38,20 @@ class PaymentController extends AbstractController
 
         if ($customer_form->isSubmitted() and $customer_form->isValid()) {
             // La carte rentré par le client est bonne, il peut maintenant payer avec
-            $this->addFlash("succes", "La carte que vous avez rentré est correcte. Vous pouvez maintenant procéder au paiment.");
-            return $this->redirectToRoute("payment");   // retour sur la même page, avec les informations de la CB okay.
+            // Créer une variable $final_card pour savoir avec quelle carte le client doit payer
+            $this->addFlash("success", "La carte que vous avez rentré est correcte. Vous pouvez maintenant procéder au paiment.");
         }
+//        else {
+//            $this->addFlash("danger", "Il semble que les informations que vous avez rentrées sont incorrectes. Veuillez réessayer.");
+//        }
 
         // Fausses informations en attendant une vraie commande
         $pre_tax_price = 536.90;
-        $tax = $pre_tax_price / 20;     // 20% de taxe, puisqu'on est en France
+        $tax = $pre_tax_price * 0.2;     // 20% de taxe, puisqu'on est en France
         $including_taxes_price = $pre_tax_price + $tax;
 
-        $consignee = $manager->getRepository(Franchise::class)->find(rand(0, 9));
-        if (!empty($user)) {
+        $consignee = $manager->getRepository(Franchise::class)->find(rand(0, 8));
+        if (empty($user)) {
             $source = "A Random Customer";
         } else {
             $source = $user;
@@ -65,7 +67,8 @@ class PaymentController extends AbstractController
             "tax" => $tax,
             "including_taxes_price" => $including_taxes_price,
             "consignee" => $consignee,
-            "source" => $source
+            "source" => $source,
+            "user" => $user
         ]);
     }
 
@@ -78,6 +81,7 @@ class PaymentController extends AbstractController
     public function credit_card_new(Request $request) {
 
         $manager = $this->getDoctrine()->getManager();
+//        $final_card = new CreditCard(); // TODO peut-être pocéder de cette façons sélectionner la carte à enregistrer.
         $credit_card = new CreditCard();
         $form = $this->createForm(CreditCardType::class, $credit_card);
         $user = $this->getUser();
