@@ -26,6 +26,10 @@ class PaymentController extends AbstractController
         $manager = $this->getDoctrine()->getManager();
         $user = $this->getUser();
 
+        if (!empty($user) and $user->getRoles()[0] === "ROLE_ADMIN") {
+            $this->addFlash("warning", "<p>Vous êtes Administrateur.</p><p>Pour voir ce qui appareitra réellement, il faut prendre un compte d'un autre rôle, ou pas de compte.</p>");
+        }
+
         $credit_card = new CreditCard();
         $credit_cards = $manager->getRepository(CreditCard::class)->findBy(["franchise" => $user]);
 
@@ -68,9 +72,13 @@ class PaymentController extends AbstractController
             "including_taxes_price" => $including_taxes_price,
             "consignee" => $consignee,
             "source" => $source,
-            "user" => $user
+            "user" => $user,
         ]);
     }
+
+
+
+
 
 
     // CARTE BANCAIRE
