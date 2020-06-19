@@ -75,10 +75,16 @@ class Article
      */
     private $imageName;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Menu::class, mappedBy="article")
+     */
+    private $menus;
+
     public function __construct()
     {
         $this->userOrderContents = new ArrayCollection();
         $this->recipes = new ArrayCollection();
+        $this->menus = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -241,5 +247,33 @@ class Article
     public function getImageName(): ?string
     {
         return $this->imageName;
+    }
+
+    /**
+     * @return Collection|Menu[]
+     */
+    public function getMenus(): Collection
+    {
+        return $this->menus;
+    }
+
+    public function addMenu(Menu $menu): self
+    {
+        if (!$this->menus->contains($menu)) {
+            $this->menus[] = $menu;
+            $menu->addArticle($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMenu(Menu $menu): self
+    {
+        if ($this->menus->contains($menu)) {
+            $this->menus->removeElement($menu);
+            $menu->removeArticle($this);
+        }
+
+        return $this;
     }
 }

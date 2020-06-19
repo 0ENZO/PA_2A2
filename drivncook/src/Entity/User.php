@@ -116,11 +116,17 @@ class User implements UserInterface
      */
     private $imageName;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Reward::class, mappedBy="user")
+     */
+    private $rewards;
+
     public function __construct()
     {
         $this->creditCards = new ArrayCollection();
         $this->userOrders = new ArrayCollection();
         $this->votes = new ArrayCollection();
+        $this->rewards = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -453,5 +459,33 @@ class User implements UserInterface
 
     public function __toString() : string {
         return $this->firstName." ".$this->lastName;
+    }
+
+    /**
+     * @return Collection|Reward[]
+     */
+    public function getRewards(): Collection
+    {
+        return $this->rewards;
+    }
+
+    public function addReward(Reward $reward): self
+    {
+        if (!$this->rewards->contains($reward)) {
+            $this->rewards[] = $reward;
+            $reward->addUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReward(Reward $reward): self
+    {
+        if ($this->rewards->contains($reward)) {
+            $this->rewards->removeElement($reward);
+            $reward->removeUser($this);
+        }
+
+        return $this;
     }
 }

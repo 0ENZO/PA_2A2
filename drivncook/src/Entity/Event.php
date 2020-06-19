@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\EventRepository;
 use Symfony\Component\HttpFoundation\File\File;
@@ -67,6 +69,16 @@ class Event
      * @var string|null
      */
     private $imageName;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Franchise::class, inversedBy="events")
+     */
+    private $franchise;
+
+    public function __construct()
+    {
+        $this->franchise = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -178,5 +190,31 @@ class Event
     public function getImageName(): ?string
     {
         return $this->imageName;
+    }
+
+    /**
+     * @return Collection|Franchise[]
+     */
+    public function getFranchise(): Collection
+    {
+        return $this->franchise;
+    }
+
+    public function addFranchise(Franchise $franchise): self
+    {
+        if (!$this->franchise->contains($franchise)) {
+            $this->franchise[] = $franchise;
+        }
+
+        return $this;
+    }
+
+    public function removeFranchise(Franchise $franchise): self
+    {
+        if ($this->franchise->contains($franchise)) {
+            $this->franchise->removeElement($franchise);
+        }
+
+        return $this;
     }
 }

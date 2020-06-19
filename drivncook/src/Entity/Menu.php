@@ -49,9 +49,15 @@ class Menu
      */
     private $rewardContents;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Article::class, inversedBy="menus")
+     */
+    private $article;
+
     public function __construct()
     {
         $this->rewardContents = new ArrayCollection();
+        $this->article = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -145,6 +151,32 @@ class Menu
             if ($rewardContent->getMenu() === $this) {
                 $rewardContent->setMenu(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Article[]
+     */
+    public function getArticle(): Collection
+    {
+        return $this->article;
+    }
+
+    public function addArticle(Article $article): self
+    {
+        if (!$this->article->contains($article)) {
+            $this->article[] = $article;
+        }
+
+        return $this;
+    }
+
+    public function removeArticle(Article $article): self
+    {
+        if ($this->article->contains($article)) {
+            $this->article->removeElement($article);
         }
 
         return $this;

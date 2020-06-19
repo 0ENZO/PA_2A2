@@ -107,6 +107,11 @@ class Franchise implements UserInterface
      */
     private $creditCards;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Event::class, mappedBy="franchise")
+     */
+    private $events;
+
     public function __construct()
     {
         $this->trucks = new ArrayCollection();
@@ -115,6 +120,7 @@ class Franchise implements UserInterface
         $this->menus = new ArrayCollection();
         $this->votes = new ArrayCollection();
         $this->creditCards = new ArrayCollection();
+        $this->events = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -478,6 +484,34 @@ class Franchise implements UserInterface
             if ($creditCard->getFranchise() === $this) {
                 $creditCard->setFranchise(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Event[]
+     */
+    public function getEvents(): Collection
+    {
+        return $this->events;
+    }
+
+    public function addEvent(Event $event): self
+    {
+        if (!$this->events->contains($event)) {
+            $this->events[] = $event;
+            $event->addFranchise($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEvent(Event $event): self
+    {
+        if ($this->events->contains($event)) {
+            $this->events->removeElement($event);
+            $event->removeFranchise($this);
         }
 
         return $this;
