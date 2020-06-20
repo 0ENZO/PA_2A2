@@ -53,6 +53,18 @@ body {
 
 
 
+// Gestion produits - disponiblité du produit
+
+.available-product {
+    color: #64803c;
+}
+
+.unvailable-product {
+    color: #c21f2a;
+}
+
+
+
 // Payment
 
 .card-payment {
