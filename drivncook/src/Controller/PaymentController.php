@@ -5,11 +5,11 @@ namespace App\Controller;
 use App\Entity\CreditCard;
 use App\Entity\Franchise;
 use App\Entity\User;
+use App\Entity\Warehouse;
 use App\Form\CreditCardType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use function Sodium\add;
 
 /**
  * @Route("/payment")
@@ -20,15 +20,28 @@ class PaymentController extends AbstractController
     /**
      * Info : Page de paiement par laquelle doivent passer chaque paiment, peut importe la source et destination.
      * Le Paiement de 50k euros des franchisé est deja pris en compte ultérieurement.l
-     * @Route("/", name="payment")
+     * @Route("/{selected_credit_card}", name="payment_process")
      */
-    public function index(Request $request) {
+    public function index($selected_credit_card = null, Request $request) {
+        // TODO ATTENTION. Rien n'est sécurisé ici. L'id de la final_cb passe tout le temps en GET. J'ai pas trouvé d'autres moyen pour le moment
+        // TODO ATTENTION. Il va falloir aussi veiller à encoder les informations sensibles (informations bancaires nottement)
+        // TODO ATTENTION. A terme, remplacer toutes les fausses valeurs par des vraies
 
         $manager = $this->getDoctrine()->getManager();
         $user = $this->getUser();
 
+        if (!empty($user) and $user->getRoles()[0] === "ROLE_ADMIN") {
+            $this->addFlash("warning", "<p>Vous êtes Administrateur.</p><p>Pour voir ce qui appareitra réellement, il faut prendre un compte d'un autre rôle, ou pas de compte.</p>");
+        }
+
         $credit_card = new CreditCard();
         $credit_cards = $manager->getRepository(CreditCard::class)->findBy(["franchise" => $user]);
+
+        if (!empty($selected_credit_card)) {
+            $selected_credit_card = $manager->getRepository(CreditCard::class)->find($selected_credit_card);
+            $this->addFlash("success", "La carte que vous avez rentré est correcte. Vous pouvez maintenant procéder au paiment.");
+        }
+
 
         $customer_form = $this->createForm(CreditCardType::class, $credit_card);
         $customer_form
@@ -39,17 +52,27 @@ class PaymentController extends AbstractController
 
         if ($customer_form->isSubmitted() and $customer_form->isValid()) {
             // La carte rentré par le client est bonne, il peut maintenant payer avec
-            $this->addFlash("succes", "La carte que vous avez rentré est correcte. Vous pouvez maintenant procéder au paiment.");
-            return $this->redirectToRoute("payment");   // retour sur la même page, avec les informations de la CB okay.
+            // Créer une variable $final_card pour savoir avec quelle carte le client doit payer
+            $selected_credit_card = $credit_card;
+            $this->addFlash("success", "La carte que vous avez rentré est correcte. Vous pouvez maintenant procéder au paiment.");
+        } elseif ($customer_form->isSubmitted() and !($customer_form->isValid())) {
+            $this->addFlash("danger", "Il semble que les informations que vous avez rentrées sont incorrectes. Veuillez réessayer.");
         }
 
+
+
         // Fausses informations en attendant une vraie commande
+
         $pre_tax_price = 536.90;
-        $tax = $pre_tax_price / 20;     // 20% de taxe, puisqu'on est en France
+        $tax = $pre_tax_price * 0.2;     // 20% de taxe, puisqu'on est en France
         $including_taxes_price = $pre_tax_price + $tax;
 
-        $consignee = $manager->getRepository(Franchise::class)->find(rand(0, 9));
-        if (!empty($user)) {
+        $consignee = $manager->getRepository(Franchise::class)->find(rand(0, 8));
+        if ($user instanceof Franchise) {
+            $consignee = "Entrepôt : ".$manager->getRepository(Warehouse::class)->find(rand(1,4));
+        }
+
+        if (empty($user)) {
             $source = "A Random Customer";
         } else {
             $source = $user;
@@ -65,9 +88,22 @@ class PaymentController extends AbstractController
             "tax" => $tax,
             "including_taxes_price" => $including_taxes_price,
             "consignee" => $consignee,
-            "source" => $source
+            "source" => $source,
+            "user" => $user,
+            "selected_credit_card" => $selected_credit_card
         ]);
     }
+
+    /**
+     * @Route("/payment/success", name="payment_success")
+     */
+    public function payment_success() {
+        return $this->render("payment/payment_success.html.twig");
+    }
+
+
+
+
 
 
     // CARTE BANCAIRE

@@ -216,4 +216,8 @@ class SubCategory
     {
         return $this->imageName;
     }
+
+    public function __toString() {
+        return $this->name;
+    }
 }

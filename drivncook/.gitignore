@@ -24,3 +24,5 @@ yarn-error.log
 ###< symfony/webpack-encore-bundle ###
 
 */.DS_Store
+
+/config/packages/doctrine_migrations.yaml

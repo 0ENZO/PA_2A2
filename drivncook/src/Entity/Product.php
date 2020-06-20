@@ -59,6 +59,13 @@ class Product
     private $quantity;
 
     /**
+     * @ORM\Column(name="UploadDate" ,type="datetime", nullable=true)
+     *
+     * @var \DateTimeInterface|null
+     */
+    private $updatedAt;
+
+    /**
      * @ORM\ManyToOne(targetEntity=SubCategory::class, inversedBy="products")
      */
     private $subCategory;
@@ -80,7 +87,7 @@ class Product
 
     /**
      * NOTE: This is not a mapped field of entity metadata, just a simple property.
-     * @Vich\UploadableField(mapping="message_image", fileNameProperty="imageName")
+     * @Vich\UploadableField(mapping="product_images", fileNameProperty="imageName")
      * @Assert\Image(
      *  maxSize = "5M",
      *  mimeTypes={ "image/gif", "image/jpeg", "image/png" }

@@ -4,19 +4,279 @@
 
 {% block body %}
 
-    <div>Mais oui c'est clair</div>
+{#        {{ form_start(customer_form) }}#}
+{#            {{ form_widget(customer_form) }}#}
+{#        {{ form_end(customer_form) }}#}
 
-    {{ form_start(customer_form) }}
-        {{ form_widget(customer_form) }}
-    {{ form_end(customer_form) }}
+{#        {{ dump(customer_form) }}#}
+{#        {{ dump(credit_cards) }}#}
+{#        {{ dump(credit_card) }}#}
+{#        {{ dump(pre_tax_price) }}#}
+{#        {{ dump(tax) }}#}
+{#        {{ dump(including_taxes_price) }}#}
+{#        {{ dump(consignee) }}#}
+{#        {{ dump(source) }}#}
+{#        {{ dump(user) }}#}
+{#        {{ dump(user.role.id) }}#}
+{#        {{ dump(role) }}#}
+{#        {{ dump(warehouse) }}#}
+{#    {{ dump(selected_credit_card) }}#}
 
-    {{ dump(customer_form) }}
-    {{ dump(credit_cards) }}
-    {{ dump(credit_card) }}
-    {{ dump(pre_tax_price) }}
-    {{ dump(tax) }}
-    {{ dump(including_taxes_price) }}
-    {{ dump(consignee) }}
-    {{ dump(source) }}
+
+
+    {# A voir pour mettre dans un include et utiliser des varriables à la place, pour l'utiliser plus tard ailleurs #}
+    <div class="container mt-3">
+        <div class="jumbotron">
+            <h1 class="display-4">Paiement de la commande</h1>
+            <p class="lead">La dernière étape avant de pouvoir vous lécher les papilles !</p>
+            <hr class="my-4">
+            <p>Notre site dispose du certificat "https" (mettre un cademat ici). Ceci signifie que les échanges entre vous, et notre site sont chiffrés par des algorithmes de sécurité.</p>
+            <p>Vous n'avez donc pas à vous inquiéter à propos de vos informations bancaires, vous pourrer aller prendre votre repas en toute sécurité.</p>
+        </div>
+    </div>
+
+    <div class="container mt-5">
+        <div class="row profile">
+
+            <div class="col-md-3">
+
+                <div class="profile-usermenu">
+                    <ul class="nav nav-tabs flex-column ml-4" id="myTab" role="tablist">
+
+                        <h3 class="h3 display-5 my-3">Méthode de paiement :</h3>
+
+                        {% if user is defined and user is not empty %}
+                        <li class="nav-item">
+                            <a class="nav-link active" href="" id="nav_profile" data-target="#pane_cb"
+                               data-toggle="tab">
+                                <i class="mr-2 fas fa-id-card"></i>Mes moyens bancaires
+                            </a>
+                        </li>
+                        {% endif %}
+                        <li class="nav-item">
+                            <a class="nav-link {% if user is defined and user is empty %} active {% endif %}" href="" id="nav_edit" data-target="#pane_tmp" data-toggle="tab">
+                                <i class="mr-2 fas fa-plus"></i>Paiement bancaire unique
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+               <div class="profile-usermenu">
+
+                   <ul class="nav nav-tabs list-group flex-column ml-4" id="myTab" role="tablist">
+
+                       <h3 class="h3 display-5 my-3">Récapitulatif</h3>
+
+                       <li class="list-group-item d-flex justify-content-between lh-condensed">
+                           <div>
+                               <h6 class="my-0">Prix hors taxes</h6>
+                               <small class="text-muted">Prix but</small>
+                           </div>
+                           <span class="text-muted">{{ pre_tax_price }}€</span>
+                       </li>
+
+                       <li class="list-group-item d-flex justify-content-between lh-condensed">
+                           <div>
+                               <h6 class="my-0">Taxes</h6>
+                               <small class="text-muted">Taxe française en vigueur : 20%</small>
+                           </div>
+                           <span class="text-muted">{{ tax }}€</span>
+                       </li>
+
+                       <li class="list-group-item d-flex justify-content-between lh-condensed">
+                           <div>
+                               <h6 class="my-0">Prix TTC</h6>
+                               <small class="text-muted">Toutes Taxes Comprises</small>
+                           </div>
+                           <span class="text-muted">{{ including_taxes_price }}€</span>
+                       </li>
+
+                       <li class="list-group-item d-flex justify-content-between lh-condensed">
+                           <div>
+                               <h6 class="my-0">TOTAL</h6>
+                               <small class="text-muted">À payer</small>
+                           </div>
+                           <strong>{{ including_taxes_price }}€</strong>
+                       </li>
+
+                   </ul>
+               </div>
+
+            </div>
+
+
+            <div class="col-md-9">
+                <div class="card card-payment">
+                    <div class="card-body">
+
+
+
+
+                        <div class="tab-content" id="myTabContent">
+
+                            <div class="tab-pane {% if user is defined and user is not empty %} active {% endif %}" id="pane_cb" role="tabpanel">
+
+                                <div class="text-left">
+                                    <h3 class="h3 display-5 text-center">Vos moyens bancaires actuellement disponibles</h3>
+                                    <hr>
+                                    {% if credit_cards is defined and credit_cards is not empty %}
+                                        <div class="">Voici la liste des moyens bancaires que vous nous avez mis à disposition.</div>
+                                        <div class="">Sélectionner une des cartes pour procéder au paiement.</div>
+                                    {% else %}
+                                        <div class="">Vous n'avez enregistré aucun moyen de paiment pour le moments. Vous pouvez soit payez avec une carte bancaire maintenant, ou en enregistrer une ou plusieurs sur votre profil.</div>
+                                        <div class="text-center my-3">
+                                            {% if user is defined and user is not empty and user.role.id == 2 %}
+                                                <a class="btn btn-outline-primary" href="{{ path('franchise_profil') }}">Enregistrer un moyen de paiement</a>
+                                            {% elseif user is defined and user is not empty and user.role.id == 2 %}
+                                                <a class="btn btn-outline-primary" href="#{{ path('franchise_profil') }}">Enregistrer un moyen de paiement (mettre à jour vers le profil client quand il existera)</a>
+                                            {% else %}
+                                                <p>Vous n'avez pas accès à cette fonctionnalité. Pour ce faire, vous devez vous inscrire</p>
+                                            {% endif %}
+                                        </div>
+                                    {% endif %}
+                                    <hr>
+                                </div>
+
+                                {% if credit_cards is defined and credit_cards is not null %}
+                                    {% for credit_card in credit_cards %}
+
+                                        <table class="table table-borderless my-5">
+                                            <tbody>
+                                            <tr>
+                                                <td>Numéro de carte</td>
+                                                <td>{{ credit_card.cardNumber }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Date d'expiration</td>
+                                                <td>{{ credit_card.expirationDate|date("d/m/Y") }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Code de vérification</td>
+                                                <td>{{ credit_card.verificationCode }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Prénom et Nom</td>
+                                                <td>{{ credit_card.name }}</td>
+                                            </tr>
+
+                                            </tbody>
+                                        </table>
+
+                                        <div class="text-center">
+                                            <a class="btn btn-primary" href="{{ path('payment_process', {"selected_credit_card" : credit_card.id}) }}">Sélectionner</a>
+                                        </div>
+
+
+                                        <hr>
+
+                                    {% endfor %}
+                                {% else %}
+                                    <p>Vous ne posséder aucun moyens de paiment.</p>
+                                {% endif %}
+
+                            </div>
+
+                            <div class="tab-pane {% if user is defined and user is empty %} active {% endif %}" id="pane_tmp" role="tabpanel">
+
+                                <div class="text-left">
+                                    <h3 class="h3 display-5 text-center">Nouveau moyen bancaire</h3>
+                                    <hr>
+                                    {% if user is defined and user is empty %}
+                                        <div class="mb-2">Vous n'êtes actuellement pas inscrit sur notre site. Nous n'avons par conséquence pas d'informations bancaires vous concernant.</div>
+                                    {% endif %}
+                                    <div class="">Veuillez remplir les champs ci-dessous, afin que nous puissions vérifier les informations pour procéder au paiment.</div>
+                                    <hr>
+                                </div>
+
+                                <div class="container mt-5">
+                                    {{ form_start(customer_form) }}
+                                    {{ form_widget(customer_form) }}
+                                    {{ form_end(customer_form) }}
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+
+    <div class="container my-5">
+        <div class="card text-left">
+            <div class="card-header">
+                <h3 class="h3 display-5 text-center">Récapitulatif du transit bancaire</h3>
+            </div>
+
+            <div class="card-body">
+                <table class="table table-borderless my-5">
+                    <tbody>
+                    <tr>
+                        <td>Source émetrice du paiement de la commande :</td>
+                        <td>{{ source }}</td>
+                    </tr>
+                    <tr>
+                        <td>Destinataire du paiement de la commande</td>
+                        <td>{% if consignee is defined and consignee is not empty %}
+                                {{ consignee }}
+                            {% else %}<strong>Ceci ne devrait pas s'afficher</strong>
+                            {% endif %}
+                            - Driv'n Cook</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+
+            <div class="card-footer text-muted text-center">
+                <a href="#" class="btn btn-outline-dark">Ou bien annuler la commande</a>
+            </div>
+        </div>
+    </div>
+
+    {% if selected_credit_card is defined and selected_credit_card is not empty%}
+        <div class="container my-5">
+            <div class="card text-left">
+                <div class="card-header">
+                    <h3 class="h3 display-5 text-center">Méthode de paiment sélectionné</h3>
+                </div>
+
+                <div class="card-body">
+
+                    <table class="table table-borderless my-5">
+                        <tbody>
+                        <tr>
+                            <td>Numéro de carte</td>
+                            <td>{{ selected_credit_card.cardNumber }}</td>
+                        </tr>
+                        <tr>
+                            <td>Date d'expiration</td>
+                            <td>{{ selected_credit_card.expirationDate|date("d/m/Y") }}</td>
+                        </tr>
+                        <tr>
+                            <td>Code de vérification</td>
+                            <td>{{ selected_credit_card.verificationCode }}</td>
+                        </tr>
+                        <tr>
+                            <td>Prénom et Nom</td>
+                            <td>{{ selected_credit_card.name }}</td>
+                        </tr>
+
+                        </tbody>
+                    </table>
+
+                </div>
+
+            </div>
+        </div>
+
+        <div class="container text-center">
+            <a href="{{ path('payment_success') }}" class="btn btn-success">CONFIRMER LE PAIEMENT</a>
+        </div>
+    {% endif %}
+
 
 {% endblock %}

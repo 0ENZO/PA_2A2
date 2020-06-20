@@ -10,9 +10,11 @@
 
     <div class="container mt-5">
         <!-- Button trigger modal -->
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#add_category">
+        <button type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#add_category">
             + Ajouter une Catégorie
         </button>
+
+        <a href="{{ path('admin_show') }}" class="btn btn-outline-dark mb-3">Retour au menu administrateur</a>
 
         <table class="table mt-4">
             <thead class="thead-dark">
