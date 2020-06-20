@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Menu entrepôts{% endblock %}
+
+{% block body %}
+
+    <div class="container">
+        <div class="row">
+            <div class="">
+
+            {% for i in 1..4 %}
+
+            <div class="col-6">
+                <a class="btn btn-dark row admin-link pt-3" href="#" role="button">
+                    <div class="row -align-center">
+                        <div class="col">
+                            <i class="fas fa-warehouse admin-icon"></i>
+                        </div>
+                    </div>
+                    <h3>Entrepôts (NOM)</h3>
+                </a>
+            </div>
+
+            {% endfor %}
+
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
