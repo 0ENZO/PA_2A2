@@ -10,6 +10,7 @@ use App\Entity\Truck;
 use App\Entity\User;
 use App\Entity\Role;
 
+use App\Entity\Warehouse;
 use App\Form\CategoryType;
 use App\Form\FranchiseType;
 use App\Form\ProductType;
@@ -496,4 +497,34 @@ class AdminController extends AbstractController
         return $this->redirectToRoute("admin_product_show");
     }
 
+
+
+
+
+
+    // GESTION ENTREPÔTS
+
+    /**
+     * @Route("/warehouse", name="admin_warehouse_menu")
+     */
+    public function admin_warehouse_menu() {
+
+        // TODO Récupérer les données des entrepots pour faire un menu d'un entrepots
+
+        return $this->render("admin/warehouses_menu.html.twig");
+    }
+
+
+    /**
+     * @Route("/warehouse/{name}", name="admin_warehouse_show")
+     */
+    public function admin_warehouse_show($name, Request $request) {
+
+        $manager = $this->getDoctrine()->getManager();
+        $warehouse = $manager->getRepository(Warehouse::class)->findOneBy(["name" => $name]);
+
+        // TODO : Informations de l'entrepots. Tout ce qu'il contient.
+
+        return $this->render("admin/warehouse.html.twig");
+    }
 }

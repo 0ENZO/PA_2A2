@@ -22,7 +22,7 @@
 
 
             <div class="col-3 div-admin-button-1">
-                <a class="btn btn-primary row admin-link align-items-center" href="{{ path('admin_user_show') }}" role="button">
+                <a class="btn btn-primary row admin-link align-items-center pt-3" href="{{ path('admin_user_show') }}" role="button">
                     <div class="row -align-center">
                         <div class="col">
                             <i class="fas fa-users admin-icon"></i>
@@ -33,7 +33,7 @@
             </div>
 
             <div class="col-3 div-admin-button">
-                <a class="btn btn-primary row admin-link" href="{{ path('admin_franchise_show') }}" role="button">
+                <a class="btn btn-primary row admin-link pt-3" href="{{ path('admin_franchise_show') }}" role="button">
                     <div class="row -align-center">
                         <div class="col">
                             <i class="fas fa-address-card admin-icon"></i>
@@ -43,8 +43,9 @@
                 </a>
             </div>
 
+            {# TODO Voir si on ne fait pas un parc PARC comme on l'entends, afin que ça ait plus de gueule#}
             <div class="col-3 div-admin-button">
-                <a class="btn btn-primary row admin-link" href="{{ path('admin_truck_show') }}" role="button">
+                <a class="btn btn-primary row admin-link pt-3" href="{{ path('admin_truck_show') }}" role="button">
                     <div class="row -align-center">
                         <div class="col">
                             <i class="fas fa-truck admin-icon"></i>
@@ -55,7 +56,7 @@
             </div>
 
             <div class="col-3 div-admin-button-1">
-                <a class="btn btn-primary row admin-link" href="{{ path('admin_category_show') }}" role="button">
+                <a class="btn btn-primary row admin-link pt-3" href="{{ path('admin_category_show') }}" role="button">
                     <div class="row -align-center">
                         <div class="col">
                             <i class="fas fa-cube admin-icon"></i>
@@ -66,7 +67,7 @@
             </div>
 
             <div class="col-3 div-admin-button">
-                <a class="btn btn-primary row admin-link" href="{{ path('admin_sub_categories_show') }}" role="button">
+                <a class="btn btn-primary row admin-link pt-3" href="{{ path('admin_sub_categories_show') }}" role="button">
                     <div class="row -align-center">
                         <div class="col">
                             <i class="fas fa-cubes admin-icon"></i>
@@ -78,24 +79,79 @@
 
 
             <div class="col-3 div-admin-button">
-                <a class="btn btn-primary row admin-link" href="{{ path('admin_product_show') }}" role="button">
+                <a class="btn btn-primary row admin-link pt-3" href="{{ path('admin_product_show') }}" role="button">
                     <div class="row -align-center">
                         <div class="col">
-                            <i class="fas fa-tags admin-icon"></i>
+                            <i class="fas fa-carrot admin-icon"></i>
                         </div>
                     </div>
                     <h3>Gestions des Produits disponibles</h3>
                 </a>
             </div>
 
+            <div class="col-3 div-admin-button-1">
+                <a class="btn btn-primary row admin-link pt-3" href="{{ path('admin_warehouse_menu') }}" role="button">
+                    <div class="row -align-center">
+                        <div class="col">
+                            <i class="fas fa-warehouse admin-icon"></i>
+                        </div>
+                    </div>
+                    <h3>Gestions des Entrepôts</h3>
+                </a>
+            </div>
+
             <div class="col-3 div-admin-button">
-                <a class="btn btn-primary row admin-link" href="{{ path('payment_process') }}" role="button">
+                <a class="btn btn-dark row admin-link pt-3" href="#" role="button">
+                    <div class="row -align-center">
+                        <div class="col">
+                            <i class="fas fa-utensils admin-icon"></i>
+                        </div>
+                    </div>
+                    <h3>Gestions des Articles de la Franchise</h3>
+                </a>
+            </div>
+
+            <div class="col-3 div-admin-button">
+                <a class="btn btn-primary row admin-link pt-3" href="{{ path('payment_process') }}" role="button">
                     <div class="row -align-center">
                         <div class="col">
                             <i class="fas fa-money-bill admin-icon"></i>
                         </div>
                     </div>
                     <h3>Gestions des Test paiements</h3>
+                </a>
+            </div>
+
+            <div class="col-3 div-admin-button-1">
+                <a class="btn btn-dark row admin-link pt-3" href="#" role="button">
+                    <div class="row -align-center">
+                        <div class="col">
+                            <i class="fas fa-file-invoice-dollar admin-icon"></i>
+                        </div>
+                    </div>
+                    <h3>Gestions monétaire de la société</h3>
+                </a>
+            </div>
+
+            <div class="col-3 div-admin-button">
+                <a class="btn btn-dark row admin-link pt-3" href="#" role="button">
+                    <div class="row -align-center">
+                        <div class="col">
+                            <i class="fas fa-file-invoice-dollar admin-icon"></i>
+                        </div>
+                    </div>
+                    <h3>Gestions des Événements globaux</h3>
+                </a>
+            </div>
+
+            <div class="col-3 div-admin-button">
+                <a class="btn btn-dark row admin-link pt-3" href="#" role="button">
+                    <div class="row -align-center">
+                        <div class="col">
+                            <i class="fas fa-crown admin-icon"></i>
+                        </div>
+                    </div>
+                    <h3>Gestions de la Fidélisation</h3>
                 </a>
             </div>
 
