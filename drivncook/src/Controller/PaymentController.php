@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\CreditCard;
 use App\Entity\Franchise;
 use App\Entity\User;
+use App\Entity\Warehouse;
 use App\Form\CreditCardType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,9 +20,12 @@ class PaymentController extends AbstractController
     /**
      * Info : Page de paiement par laquelle doivent passer chaque paiment, peut importe la source et destination.
      * Le Paiement de 50k euros des franchisé est deja pris en compte ultérieurement.l
-     * @Route("/", name="payment_process")
+     * @Route("/{selected_credit_card}", name="payment_process")
      */
-    public function index(Request $request) {
+    public function index($selected_credit_card = null, Request $request) {
+        // TODO ATTENTION. Rien n'est sécurisé ici. L'id de la final_cb passe tout le temps en GET. J'ai pas trouvé d'autres moyen pour le moment
+        // TODO ATTENTION. Il va falloir aussi veiller à encoder les informations sensibles (informations bancaires nottement)
+        // TODO ATTENTION. A terme, remplacer toutes les fausses valeurs par des vraies
 
         $manager = $this->getDoctrine()->getManager();
         $user = $this->getUser();
@@ -33,6 +37,12 @@ class PaymentController extends AbstractController
         $credit_card = new CreditCard();
         $credit_cards = $manager->getRepository(CreditCard::class)->findBy(["franchise" => $user]);
 
+        if (!empty($selected_credit_card)) {
+            $selected_credit_card = $manager->getRepository(CreditCard::class)->find($selected_credit_card);
+            $this->addFlash("success", "La carte que vous avez rentré est correcte. Vous pouvez maintenant procéder au paiment.");
+        }
+
+
         $customer_form = $this->createForm(CreditCardType::class, $credit_card);
         $customer_form
             ->remove("franchise")
@@ -43,18 +53,25 @@ class PaymentController extends AbstractController
         if ($customer_form->isSubmitted() and $customer_form->isValid()) {
             // La carte rentré par le client est bonne, il peut maintenant payer avec
             // Créer une variable $final_card pour savoir avec quelle carte le client doit payer
+            $selected_credit_card = $credit_card;
             $this->addFlash("success", "La carte que vous avez rentré est correcte. Vous pouvez maintenant procéder au paiment.");
+        } elseif ($customer_form->isSubmitted() and !($customer_form->isValid())) {
+            $this->addFlash("danger", "Il semble que les informations que vous avez rentrées sont incorrectes. Veuillez réessayer.");
         }
-//        else {
-//            $this->addFlash("danger", "Il semble que les informations que vous avez rentrées sont incorrectes. Veuillez réessayer.");
-//        }
+
+
 
         // Fausses informations en attendant une vraie commande
+
         $pre_tax_price = 536.90;
         $tax = $pre_tax_price * 0.2;     // 20% de taxe, puisqu'on est en France
         $including_taxes_price = $pre_tax_price + $tax;
 
         $consignee = $manager->getRepository(Franchise::class)->find(rand(0, 8));
+        if ($user instanceof Franchise) {
+            $consignee = "Entrepôt : ".$manager->getRepository(Warehouse::class)->find(rand(1,4));
+        }
+
         if (empty($user)) {
             $source = "A Random Customer";
         } else {
@@ -73,7 +90,15 @@ class PaymentController extends AbstractController
             "consignee" => $consignee,
             "source" => $source,
             "user" => $user,
+            "selected_credit_card" => $selected_credit_card
         ]);
+    }
+
+    /**
+     * @Route("/payment/success", name="payment_success")
+     */
+    public function payment_success() {
+        return $this->render("payment/payment_success.html.twig");
     }
 
 
@@ -89,7 +114,6 @@ class PaymentController extends AbstractController
     public function credit_card_new(Request $request) {
 
         $manager = $this->getDoctrine()->getManager();
-//        $final_card = new CreditCard(); // TODO peut-être pocéder de cette façons sélectionner la carte à enregistrer.
         $credit_card = new CreditCard();
         $form = $this->createForm(CreditCardType::class, $credit_card);
         $user = $this->getUser();
