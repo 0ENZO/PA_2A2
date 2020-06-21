@@ -6,7 +6,7 @@ use Faker;
 use App\Entity\Product;
 use App\Entity\Warehouse;
 use App\Entity\FranchiseOrder;
-
+use App\Entity\FranchiseOrderContent;
 use App\Repository\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -99,13 +99,14 @@ class FranchiseOrderController extends AbstractController
         $cart = $session->get('cart', []);
         $em = $this->getDoctrine()->getManager();
         $total = $session->get('cart_total');
+        $user = $this->getUser();
 
         if (!empty($cart)){
 
-            $warehouse = $em->getRepository(Warehouse::class)->findOneByEmail('entrepot1@drivncook.fr');
+            $warehouse = $em->getRepository(Warehouse::class)->findOneByName('Alpha');
 
             $order = new FranchiseOrder();
-            $order->setFranchise($this->getUser());
+            $order->setFranchise($user);
             $order->setWarehouse($warehouse);
             $order->setDate(new \DateTime());
             $order->setStatus(1);
@@ -113,9 +114,15 @@ class FranchiseOrderController extends AbstractController
             
             foreach ($cart as $id => $quantity){
                 $product = $productRepository->find($id);
+                $content = new FranchiseOrderContent();
+                $content->setFranchiseOrder($order);
+                $content->setProduct($product);
                 for ($i=0; $i < $quantity; $i++) { 
-                    $order->addProduct($product);
+                    //$order->addProduct($product);
+                    $currentQuantity = $content->getQuantity();
+                    $content->setQuantity($currentQuantity+1);
                 }
+                $em->persist($content);
             }
 
             $em->persist($order);
@@ -133,7 +140,7 @@ class FranchiseOrderController extends AbstractController
     /**
      * @Route("/fav/{id}", name="franchise_fav_order")
      */
-    public function fav($id, FranchiseOrderRepository $franchiseOrderRepository, EntityManagerInterface $em){
+    public function fav($id, FranchiseOrderRepository $franchiseOrderRepository, EntityManagerInterface $em, Request $request){
 
         $order = $franchiseOrderRepository->find($id);
         $order->setStatus($order->getStatus()+1);
@@ -194,13 +201,17 @@ class FranchiseOrderController extends AbstractController
     public function show($id){
 
         //Vérif si cette commande appartient bien au franchisé connecté sinon exception 
-
+        
         $em = $this->getDoctrine()->getManager();
-        $order = $em->getRepository(FranchiseOrder::class)->findOneByFranchiseOrder($id);
+        $order = $em->getRepository(FranchiseOrder::class)->findOneById($id);
 
-        return $this->render('franchise/order/show.html.twig', [
-            'order' => $order
-        ]);
+        if ($this->getUser() == $order->getFranchise()) {
+            return $this->render('franchise/order/show.html.twig', [
+                'order' => $order
+            ]);
+        } else {
+            throw new \Exception('Vous n\'êtes pas autorisé à accéder à  cette commande');    
+        }
     }
 
     /**
@@ -210,7 +221,7 @@ class FranchiseOrderController extends AbstractController
     {  
 
         $em = $this->getDoctrine()->getManager();
-        $order = $em->getRepository(FranchiseOrder::class)->findOneByFranchiseOrder($id);
+        $order = $em->getRepository(FranchiseOrder::class)->findOneById($id);
         
         $knpSnappy->setOption("encoding","UTF-8");
         $filename = "mypdf";

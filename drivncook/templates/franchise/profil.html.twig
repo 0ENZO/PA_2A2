@@ -175,7 +175,7 @@
                                                 {% if orders is defined and orders is not empty%}
                                                     {% for order in orders %}
             
-                                                            {# <a href="{{ path('franchise_order_show', {id: order.franchiseOrder}) }}"></a> #}
+                                                            {# <a href="{{ path('franchise_order_show', {id: order.id}) }}"></a> #}
 
                                                         <div class="card">
                                                             <div class="card-header" id="headingOne">
@@ -184,11 +184,11 @@
                                                                     Commande du {{order.date|date("d/m/Y") }} - {{ order.totalPrice }} €
                                                                 </button>
                                                                 {% if order.status < 2 %}
-                                                                    <a href="{{ path('franchise_fav_order', {id: order.franchiseOrder}) }}">
+                                                                    <a href="{{ path('franchise_fav_order', {id: order.id}) }}">
                                                                         <i class="ml-2 far fa-star"></i>
                                                                     </a>
                                                                 {% else %}
-                                                                    <a href="{{ path('franchise_unfav_order', {id: order.franchiseOrder}) }}">
+                                                                    <a href="{{ path('franchise_unfav_order', {id: order.id}) }}">
                                                                         <i class="ml-2 fas fa-star"></i>
                                                                     </a>
                                                                 {% endif %}
@@ -198,11 +198,12 @@
                                                         
                                                             <div id="collapse{{loop.index}}" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
                                                               <div class="card-body">
+                                                                {#
                                                                 {% for product in order.idProduct %}
                                                                     <p>{{ product.name }}</p>
                                                                 {% endfor %}
-
-                                                                <a class="btn btn-primary" href="{{ path('franchise_order_show', {id: order.franchiseOrder}) }}">
+                                                                #}
+                                                                <a class="btn btn-primary" href="{{ path('franchise_order_show', {id: order.id}) }}">
                                                                     Voir ma facture <i class="fas fa-chevron-right ml-2"></i>
                                                                 </a>
 
@@ -236,11 +237,11 @@
                                                                             Commande du {{order.date|date("d/m/Y") }} - {{ order.totalPrice }} €
                                                                         </button>
 
-                                                                        <a href="{{ path('franchise_unfav_order', {id: order.franchiseOrder}) }}">
+                                                                        <a href="{{ path('franchise_unfav_order', {id: order.id}) }}">
                                                                             <i class="ml-2 fas fa-star"></i>
                                                                         </a>
 
-                                                                        <a href="{{ path('franchise_duplicate_order', {id: order.franchiseOrder}) }}">
+                                                                        <a href="{{ path('franchise_duplicate_order', {id: order.id}) }}">
                                                                             <i class="ml-2 fas fa-shopping-basket"></i>
                                                                         </a>
                                                                         
@@ -249,11 +250,15 @@
                                                             
                                                                 <div id="collapse{{loop.index}}" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
                                                                 <div class="card-body">
-                                                                    {% for product in order.idProduct %}
+                                                                    {# {% for product in order.idProduct %}
                                                                         <p>{{ product.name }}</p>
+                                                                    {% endfor %} #}
+
+                                                                    {% for franchiseOrderContent in order.franchiseOrderContents %}
+                                                                        <p> {{ franchiseOrderContent.product.name}} </p>
                                                                     {% endfor %}
 
-                                                                    <a class="btn btn-primary" href="{{ path('franchise_order_show', {id: order.franchiseOrder}) }}">
+                                                                    <a class="btn btn-primary" href="{{ path('franchise_order_show', {id: order.id}) }}">
                                                                         Voir ma facture <i class="fas fa-chevron-right ml-2"></i>
                                                                     </a>
 
