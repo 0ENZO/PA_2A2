@@ -1,0 +1,93 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion des utilisateurs{% endblock %}
+
+{% block body %}
+
+
+    <div class="container mt-5">
+
+        <button class="btn btn-primary rounded-circlez mb-3" id="button_add_user" data-toggle="modal" data-target="#add_user">
+            <span class="fa fa-plus mr-2"></span>Ajouter un utilisateur
+        </button>
+
+        <a href="{{ path('admin_show') }}" class="btn btn-outline-dark mb-3">Retour au menu administrateur</a>
+
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                <th scope="col">id</th>
+                <th scope="col">Pseudo</th>
+                 <th scope="col">Rôles</th>
+                <th scope="col">Nom</th>
+                <th scope="col">Prenom</th>
+                <th scope="col">Email</th>
+                <th scope="col">Téléphone</th>
+                <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                    <tr>
+                        <th scope="row">{{ user.id}}</th>
+                        <td>{{ user.pseudo }}</td>
+                         <td>{{ user.role.name }}</td>
+                        <td>{{ user.lastName }}</td>
+                        <td>{{ user.firstName }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>{{ user.phoneNumber }}</td>
+                        <td>
+                            <a class="mr-2" data-toggle="tooltip" data-placement="top" title="Modifier" href="{{ path('admin_user_edit', { 'id': user.id}) }}"><i class="fas fa-pen"></i></a>
+                            <a href="#" data-href="{{ path('admin_user_delete', { 'id': user.id}) }}" class="" data-placement="bottom" 
+                            title="Supprimer" data-toggle="modal" data-target="#delete_user">
+                                <i class="fas fa-trash-alt"></i>
+                            </a>  
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="modal fade" id="delete_user" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        Supprimer un utilisateur
+                    </div>
+                    <div class="modal-body">
+                        Êtes-vous sûr de vouloir supprimer cet utilisateur ?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Fermer</button>
+                        <a class="btn btn-danger btn-ok text-white">Supprimer</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="add_user" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header d-flex align-items-center">
+                        <h4 class="modal-title mb-0" id="add_user">Ajouter un utilisateur</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true"><i class="fas fa-times"></i></span>
+                        </button>
+                    </div>
+                    <div class="modal-body bg-body">
+                        {{ form_start(form) }}
+                            {{ form_widget(form) }}
+                        {{ form_end(form) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    
+{% endblock %}
+
+{% block scripts %}
+    {{ parent() }}
+{% endblock %}
+

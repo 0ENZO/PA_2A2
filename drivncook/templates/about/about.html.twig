@@ -1,0 +1,125 @@
+{% extends 'base.html.twig' %}
+{% block title %}A propos{% endblock %}
+{% block body %}
+	<style>
+		body {
+			background-image: url("/images/food_truck_homepage2.jpg");
+			background-size: cover;
+			background-repeat: no-repeat;
+		}
+	</style>
+	<div class="container pt-5">
+		<div class="row  border text-center rounded-pill" style="background-color: #F6EDD9">
+			<div class="col-sm  my-auto">
+				<button id="slide_one_choose" class="btn primary-btn" onclick="slide_one()">
+					{{'Notre histoire'|trans}}
+				</button>
+			</div>
+			<div class="col-sm  my-auto">
+				<button id="slide_two_choose" class="btn primary-btn" onclick="slide_two()">
+					{{'Nos clients'|trans}}
+				</button>
+			</div>
+			<div class="col-sm  py-1">
+				<img class=" w-50" src="{{ asset('/images/logo.png') }}" alt="">
+			</div>
+			<div class="col-sm  my-auto">
+				<button id="slide_three_choose" class="btn primary-btn" onclick="slide_three()">
+					{{'Nos franchisés'|trans}}
+				</button>
+			</div>
+			<div class="col-sm  my-auto">
+				<button id="slide_four_choose" class="btn primary-btn" onclick="slide_four()">
+					{{'Notre fidélité'|trans}}
+				</button>
+			</div>
+		</div>
+
+		<div class="row mt-5 border text-center rounded" style="background-color: #F6EDD9">
+			<div class="col-m">
+				<div id="carouselExampleIndicators" class="carousel slide m-5" data-ride="carousel">
+					<ol class="carousel-indicators">
+
+						<li id="slide_one" data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+						<li id="slide_two" data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+						<li id="slide_three" data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+						<li id="slide_four" data-target="#carouselExampleIndicators" data-slide-to="3"></li>
+					</ol>
+					<div class="carousel-inner">
+						<div id="slide_img_one" class="carousel-item active">
+							<img class="d-block w-100" src="{{ asset('/images/history.tiff') }}" alt="First slide">
+						</div>
+						<div id="slide_img_two" class="carousel-item ">
+							<img class="d-block w-100" src="{{ asset('/images/clients.png') }}" alt="Second slide">
+						</div>
+						<div id="slide_img_three" class="carousel-item">
+							<img class="d-block w-100" src="{{ asset('/images/franchises.png') }}" alt="Third slide">
+						</div>
+						<div id="slide_img_four" class="carousel-item">
+							<img class="d-block w-100" src="{{ asset('/images/fidelity.png') }}" alt="foourth slide">
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<script>
+			var choiceOne = document.getElementById("slide_one");
+			var choiceTwo = document.getElementById("slide_two");
+			var choiceThree = document.getElementById("slide_three");
+			var choiceFour = document.getElementById("slide_four");
+
+			var choiceImgOne = document.getElementById("slide_img_one");
+			var choiceImgTwo = document.getElementById("slide_img_two");
+			var choiceImgThree = document.getElementById("slide_img_three");
+			var choiceImgFour = document.getElementById("slide_img_four");
+
+			function slide_one(slide_one_choose) {
+				choiceOne.setAttribute("class", "active");
+				choiceTwo.setAttribute('class', '');
+				choiceThree.setAttribute('class', '');
+				choiceFour.setAttribute('class', '');
+
+				choiceImgOne.setAttribute('class', 'carousel-item active');
+				choiceImgTwo.setAttribute('class', 'carousel-item');
+				choiceImgThree.setAttribute('class', 'carousel-item');
+				choiceImgFour.setAttribute('class', 'carousel-item');
+			};
+
+			function slide_two(slide_two_choose) {
+				choiceOne.setAttribute('class', '');
+				choiceTwo.setAttribute('class', 'active');
+				choiceThree.setAttribute('class', '');
+				choiceFour.setAttribute('class', '');
+
+				choiceImgOne.setAttribute('class', 'carousel-item');
+				choiceImgTwo.setAttribute('class', 'carousel-item active');
+				choiceImgThree.setAttribute('class', 'carousel-item');
+				choiceImgFour.setAttribute('class', 'carousel-item');
+			};
+
+			function slide_three(slide_three_choose) {
+				choiceOne.setAttribute('class', '');
+				choiceTwo.setAttribute('class', '');
+				choiceThree.setAttribute('class', 'active');
+				choiceFour.setAttribute('class', '');
+
+				choiceImgOne.setAttribute('class', 'carousel-item');
+				choiceImgTwo.setAttribute('class', 'carousel-item');
+				choiceImgThree.setAttribute('class', 'carousel-item active');
+				choiceImgFour.setAttribute('class', 'carousel-item');
+			};
+
+			function slide_four(slide_four_choose) {
+				choiceOne.setAttribute('class', '');
+				choiceTwo.setAttribute('class', '');
+				choiceThree.setAttribute('class', '');
+				choiceFour.setAttribute('class', 'active');
+
+				choiceImgOne.setAttribute('class', 'carousel-item');
+				choiceImgTwo.setAttribute('class', 'carousel-item');
+				choiceImgThree.setAttribute('class', 'carousel-item ');
+				choiceImgFour.setAttribute('class', 'carousel-item active');
+			};
+		</script>
+	{% endblock %}
