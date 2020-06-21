@@ -1,7 +1,6 @@
 <?php
 namespace App\Controller;
 
-
 use App\Entity\Category;
 use App\Entity\Franchise;
 use App\Entity\Product;
@@ -33,16 +32,14 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
  * @Route("/admin")
-
  * @IsGranted("ROLE_ADMIN")
  */
 class AdminController extends AbstractController
 {
 
     // MENU ADMINISTRATEUR
-
-     * @Route("/show", name="admin_show")
     /**
+     * @Route("/show", name="admin_show")
      */
     public function show(Request $request)
     {
@@ -75,7 +72,7 @@ class AdminController extends AbstractController
             $this->addFlash("success", "Un nouveau franchisé a été ajouté");
             return $this->redirectToRoute('admin_franchise_show');
         }
-        
+
         return $this->render('admin/franchise.html.twig', [
             'franchises' => $franchises,
             'form' => $form->createView()
@@ -87,7 +84,6 @@ class AdminController extends AbstractController
      */
     public function franchise_edit(Franchise $franchise, Request $request)
     {
-
         $form = $this->createForm(FranchiseType::class, $franchise);
         $form->handleRequest($request);
 
@@ -97,13 +93,11 @@ class AdminController extends AbstractController
 
             $this->addFlash("primary", "Un franchisé a été modifié.");
             return $this->redirectToRoute('admin_franchise_show');
-
         }
         return $this->render('admin/franchise_edit.html.twig', [
             'franchise' => $franchise,
             'form' => $form->createView()
         ]);
-
     }
 
     /**
@@ -117,7 +111,6 @@ class AdminController extends AbstractController
 
         $this->addFlash("danger", "Le franchisé que vous avez sélectionné a été supprimé.");
         return $this->redirectToRoute('admin_franchise_show');
-
     }
 
 
@@ -147,7 +140,7 @@ class AdminController extends AbstractController
             $this->addFlash("success", "Un nouveau camion a été ajouté");
             return $this->redirectToRoute('admin_truck_show');
         }
-        
+
         return $this->render('admin/truck.html.twig', [
             'trucks' => $trucks,
             'form' => $form->createView()
@@ -159,7 +152,6 @@ class AdminController extends AbstractController
      */
     public function truck_edit(Truck $truck, Request $request)
     {
-
         $form = $this->createForm(TruckType::class, $truck);
         $form->handleRequest($request);
 
@@ -175,7 +167,6 @@ class AdminController extends AbstractController
             'truck' => $truck,
             'form' => $form->createView()
         ]);
-
     }
 
     /**
@@ -189,7 +180,6 @@ class AdminController extends AbstractController
 
         $this->addFlash("danger", "Le camion que vous avez sélectionné a été supprimé.");
         return $this->redirectToRoute('admin_truck_show');
-
     }
 
 
@@ -221,7 +211,7 @@ class AdminController extends AbstractController
             $this->addFlash("success", "Un nouvel utilisateur a été ajouté");
             return $this->redirectToRoute('admin_user_show');
         }
-        
+
         return $this->render('admin/user.html.twig', [
             'users' => $users,
             'form' => $form->createView()
@@ -233,7 +223,6 @@ class AdminController extends AbstractController
      */
     public function user_edit(User $user, Request $request)
     {
-
         $form = $this->createForm(UserType::class, $user);
         $form->remove('idRole');
         $form->handleRequest($request);
@@ -250,7 +239,6 @@ class AdminController extends AbstractController
             'user' => $user,
             'form' => $form->createView()
         ]);
-
     }
 
     /**
@@ -264,7 +252,6 @@ class AdminController extends AbstractController
 
         $this->addFlash("danger", "L'utilisateur que vous avez sélectionné a été supprimé.");
         return $this->redirectToRoute('admin_user_show');
-
     }
 
 
@@ -343,8 +330,8 @@ class AdminController extends AbstractController
     /**
      * @Route("/category",name="admin_category_show")
      */
-    public function category_show(Request $request) {
-
+    public function category_show(Request $request)
+    {
         $manager = $this->getDoctrine()->getManager();
 
         $category = new Category();
@@ -372,8 +359,8 @@ class AdminController extends AbstractController
     /**
      * @Route("/category/edit/{id}", name="admin_category_edit")
      */
-    public function category_edit($id, Request $request) {
-
+    public function category_edit($id, Request $request)
+    {
         $manager = $this->getDoctrine()->getManager();
         $category = $manager->getRepository(Category::class)->find($id);
 
@@ -395,7 +382,8 @@ class AdminController extends AbstractController
     /**
      * @Route("/category/delete/{id}", name="admin_category_delete", methods={"GET", "POST"})
      */
-    public function category_delete($id) {
+    public function category_delete($id)
+    {
 
         // Configurer VichUploader sur : delete_on_remove : false, ou on aura l'erreur suivante
         // error : Expected argument of type "string", "null" given at property path "fileName".
@@ -418,8 +406,8 @@ class AdminController extends AbstractController
     /**
      * @Route("/sub_category", name="admin_sub_categories_show")
      */
-    public function sub_category_show(Request $request) {
-
+    public function sub_category_show(Request $request)
+    {
         $manager = $this->getDoctrine()->getManager();
 
         $sub_categories = $manager->getRepository(SubCategory::class)->findAll();
@@ -445,8 +433,8 @@ class AdminController extends AbstractController
     /**
      * @Route("/sub_category/edit/{id}", name="admin_sub_category_edit")
      */
-    public function sub_category_edit($id, Request $request) {
-
+    public function sub_category_edit($id, Request $request)
+    {
         $manager = $this->getDoctrine()->getManager();
         $sub_category = $manager->getRepository(SubCategory::class)->find($id);
 
@@ -469,8 +457,8 @@ class AdminController extends AbstractController
     /**
      * @Route("/sub_category/delete/{id}", name="admin_sub_category_delete")
      */
-    public function sub_category_delete($id, Request $request) {
-
+    public function sub_category_delete($id, Request $request)
+    {
         $manager = $this->getDoctrine()->getManager();
         $sub_category = $manager->getRepository(SubCategory::class)->find($id);
 
@@ -494,8 +482,8 @@ class AdminController extends AbstractController
     /**
      * @Route("/product", name="admin_product_show")
      */
-    public function admin_product_show(Request $request) {
-
+    public function admin_product_show(Request $request)
+    {
         $manager = $this->getDoctrine()->getManager();
         $products = $manager->getRepository(Product::class)->findAll();
         $product = new Product();
@@ -526,8 +514,8 @@ class AdminController extends AbstractController
     /**
      * @Route("/product/edit/{id}", name="admin_product_edit")
      */
-    public function admin_product_edit($id, Request $request) {
-
+    public function admin_product_edit($id, Request $request)
+    {
         $manager = $this->getDoctrine()->getManager();
         $product = $manager->getRepository(Product::class)->find($id);
 
@@ -554,8 +542,8 @@ class AdminController extends AbstractController
     /**
      * @Route("/product/delete/{id}", name="admin_product_delete")
      */
-    public function admin_product_delete($id, Request $request) {
-
+    public function admin_product_delete($id, Request $request)
+    {
         $manager = $this->getDoctrine()->getManager();
         $product = $manager->getRepository(Product::class)->find($id);
 
@@ -576,7 +564,8 @@ class AdminController extends AbstractController
     /**
      * @Route("/warehouse", name="admin_warehouse_menu")
      */
-    public function admin_warehouse_menu() {
+    public function admin_warehouse_menu()
+    {
 
         // TODO Récupérer les données des entrepots pour faire un menu d'un entrepots
 
@@ -587,8 +576,8 @@ class AdminController extends AbstractController
     /**
      * @Route("/warehouse/{name}", name="admin_warehouse_show")
      */
-    public function admin_warehouse_show($name, Request $request) {
-
+    public function admin_warehouse_show($name, Request $request)
+    {
         $manager = $this->getDoctrine()->getManager();
         $warehouse = $manager->getRepository(Warehouse::class)->findOneBy(["name" => $name]);
 
