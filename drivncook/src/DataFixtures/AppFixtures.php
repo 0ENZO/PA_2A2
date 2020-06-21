@@ -269,7 +269,7 @@ class AppFixtures extends Fixture
 
         $fruits = new SubCategory();
         $fruits
-            ->setName('legumes')
+            ->setName('fruits')
             ->setCategory($ingredient);
         $manager->persist($fruits);
 
