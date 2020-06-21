@@ -4,26 +4,78 @@
 
 {% block body %}
 
-    <div class="container">
-        <div class="row">
-            <div class="">
+    {#    {{ dump(warehouses) }}#}
 
-            {% for i in 1..4 %}
+    <div class="container mt-3">
+        <div class="jumbotron">
+            <h1 class="display-4">Gestion des Entrepôts</h1>
+            <p class="lead">Espace réservé aux informations relatives aux entrepôts de Driv'n Cook</p>
+            <hr class="my-4">
+            <p> Veuillez sélectionner l'entrepôt avec lequel vous voulez intéragir.</p>
+        </div>
+    </div>
 
-            <div class="col-6">
-                <a class="btn btn-dark row admin-link pt-3" href="#" role="button">
-                    <div class="row -align-center">
-                        <div class="col">
-                            <i class="fas fa-warehouse admin-icon"></i>
+    <div class="container justify-content-center text-center mb-2">
+        <a href="{{ path('admin_show') }}" class="btn btn-outline-dark mb-3">Retour au menu administrateur</a>
+    </div>
+
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+
+            {% for warehouse in warehouses %}
+
+                <div class="col-md-6 col-lg-6">
+                    <a class="admin-warehouse-link"
+                       href="{{ path('admin_warehouse_show', {"name" : warehouse.name}) }}">
+                        <div class="card mb-3 mx-0" style="max-width: 740px;">
+                            <div class="row no-gutters">
+                                <div class="col-md-4">
+                                    {% if warehouse.name == "Alpha" %}
+                                        <img src="{{ asset('images/warehouses/alpha.png') }}" class="card-img" alt="">
+                                    {% elseif warehouse.name == "Beta" %}
+                                        <img src="{{ asset('images/warehouses/beta.png') }}" class="card-img" alt="">
+                                    {% elseif warehouse.name == "Omega" %}
+                                        <img src="{{ asset('images/warehouses/omega.png') }}" class="card-img" alt="">
+                                    {% elseif warehouse.name == "Zeta" %}
+                                        <img src="{{ asset('images/warehouses/zeta.png') }}" class="card-img" alt="">
+                                    {% endif %}
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ warehouse.name }}</h5>
+                                        <p class="card-text">Email : {{ warehouse.email }}</p>
+                                        <p class="card-text">N° tel : {{ warehouse.phoneNumber }}</p>
+                                        <table>
+                                            <tbody>
+                                            <tr>
+                                                <td>Capacités des Ingrédients :</td>
+                                                <td>xxxx / {{ warehouse.maxCapacity.maxIngredients }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Capacités des Boissons :</td>
+                                                <td>xxxx / {{ warehouse.maxCapacity.maxDrinks }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Capacités des Repas :</td>
+                                                <td>xxxx / {{ warehouse.maxCapacity.maxMeals }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Capacités des Desserts :</td>
+                                                <td>xxxx / {{ warehouse.maxCapacity.maxDesserts }}</td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                        <p class="card-text"><small class="text-muted">Localisation
+                                                : {{ warehouse.address }}</small></p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <h3>Entrepôts (NOM)</h3>
-                </a>
-            </div>
+                    </a>
+                </div>
 
             {% endfor %}
 
-            </div>
         </div>
     </div>
 

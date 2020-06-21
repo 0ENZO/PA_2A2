@@ -4,6 +4,99 @@
 
 {% block body %}
 
+{#    {{ dump(warehouse) }}#}
+{#    {{ dump(stock) }}#}
+{#    {{ dump(test) }} TODO :  à Travailler dessus ce matin. QueryBuilder A revoir deans le doc, faire plein de test #}
 
+    <div class="container">
+        <h1 class="display-1 h1">{{ warehouse.name }}</h1>
+        <button class="btn btn-primary" data-toggle="modal" data-target="#fill_product">Ajouter un produit dans un entrepôt</button>
+        <button class="btn btn-primary" data-toggle="modal" data-target="#add_capacity">Créer une capacité maximale</button>
+        <a href="{{ path('admin_warehouse_edit', {"name" : warehouse.name}) }}" class="btn btn-primary">Editer les informations de cet entrepôt</a>
+        <a href="{{ path('admin_warehouse_menu') }}" class="btn btn-outline-dark">Retour dans le menu Entrepôt</a>
+    </div>
+
+    <div class="container-fluid">
+
+        <table class="table mt-4">
+            <thead class="thead-dark">
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Produit</th>
+                <th scope="col">Quantité unitaire du produit</th>
+                <th scope="col">Quantité unitaire de l'entrepôt</th>
+                <th scope="col">Quantité total du produit dans l'entrepôt</th>
+
+            </tr>
+            </thead>
+            <tbody>
+            {% if stock is defined and stock is not empty %}
+                {% for item in stock %}
+                    <tr>
+                        <th scope="row">{{ item.id }}</th>
+                        <td>{{ item.product.name }}</td>
+                        <td>{{ item.product.quantity }}</td>
+                        <td>{{ item.quantity }}</td>
+                        <td>{{ item.product.quantity * item.quantity }}</td>
+                        <td>
+{#                            <a class="mr-2" data-toggle="tooltip" data-placement="top" title="Modifier" href="{{ path('admin_category_edit', { 'id': categorie.id}) }}"><i class="fas fa-pen"></i></a>#}
+{#                            <a href="#" data-href="{{ path('admin_category_delete', { 'id': categorie.id}) }}" class="" data-placement="bottom"#}
+{#                               title="Supprimer" data-toggle="modal" data-target="#delete_franchise">#}
+{#                                <i class="fas fa-trash-alt"></i>#}
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% else %}
+                <tr>Il n'y a aucun produits dans cet entrepôt</tr>
+            {% endif %}
+
+
+            </tbody>
+        </table>
+
+    </div>
+
+
+    <div class="container">
+        <div class="modal fade" id="fill_product" tabindex="-1" role="dialog" aria-labelledby="fill_productLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="add_categoryLabel">Ajouter un produit à cet entrepot</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        {{ form_start(add_warehouse_stock_form) }}
+                            {{ form_widget(add_warehouse_stock_form) }}
+                        {{ form_end(add_warehouse_stock_form) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="modal fade" id="add_capacity" tabindex="-1" role="dialog" aria-labelledby="fill_productLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="add_categoryLabel">Ajoute une capacité maximale</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        {{ form_start(add_max_capacity_form) }}
+                            {{ form_widget(add_max_capacity_form) }}
+                        {{ form_end(add_max_capacity_form) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
 
 {% endblock %}

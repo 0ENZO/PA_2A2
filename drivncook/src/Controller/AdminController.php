@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Category;
 use App\Entity\Franchise;
+use App\Entity\MaxCapacity;
 use App\Entity\Product;
 use App\Entity\SubCategory;
 use App\Entity\Truck;
@@ -11,18 +12,23 @@ use App\Entity\User;
 use App\Entity\Role;
 
 use App\Entity\Warehouse;
+use App\Entity\WarehouseStock;
 use App\Form\CategoryType;
 use App\Form\FranchiseType;
+use App\Form\MaxCapacityType;
 use App\Form\ProductType;
 use App\Form\SubCategoryType;
 use App\Form\TruckType;
 use App\Form\UserType;
 
+use App\Form\WarehouseStockType;
+use App\Form\WarehouseType;
 use App\Repository\FranchiseRepository;
 use App\Repository\TruckRepository;
 use App\Repository\UserRepository;
 use App\Repository\RoleRepository;
 
+use App\Repository\WarehouseStockRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -509,9 +515,14 @@ class AdminController extends AbstractController
      */
     public function admin_warehouse_menu() {
 
-        // TODO Récupérer les données des entrepots pour faire un menu d'un entrepots
+        // TODO : Mettre le nombre de produits exactes / nombre max de produits
 
-        return $this->render("admin/warehouses_menu.html.twig");
+        $manager = $this->getDoctrine()->getManager();
+        $warehouses = $manager->getRepository(Warehouse::class)->findAll();
+
+        return $this->render("admin/warehouses_menu.html.twig", [
+            "warehouses" =>$warehouses
+        ]);
     }
 
 
@@ -522,9 +533,75 @@ class AdminController extends AbstractController
 
         $manager = $this->getDoctrine()->getManager();
         $warehouse = $manager->getRepository(Warehouse::class)->findOneBy(["name" => $name]);
+        $stock = $manager->getRepository(WarehouseStock::class)->findBy(["warehouse" => $warehouse]);
+
+//        $test = $manager->getRepository(WarehouseStock::class)->test(); TODO A faire ce matin
+
+
+        // Ajout d'une nouvelle capacité si la capacité actuelle ne nous convient pas
+        $max_capacity = new MaxCapacity();
+        $add_max_capacity_form = $this->createForm(MaxCapacityType::class, $max_capacity);
+        $add_max_capacity_form->handleRequest($request);
+
+        if ($add_max_capacity_form->isSubmitted() and $add_max_capacity_form->isValid()) {
+            $manager->persist($max_capacity);
+            $manager->flush();
+
+            $this->addFlash("success", "Une nouvelle capacité maximale est maintenant disponible.");
+            return $this->redirectToRoute("admin_warehouse_show", ["name" => $name]);
+        }
+
+
+        // Ajout d'un produit dans l'entrepot
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock->setWarehouse($warehouse);
+        $add_warehouse_stock_form = $this->createForm(WarehouseStockType::class, $warehouse_stock);
+        $add_warehouse_stock_form->remove("warehouse");
+        $add_warehouse_stock_form->handleRequest($request);
+
+        if ($add_warehouse_stock_form->isSubmitted() and $add_warehouse_stock_form->isValid()) {
+            $manager->persist($warehouse_stock);
+            $manager->flush();
+
+            $this->addFlash("success", "Vous avez ajouté un nouveau produit à cet entrepôt.");
+            return $this->redirectToRoute("admin_warehouse_show", ["name" => $name]);
+        }
 
         // TODO : Informations de l'entrepots. Tout ce qu'il contient.
+        // TODO : Modifications de l'entrepot, comme la taille s'il y a des travaux etc
 
-        return $this->render("admin/warehouse.html.twig");
+        return $this->render("admin/warehouse.html.twig", [
+            "warehouse" => $warehouse,
+            "stock" => $stock,
+            "add_max_capacity_form" => $add_max_capacity_form->createView(),
+            "add_warehouse_stock_form" => $add_warehouse_stock_form->createView(),
+//            "test" => $test TODO : A faire ce matin
+        ]);
     }
+
+
+    /**
+     * @Route("warehouse/edit/{name}", name="admin_warehouse_edit")
+     */
+    public function admin_warehouse_edit($name, Request $request) {
+
+        $manager = $this->getDoctrine()->getManager();
+        $warehouse = $manager->getRepository(Warehouse::class)->findOneBy(["name" => $name]);
+
+        $form = $this->createForm(WarehouseType::class, $warehouse);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() and $form->isValid()) {
+            $manager->flush();
+            $this->addFlash("success", "Une ou plusieurs informations sur cet entrepôt ont été modifiées.");
+            return $this->redirectToRoute("admin_warehouse_show", ["name" => $name]);
+        }
+
+        return $this->render("admin/warehouse_edit.html.twig", [
+            "form" => $form->createView()
+        ]);
+    }
+
+    // TODO : Faire un menu dédiées aux capacitées max pour que cela soit plus propre
+
 }
