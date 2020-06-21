@@ -4,12 +4,11 @@ namespace App\Controller;
 
 use App\Entity\Event;
 use App\Form\EventType;
+use App\Entity\Franchise;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Routing\Exception\RouteNotFoundException;
 use Symfony\Component\HttpFoundation\Response;
-
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -20,9 +19,15 @@ class EventController extends AbstractController
     /**
      * @Route("/show", name="show")
      */
-    public function show()
+    public function show(Request $request)
     {
-        return $this->render('event/event.html.twig');
+        $em = $this->getDoctrine()->getManager();
+        $franchise = $this->getUser()->getId();
+        dump($franchise);
+        $events = $em->getRepository(Event::class)->findOneBy(["franchise" => $franchise]);
+
+
+        return $this->render('event/event.html.twig', [ 'events' => $events]);
     }
 
     /**

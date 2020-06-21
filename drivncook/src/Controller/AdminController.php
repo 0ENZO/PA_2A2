@@ -320,8 +320,8 @@ class AdminController extends AbstractController
     public function event_delete($id)
     {
         $entityManager = $this->getDoctrine()->getManager();
-        $event = $entityManager->getRepository(Event::class)->findBy(["id" => $id]);
-        $entityManager->remove($remove);
+        $event = $entityManager->getRepository(Event::class)->findOneBy(["id" => $id]);
+        $entityManager->remove($event);
         $entityManager->flush();
 
         $this->addFlash("danger", "L'event que vous avez sélectionné a été supprimé.");
