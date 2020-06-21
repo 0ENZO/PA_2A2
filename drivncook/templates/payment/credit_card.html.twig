@@ -1,17 +1,19 @@
 {% extends "base.html.twig" %}
 
-{% block title %} Ajouter une CB {% endblock %}
+{% block title %}
+	Ajouter une CB
+{% endblock %}
 
 {% block body %}
 
-    {# A voir pour mettre dans un include et utiliser des varriables à la place, pour l'utiliser plus tard ailleurs #}
-    <div class="container mt-3">
-        <div class="jumbotron">
-            <h1 class="display-4">Informations Bancaires</h1>
-            <p class="lead">C'est l'endroit ou vous pouvez gérer toutes vos données bancaires.</p>
-            <hr class="my-4">
-            <p>Si vous n'en disposez pas encore, vous pouvez ajouter votre carte bancaire.</p>
-            <p>Il est bien sûr possible de modifier, voire supprimer un moyen que vous nous avez mis à disposition pour les paiements.</p>
+	{# A voir pour mettre dans un include et utiliser des varriables à la place, pour l'utiliser plus tard ailleurs #}
+	<div class="container mt-3">
+		<div class="jumbotron">
+			<h1 class="display-4">{{'Informations Bancaires'|trans}}</h1>
+			<p class="lead">{{'C\'est l\'endroit ou vous pouvez gérer toutes vos données bancaires.'|trans}}</p>
+			<hr class="my-4">
+			<p>{{'Si vous n\'en disposez pas encore, vous pouvez ajouter votre carte bancaire.'|trans}}</p>
+            <p>{{'Il est bien sûr possible de modifier, voire supprimer un moyen que vous nous avez mis à disposition pour les paiements.'|trans}}</p>
         </div>
     </div>
 

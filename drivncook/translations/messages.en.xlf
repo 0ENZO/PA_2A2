@@ -11,7 +11,7 @@
       </trans-unit>
       <trans-unit id="X_P3OiT" resname="Fruits &amp; légumes">
         <source>Fruits &amp; légumes</source>
-        <target>fruits &amp; vegetables></target>
+        <target><![CDATA[fruits & vegetables>]]></target>
       </trans-unit>
       <trans-unit id="tN_Qr2S" resname="Viandes poissons">
         <source>Viandes poissons</source>
@@ -35,7 +35,7 @@
       </trans-unit>
       <trans-unit id="Q0vbbKQ" resname="Viandes &amp; poissons">
         <source>Viandes &amp; poissons</source>
-        <target>Meats &amp; fish></target>
+        <target><![CDATA[Meats & fish>]]></target>
       </trans-unit>
       <trans-unit id="azitPzb" resname="Une petite faim ?">
         <source>Une petite faim ?</source>
@@ -64,6 +64,258 @@
       <trans-unit id="YdaVBBA" resname="Connexion">
         <source>Connexion</source>
         <target>Login</target>
+      </trans-unit>
+      <trans-unit id="qMD7oaF" resname="Bienvenue !">
+        <source>Bienvenue !</source>
+        <target>__Bienvenue !</target>
+      </trans-unit>
+      <trans-unit id="xI5JSDe" resname="Informations Bancaires">
+        <source>Informations Bancaires</source>
+        <target>__Informations Bancaires</target>
+      </trans-unit>
+      <trans-unit id="CB.JgW4" resname="C'est l'endroit ou vous pouvez gérer toutes vos données bancaires.">
+        <source>C'est l'endroit ou vous pouvez gérer toutes vos données bancaires.</source>
+        <target>__C'est l'endroit ou vous pouvez gérer toutes vos données bancaires.</target>
+      </trans-unit>
+      <trans-unit id="oZdyInC" resname="Si vous n'en disposez pas encore, vous pouvez ajouter votre carte bancaire.">
+        <source>Si vous n'en disposez pas encore, vous pouvez ajouter votre carte bancaire.</source>
+        <target>__Si vous n'en disposez pas encore, vous pouvez ajouter votre carte bancaire.</target>
+      </trans-unit>
+      <trans-unit id="APDRJ6a" resname="Il est bien sûr possible de modifier, voire supprimer un moyen que vous nous avez mis à disposition pour les paiements.">
+        <source>Il est bien sûr possible de modifier, voire supprimer un moyen que vous nous avez mis à disposition pour les paiements.</source>
+        <target>__Il est bien sûr possible de modifier, voire supprimer un moyen que vous nous avez mis à disposition pour les paiements.</target>
+      </trans-unit>
+      <trans-unit id="ZyFT62v" resname="A propos">
+        <source>A propos</source>
+        <target>__A propos</target>
+      </trans-unit>
+      <trans-unit id="OQ70IlU" resname="Liens">
+        <source>Liens</source>
+        <target>__Liens</target>
+      </trans-unit>
+      <trans-unit id="RPN1Xei" resname="A propos de nous">
+        <source>A propos de nous</source>
+        <target>__A propos de nous</target>
+      </trans-unit>
+      <trans-unit id="if4SNu6" resname="Politique RGPD">
+        <source>Politique RGPD</source>
+        <target>__Politique RGPD</target>
+      </trans-unit>
+      <trans-unit id="ZSzZYDr" resname="Notre histoire">
+        <source>Notre histoire</source>
+        <target>__Notre histoire</target>
+      </trans-unit>
+      <trans-unit id="rlPLh6R" resname="Nos clients">
+        <source>Nos clients</source>
+        <target>__Nos clients</target>
+      </trans-unit>
+      <trans-unit id="Eetmw3." resname="Nos franchisés">
+        <source>Nos franchisés</source>
+        <target>__Nos franchisés</target>
+      </trans-unit>
+      <trans-unit id="KqwcQMS" resname="Notre fidélité">
+        <source>Notre fidélité</source>
+        <target>__Notre fidélité</target>
+      </trans-unit>
+      <trans-unit id="b.1JhwV" resname="Mon panier">
+        <source>Mon panier</source>
+        <target>__Mon panier</target>
+      </trans-unit>
+      <trans-unit id="lKWm078" resname="Votre panier">
+        <source>Votre panier</source>
+        <target>__Votre panier</target>
+      </trans-unit>
+      <trans-unit id="oNPbLwg" resname="Produit">
+        <source>Produit</source>
+        <target>__Produit</target>
+      </trans-unit>
+      <trans-unit id="VMMk9sE" resname="Prix">
+        <source>Prix</source>
+        <target>__Prix</target>
+      </trans-unit>
+      <trans-unit id="olio7wM" resname="Quantité">
+        <source>Quantité</source>
+        <target>__Quantité</target>
+      </trans-unit>
+      <trans-unit id="ybPDgkf" resname="Total">
+        <source>Total</source>
+        <target>__Total</target>
+      </trans-unit>
+      <trans-unit id="IV4wjk0" resname="Valider mon panier">
+        <source>Valider mon panier</source>
+        <target>__Valider mon panier</target>
+      </trans-unit>
+      <trans-unit id="tS_HvRp" resname="Votre panier est vide">
+        <source>Votre panier est vide</source>
+        <target>__Votre panier est vide</target>
+      </trans-unit>
+      <trans-unit id="e6lvCKC" resname="Facture">
+        <source>Facture</source>
+        <target>__Facture</target>
+      </trans-unit>
+      <trans-unit id="4uymS9c" resname="De">
+        <source>De</source>
+        <target>__De</target>
+      </trans-unit>
+      <trans-unit id="V3ZmD6Y" resname="Pour">
+        <source>Pour</source>
+        <target>__Pour</target>
+      </trans-unit>
+      <trans-unit id="dD0HBVc" resname="Facture n°">
+        <source>Facture n°</source>
+        <target>__Facture n°</target>
+      </trans-unit>
+      <trans-unit id="jxKaZ9e" resname="Emise le">
+        <source>Emise le</source>
+        <target>__Emise le</target>
+      </trans-unit>
+      <trans-unit id="fYBHyNQ" resname="Sous-total">
+        <source>Sous-total</source>
+        <target>__Sous-total</target>
+      </trans-unit>
+      <trans-unit id="tfk908P" resname="Taxe">
+        <source>Taxe</source>
+        <target>__Taxe</target>
+      </trans-unit>
+      <trans-unit id="P.vD2nH" resname="Commande validée">
+        <source>Commande validée</source>
+        <target>__Commande validée</target>
+      </trans-unit>
+      <trans-unit id="xYGi5Ug" resname="Votre commande a été validée">
+        <source>Votre commande a été validée</source>
+        <target>__Votre commande a été validée</target>
+      </trans-unit>
+      <trans-unit id="4mfTQ4I" resname="Profil">
+        <source>Profil</source>
+        <target>__Profil</target>
+      </trans-unit>
+      <trans-unit id="q0Uca0i" resname="Mon profil">
+        <source>Mon profil</source>
+        <target>__Mon profil</target>
+      </trans-unit>
+      <trans-unit id="QuN2BLY" resname="Modifier">
+        <source>Modifier</source>
+        <target>__Modifier</target>
+      </trans-unit>
+      <trans-unit id="ai2sE9b" resname="Ma franchise">
+        <source>Ma franchise</source>
+        <target>__Ma franchise</target>
+      </trans-unit>
+      <trans-unit id="8jA9xdf" resname="Mon camion">
+        <source>Mon camion</source>
+        <target>__Mon camion</target>
+      </trans-unit>
+      <trans-unit id="fvJoLZ." resname="Mes commandes">
+        <source>Mes commandes</source>
+        <target>__Mes commandes</target>
+      </trans-unit>
+      <trans-unit id="mQhqg3D" resname="Mes informations bancaires">
+        <source>Mes informations bancaires</source>
+        <target>__Mes informations bancaires</target>
+      </trans-unit>
+      <trans-unit id="4yW.j5A" resname="Prénom">
+        <source>Prénom</source>
+        <target>__Prénom</target>
+      </trans-unit>
+      <trans-unit id="ssEkU20" resname="Nom">
+        <source>Nom</source>
+        <target>__Nom</target>
+      </trans-unit>
+      <trans-unit id="fk.2.xT" resname="Numéro de tééphone">
+        <source>Numéro de tééphone</source>
+        <target>__Numéro de tééphone</target>
+      </trans-unit>
+      <trans-unit id="lSg0K24" resname="Modifier mes informations">
+        <source>Modifier mes informations</source>
+        <target>__Modifier mes informations</target>
+      </trans-unit>
+      <trans-unit id="yugzEfW" resname="Franchise">
+        <source>Franchise</source>
+        <target>__Franchise</target>
+      </trans-unit>
+      <trans-unit id="7ldFVIs" resname="Marque">
+        <source>Marque</source>
+        <target>__Marque</target>
+      </trans-unit>
+      <trans-unit id="5hu7g57" resname="Modèle">
+        <source>Modèle</source>
+        <target>__Modèle</target>
+      </trans-unit>
+      <trans-unit id="YIwawLA" resname="Capaité max">
+        <source>Capaité max</source>
+        <target>__Capaité max</target>
+      </trans-unit>
+      <trans-unit id="HcneR3L" resname="Date de sortie d'usine">
+        <source>Date de sortie d'usine</source>
+        <target>__Date de sortie d'usine</target>
+      </trans-unit>
+      <trans-unit id="LHucrUO" resname="Vous ne possédez pas de camion">
+        <source>Vous ne possédez pas de camion</source>
+        <target>__Vous ne possédez pas de camion</target>
+      </trans-unit>
+      <trans-unit id="3x5Xsog" resname="Voir plus">
+        <source>Voir plus</source>
+        <target>__Voir plus</target>
+      </trans-unit>
+      <trans-unit id="s75xmZV" resname="Mes dernières commandes">
+        <source>Mes dernières commandes</source>
+        <target>__Mes dernières commandes</target>
+      </trans-unit>
+      <trans-unit id="DQJ8Wom" resname="Mes commandes typess">
+        <source>Mes commandes typess</source>
+        <target>__Mes commandes typess</target>
+      </trans-unit>
+      <trans-unit id="pbS.5ye" resname="Commande du">
+        <source>Commande du</source>
+        <target>__Commande du</target>
+      </trans-unit>
+      <trans-unit id="Jrc91aG" resname="Voir ma facture">
+        <source>Voir ma facture</source>
+        <target>__Voir ma facture</target>
+      </trans-unit>
+      <trans-unit id="FXJ.eLv" resname="Vous n'avez pas passé de commande">
+        <source>Vous n'avez pas passé de commande</source>
+        <target>__Vous n'avez pas passé de commande</target>
+      </trans-unit>
+      <trans-unit id="ekKDYrS" resname="Vous n'avez pas commande types.">
+        <source>Vous n'avez pas commande types.</source>
+        <target>__Vous n'avez pas commande types.</target>
+      </trans-unit>
+      <trans-unit id="KA1KS0u" resname="Ajouter un moyen de paiement">
+        <source>Ajouter un moyen de paiement</source>
+        <target>__Ajouter un moyen de paiement</target>
+      </trans-unit>
+      <trans-unit id="U6jgQj1" resname="Numéro de carte">
+        <source>Numéro de carte</source>
+        <target>__Numéro de carte</target>
+      </trans-unit>
+      <trans-unit id="SXQeoyI" resname="Date d'expiration">
+        <source>Date d'expiration</source>
+        <target>__Date d'expiration</target>
+      </trans-unit>
+      <trans-unit id="OfShXph" resname="Code de vérification">
+        <source>Code de vérification</source>
+        <target>__Code de vérification</target>
+      </trans-unit>
+      <trans-unit id="f11Z7ln" resname="Prénom et nom">
+        <source>Prénom et nom</source>
+        <target>__Prénom et nom</target>
+      </trans-unit>
+      <trans-unit id="Xl0CFs4" resname="Supprimer">
+        <source>Supprimer</source>
+        <target>__Supprimer</target>
+      </trans-unit>
+      <trans-unit id="RTxtZmi" resname="Vous ne possédez aucun moyen de paiement">
+        <source>Vous ne possédez aucun moyen de paiement</source>
+        <target>__Vous ne possédez aucun moyen de paiement</target>
+      </trans-unit>
+      <trans-unit id="l0wzpDG" resname="Créer un event">
+        <source>Créer un event</source>
+        <target>__Créer un event</target>
+      </trans-unit>
+      <trans-unit id="7YkeZXa" resname="Les events">
+        <source>Les events</source>
+        <target>__Les events</target>
       </trans-unit>
     </body>
   </file>
