@@ -19,6 +19,16 @@ class WarehouseStockRepository extends ServiceEntityRepository
         parent::__construct($registry, WarehouseStock::class);
     }
 
+    public function test() {
+        return $this
+            ->createQueryBuilder('ws')
+            ->select('w', 'ws')
+            ->where()
+            ->from('App:Warehouse', 'w')
+            ->getQuery()
+            ->getResult();
+    }
+
     // /**
     //  * @return WarehouseStock[] Returns an array of WarehouseStock objects
     //  */
