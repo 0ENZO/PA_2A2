@@ -74,4 +74,8 @@ class WarehouseStock
 
         return $this;
     }
+
+    public function __toString() {
+        return "warehouse N°".$this->id." a ".$this->quantity." de produit N° ".$this->product;
+    }
 }

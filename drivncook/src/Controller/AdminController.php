@@ -592,7 +592,41 @@ class AdminController extends AbstractController
         $warehouse = $manager->getRepository(Warehouse::class)->findOneBy(["name" => $name]);
         $stock = $manager->getRepository(WarehouseStock::class)->findBy(["warehouse" => $warehouse]);
 
-//        $test = $manager->getRepository(WarehouseStock::class)->test(); TODO A faire ce matin
+
+        // Récuprations des quantité maximales de stockage par catégories + total des quantités max
+        $nb_max_ingredients = $warehouse->getMaxCapacity()->getMaxIngredients();
+        $nb_max_drinks = $warehouse->getMaxCapacity()->getMaxDrinks();
+        $nb_max_desserts = $warehouse->getMaxCapacity()->getMaxDesserts();
+        $nb_max_meals = $warehouse->getMaxCapacity()->getMaxMeals();
+
+        $nb_max_products = $nb_max_ingredients + $nb_max_drinks + $nb_max_desserts + $nb_max_meals;
+
+        // Récupération des quantité de produits classé par catégories + total des quantités cumulées
+        $nb_ingredients = 0;
+        $nb_drinks = 0;
+        $nb_desserts = 0;
+        $nb_meals = 0;
+        $nb_products = 0;
+        foreach ($stock as $item => $product) {
+//            echo $item." = ".$product->getProduct()->getSubCategory()->getCategory()->getName();
+//            echo "<br>";
+
+            $category = $product->getProduct()->getSubCategory()->getCategory()->getName();
+            $quantity = $product->getQuantity();
+
+            $nb_products += $quantity;
+
+            if ($category === "Ingrédients") {
+                $nb_ingredients += $quantity;
+            } elseif ($category === "Boissons") {
+                $nb_drinks += $quantity;
+            } elseif ($category === "Desserts") {
+                $nb_desserts = $quantity;
+            } elseif ($category === "Repas") {
+                $nb_meals += $quantity;
+            } else
+                continue; // Aucune catégories trouvées
+        }
 
 
         // Ajout d'une nouvelle capacité si la capacité actuelle ne nous convient pas
@@ -632,9 +666,23 @@ class AdminController extends AbstractController
             "stock" => $stock,
             "add_max_capacity_form" => $add_max_capacity_form->createView(),
             "add_warehouse_stock_form" => $add_warehouse_stock_form->createView(),
-//            "test" => $test TODO : A faire ce matin
+            "nb_ingredients" => $nb_ingredients,
+            "nb_drinks" => $nb_drinks,
+            "nb_desserts" => $nb_desserts,
+            "nb_meals" => $nb_meals,
+            "nb_max_ingredients" => $nb_max_ingredients,
+            "nb_max_drinks" => $nb_max_drinks,
+            "nb_max_desserts" => $nb_max_desserts,
+            "nb_max_meals" => $nb_max_meals,
+            "nb_products" => $nb_products,
+            "nb_max_products" => $nb_max_products
         ]);
     }
+
+
+
+
+
 
 
     /**
@@ -658,6 +706,40 @@ class AdminController extends AbstractController
             "form" => $form->createView()
         ]);
     }
+
+
+    public function admin_warehouse_stock_edit($id, Request $request) {
+
+    }
+
+
+    /**
+     * @Route("warehouse/{name}/stock/delete/{id}", name="admin_warehouse_stock_delete")
+     */
+    public function admin_warehouse_stock_delete($name ,$id, Request $request) {
+
+        $manager = $this->getDoctrine()->getManager();
+        $warehouse_stock = $manager->getRepository(WarehouseStock::class)->find($id);
+
+        $manager->remove($warehouse_stock);
+        $manager->flush();
+
+        $this->addFlash("danger", "Vous avez supprimer un produit de cet entrepôts.");
+        return $this->redirectToRoute("admin_warehouse_show", ["name" => $name]);
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+    // CAPCACITES MAX
 
     // TODO : Faire un menu dédiées aux capacitées max pour que cela soit plus propre
 
