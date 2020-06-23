@@ -25,6 +25,7 @@
                 <th scope="col">Prix HT</th>
                 <th scope="col">Taxe</th>
                 <th scope="col">Prix TTC</th>
+                <th scope="col">Type unitaire</th>
                 <th scope="col">Quantité</th>
                 <th scope="col">Status</th>
                 <th scope="col">Date d'expiration</th>
@@ -44,6 +45,7 @@
                         <td>{{ product.price }} €</td>
                         <td>{{ product.vat }} €</td>
                         <td>{{ product.price + product.vat }} €</td>
+                        <td>{{ product.type }}</td>
                         <td>{{ product.quantity }}</td>
                         <td class="{% if product.status == 'Disponible' %}available-product{% elseif product.status == 'Indisponible' %}unvailable-product{% endif %}">{{ product.status }}</td>
                         <td>{{ product.expiryDate | date("d/m/Y") }}</td>

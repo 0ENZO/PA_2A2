@@ -37,6 +37,14 @@ class ProductType extends AbstractType
                 ]
             ])
             ->add('expiryDate')
+            ->add('type', ChoiceType::class, [
+                "choices" => [
+                    "Litre" => "L",
+                    "Kilogramme" => "Kg",
+                    "Unité" => "Unit"
+                ],
+                "label" => "Type unitaire du produit"
+            ])
             ->add('quantity')
             ->add('subCategory')
             ->add("save", SubmitType::class, [
