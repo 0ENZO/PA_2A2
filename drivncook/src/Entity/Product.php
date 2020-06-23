@@ -44,6 +44,11 @@ class Product
     private $status;
 
     /**
+     * @ORM\Column(type="string", length=50, nullable=true)
+     */
+    private $type;
+
+    /**
      * @ORM\Column(type="float")
      */
     private $vat;
@@ -343,5 +348,23 @@ class Product
     {
         return $this->name.' par '.$this->quantity;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * @param mixed $type
+     */
+    public function setType($type): void
+    {
+        $this->type = $type;
+    }
+
+
     
 }
