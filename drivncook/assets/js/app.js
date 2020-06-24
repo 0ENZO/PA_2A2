@@ -18,6 +18,8 @@ require('@fortawesome/fontawesome-free/js/all.js');
 import noUiSlider from 'nouislider'
 import 'nouislider/distribute/nouislider.css'
 
+//
+import 'select2';   
 
 // confirm delete modal in franchises.html.twig
 $('[data-toggle="modal"][title]').tooltip();
@@ -32,7 +34,9 @@ $(function () {
 
 $('.collapse').collapse()
 
-
+$(document).ready(function() {
+    $('.js-example-basic-single').select2();
+});
 
 const slider = document.getElementById('price-slider');
 

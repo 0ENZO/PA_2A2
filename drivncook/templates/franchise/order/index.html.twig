@@ -15,7 +15,7 @@
 				<thead>
 					<tr>
 						<td>{{'Produit'|trans}}</td>
-						<td>{{'Prix'|trans}}</td>
+						<td>{{'Prix TTC'|trans}}</td>
 						<td>{{'Quantité'|trans}}</td>
 						<td>{{'Total'|trans}}</td>
 						<td>Actions</td>
@@ -25,10 +25,10 @@
 					{% for item in items %}
 						<tr>
 							<td>{{item.product.name}}</td>
-							<td>{{item.product.price}}
+							<td>{{item.product.vat}}
 								€</td>
 							<td>{{item.quantity}}</td>
-							<td>{{  item.product.price * item.quantity }}
+							<td>{{  item.product.vat * item.quantity }}
 								€</td>
 							<td>
 								<a href="{{ path('franchise_cart_delete', {id: item.product.id}) }}" class="btn btn-danger btn-sm">
@@ -40,10 +40,10 @@
 				</tbody>
 				<tfoot>
 					<tr>
-						<td class="text-right" colspan="3">{{'Total'|trans}}
+						<td class="text-right" colspan="3">{{'Total TTC'|trans}}
 							:
 						</td>
-						<td>{{ total }}
+						<td>{{ app.session.get('cart_totalTTC') }}
 							€</td>
 						<td></td>
 					</tr>
@@ -51,7 +51,14 @@
 			</table>
 
 			<div class="d-flex justify-content-end mt-5">
-				<a class="btn btn-success" href="{{ path('franchise_cart_validate') }}">
+
+				<a class="btn btn-danger mr-2" href="{{ path('franchise_cart_empty') }}">
+					{{'Vider mon panier'|trans}}
+					<i class="fas fa-trash ml-2"></i>
+				</a>
+
+				{% set selected_credit_card = null %}
+				<a class="btn btn-success" href="{{ path('payment_process', {'selected_credit_card': selected_credit_card}) }}">
 					{{'Valider mon panier'|trans}}
 					<i class="fas fa-check ml-2"></i>
 				</a>

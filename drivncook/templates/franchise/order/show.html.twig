@@ -57,7 +57,7 @@
             {% for franchiseOrderContent in order.franchiseOrderContents %}
                 <tr>
                     <td>{{ franchiseOrderContent.product.name }}</td>
-                    <td>{{ franchiseOrderContent.product.quantity }}</td> 
+                    <td>{{ franchiseOrderContent.quantity }}</td> 
                     <td>{{ franchiseOrderContent.product.price }}</td>
                     <td>{{ franchiseOrderContent.product.price + franchiseOrderContent.product.vat }}</td>
                 </tr>
@@ -68,7 +68,7 @@
                 <td><strong>
                     {% set sousTotal = 0 %}
                     {% for franchiseOrderContent in order.franchiseOrderContents %}
-                        {% set sousTotal = sousTotal + franchiseOrderContent.product.price %}    
+                        {% set sousTotal = sousTotal + franchiseOrderContent.product.price * franchiseOrderContent.quantity %}    
                     {% endfor %}
                     {{ sousTotal }}€
                 </strong></td>
@@ -78,7 +78,7 @@
                 <td><strong>
                     {% set vat = 0 %}
                     {% for franchiseOrderContent in order.franchiseOrderContents %}
-                        {% set vat = vat + franchiseOrderContent.product.vat %}    
+                        {% set vat = vat + franchiseOrderContent.product.vat * franchiseOrderContent.quantity %}    
                     {% endfor %}
                     {{ vat }}€
                 </strong></td>
@@ -86,11 +86,7 @@
             <tr class="total total-big">
                 <td colspan="2" class="total_label">Total</td>
                 <td><strong>
-                    {% set total = 0 %}
-                    {% for franchiseOrderContent in order.franchiseOrderContents %}
-                        {% set total = total + franchiseOrderContent.product.price + franchiseOrderContent.product.vat %}    
-                    {% endfor %}
-                    {{ total }}€
+                    {{ order.totalPrice}}€
                 </strong></td>
             </tr>
             </tbody>
@@ -102,4 +98,7 @@
 
 	</body>
 
+{% endblock %}
+
+{% block footer %}
 {% endblock %}
