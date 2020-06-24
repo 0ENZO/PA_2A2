@@ -7,6 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class ArticleType extends AbstractType
 {
@@ -15,9 +16,17 @@ class ArticleType extends AbstractType
         $builder
             ->add('name')
             ->add('description')
+            ->add('imageFile', VichImageType::class, [
+                'required' => false,
+                'download_uri' => true,
+                'image_uri' => true,
+                'asset_helper' => true,
+                'download_label' => false,
+                'delete_label' => false,
+                "allow_delete" => false,
+            ])
             ->add('price')
             ->add('vat')
-            ->add('imageName')
             ->add('subCategory')
 //            ->add('menus')
             ->add('save', SubmitType::class, [

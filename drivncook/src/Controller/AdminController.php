@@ -746,26 +746,68 @@ class AdminController extends AbstractController
 
         $manager = $this->getDoctrine()->getManager();
         $articles = $manager->getRepository(Article::class)->findAll();
+
         $article = new Article();
+
         $form = $this->createForm(ArticleType::class, $article);
+        $form->remove("vat");
+        $form->handleRequest($request);
 
         if ($form->isSubmitted() and $form->isValid()) {
+            $article->setVat($article->getPrice() * 0.20);
+
             $manager->persist($article);
             $manager->flush();
-            $this->addFlash("success", "Vous avez ajouté un nouveau produit.");
+            $this->addFlash("success", "Vous avez ajouté un nouvel article");
             return $this->redirectToRoute("admin_article_show");
         }
 
         return $this->render("admin/articles/articles.html.twig", [
+            "form" => $form->createView(),
             "articles" => $articles,
-            "article" => $article,
-            "form" => $form->createView()
         ]);
-
-
-
     }
 
+
+    /**
+     * @Route("/article/edit/{id}", name="admin_article_edit")
+     */
+    public function admin_article_edit($id, Request $request) {
+        $manager = $this->getDoctrine()->getManager();
+        $article = $manager->getRepository(Article::class)->find($id);
+
+        $form = $this->createForm(ArticleType::class, $article);
+        $form->remove("vat");
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() and $form->isValid()) {
+            $article->setVat($article->getPrice() * 0.20);
+            $manager->flush();
+
+            $this->addFlash("primary", "Les informations concernant l'article que vous venez de sélectionner ont été modifiées.");
+            return $this->redirectToRoute("admin_article_show");
+        }
+
+        return $this->render("admin/articles/articles_edit.html.twig", [
+            "form" => $form->createView()
+        ]);
+    }
+
+
+
+    /**
+     * @Route("/article/delete/{id}", name="admin_article_delete")
+     */
+    public function admin_article_delete($id, Request $request) {
+        $manager = $this->getDoctrine()->getManager();
+        $article = $manager->getRepository(Article::class)->find($id);
+
+        $manager->remove($article);
+        $manager->flush();
+
+        $this->addFlash("danger", "L'article que vous venez de sélectionner a été supprimé");
+        return $this->redirectToRoute("admin_article_show");
+    }
 
 
 
