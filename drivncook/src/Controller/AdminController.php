@@ -11,8 +11,6 @@ use App\Entity\User;
 use App\Entity\Role;
 use App\Entity\Event;
 use App\Entity\Warehouse;
-
-use App\Entity\Warehouse;
 use App\Entity\WarehouseStock;
 use App\Form\CategoryType;
 use App\Form\FranchiseType;

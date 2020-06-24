@@ -72,7 +72,7 @@
                                <h6 class="my-0">Prix hors taxes</h6>
                                <small class="text-muted">Prix but</small>
                            </div>
-                           <span class="text-muted">{{ pre_tax_price }}€</span>
+                           <span class="text-muted">{{ totalHT }}€</span>
                        </li>
 
                        <li class="list-group-item d-flex justify-content-between lh-condensed">
@@ -80,7 +80,7 @@
                                <h6 class="my-0">Taxes</h6>
                                <small class="text-muted">Taxe française en vigueur : 20%</small>
                            </div>
-                           <span class="text-muted">{{ tax }}€</span>
+                           <span class="text-muted">{{ totalTTC - totalHT }}€</span>
                        </li>
 
                        <li class="list-group-item d-flex justify-content-between lh-condensed">
@@ -88,7 +88,7 @@
                                <h6 class="my-0">Prix TTC</h6>
                                <small class="text-muted">Toutes Taxes Comprises</small>
                            </div>
-                           <span class="text-muted">{{ including_taxes_price }}€</span>
+                           <span class="text-muted">{{ totalTTC }}€</span>
                        </li>
 
                        <li class="list-group-item d-flex justify-content-between lh-condensed">
@@ -96,7 +96,7 @@
                                <h6 class="my-0">TOTAL</h6>
                                <small class="text-muted">À payer</small>
                            </div>
-                           <strong>{{ including_taxes_price }}€</strong>
+                           <strong>{{ totalTTC }}€</strong>
                        </li>
 
                    </ul>
@@ -220,11 +220,12 @@
                     </tr>
                     <tr>
                         <td>Destinataire du paiement de la commande</td>
-                        <td>{% if consignee is defined and consignee is not empty %}
-                                {{ consignee }}
-                            {% else %}<strong>Ceci ne devrait pas s'afficher</strong>
+                        <td>{% if consignee is defined and consignee is not null %}
+                                {{ consignee.name }} - {{ consignee.address }}
+                            {% else %}
+                                <strong>Ceci ne devrait pas s'afficher</strong>
                             {% endif %}
-                            - Driv'n Cook</td>
+                            </td>
                     </tr>
                     </tbody>
                 </table>
@@ -274,7 +275,7 @@
         </div>
 
         <div class="container text-center">
-            <a href="{{ path('payment_success') }}" class="btn btn-success">CONFIRMER LE PAIEMENT</a>
+            <a href="{{ path('franchise_cart_validate') }}" class="btn btn-success">CONFIRMER LE PAIEMENT</a>
         </div>
     {% endif %}
 

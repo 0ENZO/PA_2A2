@@ -74,13 +74,13 @@ class ProductRepository extends ServiceEntityRepository
      * Récupère les produits en lien avec une recherche
      * @return PaginationInterface
      */
-    public function findSearch(SearchData $search): PaginationInterface
+    public function findSearch(SearchData $search, $warehouse): PaginationInterface
     {
-        $query = $this->getSearchQuery($search)->getQuery();
+        $query = $this->getSearchQuery($search, $warehouse)->getQuery();
         return $this->paginator->paginate(
             $query,
             $search->page,
-            4
+            16
         );
     }
 
@@ -97,12 +97,13 @@ class ProductRepository extends ServiceEntityRepository
         return [(int)$results[0]['min'], (int)$results[0]['max']];
     }
 
-    private function getSearchQuery(SearchData $search, $ignorePrice = false): QueryBuilder
+    private function getSearchQuery(SearchData $search, $warehouse): QueryBuilder
     {
         $query = $this
             ->createQueryBuilder('p')
             ->select('s', 'p')
-            ->join('p.subCategory', 's');
+            ->join('p.subCategory', 's')
+            ->join('p.warehouseStocks', 'w')->where('w.warehouse = :id')->setParameter('id', $warehouse);
 
         if (!empty($search->q)) {
             $query = $query
@@ -110,31 +111,23 @@ class ProductRepository extends ServiceEntityRepository
                 ->setParameter('q', "%{$search->q}%");
         }
 
-        if (!empty($search->min) && $ignorePrice === false) {
+        if (!empty($search->min)) {
             $query = $query
                 ->andWhere('p.price >= :min')
                 ->setParameter('min', $search->min);
         }
 
-        if (!empty($search->max) && $ignorePrice === false) {
+        if (!empty($search->max)) {
             $query = $query
                 ->andWhere('p.price <= :max')
                 ->setParameter('max', $search->max);
         }
-
-        /*
-        if (!empty($search->promo)) {
-            $query = $query
-                ->andWhere('p.promo = 1');
-        } 
-        */
 
         if (!empty($search->subCategories)) {
             $query = $query
                 ->andWhere('s.id IN (:subCategories)')
                 ->setParameter('subCategories', $search->subCategories);
         }
-
         return $query;
     }
 }

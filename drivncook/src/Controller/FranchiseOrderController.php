@@ -8,19 +8,21 @@ use App\Entity\Warehouse;
 use App\Entity\FranchiseOrder;
 use App\Entity\FranchiseOrderContent;
 use App\Repository\ProductRepository;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\WarehouseRepository;
 
+use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\FranchiseOrderRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Knp\Bundle\SnappyBundle\Snappy\Response\PdfResponse;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
- * @Route("/franchiseOrder") 
+ * @Route("/commande") 
  */
 class FranchiseOrderController extends AbstractController
 {
@@ -40,38 +42,38 @@ class FranchiseOrderController extends AbstractController
             ];
         }
 
-        $total = 0;
+        $totalTTC = 0;
+        $totalHT = 0;
 
         foreach ($filledCart as $item){
-            $totalProduct = $item['product']->getPrice() * $item['quantity'];
-            $total += $totalProduct;
+            $vatProduct = $item['product']->getVat() * $item['quantity'];
+            $priceProduct = $item['product']->getPrice() * $item['quantity'];
+            $totalTTC += $vatProduct;
+            $totalHT += $priceProduct;
         }
 
-        $session->set('cart_total', $total);
+        $session->set('cart_totalTTC', $totalTTC);
+        $session->set('cart_totalHT', $totalHT);
 
         return $this->render('franchise/order/index.html.twig', [
             'items' => $filledCart,
-            'total' => $total 
         ]);
     }
 
     /**
-     * @Route("/panier/add/{id}", name="franchise_cart_add")
+     * @Route("/panier/add/{id}/{qty}", name="franchise_cart_add", requirements={"id"="\d+", "qty"="\d+"})
      */
-    public function add($id, SessionInterface $session)
+    public function add($id, $qty, SessionInterface $session)
     {
 
         $cart = $session->get('cart', []);
         if (!empty($cart[$id])){
-            $cart[$id]++;
+            $cart[$id] = $cart[$id] + $qty;
         } else {
-            $cart[$id] = 1;
+            $cart[$id] = $qty;
         }
-
         $session->set('cart', $cart);
-
         return $this->redirectToRoute('product_index');
-
     }
 
     /**
@@ -94,16 +96,16 @@ class FranchiseOrderController extends AbstractController
     /**
      * @Route("/panier/validate", name="franchise_cart_validate")
      */
-    public function validate(SessionInterface $session, ProductRepository $productRepository)
+    public function validate(SessionInterface $session, ProductRepository $productRepository, WarehouseRepository $warehouseRepository)
     {
-        $cart = $session->get('cart', []);
         $em = $this->getDoctrine()->getManager();
-        $total = $session->get('cart_total');
         $user = $this->getUser();
-
+        $cart = $session->get('cart', []);
+        $total = $session->get('cart_totalTTC');
+        $cart_warehouse = $session->get('cart_warehouse');
+        $warehouse = $warehouseRepository->findOneById($cart_warehouse);
+        
         if (!empty($cart)){
-
-            $warehouse = $em->getRepository(Warehouse::class)->findOneByName('Alpha');
 
             $order = new FranchiseOrder();
             $order->setFranchise($user);
@@ -129,12 +131,17 @@ class FranchiseOrderController extends AbstractController
             $em->flush();
 
             // trouver une autre méthode pour vider le panier de la session
-            $session->invalidate();
-        } else {
+            // $session->invalidate();
+            $session->remove('cart_warehouse');
+            $session->remove('cart');
+            $session->remove('cart_totalTTC');
+            $session->remove('cart_totalHT');
+        } /* else {
             throw $this->createNotFoundException('Votre panier est vide.');
         }
 
-        return $this->render('franchise/order/validate.html.twig');
+        return $this->render('franchise/order/validate.html.twig'); */
+        return $this->redirectToRoute('payment_success');
     }
 
     /**
@@ -196,7 +203,7 @@ class FranchiseOrderController extends AbstractController
     
 
     /**
-     * @Route("/{id}", name="franchise_order_show")
+     * @Route("/{id}", name="franchise_order_show", requirements={"id"="\d+"})
      */
     public function show($id){
 
@@ -237,5 +244,51 @@ class FranchiseOrderController extends AbstractController
                 'Content-Disposition' => 'inline; filename="'.$filename.'.pdf"'
             )
         );
+    }
+
+    /**
+     * @Route("/entrepot", name="franchise_order_warehouse")
+     */
+    public function choose_warehouse(Session $session, WarehouseRepository $warehouseRepository, ProductRepository $productRepository)
+    {
+        $warehouses = $warehouseRepository->findAll();
+        $cart_warehouse = $session->get('cart_warehouse');
+
+        if ($cart_warehouse){
+            $warehouse = $warehouseRepository->findOneById($cart_warehouse);
+            $cart = $session->get('cart', []);
+            $filledCart = [];
+    
+            foreach($cart as $id => $quantity){
+                $filledCart[] = [
+                    'product' => $productRepository->find($id),
+                    'quantity' => $quantity
+                ];
+            }
+
+        } else {
+            $warehouse = null;
+            $filledCart = null;
+        }
+
+        return $this->render('franchise/order/warehouse.html.twig', [
+            'warehouse' => $warehouse,
+            'warehouses' => $warehouses, 
+            'filledCart' => $filledCart
+        ]);
+    }
+
+
+    /**
+     * @Route("/vider", name="franchise_cart_empty")
+     */
+    public function empty(SessionInterface $session, Request $request)
+    {
+        $session->remove('cart');
+        $session->remove('cart_totalTTC');
+        $session->remove('cart_warehouse');
+
+        $request->getSession()->getFlashBag()->add('info', 'Panier vidé.');
+        return $this->redirectToRoute('franchise_cart_show');
     }
 }

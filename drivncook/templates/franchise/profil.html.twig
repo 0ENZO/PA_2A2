@@ -4,6 +4,7 @@
 
 {% block body %}
 
+{% if is_granted('IS_AUTHENTICATED_FULLY') %}
     <div class="container mt-5">
 
         <div class="row profile">
@@ -75,11 +76,15 @@
                                         <tbody>
                                             <tr>
                                                 <td>Prénom</td>
-                                                <td>{{ franchise.firstName }}</td>
+                                                {% if franchise.firstName is defined and franchise.firstName is not null %}
+                                                    <td>{{ franchise.firstName }}</td>
+                                                {% endif %}
                                             </tr>
                                             <tr>
                                                 <td>Nom</td>
-                                                <td>{{ franchise.lastName }}</td>
+                                                {% if franchise.lastName is defined and franchise.lastName is not null %}
+                                                    <td>{{ franchise.lastName }}</td>
+                                                {% endif %}
                                             </tr>
                                             <tr>
                                                 <td>Email</td>
@@ -214,7 +219,7 @@
                                                 {% else %}
                                                     <div class="mt-5">
                                                         Vous n'avez pas encore passé de commande. 
-                                                        <a href="{{ path('product_index') }}" class="btn btn-primary">
+                                                        <a href="{{ path('franchise_order_warehouse') }}" class="btn btn-primary">
                                                             Passer commande<i class="fas fa-chevron-right ml-2"></i>
                                                         </a>
                                                     </div>
@@ -340,5 +345,6 @@
             </div>
         </div>
     </div>
+{% endif %}
 
 {% endblock %}

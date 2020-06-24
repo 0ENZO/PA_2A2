@@ -7,6 +7,11 @@
 
 	<div class="container mt-5 bg-white">
 
+        <div class="py-3">
+            <h4 class="text-center pt-3">
+                Entrepôt : {{ warehouse.name }}
+            </h4>
+        </div>
         <div class="p-4 mb-4 ">
             {{ form_start(form, {attr: {class: 'filter js-filter-form'}}) }}
 
@@ -70,16 +75,19 @@
                             <hr>
                             <div class="d-flex justify-content-between align-items-center">
                                 <h5 class="ml-2">
-                                    {{ product.price }} €
+                                    {{ product.vat }} €
                                 </h5>
-                                <a href="{{ path('franchise_cart_add', {id: product.id}) }}" class="btn btn-success float-right">
+                                <div>
+                                    <input type='button' name="btnMinus" data-id="{{ product.id }}" value='-' class='qtyminus' field='quantity' id="btnMinus{{product.id}}"/>
+                                    <input type='text' name='quantity' value='1' class='qty' id="cifri{{product.id}}" />
+                                    <input type='button' name="btnPlus" data-id="{{ product.id }}" value='+' class='qtyplus' field='quantity' id="btnPlus{{product.id}}"/>
+                                </div>
+                                <a href="{# {{ path('franchise_cart_add', {id: product.id}) }} #}" name="purchaseButton" data-id="{{ product.id }}" class="btn btn-success float-right">
                                     <i class="fas fa-shopping-cart mr-1"></i>
-                                    {% trans %}Ajouter{% endtrans %}
+                                    {# {% trans %}Ajouter{% endtrans %} #}
                                 </a>
                             </div>
-
                         </div>
-        
                     </div>
                 {% endfor %}
             </div>
@@ -87,9 +95,66 @@
             <div class="navigation mt-2 py-4">
                 {{ knp_pagination_render(products) }} 
             </div>
-            <a class="btn btn-primary position-fixed" href="{{ path('franchise_cart_show') }}" style="bottom: 3.5vh; right: 5vh;">
+            <a class="btn btn-primary position-fixed " href="{{ path('franchise_cart_show') }}" style="bottom: 7.5vh; right: 5vh;">
                 {% trans %}Voir mon panier{% endtrans %}<i class="fas fa-chevron-right ml-2"></i>
             </a>
         </div>
     </div>
+{% endblock %}
+
+{% block scripts %}
+{{ parent() }}
+
+<script>
+    const plus = document.getElementsByName('btnPlus');
+    const minus = document.getElementsByName('btnMinus');
+    const purchase = document.getElementsByName('purchaseButton');
+
+    if (plus){
+        for (let btnPlus of plus){
+            btnPlus.addEventListener ('click', e => {
+            if (e.target.className == 'qtyplus') {
+                var id = e.target.getAttribute('data-id');
+                var currentValue=document.getElementById("cifri" + id).value;
+                var intCurrentValue=parseInt(currentValue);
+                intCurrentValue=intCurrentValue+1;
+                document.getElementById("cifri" + id).value=intCurrentValue;
+            }
+        });
+        }
+    }
+
+    if (minus){
+        for (let btnMinus of minus){
+            btnMinus.addEventListener ('click', e => {
+            if (e.target.className == 'qtyminus') {
+                var id = e.target.getAttribute('data-id');
+                var currentValue=document.getElementById("cifri" + id).value;
+                var intCurrentValue=parseInt(currentValue);
+                intCurrentValue=intCurrentValue-1;
+                if(intCurrentValue<0){intCurrentValue=0;}
+                document.getElementById("cifri" + id).value=intCurrentValue;
+            }
+        });
+        }
+    }
+
+    if (purchase){
+        for (let btn of purchase){
+            btn.addEventListener ('click', e => {
+                if (e.target.className == 'btn btn-success float-right') {
+                    var id = e.target.getAttribute('data-id');
+                    var qty = document.getElementById("cifri" + id).value;
+                    console.log('id' + id);
+                    console.log('qty ' + qty);
+                    fetch(`/commande/panier/add/${id}/${qty}`, {
+                    method: 'POST'
+                    }).then(res => window.location.reload()); // On renvoit sur la page active 
+                }
+            });
+        }
+    }
+
+</script>
+
 {% endblock %}
