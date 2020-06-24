@@ -57,7 +57,6 @@ class Category
 
     /**
      * @ORM\Column(name="UploadDate" ,type="datetime", nullable=true)
-     *
      * @var \DateTimeInterface|null
      */
     private $updatedAt;

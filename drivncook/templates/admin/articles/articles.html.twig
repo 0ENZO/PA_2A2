@@ -1,13 +1,16 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Gestion des produits{% endblock %}
+{% block title %}Gestion des articles{% endblock %}
 
 {% block body %}
 
+    {#    {% if categories is defined %}#}
+    {#        {{ dump(categories) }}#}
+    {#    {% endif %}#}
 
-    <div class="container-fluid mt-5">
+    <div class="container mt-5">
         <!-- Button trigger modal -->
-        <button type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#add_product">
+        <button type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#add_category">
             + Ajouter un produit
         </button>
 
@@ -19,45 +22,29 @@
                 <th scope="col">Id</th>
                 <th scope="col">Nom</th>
                 <th scope="col">Description</th>
-                <th scope="col">Categorie</th>
-                <th scope="col">Sous-catégorie</th>
                 <th scope="col">Image utilisée</th>
-                <th scope="col">Prix HT</th>
-                <th scope="col">Taxe</th>
-                <th scope="col">Prix TTC</th>
-                <th scope="col">Quantité</th>
-                <th scope="col">Status</th>
-                <th scope="col">Date d'expiration</th>
                 <th scope="col">Actions</th>
             </tr>
             </thead>
             <tbody>
-            {% if products is defined and products is not empty %}
-                {% for product in products %}
+            {% if articles is defined and articles is not empty %}
+                {% for categorie in articles %}
                     <tr>
-                        <th scope="row">{{ product.id }}</th>
-                        <td>{{ product.name }}</td>
-                        <td>{{ product.description }}</td>
-                        <td>{{ product.subCategory.category }}</td>
-                        <td>{{ product.subCategory }}</td>
-                        <td>{{ product.imageName }}</td>
-                        <td>{{ product.price }} €</td>
-                        <td>{{ product.vat }} €</td>
-                        <td>{{ product.price + product.vat }} €</td>
-                        <td>{{ product.quantity }} {{ product.type }}</td>
-                        <td class="{% if product.status == 'Disponible' %}available-product{% elseif product.status == 'Indisponible' %}unvailable-product{% endif %}">{{ product.status }}</td>
-                        <td>{{ product.expiryDate | date("d/m/Y") }}</td>
+                        <th scope="row">{{ article.id }}</th>
+                        <td>{{ article.name }}</td>
+                        <td>{{ article.description }}</td>
+                        <td>{{ article.imageName }}</td>
                         <td>
-                            <a class="mr-2" data-toggle="tooltip" data-placement="top" title="Modifier" href="{{ path('admin_product_edit', { 'id': product.id}) }}"><i class="fas fa-pen"></i></a>
-                            <a href="#" data-href="{{ path('admin_product_delete', { 'id': product.id}) }}" class="" data-placement="bottom"
-                               title="Supprimer" data-toggle="modal" data-target="#delete_franchise">
-                                <i class="fas fa-trash-alt"></i>
-                            </a>
+{#                            <a class="mr-2" data-toggle="tooltip" data-placement="top" title="Modifier" href="{{ path('admin_category_edit', { 'id': article.id}) }}"><i class="fas fa-pen"></i></a>#}
+{#                            <a href="#" data-href="{{ path('admin_category_delete', { 'id': article.id}) }}" class="" data-placement="bottom"#}
+{#                               title="Supprimer" data-toggle="modal" data-target="#delete_franchise">#}
+{#                                <i class="fas fa-trash-alt"></i>#}
+{#                            </a>#}
                         </td>
                     </tr>
                 {% endfor %}
             {% else %}
-                <tr>Aucun produits n'est disponibles</tr>
+                <tr>Aucune catégories n'est disponibles</tr>
             {% endif %}
 
 
@@ -83,11 +70,11 @@
         </div>
 
         {#        Modal d'ajout de catégorie#}
-        <div class="modal fade" id="add_product" tabindex="-1" role="dialog" aria-labelledby="add_productLabel" aria-hidden="true">
+        <div class="modal fade" id="add_category" tabindex="-1" role="dialog" aria-labelledby="add_categoryLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="add_productLabel">Ajouter un Produit</h5>
+                        <h5 class="modal-title" id="add_categoryLabel">Ajouter une Catégorie</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>

@@ -4,62 +4,176 @@
 
 {% block body %}
 
-{#    {{ dump(warehouse) }}#}
-{#    {{ dump(stock) }}#}
-{#    {{ dump(test) }} TODO :  à Travailler dessus ce matin. QueryBuilder A revoir deans le doc, faire plein de test #}
+{#        {{ dump(warehouse.maxCapacity.maxIngredients) }}#}
+{#        {{ dump(stock[0].product.subCategory.category.name) }}#}
+{#        {{ dump(test) }}#}
+{#        {{ dump(test2) }}#}
+{#    {{ dump(nb_ingredients) }}#}
+{#    {{ dump(nb_drinks) }}#}
+{#    {{ dump(nb_desserts) }}#}
+{#    {{ dump(nb_meals) }}#}
+{#    {{ dump(nb_max_ingredients) }}#}
+{#    {{ dump(nb_max_drinks) }}#}
+{#    {{ dump(nb_max_desserts) }}#}
+{#    {{ dump(nb_max_meals) }}#}
+{#    {{ dump(nb_products) }}#}
+{#    {{ dump(nb_max_products) }}#}
+
+    <div class="container my-3">
+
+        <div class="jumbotron">
+            <h1 class="display-4">Entrepôt : {{ warehouse.name }}</h1>
+            {% if warehouse.name == "Alpha" %}
+                <p class="lead">Bienvenue dans la gestion de l'entrepôt principal de Driv'n Cook de Paris.</p>
+            {% else %}
+                <p class="lead">Bienvenue dans la gestion d'un des entrepôts périphériques de Driv'n Cook.</p>
+            {% endif %}
+            <hr class="my-4">
+            <p class="lead">Une unité de stockage dans l'entrepot équivaut à</p>
+            <ul>
+                <li class="lead">1 Unit - 1 Unité</li>
+                <li class="lead">1 Kg - 1 Kilogramme</li>
+                <li class="lead">1 L - 1 litre</li>
+            </ul>
+        </div>
+
+    </div>
+
 
     <div class="container">
-        <h1 class="display-1 h1">{{ warehouse.name }}</h1>
-        <button class="btn btn-primary" data-toggle="modal" data-target="#fill_product">Ajouter un produit dans un entrepôt</button>
-        <button class="btn btn-primary" data-toggle="modal" data-target="#add_capacity">Créer une capacité maximale</button>
-        <a href="{{ path('admin_warehouse_edit', {"name" : warehouse.name}) }}" class="btn btn-primary">Editer les informations de cet entrepôt</a>
+
+        <h5 class="display-5">Stockage</h5>
+
+        <div class="card">
+            <div class="card-body">
+                <p class="lead">Etat actuel de l'entrepôt : </p>
+                <p class="">Espace occupé : {{ nb_products }}</p>
+                <p class="">Espace maximum occupabe : {{ nb_max_products }}</p>
+                <p class="">Espace restant : {{ nb_max_products - nb_products }}</p>
+            </div>
+        </div>
+        {% set proportion = (nb_products * 100) / nb_max_products %}
+
+        <h5 class="display-5 mt-3">Occupation en %</h5>
+        <div class="progress mt-3">
+            <div class="progress-bar" role="progressbar" style="width: {{ proportion }}%;" aria-valuenow="25" aria-valuemin="0"
+                 aria-valuemax="{{ nb_max_products }}">{{ proportion }}%
+            </div>
+        </div>
+        <div class="lead">{{ proportion }}%</div>
+
+
+    </div>
+
+    <div class="container mt-5">
+        <ul class="list-group">
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                CONTENU DE L'ENTREPÔT
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                Nombre total d'ingrédients dans l'entrepôt {{ warehouse.name }}
+                <span class="badge badge-primary badge-pill">{{ nb_ingredients }}</span>
+                <span class="badge badge-primary badge-dark">{{ nb_max_ingredients }}</span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                Nombre total de boissons dans l'entrepôt {{ warehouse.name }}
+                <span class="badge badge-primary badge-pill">{{ nb_drinks }}</span>
+                <span class="badge badge-primary badge-dark">{{ nb_max_drinks }}</span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                Nombre total de desserts dans l'entrepôt {{ warehouse.name }}
+                <span class="badge badge-primary badge-pill">{{nb_desserts}}</span>
+                <span class="badge badge-primary badge-dark">{{nb_max_desserts}}</span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                Nombre total de repas actuels dans l'entrepôt {{ warehouse.name }}
+                <span class="badge badge-primary badge-pill">{{nb_meals}}</span>
+                <span class="badge badge-primary badge-dark">{{nb_max_meals}}</span>
+            </li>
+        </ul>
+    </div>
+
+
+
+
+    <div class="container mt-5">
+        <button class="btn btn-primary" data-toggle="modal" data-target="#fill_product">Ajouter un produit dans un
+            entrepôt
+        </button>
+        <button class="btn btn-primary" data-toggle="modal" data-target="#add_capacity">Créer une capacité maximale
+        </button>
+        <a href="{{ path('admin_warehouse_edit', {"name" : warehouse.name}) }}" class="btn btn-primary">Editer les
+            informations de cet entrepôt</a>
         <a href="{{ path('admin_warehouse_menu') }}" class="btn btn-outline-dark">Retour dans le menu Entrepôt</a>
     </div>
 
     <div class="container-fluid">
+
 
         <table class="table mt-4">
             <thead class="thead-dark">
             <tr>
                 <th scope="col">Id</th>
                 <th scope="col">Produit</th>
-                <th scope="col">Quantité unitaire du produit</th>
-                <th scope="col">Quantité unitaire de l'entrepôt</th>
-                <th scope="col">Quantité total du produit dans l'entrepôt</th>
+                <th scope="col">Quantité unitaire produit</th>
+                <th scope="col">Quantité dans l'entrepôt</th>
+                <th scope="col">Status</th>
+                <th scope="col">Actions</th>
 
             </tr>
             </thead>
             <tbody>
-            {% if stock is defined and stock is not empty %}
-                {% for item in stock %}
-                    <tr>
-                        <th scope="row">{{ item.id }}</th>
-                        <td>{{ item.product.name }}</td>
-                        <td>{{ item.product.quantity }}</td>
-                        <td>{{ item.quantity }}</td>
-                        <td>{{ item.product.quantity * item.quantity }}</td>
-                        <td>
-{#                            <a class="mr-2" data-toggle="tooltip" data-placement="top" title="Modifier" href="{{ path('admin_category_edit', { 'id': categorie.id}) }}"><i class="fas fa-pen"></i></a>#}
-{#                            <a href="#" data-href="{{ path('admin_category_delete', { 'id': categorie.id}) }}" class="" data-placement="bottom"#}
-{#                               title="Supprimer" data-toggle="modal" data-target="#delete_franchise">#}
-{#                                <i class="fas fa-trash-alt"></i>#}
-                            </a>
-                        </td>
-                    </tr>
-                {% endfor %}
-            {% else %}
-                <tr>Il n'y a aucun produits dans cet entrepôt</tr>
-            {% endif %}
 
+            {% if stock is defined and stock is not empty %}
+            {% for item in stock %}
+
+            <tr>
+                <th scope="row">{{ item.id }}</th>
+                <td>{{ item.product.name }}</td>
+                <td>{{ item.product.quantity }} {{ item.product.type }}</td>
+                <td>{{ item.quantity * item.product.quantity }} {{ item.product.type }}</td>
+                <td class="{% if item.product.status == 'Disponible' %}available-product{% elseif item.product.status == 'Indisponible' %}unvailable-product{% endif %}">{{ item.product.status }}</td>
+                <td>
+                    {#                            <a class="mr-2" data-toggle="tooltip" data-placement="top" title="Modifier" href="{{ path('admin_category_edit', { 'id': categorie.id}) }}"><i class="fas fa-pen"></i></a>#}
+                    {#                            <a href="#" data-href="{{ path('admin_warehouse_stock_delete', {"name" : warehouse.name, "id" : item.id}) }}" class="" data-placement="bottom"#}
+                    {#                               title="Supprimer" data-toggle="modal" data-target="#delete_warehouse_stock">#}
+                    {#                                <i class="fas fa-trash-alt"></i>#}
+                    {#                            </a>#}
+                    <a href="{{ path('admin_warehouse_stock_delete', {"name" : warehouse.name, "id" : item.id}) }}"
+                       title="Supprimer">
+                        <i class="fas fa-trash-alt"></i>
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+
+            {% else %}
+
+                <div class="container text-center mt-5">
+                    <div class="alert alert-danger" role="alert">
+                        Il n'y a aucun produit dans cet entrepôt
+                    </div>
+                </div>
+
+            {% endif %}
 
             </tbody>
         </table>
 
+
+
+
+
+
+
+
     </div>
 
 
+    {# Modal d'ajout d'un produit dans un entrepôt #}
     <div class="container">
-        <div class="modal fade" id="fill_product" tabindex="-1" role="dialog" aria-labelledby="fill_productLabel" aria-hidden="true">
+        <div class="modal fade" id="fill_product" tabindex="-1" role="dialog" aria-labelledby="fill_productLabel"
+             aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -70,7 +184,7 @@
                     </div>
                     <div class="modal-body">
                         {{ form_start(add_warehouse_stock_form) }}
-                            {{ form_widget(add_warehouse_stock_form) }}
+                        {{ form_widget(add_warehouse_stock_form) }}
                         {{ form_end(add_warehouse_stock_form) }}
                     </div>
                 </div>
@@ -78,8 +192,10 @@
         </div>
     </div>
 
+    {# Modal ajout max capacités   #}
     <div class="container">
-        <div class="modal fade" id="add_capacity" tabindex="-1" role="dialog" aria-labelledby="fill_productLabel" aria-hidden="true">
+        <div class="modal fade" id="add_capacity" tabindex="-1" role="dialog" aria-labelledby="fill_productLabel"
+             aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -90,13 +206,31 @@
                     </div>
                     <div class="modal-body">
                         {{ form_start(add_max_capacity_form) }}
-                            {{ form_widget(add_max_capacity_form) }}
+                        {{ form_widget(add_max_capacity_form) }}
                         {{ form_end(add_max_capacity_form) }}
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    
+
+    {# Modal suppresion WS#}
+    {#    <div class="modal fade" id="delete_warehouse_stock" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">#}
+    {#        <div class="modal-dialog modal-dialog-centered">#}
+    {#            <div class="modal-content">#}
+    {#                <div class="modal-header">#}
+    {#                    Retirer ce produit de l'entrepot#}
+    {#                </div>#}
+    {#                <div class="modal-body">#}
+    {#                    Êtes-vous sûr de vouloir supprimer ce produit ?#}
+    {#                </div>#}
+    {#                <div class="modal-footer">#}
+    {#                    <button type="button" class="btn btn-primary" data-dismiss="modal">Fermer</button>#}
+    {#                    <a class="btn btn-danger btn-ok text-white">Supprimer</a>#}
+    {#                </div>#}
+    {#            </div>#}
+    {#        </div>#}
+    {#    </div>#}
+
 
 {% endblock %}
