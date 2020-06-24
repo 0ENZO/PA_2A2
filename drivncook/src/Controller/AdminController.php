@@ -1,6 +1,7 @@
 <?php
 namespace App\Controller;
 
+use App\Entity\Article;
 use App\Entity\Category;
 use App\Entity\Franchise;
 use App\Entity\MaxCapacity;
@@ -13,6 +14,7 @@ use App\Entity\Event;
 use App\Entity\Warehouse;
 
 use App\Entity\WarehouseStock;
+use App\Form\ArticleType;
 use App\Form\CategoryType;
 use App\Form\FranchiseType;
 use App\Form\MaxCapacityType;
@@ -725,20 +727,46 @@ class AdminController extends AbstractController
         $this->addFlash("danger", "Vous avez supprimer un produit de cet entrepôts.");
         return $this->redirectToRoute("admin_warehouse_show", ["name" => $name]);
 
+    }
+
+    // CAPCACITES MAX
+
+    // TODO : Faire un menu dédiées aux capacitées max pour que cela soit plus propre
+
+
+
+
+
+    // ARTICLES
+
+    /**
+     * @Route("/articles", name="admin_article_show")
+     */
+    public function admin_article_show(Request $request) {
+
+        $manager = $this->getDoctrine()->getManager();
+        $articles = $manager->getRepository(Article::class)->findAll();
+        $article = new Article();
+        $form = $this->createForm(ArticleType::class, $article);
+
+        if ($form->isSubmitted() and $form->isValid()) {
+            $manager->persist($article);
+            $manager->flush();
+            $this->addFlash("success", "Vous avez ajouté un nouveau produit.");
+            return $this->redirectToRoute("admin_article_show");
+        }
+
+        return $this->render("admin/articles/articles.html.twig", [
+            "articles" => $articles,
+            "article" => $article,
+            "form" => $form->createView()
+        ]);
+
+
 
     }
 
 
 
-
-
-
-
-
-
-
-    // CAPCACITES MAX
-
-    // TODO : Faire un menu dédiées aux capacitées max pour que cela soit plus propre
 
 }

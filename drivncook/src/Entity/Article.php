@@ -60,7 +60,7 @@ class Article
 
     /**
      * NOTE: This is not a mapped field of entity metadata, just a simple property.
-     * @Vich\UploadableField(mapping="message_image", fileNameProperty="imageName")
+     * @Vich\UploadableField(mapping="article_images", fileNameProperty="imageName")
      * @Assert\Image(
      *  maxSize = "5M",
      *  mimeTypes={ "image/gif", "image/jpeg", "image/png" }
@@ -68,6 +68,13 @@ class Article
      * @var File|null
      */
     private $imageFile;
+
+    /**
+     * @ORM\Column(name="UploadDate" ,type="datetime", nullable=true)
+     *
+     * @var \DateTimeInterface|null
+     */
+    private $updatedAt;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -257,6 +264,7 @@ class Article
         return $this->menus;
     }
 
+
     public function addMenu(Menu $menu): self
     {
         if (!$this->menus->contains($menu)) {
@@ -267,6 +275,7 @@ class Article
         return $this;
     }
 
+
     public function removeMenu(Menu $menu): self
     {
         if ($this->menus->contains($menu)) {
@@ -276,4 +285,10 @@ class Article
 
         return $this;
     }
+
+
+    public function __toString() {
+        return $this->name;
+    }
+
 }
