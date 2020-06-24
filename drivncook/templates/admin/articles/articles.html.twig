@@ -4,14 +4,10 @@
 
 {% block body %}
 
-    {#    {% if categories is defined %}#}
-    {#        {{ dump(categories) }}#}
-    {#    {% endif %}#}
-
     <div class="container mt-5">
         <!-- Button trigger modal -->
         <button type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#add_category">
-            + Ajouter un produit
+            + Ajouter un article
         </button>
 
         <a href="{{ path('admin_show') }}" class="btn btn-outline-dark mb-3">Retour au menu administrateur</a>
@@ -22,29 +18,37 @@
                 <th scope="col">Id</th>
                 <th scope="col">Nom</th>
                 <th scope="col">Description</th>
+                <th scope="col">Sous catégorie</th>
+                <th scope="col">Prix HT</th>
+                <th scope="col">TVA</th>
+                <th scope="col">Prix TTC</th>
                 <th scope="col">Image utilisée</th>
                 <th scope="col">Actions</th>
             </tr>
             </thead>
             <tbody>
             {% if articles is defined and articles is not empty %}
-                {% for categorie in articles %}
+                {% for article in articles %}
                     <tr>
                         <th scope="row">{{ article.id }}</th>
                         <td>{{ article.name }}</td>
                         <td>{{ article.description }}</td>
+                        <td>{{ article.subCategory }}</td>
+                        <td>{{ article.price }} €</td>
+                        <td>{{ article.vat }} €</td>
+                        <td>{{ article.vat + article.price }} €</td>
                         <td>{{ article.imageName }}</td>
                         <td>
-{#                            <a class="mr-2" data-toggle="tooltip" data-placement="top" title="Modifier" href="{{ path('admin_category_edit', { 'id': article.id}) }}"><i class="fas fa-pen"></i></a>#}
-{#                            <a href="#" data-href="{{ path('admin_category_delete', { 'id': article.id}) }}" class="" data-placement="bottom"#}
-{#                               title="Supprimer" data-toggle="modal" data-target="#delete_franchise">#}
-{#                                <i class="fas fa-trash-alt"></i>#}
-{#                            </a>#}
+                            <a class="mr-2" data-toggle="tooltip" data-placement="top" title="Modifier" href="{{ path('admin_article_edit', { 'id': article.id}) }}"><i class="fas fa-pen"></i></a>
+                            <a href="#" data-href="{{ path('admin_article_delete', { 'id': article.id}) }}" class="" data-placement="bottom"
+                               title="Supprimer" data-toggle="modal" data-target="#delete_franchise">
+                                <i class="fas fa-trash-alt"></i>
+                            </a>
                         </td>
                     </tr>
                 {% endfor %}
             {% else %}
-                <tr>Aucune catégories n'est disponibles</tr>
+                <tr>Aucune article n'est disponibles</tr>
             {% endif %}
 
 
@@ -56,10 +60,10 @@
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
-                        Supprimer une catégorie
+                        Supprimer un article
                     </div>
                     <div class="modal-body">
-                        Êtes-vous sûr de vouloir supprimer cette catégorie ?
+                        Êtes-vous sûr de vouloir supprimer cet article ?
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-primary" data-dismiss="modal">Fermer</button>
@@ -74,7 +78,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="add_categoryLabel">Ajouter une Catégorie</h5>
+                        <h5 class="modal-title" id="add_categoryLabel">Ajouter un Article</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
