@@ -8,18 +8,19 @@
 {#        {{ dump(stock[0].product.subCategory.category.name) }}#}
 {#        {{ dump(test) }}#}
 {#        {{ dump(test2) }}#}
-    {{ dump(nb_ingredients) }}
-    {{ dump(nb_drinks) }}
-    {{ dump(nb_desserts) }}
-    {{ dump(nb_meals) }}
-    {{ dump(nb_max_ingredients) }}
-    {{ dump(nb_max_drinks) }}
-    {{ dump(nb_max_desserts) }}
-    {{ dump(nb_max_meals) }}
-    {{ dump(nb_products) }}
-    {{ dump(nb_max_products) }}
+{#    {{ dump(nb_ingredients) }}#}
+{#    {{ dump(nb_drinks) }}#}
+{#    {{ dump(nb_desserts) }}#}
+{#    {{ dump(nb_meals) }}#}
+{#    {{ dump(nb_max_ingredients) }}#}
+{#    {{ dump(nb_max_drinks) }}#}
+{#    {{ dump(nb_max_desserts) }}#}
+{#    {{ dump(nb_max_meals) }}#}
+{#    {{ dump(nb_products) }}#}
+{#    {{ dump(nb_max_products) }}#}
 
     <div class="container my-3">
+
         <div class="jumbotron">
             <h1 class="display-4">Entrepôt : {{ warehouse.name }}</h1>
             {% if warehouse.name == "Alpha" %}
@@ -35,44 +36,59 @@
                 <li class="lead">1 L - 1 litre</li>
             </ul>
         </div>
+
     </div>
 
-    {% set maxTotal = warehouse.maxCapacity.maxIngredients + warehouse.maxCapacity.maxDrinks + warehouse.maxCapacity.maxDesserts + warehouse.maxCapacity.maxMeals %}
-{#    {% set actual = test2[0].quantite %}#}
-    {% set actual = 500000 %}
-    {% set proportion = (actual * 100) / maxTotal %}
+
     <div class="container">
+
         <h5 class="display-5">Stockage</h5>
-        <div>max : {{ maxTotal }}</div>
-        <div>actuek : {{ actual }}</div>
-        <div>proportion : {{ proportion }}</div>
-        <div class="progress">
-            <div class="progress-bar" role="progressbar" style="width: {{ proportion }}%;" aria-valuenow="25" aria-valuemin="0"
-                 aria-valuemax="{{ maxTotal }}">{{ proportion }}%
+
+        <div class="card">
+            <div class="card-body">
+                <p class="lead">Etat actuel de l'entrepôt : </p>
+                <p class="">Espace occupé : {{ nb_products }}</p>
+                <p class="">Espace maximum occupabe : {{ nb_max_products }}</p>
+                <p class="">Espace restant : {{ nb_max_products - nb_products }}</p>
             </div>
         </div>
+        {% set proportion = (nb_products * 100) / nb_max_products %}
+
+        <h5 class="display-5 mt-3">Occupation en %</h5>
+        <div class="progress mt-3">
+            <div class="progress-bar" role="progressbar" style="width: {{ proportion }}%;" aria-valuenow="25" aria-valuemin="0"
+                 aria-valuemax="{{ nb_max_products }}">{{ proportion }}%
+            </div>
+        </div>
+        <div class="lead">{{ proportion }}%</div>
+
+
     </div>
 
-    <div class="container my-3">
+    <div class="container mt-5">
         <ul class="list-group">
             <li class="list-group-item d-flex justify-content-between align-items-center">
                 CONTENU DE L'ENTREPÔT
             </li>
             <li class="list-group-item d-flex justify-content-between align-items-center">
                 Nombre total d'ingrédients dans l'entrepôt {{ warehouse.name }}
-                <span class="badge badge-primary badge-pill">XXXX</span>
+                <span class="badge badge-primary badge-pill">{{ nb_ingredients }}</span>
+                <span class="badge badge-primary badge-dark">{{ nb_max_ingredients }}</span>
             </li>
             <li class="list-group-item d-flex justify-content-between align-items-center">
                 Nombre total de boissons dans l'entrepôt {{ warehouse.name }}
-                <span class="badge badge-primary badge-pill">XXXX</span>
+                <span class="badge badge-primary badge-pill">{{ nb_drinks }}</span>
+                <span class="badge badge-primary badge-dark">{{ nb_max_drinks }}</span>
             </li>
             <li class="list-group-item d-flex justify-content-between align-items-center">
                 Nombre total de desserts dans l'entrepôt {{ warehouse.name }}
-                <span class="badge badge-primary badge-pill">XXXX</span>
+                <span class="badge badge-primary badge-pill">{{nb_desserts}}</span>
+                <span class="badge badge-primary badge-dark">{{nb_max_desserts}}</span>
             </li>
             <li class="list-group-item d-flex justify-content-between align-items-center">
                 Nombre total de repas actuels dans l'entrepôt {{ warehouse.name }}
-                <span class="badge badge-primary badge-pill">XXXX</span>
+                <span class="badge badge-primary badge-pill">{{nb_meals}}</span>
+                <span class="badge badge-primary badge-dark">{{nb_max_meals}}</span>
             </li>
         </ul>
     </div>

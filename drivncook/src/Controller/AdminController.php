@@ -628,7 +628,6 @@ class AdminController extends AbstractController
                 continue; // Aucune catégories trouvées
         }
 
-
         // Ajout d'une nouvelle capacité si la capacité actuelle ne nous convient pas
         $max_capacity = new MaxCapacity();
         $add_max_capacity_form = $this->createForm(MaxCapacityType::class, $max_capacity);
@@ -641,7 +640,6 @@ class AdminController extends AbstractController
             $this->addFlash("success", "Une nouvelle capacité maximale est maintenant disponible.");
             return $this->redirectToRoute("admin_warehouse_show", ["name" => $name]);
         }
-
 
         // Ajout d'un produit dans l'entrepot
         $warehouse_stock = new WarehouseStock();
