@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}S'inscrire{% endblock %}
+
+{% block body %}
+
+    {{ dump(mdp) }}
+    {{ dump(hashed_mdp) }}
+
+    <div class="container mt-3">
+        <div class="jumbotron">
+            <h1 class="display-4">Inscription</h1>
+            <p class="lead">Prêt à entrer dans la famille Driv'n Cook ?</p>
+            <hr class="my-4">
+            <p class="text-muted"> Veuillez remplir les champs ci dessous afin de procéder à l'inscription</p>
+        </div>
+    </div>
+
+    <div class="container mt-5">
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+        {{ form_end(form) }}
+    </div>
+
+{% endblock %}
