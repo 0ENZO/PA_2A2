@@ -203,11 +203,10 @@
                                                         
                                                             <div id="collapse{{loop.index}}" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
                                                               <div class="card-body">
-                                                                {#
-                                                                {% for product in order.idProduct %}
-                                                                    <p>{{ product.name }}</p>
+                                                                {% for franchiseOrderContent in order.franchiseOrderContents %}
+                                                                    {{ franchiseOrderContent.product.name}}, 
                                                                 {% endfor %}
-                                                                #}
+                                                                <br>
                                                                 <a class="btn btn-primary" href="{{ path('franchise_order_show', {id: order.id}) }}">
                                                                     Voir ma facture <i class="fas fa-chevron-right ml-2"></i>
                                                                 </a>
@@ -255,14 +254,10 @@
                                                             
                                                                 <div id="collapse{{loop.index}}" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
                                                                 <div class="card-body">
-                                                                    {# {% for product in order.idProduct %}
-                                                                        <p>{{ product.name }}</p>
-                                                                    {% endfor %} #}
-
                                                                     {% for franchiseOrderContent in order.franchiseOrderContents %}
-                                                                        <p> {{ franchiseOrderContent.product.name}} </p>
+                                                                        {{ franchiseOrderContent.product.name}}, 
                                                                     {% endfor %}
-
+                                                                    <br>
                                                                     <a class="btn btn-primary" href="{{ path('franchise_order_show', {id: order.id}) }}">
                                                                         Voir ma facture <i class="fas fa-chevron-right ml-2"></i>
                                                                     </a>

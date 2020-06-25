@@ -7,6 +7,7 @@ use App\Entity\Product;
 use App\Entity\Warehouse;
 use App\Entity\FranchiseOrder;
 use App\Entity\FranchiseOrderContent;
+use App\Repository\FranchiseOrderContentRepository;
 use App\Repository\ProductRepository;
 use App\Repository\WarehouseRepository;
 
@@ -176,7 +177,7 @@ class FranchiseOrderController extends AbstractController
     /**
      * @Route("/duplicate/{id}", name="franchise_duplicate_order")
      */
-    public function duplicate($id, Request $request, FranchiseOrderRepository $franchiseOrderRepository, EntityManagerInterface $em){
+    public function duplicate($id, Request $request, FranchiseOrderRepository $franchiseOrderRepository, FranchiseOrderContentRepository $franchiseOrderContentRepository, EntityManagerInterface $em){
 
         $order = $franchiseOrderRepository->find($id);
 
@@ -188,10 +189,35 @@ class FranchiseOrderController extends AbstractController
         $newOrder->setStatus(1);
         $newOrder->setTotalPrice($order->getTotalPrice());
 
+        $franchiseOrderContents = $franchiseOrderContentRepository->findByFranchiseOrder($order);
+        foreach ($franchiseOrderContents as $franchiseOrderContent){
+            $newContent = new FranchiseOrderContent();
+            $newContent->setFranchiseOrder($newOrder);
+            $newContent->setProduct($franchiseOrderContent->getProduct());
+            $newContent->setQuantity($franchiseOrderContent->getQuantity());
+            $em->persist($newContent);
+        }
+
+        /*
         $product = $order->getProduct();
         foreach ($product as $product) {
             $newOrder->addProduct($product);
         }
+        
+        foreach ($cart as $id => $quantity){
+            $product = $productRepository->find($id);
+            $content = new FranchiseOrderContent();
+            $content->setFranchiseOrder($order);
+            $content->setProduct($product);
+            for ($i=0; $i < $quantity; $i++) { 
+                //$order->addProduct($product);
+                $currentQuantity = $content->getQuantity();
+                $content->setQuantity($currentQuantity+1);
+            }
+            $em->persist($content);
+        }
+        */
+        
 
         $em->persist($newOrder);
         $em->flush();
