@@ -630,19 +630,6 @@ class AdminController extends AbstractController
                 continue; // Aucune catégories trouvées
         }
 
-        // Ajout d'une nouvelle capacité si la capacité actuelle ne nous convient pas
-        $max_capacity = new MaxCapacity();
-        $add_max_capacity_form = $this->createForm(MaxCapacityType::class, $max_capacity);
-        $add_max_capacity_form->handleRequest($request);
-
-        if ($add_max_capacity_form->isSubmitted() and $add_max_capacity_form->isValid()) {
-            $manager->persist($max_capacity);
-            $manager->flush();
-
-            $this->addFlash("success", "Une nouvelle capacité maximale est maintenant disponible.");
-            return $this->redirectToRoute("admin_warehouse_show", ["name" => $name]);
-        }
-
         // Ajout d'un produit dans l'entrepot
         $warehouse_stock = new WarehouseStock();
         $warehouse_stock->setWarehouse($warehouse);
@@ -664,7 +651,6 @@ class AdminController extends AbstractController
         return $this->render("admin/warehouse.html.twig", [
             "warehouse" => $warehouse,
             "stock" => $stock,
-            "add_max_capacity_form" => $add_max_capacity_form->createView(),
             "add_warehouse_stock_form" => $add_warehouse_stock_form->createView(),
             "nb_ingredients" => $nb_ingredients,
             "nb_drinks" => $nb_drinks,
