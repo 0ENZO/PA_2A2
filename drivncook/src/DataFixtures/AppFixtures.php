@@ -226,7 +226,7 @@ class AppFixtures extends Fixture
             ->setBrand("Citroen")
             ->setFactoryDate(new \DateTime())
             ->setModel("XH-456-FR")
-            ->setStatus("Available")
+            ->setStatus("Disponible")
             ->setMaxCapacity($truck_capacity);
         $manager->persist($empty_truck);
 
@@ -236,7 +236,7 @@ class AppFixtures extends Fixture
             ->setBrand("Peugeot")
             ->setFactoryDate(new \DateTime())
             ->setModel("TG-5648-FR")
-            ->setStatus("Occupied")
+            ->setStatus("Occupé")
             ->setMaxCapacity($truck_capacity)
             ->setFranchise($franchise);
         $manager->persist($occupied_truck);
