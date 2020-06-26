@@ -7,6 +7,7 @@ use App\Entity\Product;
 use App\Entity\Warehouse;
 use App\Entity\FranchiseOrder;
 use App\Entity\FranchiseOrderContent;
+use App\Entity\FranchiseStock;
 use App\Repository\FranchiseOrderContentRepository;
 use App\Repository\ProductRepository;
 use App\Repository\WarehouseRepository;
@@ -74,7 +75,10 @@ class FranchiseOrderController extends AbstractController
             $cart[$id] = $qty;
         }
         $session->set('cart', $cart);
-        return $this->redirectToRoute('product_index');
+        $warehouse = $session->get('cart_warehouse');
+        return $this->redirectToRoute('product_index', [
+            'id' => $warehouse,
+        ]);
     }
 
     /**
@@ -117,15 +121,27 @@ class FranchiseOrderController extends AbstractController
             
             foreach ($cart as $id => $quantity){
                 $product = $productRepository->find($id);
+
+                // Ajout des produits dans la commande 
                 $content = new FranchiseOrderContent();
                 $content->setFranchiseOrder($order);
                 $content->setProduct($product);
+
+                // Ajout des produits dans le stock
+                $stock = new FranchiseStock();
+                $stock->setFranchise($user);
+                $stock->setProduct($product);
+                
                 for ($i=0; $i < $quantity; $i++) { 
                     //$order->addProduct($product);
-                    $currentQuantity = $content->getQuantity();
-                    $content->setQuantity($currentQuantity+1);
+                    $contentQty = $content->getQuantity();
+                    $content->setQuantity($contentQty+1);
+                    
+                    $stockQty = $stock->getQuantity();
+                    $stock->setQuantity($stockQty+1);
                 }
                 $em->persist($content);
+                $em->persist($stock);
             }
 
             $em->persist($order);
@@ -296,4 +312,22 @@ class FranchiseOrderController extends AbstractController
         $request->getSession()->getFlashBag()->add('info', 'Panier vidé.');
         return $this->redirectToRoute('franchise_cart_show');
     }
+
+    /**
+     * @Route("/ajuster/{product}/{maxQty}", name="franchise_cart_adjust", requirements={"product"="\d+", "maxQty"="\d+"})
+     */
+    public function adjust($product, $maxQty, Session $session, ProductRepository $productRepository, Request $request)
+    {
+        $cart = $session->get('cart', []);
+        foreach ($cart as $id => $quantity){
+            if ($product == $id){
+                $cart[$id] = $maxQty;
+            }
+        }
+
+        $session->set('cart', $cart);
+        $request->getSession()->getFlashBag()->add('info', 'Quantité ajustée.');
+        return $this->redirectToRoute('franchise_cart_show');
+    }
+
 }

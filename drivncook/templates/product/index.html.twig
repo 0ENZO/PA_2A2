@@ -65,6 +65,7 @@
             <div class="row d-flex align-items-stretch">
                 {% for product in products %}
                     <div class="col-3 mt-4">
+                        <span class="mx-auto badge badge-danger d-none" id="span{{product.id}}"></span>
                         <div class="border border-dark rounded p-2 clearfix">
                             <h3 class="text-center">
                                 {{ product.name }}
@@ -77,9 +78,12 @@
                                 <h5 class="ml-2">
                                     {{ product.vat }} €
                                 </h5>
+
                                 <div>
                                     <input type='button' name="btnMinus" data-id="{{ product.id }}" value='-' class='qtyminus' field='quantity' id="btnMinus{{product.id}}"/>
-                                    <input type='text' name='quantity' value='1' class='qty' id="cifri{{product.id}}" />
+                                    {% for warehouseStock in product.warehouseStocks %}
+                                        <input type='text' name='quantity' value='1' class='qty' id="cifri{{product.id}}" data-max="{{ warehouseStock.quantity }}" /> 
+                                    {% endfor %}
                                     <input type='button' name="btnPlus" data-id="{{ product.id }}" value='+' class='qtyplus' field='quantity' id="btnPlus{{product.id}}"/>
                                 </div>
                                 <a href="{# {{ path('franchise_cart_add', {id: product.id}) }} #}" name="purchaseButton" data-id="{{ product.id }}" class="btn btn-success float-right">
@@ -119,6 +123,7 @@
                 var intCurrentValue=parseInt(currentValue);
                 intCurrentValue=intCurrentValue+1;
                 document.getElementById("cifri" + id).value=intCurrentValue;
+                checkQuantity(id);
             }
         });
         }
@@ -134,6 +139,7 @@
                 intCurrentValue=intCurrentValue-1;
                 if(intCurrentValue<0){intCurrentValue=0;}
                 document.getElementById("cifri" + id).value=intCurrentValue;
+                checkQuantity(id);
             }
         });
         }
@@ -152,6 +158,18 @@
                     }).then(res => window.location.reload()); // On renvoit sur la page active 
                 }
             });
+        }
+    }
+
+    function checkQuantity(id){
+        var qty = document.getElementById("cifri" + id).value;
+        var maxQty = document.getElementById("cifri" + id).getAttribute('data-max');
+        var span = document.getElementById("span" + id);
+        if (qty > Number(maxQty) ){
+            span.innerText = "Quantité disponible : "+maxQty;
+            span.className = 'badge badge-danger';
+        } else {
+            span.className = 'badge badge-danger d-none';
         }
     }
 
