@@ -112,6 +112,11 @@ class Franchise implements UserInterface
      */
     private $events;
 
+    /**
+     * @ORM\OneToMany(targetEntity=FranchiseStock::class, mappedBy="franchise")
+     */
+    private $franchiseStocks;
+
     public function __construct()
     {
         $this->trucks = new ArrayCollection();
@@ -121,6 +126,7 @@ class Franchise implements UserInterface
         $this->votes = new ArrayCollection();
         $this->creditCards = new ArrayCollection();
         $this->events = new ArrayCollection();
+        $this->franchiseStocks = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -512,6 +518,37 @@ class Franchise implements UserInterface
         if ($this->events->contains($event)) {
             $this->events->removeElement($event);
             $event->removeFranchise($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|FranchiseStock[]
+     */
+    public function getFranchiseStocks(): Collection
+    {
+        return $this->franchiseStocks;
+    }
+
+    public function addFranchiseStock(FranchiseStock $franchiseStock): self
+    {
+        if (!$this->franchiseStocks->contains($franchiseStock)) {
+            $this->franchiseStocks[] = $franchiseStock;
+            $franchiseStock->setFranchise($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFranchiseStock(FranchiseStock $franchiseStock): self
+    {
+        if ($this->franchiseStocks->contains($franchiseStock)) {
+            $this->franchiseStocks->removeElement($franchiseStock);
+            // set the owning side to null (unless already changed)
+            if ($franchiseStock->getFranchise() === $this) {
+                $franchiseStock->setFranchise(null);
+            }
         }
 
         return $this;
