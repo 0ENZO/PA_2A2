@@ -13,6 +13,7 @@ class MaxCapacityType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('name')
             ->add('maxIngredients')
             ->add('maxDrinks')
             ->add('maxDesserts')

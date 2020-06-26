@@ -20,6 +20,11 @@ class MaxCapacity
     private $id;
 
     /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $name;
+
+    /**
      * @ORM\Column(type="integer")
      */
     private $maxIngredients;
@@ -107,6 +112,23 @@ class MaxCapacity
 
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param mixed $name
+     */
+    public function setName($name): void
+    {
+        $this->name = $name;
+    }
+
 
     /**
      * @return Collection|Truck[]

@@ -30,9 +30,7 @@ class UserType extends AbstractType
             ->add('lastName', TextType::class)
             ->add('email', EmailType::class)
             ->add('password')
-            ->add('phoneNumber', IntegerType::class, [
-                'required' => false
-            ])
+            ->add('phoneNumber')
             ->add('birthDate', DateType::class)
             ->add('save', SubmitType::class, [
                 'label' => 'Enregistrer'

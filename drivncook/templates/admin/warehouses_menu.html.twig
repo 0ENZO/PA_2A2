@@ -40,31 +40,11 @@
                                         <img src="{{ asset('images/warehouses/zeta.png') }}" class="card-img" alt="">
                                     {% endif %}
                                 </div>
-                                <div class="col-md-8">
+                                <div class="col-md-8" style="min-height: 300px">
                                     <div class="card-body">
                                         <h5 class="card-title">{{ warehouse.name }}</h5>
                                         <p class="card-text">Email : {{ warehouse.email }}</p>
                                         <p class="card-text">N° tel : {{ warehouse.phoneNumber }}</p>
-                                        <table>
-                                            <tbody>
-                                            <tr>
-                                                <td>Capacités des Ingrédients :</td>
-                                                <td>xxxx / {{ warehouse.maxCapacity.maxIngredients }}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Capacités des Boissons :</td>
-                                                <td>xxxx / {{ warehouse.maxCapacity.maxDrinks }}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Capacités des Repas :</td>
-                                                <td>xxxx / {{ warehouse.maxCapacity.maxMeals }}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Capacités des Desserts :</td>
-                                                <td>xxxx / {{ warehouse.maxCapacity.maxDesserts }}</td>
-                                            </tr>
-                                            </tbody>
-                                        </table>
                                         <p class="card-text"><small class="text-muted">Localisation
                                                 : {{ warehouse.address }}</small></p>
                                     </div>

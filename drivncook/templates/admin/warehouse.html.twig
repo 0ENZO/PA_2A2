@@ -100,14 +100,13 @@
         <button class="btn btn-primary" data-toggle="modal" data-target="#fill_product">Ajouter un produit dans un
             entrepôt
         </button>
-        <button class="btn btn-primary" data-toggle="modal" data-target="#add_capacity">Créer une capacité maximale
-        </button>
+        <a href="{{ path('admin_max_capacity_edit', {"id" : warehouse.maxCapacity.id}) }}" class="btn btn-primary">Editer la capacité de cet entrepôt</a>
         <a href="{{ path('admin_warehouse_edit', {"name" : warehouse.name}) }}" class="btn btn-primary">Editer les
             informations de cet entrepôt</a>
         <a href="{{ path('admin_warehouse_menu') }}" class="btn btn-outline-dark">Retour dans le menu Entrepôt</a>
     </div>
 
-    <div class="container-fluid">
+    <div class="container mt-5">
 
 
         <table class="table mt-4">
@@ -192,27 +191,6 @@
         </div>
     </div>
 
-    {# Modal ajout max capacités   #}
-    <div class="container">
-        <div class="modal fade" id="add_capacity" tabindex="-1" role="dialog" aria-labelledby="fill_productLabel"
-             aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="add_categoryLabel">Ajoute une capacité maximale</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        {{ form_start(add_max_capacity_form) }}
-                        {{ form_widget(add_max_capacity_form) }}
-                        {{ form_end(add_max_capacity_form) }}
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 
     {# Modal suppresion WS#}
     {#    <div class="modal fade" id="delete_warehouse_stock" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">#}

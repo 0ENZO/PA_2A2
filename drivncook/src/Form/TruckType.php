@@ -8,6 +8,7 @@ use App\Entity\MaxCapacity;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -34,7 +35,16 @@ class TruckType extends AbstractType
             ])
             ->add('brand', TextType::class)
             ->add('model', TextType::class)
-            ->add('status', IntegerType::class)
+            ->add('status', ChoiceType::class, [
+                "choices" => [
+                    "Disponible" => "Disponible",
+                    "Indisponible" => "Indisponible",
+                    "Occupé" => "Occupé",
+                    "En panne" => "En panne",
+                    "En attente de réparation" => "En attente de réparation"
+                ],
+                "label" => "Status"
+            ])
             ->add('factoryDate', DateType::class)
             ->add('save', SubmitType::class, [
                 'label' => 'Enregistrer'
