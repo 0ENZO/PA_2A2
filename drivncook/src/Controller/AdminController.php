@@ -6,6 +6,7 @@ use App\Entity\Category;
 use App\Entity\Franchise;
 use App\Entity\MaxCapacity;
 use App\Entity\Product;
+use App\Entity\Recipe;
 use App\Entity\SubCategory;
 use App\Entity\Truck;
 use App\Entity\User;
@@ -718,7 +719,7 @@ class AdminController extends AbstractController
 
 
 
-    // ARTICLES
+    // GESTION ARTICLES
 
     /**
      * @Route("/articles", name="admin_article_show")
@@ -728,7 +729,17 @@ class AdminController extends AbstractController
         $manager = $this->getDoctrine()->getManager();
         $articles = $manager->getRepository(Article::class)->findAll();
 
+//        $produit = $manager->getRepository(Product::class)->findOneBy(["id" => 1]);
+
         $article = new Article();
+
+        $recipe = new Recipe();
+//        $recipe
+//            ->setArticle($article)
+////            ->setProduct($produit)
+//            ->setQuantity(3);
+
+        $article->addRecipe($recipe);
 
         $form = $this->createForm(ArticleType::class, $article);
         $form->remove("vat");

@@ -34,6 +34,11 @@ class Recipe
      */
     private $quantity;
 
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $type;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -74,4 +79,21 @@ class Recipe
 
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * @param mixed $type
+     */
+    public function setType($type): void
+    {
+        $this->type = $type;
+    }
+
 }
