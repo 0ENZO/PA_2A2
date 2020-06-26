@@ -198,27 +198,6 @@ class FranchiseOrderController extends AbstractController
             $em->persist($newContent);
         }
 
-        /*
-        $product = $order->getProduct();
-        foreach ($product as $product) {
-            $newOrder->addProduct($product);
-        }
-        
-        foreach ($cart as $id => $quantity){
-            $product = $productRepository->find($id);
-            $content = new FranchiseOrderContent();
-            $content->setFranchiseOrder($order);
-            $content->setProduct($product);
-            for ($i=0; $i < $quantity; $i++) { 
-                //$order->addProduct($product);
-                $currentQuantity = $content->getQuantity();
-                $content->setQuantity($currentQuantity+1);
-            }
-            $em->persist($content);
-        }
-        */
-        
-
         $em->persist($newOrder);
         $em->flush();
 
