@@ -14,6 +14,7 @@ use App\Repository\WarehouseRepository;
 
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\FranchiseOrderRepository;
+use App\Repository\FranchiseStockRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -59,26 +60,34 @@ class FranchiseOrderController extends AbstractController
 
         return $this->render('franchise/order/index.html.twig', [
             'items' => $filledCart,
+            'cart_warehouse' => $session->get('cart_warehouse')
         ]);
     }
 
     /**
      * @Route("/panier/add/{id}/{qty}", name="franchise_cart_add", requirements={"id"="\d+", "qty"="\d+"})
      */
-    public function add($id, $qty, SessionInterface $session)
+    public function add($id, $qty, SessionInterface $session, Request $request)
     {
 
-        $cart = $session->get('cart', []);
-        if (!empty($cart[$id])){
-            $cart[$id] = $cart[$id] + $qty;
+        if($qty > 0){
+            $cart = $session->get('cart', []);
+            if (!empty($cart[$id])){
+                $cart[$id] = $cart[$id] + $qty;
+            } else {
+                $cart[$id] = $qty;
+            }
+            $session->set('cart', $cart);
+            $warehouse = $session->get('cart_warehouse');
+            $request->getSession()->getFlashBag()->add('info', 'Produit ajouté au panier');
         } else {
-            $cart[$id] = $qty;
+            $request->getSession()->getFlashBag()->add('info', 'Merci de préciser une quantité');
         }
-        $session->set('cart', $cart);
-        $warehouse = $session->get('cart_warehouse');
+
         return $this->redirectToRoute('product_index', [
             'id' => $warehouse,
         ]);
+
     }
 
     /**
@@ -101,7 +110,7 @@ class FranchiseOrderController extends AbstractController
     /**
      * @Route("/panier/validate", name="franchise_cart_validate")
      */
-    public function validate(SessionInterface $session, ProductRepository $productRepository, WarehouseRepository $warehouseRepository)
+    public function validate(SessionInterface $session, ProductRepository $productRepository, WarehouseRepository $warehouseRepository, FranchiseStockRepository $franchiseStockRepository)
     {
         $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
@@ -127,23 +136,39 @@ class FranchiseOrderController extends AbstractController
                 $content->setFranchiseOrder($order);
                 $content->setProduct($product);
 
-                // Ajout des produits dans le stock
-                $stock = new FranchiseStock();
-                $stock->setFranchise($user);
-                $stock->setProduct($product);
-                
+                // Ajout des produits dans le stock franchisé
+                $franchiseStock = $franchiseStockRepository->findOneByProduct($product);
+
+                if (!$franchiseStock){
+                    $franchiseStock = new FranchiseStock();
+                    $franchiseStock->setFranchise($user);
+                    $franchiseStock->setProduct($product);
+                }
+
+                // Soustraction des produits dans l'entrepot
+                $warehouseStocks = $product->getWarehouseStocks();
                 for ($i=0; $i < $quantity; $i++) { 
-                    //$order->addProduct($product);
                     $contentQty = $content->getQuantity();
                     $content->setQuantity($contentQty+1);
                     
-                    $stockQty = $stock->getQuantity();
-                    $stock->setQuantity($stockQty+1);
+                    $franchiseStockQty = $franchiseStock->getQuantity();
+                    $franchiseStock->setQuantity($franchiseStockQty+1);
+
+                    foreach($warehouseStocks as $warehouseStock){
+                        $warehouseStockQty = $warehouseStock->getQuantity();
+                        $warehouseStock->setQuantity($warehouseStockQty-1);
+                        $em->persist($warehouseStock);
+                        /* A décommenté si on veut supprimer le stock de la base 
+                        if ($warehouseStock->getQuantity() == 0){
+                            $em->remove($warehouseStock);
+                            $em->flush();
+                        }
+                        */
+                    }
                 }
                 $em->persist($content);
-                $em->persist($stock);
+                $em->persist($franchiseStock);
             }
-
             $em->persist($order);
             $em->flush();
 
@@ -295,6 +320,7 @@ class FranchiseOrderController extends AbstractController
         return $this->render('franchise/order/warehouse.html.twig', [
             'warehouse' => $warehouse,
             'warehouses' => $warehouses, 
+            'cart_warehouse' =>$cart_warehouse,
             'filledCart' => $filledCart
         ]);
     }

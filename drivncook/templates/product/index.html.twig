@@ -165,7 +165,11 @@
         var qty = document.getElementById("cifri" + id).value;
         var maxQty = document.getElementById("cifri" + id).getAttribute('data-max');
         var span = document.getElementById("span" + id);
-        if (qty > Number(maxQty) ){
+
+        if (maxQty == '0'){
+            span.innerText = "Produit indisponible";
+            span.className = 'badge badge-danger';
+        } else if (qty > Number(maxQty) ){
             span.innerText = "Quantité disponible : "+maxQty;
             span.className = 'badge badge-danger';
         } else {
