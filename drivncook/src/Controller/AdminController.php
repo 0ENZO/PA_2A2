@@ -729,16 +729,8 @@ class AdminController extends AbstractController
         $manager = $this->getDoctrine()->getManager();
         $articles = $manager->getRepository(Article::class)->findAll();
 
-//        $produit = $manager->getRepository(Product::class)->findOneBy(["id" => 1]);
-
         $article = new Article();
-
         $recipe = new Recipe();
-//        $recipe
-//            ->setArticle($article)
-////            ->setProduct($produit)
-//            ->setQuantity(3);
-
         $article->addRecipe($recipe);
 
         $form = $this->createForm(ArticleType::class, $article);
@@ -746,6 +738,12 @@ class AdminController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() and $form->isValid()) {
+
+            foreach ($article->getRecipes() as $recipeToAdd) {
+                $recipeToAdd->setArticle($article);
+                $manager->persist($recipeToAdd);
+            }
+
             $article->setVat($article->getPrice() * 0.20);
 
             $manager->persist($article);

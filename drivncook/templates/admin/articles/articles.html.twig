@@ -6,7 +6,7 @@
 
 {% block body %}
 
-    <div class="container mt-5">
+    <div class="container-fluid mt-5">
         <!-- Button trigger modal -->
         <button type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#add_category">
             + Ajouter un article
@@ -20,6 +20,7 @@
                 <th scope="col">Id</th>
                 <th scope="col">Nom</th>
                 <th scope="col">Description</th>
+                <th scope="col">Recette</th>
                 <th scope="col">Sous catégorie</th>
                 <th scope="col">Prix HT</th>
                 <th scope="col">TVA</th>
@@ -35,6 +36,13 @@
                         <th scope="row">{{ article.id }}</th>
                         <td>{{ article.name }}</td>
                         <td>{{ article.description }}</td>
+                        <td>
+                            <ul>
+                                {% for recipe in article.recipes %}
+                                    <li>{{ recipe }}</li>
+                                {% endfor %}
+                            </ul>
+                        </td>
                         <td>{{ article.subCategory }}</td>
                         <td>{{ article.price }} €</td>
                         <td>{{ article.vat }} €</td>
@@ -121,9 +129,9 @@
                 // Récupération du prototype des entrées
                 const template = $('#article_recipes').data('prototype').replace(/__name__/g, index);
 
-                // console.log(template);
                 // On ajoute un nouveau RecipeType à la CollectionType identitié par #article_recipes
                 $('#article_recipes').append(template);
+                // console.log(template);
 
                 handleDeleteButton();
 
@@ -134,6 +142,7 @@
                 $('button[data-action="delete"]').click(function () {
                     const target = this.dataset.target;
                     console.log(target);
+                    $('#' + target).remove();
 
                 })
             }
@@ -166,7 +175,7 @@
 
 {# Comment on affiche les différents champs du ReceipeType #}
 {% block _article_recipes_entry_widget %}
-    <div class="form-group" id="block_{{id}}">{{ dump(id) }}
+    <div class="form-group" id="block_{{ id }}"> {# {{ dump(id) }} #}
         <div class="row">
             <div class="col-5">
                 <div class="mb-2">Produit</div>
@@ -182,7 +191,8 @@
             </div>
             <div class="col-1">
                 <div class="mb-2">----</div>
-                <button type="button" class="btn btn-danger">X</button>
+                <button type="button" data-action="delete" data-target="block_{{ id }}" class="btn btn-danger">X
+                </button>
             </div>
         </div>
     </div>

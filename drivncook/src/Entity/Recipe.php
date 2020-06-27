@@ -96,4 +96,7 @@ class Recipe
         $this->type = $type;
     }
 
+    public function __toString() : string {
+        return $this->quantity." ".$this->type." de ".$this->product;
+    }
 }
