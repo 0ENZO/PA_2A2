@@ -32,6 +32,8 @@ class ArticleType extends AbstractType
             ->add('recipes', CollectionType::class, [
                 "entry_type" => RecipeType::class,
                 "allow_add" => true,      // Permet de créer un attribut html "prototype" contenant le code html vierge de du formulaire RecipeType
+                "allow_delete" => true,   // Permet la suppression d'objet lié à article en cas de besoin (dans le formulaire d'édition par exmlp)
+                "delete_empty" => true,
             ])
 
             ->add('save', SubmitType::class, [

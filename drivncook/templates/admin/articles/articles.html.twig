@@ -6,6 +6,16 @@
 
 {% block body %}
 
+    <div class="container mt-3">
+        <div class="jumbotron">
+            <h1 class="display-4">Gestion des Articles</h1>
+            <p class="lead">Bienvenue dans la gestion réservée aux articles.</p>
+            <hr class="my-4">
+            <p>Vous pouvez créer un article à partir des différents produits existant dans la base de données de Driv'n Cook.</p>
+            <p>Vous pouvez choisir d'ajouter autant d'ingrédients que vous voulez à un article (Recette), veillez simplement à respecter la nomenclature.</p>
+        </div>
+    </div>
+
     <div class="container-fluid mt-5">
         <!-- Button trigger modal -->
         <button type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#add_category">
@@ -124,7 +134,9 @@
                 // <div> ayant comme id="add_product"
                 // Il sera utilisé à la place de __name__ dans les formulaires vierge contenu dans
                 // le formulaire prototype (vierge)
-                const index = $('#article_recipes div.form-group').length;
+                // const index = $('#article_recipes div.form-group').length;
+
+                const index = +$('#widgets_counter').val();
 
                 // Récupération du prototype des entrées
                 const template = $('#article_recipes').data('prototype').replace(/__name__/g, index);
@@ -132,6 +144,8 @@
                 // On ajoute un nouveau RecipeType à la CollectionType identitié par #article_recipes
                 $('#article_recipes').append(template);
                 // console.log(template);
+
+                $('#widgets_counter').val(index + 1);
 
                 handleDeleteButton();
 
@@ -160,6 +174,8 @@
     <div class="lead">Ajouter les produits et les quantités nécessaires à la réalisation de cet article.</div>
     <hr>
     {{ form_widget(form) }}
+
+    <input type="hidden" value="0" id="widgets_counter">
 
     <div class="form-group">
         <button type="button" id="add-product" class="btn btn-info">Ajouter un autre produit à la recette</button>

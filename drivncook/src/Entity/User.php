@@ -41,6 +41,10 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=200)
+     * @Assert\Email(
+     *     message="L'addresse mail que vous venez de saisir n'est pas une addresse valide.",
+     *     normalizer="trim"
+     * )
      */
     private $email;
 

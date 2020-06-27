@@ -765,13 +765,22 @@ class AdminController extends AbstractController
     public function admin_article_edit($id, Request $request) {
         $manager = $this->getDoctrine()->getManager();
         $article = $manager->getRepository(Article::class)->find($id);
+        $recipes = $article->getRecipes();
 
         $form = $this->createForm(ArticleType::class, $article);
         $form->remove("vat");
-        $form->handleRequest($request);
 
+        $form->handleRequest($request);
         if ($form->isSubmitted() and $form->isValid()) {
+
+            foreach ($recipes as $recipe) {
+                $recipe->setArticle($article);
+                $manager->persist($recipe);
+            }
+
             $article->setVat($article->getPrice() * 0.20);
+
+            $manager->persist($article);
             $manager->flush();
 
             $this->addFlash("primary", "Les informations concernant l'article que vous venez de sélectionner ont été modifiées.");
