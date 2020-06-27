@@ -352,7 +352,7 @@ class Product
 
     public function __toString()
     {
-        return $this->name.' par '.$this->quantity.' '.$this->type;
+        return $this->name;
     }
 
     /**

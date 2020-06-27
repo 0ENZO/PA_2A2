@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\ArticleRepository;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\HttpFoundation\File\File;
 use Doctrine\Common\Collections\ArrayCollection;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
@@ -13,6 +14,10 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity(repositoryClass=ArticleRepository::class)
  * @Vich\Uploadable
+ * @UniqueEntity(
+ *     fields={"name"},
+ *     message="Cet article existe déjà dans notre base de données. Veuillez en choisir un autre."
+ * )
  */
 class Article
 {
@@ -25,21 +30,31 @@ class Article
 
     /**
      * @ORM\Column(type="string", length=50)
+     * @Assert\Type(type="string")
+     * @Assert\Length(
+     *     max="25",
+     *     maxMessage="Vous ne pouvers pas mettre un nom d'artcile faisant plus de 25 caractères.",
+     *     min="2",
+     *     minMessage="Vous devez au moins mettre un nom d'article faisnt au moins 2 caractères."
+     * )
      */
     private $name;
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Assert\Type(type="string")
      */
     private $description;
 
     /**
      * @ORM\Column(type="float")
+     * @Assert\Type(type="float")
      */
     private $price;
 
     /**
      * @ORM\Column(type="float")
+     * @Assert\Type(type="float")
      */
     private $vat;
 
@@ -55,6 +70,7 @@ class Article
 
     /**
      * @ORM\OneToMany(targetEntity=Recipe::class, mappedBy="article")
+     * @Assert\Valid()
      */
     private $recipes;
 
