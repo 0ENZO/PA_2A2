@@ -31,7 +31,18 @@
                 {% for categorie in categories %}
                     <tr>
                         <th scope="row">{{ categorie.id }}</th>
-                        <td>{{ categorie.name }}</td>
+                        <td>
+                            {% if categorie.name == 'Ingrédients' %}
+                                {% set badge = 'badge-dark' %}
+                            {% elseif categorie.name == 'Boissons' %}
+                                {% set badge = 'badge-info' %}
+                            {% elseif categorie.name == 'Desserts' %}
+                                {% set badge = 'badge-light' %}
+                            {% elseif categorie.name == 'Repas' %}
+                                {% set badge = 'badge-warning' %}
+                            {% endif %}
+                            <span class="badge badge-pill {{ badge }}">{{ categorie.name }}</span>
+                        </td>
                         <td>{{ categorie.description }}</td>
                         <td>{{ categorie.imageName }}</td>
                         <td>
