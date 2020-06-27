@@ -137,6 +137,10 @@ class AppFixtures extends Fixture
 
 
 
+
+
+
+
         // Création franchisés
 
         for($i = 0 ; $i < 10 ; $i++){
@@ -254,155 +258,958 @@ class AppFixtures extends Fixture
 
 
 
-        // Créations des catégories et sous-catégories
 
-        $ingredient = new Category();
-        $ingredient
-            ->setName('ingredients');
-        $manager->persist($ingredient);
 
-        $vegetables = new SubCategory();
-        $vegetables
-            ->setName('legumes')
-            ->setCategory($ingredient);
-        $manager->persist($vegetables);
 
-        $fruits = new SubCategory();
-        $fruits
-            ->setName('fruits')
-            ->setCategory($ingredient);
-        $manager->persist($fruits);
+        // CATEGORIES
 
-        $product = new Product();
-        $product
-            ->setName('orange')
-            ->setSubCategory($fruits)
-            ->setPrice('2')
-            ->setVat('3')
-            ->setExpiryDate(new\ Datetime())
-            ->setQuantity('1');
-        $manager->persist($product);
+        $category_ingredient = new Category();
+        $category_ingredient
+            ->setName('Ingredients')
+            ->setDescription("Tout ce qui est relatif aux ".$category_ingredient->getName().".");
+        $manager->persist($category_ingredient);
 
-        $product = new Product();
-        $product
-            ->setName('pomme')
-            ->setSubCategory($fruits)
-            ->setPrice('2')
-            ->setVat('3')
-            ->setExpiryDate(new\ Datetime())
-            ->setQuantity('1');
-        $manager->persist($product);
+        $category_boisson = new Category();
+        $category_boisson
+            ->setName('Boissons')
+            ->setDescription("Tout ce qui est relatif aux ".$category_boisson->getName().".");
+        $manager->persist($category_boisson);
 
-        $product = new Product();
-        $product
-            ->setName('banane')
-            ->setSubCategory($fruits)
-            ->setPrice('2')
-            ->setVat('3')
-            ->setExpiryDate(new\ Datetime())
-            ->setQuantity('1');
-        $manager->persist($product);
+        $category_dessert = new Category();
+        $category_dessert
+            ->setName('Dessert')
+            ->setDescription("Tout ce qui est relatif aux ".$category_dessert->getName().".");
+        $manager->persist($category_dessert);
 
-        $product = new Product();
-        $product
-            ->setName('mangue')
-            ->setSubCategory($fruits)
-            ->setPrice('2')
-            ->setVat('3')
-            ->setExpiryDate(new\ Datetime())
-            ->setQuantity('1');
-        $manager->persist($product);
+        $category_repas = new Category();
+        $category_repas
+            ->setName('Repas')
+            ->setDescription("Tout ce qui est relatif aux ".$category_repas->getName().".");
+        $manager->persist($category_repas);
 
-        $product = new Product();
-        $product
-            ->setName('kiwi')
-            ->setSubCategory($fruits)
-            ->setPrice('2')
-            ->setVat('3')
-            ->setExpiryDate(new\ Datetime())
-            ->setQuantity('1');
-        $manager->persist($product);
 
-        $product = new Product();
-        $product
-            ->setName('ananas')
-            ->setSubCategory($fruits)
-            ->setPrice('2')
-            ->setVat('3')
-            ->setExpiryDate(new\ Datetime())
-            ->setQuantity('1');
-        $manager->persist($product);
 
-        $product = new Product();
-        $product
-            ->setName('poire')
-            ->setSubCategory($fruits)
-            ->setPrice('2')
-            ->setVat('3')
-            ->setExpiryDate(new\ Datetime())
-            ->setQuantity('1');
-        $manager->persist($product);
 
-        $product = new Product();
-        $product
-            ->setName('grenade')
-            ->setSubCategory($fruits)
-            ->setPrice('2')
-            ->setVat('3')
-            ->setExpiryDate(new\ Datetime())
-            ->setQuantity('1');
-        $manager->persist($product);
 
-        $product = new Product();
-        $product
-            ->setName('brocolis')
-            ->setSubCategory($vegetables)
-            ->setPrice('2')
-            ->setVat('3')
-            ->setExpiryDate(new\ Datetime())
-            ->setQuantity('1');
-        $manager->persist($product);
 
-        $product = new Product();
-        $product
-            ->setName('epinards')
-            ->setSubCategory($vegetables)
-            ->setPrice('2')
-            ->setVat('3')
-            ->setExpiryDate(new\ Datetime())
-            ->setQuantity('1');
-        $manager->persist($product);
 
-        $product = new Product();
-        $product
-            ->setName('patate')
-            ->setSubCategory($vegetables)
-            ->setPrice('2')
-            ->setVat('3')
-            ->setExpiryDate(new\ Datetime())
-            ->setQuantity('1');
-        $manager->persist($product);
 
-        $product = new Product();
-        $product
-            ->setName('oignon')
-            ->setSubCategory($vegetables)
-            ->setPrice('2')
-            ->setVat('3')
-            ->setExpiryDate(new\ Datetime())
-            ->setQuantity('1');
-        $manager->persist($product);
 
-        $product = new Product();
-        $product
-            ->setName('echalotte')
-            ->setSubCategory($vegetables)
-            ->setPrice('2')
-            ->setVat('3')
-            ->setExpiryDate(new\ Datetime())
-            ->setQuantity('1');
-        $manager->persist($product);
+        // SOUS CATEGORIES
 
+        //... des ingrédients
+
+        $sub_category_standard = new SubCategory();
+        $sub_category_standard
+            ->setName("Standard (matières premières)")
+            ->setDescription("Relatif aux produits Standard (matières premières)")
+            ->setCategory($category_ingredient);
+        $manager->persist($sub_category_standard);
+
+        $sub_category_legume = new SubCategory();
+        $sub_category_legume
+            ->setName("Légumes")
+            ->setDescription("Relatif aux légumes")
+            ->setCategory($category_ingredient);
+        $manager->persist($sub_category_legume);
+
+        $sub_category_fruit = new SubCategory();
+        $sub_category_fruit
+            ->setName("Fruits")
+            ->setDescription("Relatif aux fruits")
+            ->setCategory($category_ingredient);
+        $manager->persist($sub_category_fruit);
+
+        $sub_category_viande = new SubCategory();
+        $sub_category_viande
+            ->setName("Viandes")
+            ->setDescription("Relatif aux viandes")
+            ->setCategory($category_ingredient);
+        $manager->persist($sub_category_viande);
+
+        $sub_category_poisson = new SubCategory();
+        $sub_category_poisson
+            ->setName("Poissons")
+            ->setDescription("Relatif aux poissons")
+            ->setCategory($category_ingredient);
+        $manager->persist($sub_category_poisson);
+
+        $sub_category_cereale = new SubCategory();
+        $sub_category_cereale
+            ->setName("Céréales")
+            ->setDescription("Relatif aux céréales")
+            ->setCategory($category_ingredient);
+        $manager->persist($sub_category_cereale);
+
+        $sub_category_oleagineu = new SubCategory();
+        $sub_category_oleagineu
+            ->setName("Oléagineux")
+            ->setDescription("Relatif aux oléagineux")
+            ->setCategory($category_ingredient);
+        $manager->persist($sub_category_oleagineu);
+
+        $sub_category_graine = new SubCategory();
+        $sub_category_graine
+            ->setName("Graines")
+            ->setDescription("Relatif aux graines")
+            ->setCategory($category_ingredient);
+        $manager->persist($sub_category_graine);
+
+        $sub_category_product_annexe = new SubCategory();
+        $sub_category_product_annexe
+            ->setName("Produits annexes")
+            ->setDescription("Relatif aux produits annexes")
+            ->setCategory($category_ingredient);
+        $manager->persist($sub_category_product_annexe);
+
+        $sub_category_glace = new SubCategory();
+        $sub_category_glace
+            ->setName("Glaces")
+            ->setDescription("Relatif aux glaces")
+            ->setCategory($category_ingredient);
+        $manager->persist($sub_category_glace);
+
+        //... des boissons
+
+        $sub_category_canette = new SubCategory();
+        $sub_category_canette
+            ->setName("Canettes")
+            ->setDescription("Relatif aux boissons en canettes")
+            ->setCategory($category_boisson);
+        $manager->persist($sub_category_canette);
+
+        $sub_category_bouteille_verre = new SubCategory();
+        $sub_category_bouteille_verre
+            ->setName("Bouteilles en verres")
+            ->setDescription("Relatif aux boissons en bouteilles en verres")
+            ->setCategory($category_boisson);
+        $manager->persist($sub_category_bouteille_verre);
+
+        $sub_category_boisson_chaude = new SubCategory();
+        $sub_category_boisson_chaude
+            ->setName("Boissons chaudes")
+            ->setDescription("Relatif aux boissons chaudes")
+            ->setCategory($category_boisson);
+        $manager->persist($sub_category_boisson_chaude);
+
+        $sub_category_jus = new SubCategory();
+        $sub_category_jus
+            ->setName("Jus")
+            ->setDescription("Relatif aux jus")
+            ->setCategory($category_boisson);
+        $manager->persist($sub_category_jus);
+
+        $sub_category_smoothie = new SubCategory();
+        $sub_category_smoothie
+            ->setName("Smoothies")
+            ->setDescription("Relatif aux smoothies")
+            ->setCategory($category_boisson);
+        $manager->persist($sub_category_smoothie);
+
+        //... des desserts
+
+        $sub_category_dessert_industriel = new SubCategory();
+        $sub_category_dessert_industriel
+            ->setName("Desserts pré-fait")
+            ->setDescription("Relatif aux désserts préfabriqués")
+            ->setCategory($category_dessert);
+        $manager->persist($sub_category_dessert_industriel);
+
+        $sub_category_crepe = new SubCategory();
+        $sub_category_crepe
+            ->setName("Crêpes")
+            ->setDescription("Relatif aux crêpes")
+            ->setCategory($category_dessert);
+        $manager->persist($sub_category_crepe);
+
+        $sub_dessert_normal = new SubCategory();
+        $sub_dessert_normal
+            ->setName("Dessert classique")
+            ->setDescription("Relatif aux dessert classiques")
+            ->setCategory($category_dessert);
+        $manager->persist($sub_dessert_normal);
+
+        //... des plats
+
+        $sub_category_plat_industriel = new SubCategory();
+        $sub_category_plat_industriel
+            ->setName("Plats pré-fait")
+            ->setDescription("Relatif aux plats pré-fabriqués")
+            ->setCategory($category_repas);
+        $manager->persist($sub_category_plat_industriel);
+
+        $sub_category_galette = new SubCategory();
+        $sub_category_galette
+            ->setName("Galettes")
+            ->setDescription("Relatif aux galettes")
+            ->setCategory($category_repas);
+        $manager->persist($sub_category_galette);
+
+        $sub_category_brunch = new SubCategory();
+        $sub_category_brunch
+            ->setName("Brunchs")
+            ->setDescription("Relatif aux brunchs")
+            ->setCategory($category_repas);
+        $manager->persist($sub_category_brunch);
+
+
+
+
+
+
+
+
+        // PRODUITS
+
+        //... produits standars parmis les ingrédients
+
+        $product_oeuf = new Product();
+        $product_oeuf
+            ->setName("Oeufs")
+            ->setDescription("Description ".$product_oeuf->getName())
+            ->setPrice(1.00)
+            ->setVat($product_oeuf->getPrice() * 0.20)
+            ->setStatus("Disponible")
+            ->setQuantity(1)
+            ->setSubCategory($sub_category_standard)
+            ->setType("Unit");
+        $manager->persist($product_oeuf);
+
+        $product_pain = new Product();
+        $product_pain
+            ->setName("Pains")
+            ->setDescription("Une baguette de pain ".$product_pain->getName())
+            ->setPrice(0.70)
+            ->setVat($product_pain->getPrice() * 0.20)
+            ->setStatus("Disponible")
+            ->setQuantity(1)
+            ->setSubCategory($sub_category_standard)
+            ->setType("Unit");
+        $manager->persist($product_pain);
+
+        $product_mouillette = new Product();
+        $product_mouillette
+            ->setName("Mouillettes")
+            ->setDescription("Description ".$product_mouillette->getName())
+            ->setPrice(5.00)
+            ->setVat($product_mouillette->getPrice() * 0.20)
+            ->setStatus("Disponible")
+            ->setQuantity(1)
+            ->setSubCategory($sub_category_standard)
+            ->setType("Kg");
+        $manager->persist($product_mouillette);
+
+        $product_tranche_pain = new Product();
+        $product_tranche_pain
+            ->setName("Tranches de pains")
+            ->setDescription("Description ".$product_tranche_pain->getName())
+            ->setPrice(6.00)
+            ->setVat($product_tranche_pain->getPrice() * 0.20)
+            ->setStatus("Disponible")
+            ->setQuantity(1)
+            ->setSubCategory($sub_category_standard)
+            ->setType("Kg");
+        $manager->persist($product_tranche_pain);
+
+        $product_farine = new Product();
+        $product_farine
+            ->setName("Farine")
+            ->setDescription("Description ".$product_farine->getName())
+            ->setPrice(2.00)
+            ->setVat($product_farine->getPrice() * 0.20)
+            ->setStatus("Disponible")
+            ->setQuantity(1)
+            ->setSubCategory($sub_category_standard)
+            ->setType("Kg");
+        $manager->persist($product_farine);
+
+        $product_sel = new Product();
+        $product_sel
+            ->setName("Sel")
+            ->setDescription("Description ".$product_sel->getName())
+            ->setPrice(2.00)
+            ->setVat($product_sel->getPrice() * 0.20)
+            ->setStatus("Disponible")
+            ->setQuantity(1)
+            ->setSubCategory($sub_category_standard)
+            ->setType("Kg");
+        $manager->persist($product_sel);
+
+        $product_gros_sel = new Product();
+        $product_gros_sel
+            ->setName("Gros sel")
+            ->setDescription("Description ".$product_gros_sel->getName())
+            ->setPrice(2.50)
+            ->setVat($product_gros_sel->getPrice() * 0.20)
+            ->setStatus("Disponible")
+            ->setQuantity(1)
+            ->setSubCategory($sub_category_standard)
+            ->setType("Kg");
+        $manager->persist($product_gros_sel);
+
+        $product_lait = new Product();
+        $product_lait
+            ->setName("Lait")
+            ->setDescription("Description ".$product_lait->getName())
+            ->setPrice(1.70)
+            ->setVat($product_lait->getPrice() * 0.20)
+            ->setStatus("Disponible")
+            ->setQuantity(1)
+            ->setSubCategory($sub_category_standard)
+            ->setType("L");
+        $manager->persist($product_lait);
+
+        $product_beurre = new Product();
+        $product_beurre
+            ->setName("Beurre")
+            ->setDescription("Description ".$product_beurre->getName())
+            ->setPrice(3)
+            ->setVat($product_beurre->getPrice() * 0.20)
+            ->setStatus("Disponible")
+            ->setQuantity(1)
+            ->setSubCategory($sub_category_standard)
+            ->setType("Kg");
+        $manager->persist($product_beurre);
+
+        $product_sucre = new Product();
+        $product_sucre
+            ->setName("Sucre")
+            ->setDescription("Description ".$product_sucre->getName())
+            ->setPrice(1.50)
+            ->setVat($product_sucre->getPrice() * 0.20)
+            ->setStatus("Disponible")
+            ->setQuantity(1)
+            ->setSubCategory($sub_category_standard)
+            ->setType("Kg");
+        $manager->persist($product_sucre);
+
+        $product_fromage_rais = new Product();
+        $product_fromage_rais
+            ->setName("Fromage frais")
+            ->setDescription("Description ".$product_fromage_rais->getName())
+            ->setPrice(4.80)
+            ->setVat($product_fromage_rais->getPrice() * 0.20)
+            ->setStatus("Disponible")
+            ->setQuantity(1)
+            ->setSubCategory($sub_category_standard)
+            ->setType("Kg");
+        $manager->persist($product_fromage_rais);
+
+        $product_gruyere = new Product();
+        $product_gruyere
+            ->setName("Gruyère")
+            ->setDescription("Description ".$product_gruyere->getName())
+            ->setPrice(3.20)
+            ->setVat($product_gruyere->getPrice() * 0.20)
+            ->setStatus("Disponible")
+            ->setQuantity(1)
+            ->setSubCategory($sub_category_standard)
+            ->setType("Kg");
+        $manager->persist($product_gruyere);
+
+        $product_pourdre_coco = new Product();
+        $product_pourdre_coco
+            ->setName("Poudre Coco")
+            ->setDescription("Description ".$product_pourdre_coco->getName())
+            ->setPrice(4.80)
+            ->setVat($product_pourdre_coco->getPrice() * 0.20)
+            ->setStatus("Disponible")
+            ->setQuantity(1)
+            ->setSubCategory($sub_category_standard)
+            ->setType("Kg");
+        $manager->persist($product_pourdre_coco);
+
+        $product_canelle = new Product();
+        $product_canelle
+            ->setName("Canelle")
+            ->setDescription("Description ".$product_canelle->getName())
+            ->setPrice(6.30)
+            ->setVat($product_canelle->getPrice() * 0.20)
+            ->setStatus("Disponible")
+            ->setQuantity(1)
+            ->setSubCategory($sub_category_standard)
+            ->setType("Kg");
+        $manager->persist($product_canelle);
+
+        //... produits légumes parmis les ingrédients
+
+        $product_haricot_vert = new Product();
+        $product_haricot_vert
+            ->setName("Haricots verts")
+            ->setDescription("Description ".$product_haricot_vert->getName())
+            ->setPrice(4.10)
+            ->setVat($product_haricot_vert->getPrice() * 0.20)
+            ->setStatus("Disponible")
+            ->setQuantity(1)
+            ->setSubCategory($sub_category_legume)
+            ->setType("Kg");
+        $manager->persist($product_haricot_vert);
+
+        $product_haricot_beurre = new Product();
+        $product_haricot_beurre
+            ->setName("Haricots beurre")
+            ->setDescription("Description ".$product_haricot_beurre->getName())
+            ->setPrice(4.60)
+            ->setVat($product_haricot_beurre->getPrice() * 0.20)
+            ->setStatus("Disponible")
+            ->setQuantity(1)
+            ->setSubCategory($sub_category_legume)
+            ->setType("Kg");
+        $manager->persist($product_haricot_beurre);
+
+        $product_salade = new Product();
+        $product_salade
+            ->setName("Salades")
+            ->setDescription("Description ".$product_salade->getName())
+            ->setPrice(2.30)
+            ->setVat($product_salade->getPrice() * 0.20)
+            ->setStatus("Disponible")
+            ->setQuantity(1)
+            ->setSubCategory($sub_category_legume)
+            ->setType("Kg");
+        $manager->persist($product_salade);
+
+        $product_patate = new Product();
+        $product_patate
+            ->setName("Pommes de terres")
+            ->setDescription("Description ".$product_patate->getName())
+            ->setPrice(2.80)
+            ->setVat($product_patate->getPrice() * 0.20)
+            ->setStatus("Disponible")
+            ->setQuantity(1)
+            ->setSubCategory($sub_category_legume)
+            ->setType("Kg");
+        $manager->persist($product_patate);
+
+        $product_pousse_epinard = new Product();
+        $product_pousse_epinard
+            ->setName("Pousse d'épinards")
+            ->setDescription("Description ".$product_pousse_epinard->getName())
+            ->setPrice(4.98)
+            ->setVat($product_pousse_epinard->getPrice() * 0.20)
+            ->setStatus("Disponible")
+            ->setQuantity(1)
+            ->setSubCategory($sub_category_legume)
+            ->setType("Kg");
+        $manager->persist($product_pousse_epinard);
+
+        // fruits parmis les ingrédients
+
+        $product_tomate = new Product();
+        $product_tomate
+            ->setName("Tomates")
+            ->setDescription("Description ".$product_tomate->getName())
+            ->setPrice(1.10)
+            ->setVat($product_tomate->getPrice() * 0.20)
+            ->setStatus("Disponible")
+            ->setQuantity(1)
+            ->setSubCategory($sub_category_fruit)
+            ->setType("Unit");
+        $manager->persist($product_tomate);
+
+        $product_banane = new Product();
+        $product_banane
+            ->setName("Bananes")
+            ->setDescription("Description ".$product_banane->getName())
+            ->setPrice(1.00)
+            ->setVat($product_banane->getPrice() * 0.20)
+            ->setStatus("Disponible")
+            ->setQuantity(1)
+            ->setSubCategory($sub_category_fruit)
+            ->setType("Unit");
+        $manager->persist($product_banane);
+
+        $product_kiwi = new Product();
+        $product_kiwi
+            ->setName("Kiwi")
+            ->setDescription("Description ".$product_kiwi->getName())
+            ->setPrice(1.00)
+            ->setVat($product_kiwi->getPrice() * 0.20)
+            ->setStatus("Disponible")
+            ->setQuantity(1)
+            ->setSubCategory($sub_category_fruit)
+            ->setType("Unit");
+        $manager->persist($product_kiwi);
+
+        $product_pomme = new Product();
+        $product_pomme
+            ->setName("Pomme")
+            ->setDescription("Description ".$product_pomme->getName())
+            ->setPrice(1.00)
+            ->setVat($product_pomme->getPrice() * 0.20)
+            ->setStatus("Disponible")
+            ->setQuantity(1)
+            ->setSubCategory($sub_category_fruit)
+            ->setType("Unit");
+        $manager->persist($product_pomme);
+
+        $product_orange = new Product();
+        $product_orange
+            ->setName("Orange")
+            ->setDescription("Description ".$product_orange->getName())
+            ->setPrice(1.00)
+            ->setVat($product_orange->getPrice() * 0.20)
+            ->setStatus("Disponible")
+            ->setQuantity(1)
+            ->setSubCategory($sub_category_fruit)
+            ->setType("Unit");
+        $manager->persist($product_orange);
+
+        $product_framboise = new Product();
+        $product_framboise
+            ->setName("Framboises")
+            ->setDescription("Description ".$product_framboise->getName())
+            ->setPrice(6.00)
+            ->setVat($product_framboise->getPrice() * 0.20)
+            ->setStatus("Disponible")
+            ->setQuantity(1)
+            ->setSubCategory($sub_category_fruit)
+            ->setType("Kg");
+        $manager->persist($product_framboise);
+
+        $product_myrtille = new Product();
+        $product_myrtille
+            ->setName("Myrtilles")
+            ->setDescription("Description ".$product_myrtille->getName())
+            ->setPrice(5.80)
+            ->setVat($product_myrtille->getPrice() * 0.20)
+            ->setStatus("Disponible")
+            ->setQuantity(1)
+            ->setSubCategory($sub_category_fruit)
+            ->setType("Kg");
+        $manager->persist($product_myrtille);
+
+        //... produits poissons parmis les ingrédients
+
+        $product_sardine = new Product();
+        $product_sardine
+            ->setName("Sardines")
+            ->setDescription("Description ".$product_sardine->getName())
+            ->setPrice(28.20)
+            ->setVat($product_sardine->getPrice() * 0.20)
+            ->setStatus("Disponible")
+            ->setQuantity(1)
+            ->setSubCategory($sub_category_poisson)
+            ->setType("Kg");
+        $manager->persist($product_sardine);
+
+        $product_saumon = new Product();
+        $product_saumon
+            ->setName("Saumons")
+            ->setDescription("Description ".$product_saumon->getName())
+            ->setPrice(30.20)
+            ->setVat($product_saumon->getPrice() * 0.20)
+            ->setStatus("Disponible")
+            ->setQuantity(1)
+            ->setSubCategory($sub_category_poisson)
+            ->setType("Kg");
+        $manager->persist($product_saumon);
+
+        //... produits viandes parmis les ingrédients
+
+        $product_bacon = new Product();
+        $product_bacon
+            ->setName("Bacon")
+            ->setDescription("Description ".$product_bacon->getName())
+            ->setPrice(18.20)
+            ->setVat($product_bacon->getPrice() * 0.20)
+            ->setStatus("Disponible")
+            ->setQuantity(1)
+            ->setSubCategory($sub_category_viande)
+            ->setType("Kg");
+        $manager->persist($product_bacon);
+
+        $product_saucisse = new Product();
+        $product_saucisse
+            ->setName("Saucisses")
+            ->setDescription("Description ".$product_saucisse->getName())
+            ->setPrice(16.80)
+            ->setVat($product_saucisse->getPrice() * 0.20)
+            ->setStatus("Disponible")
+            ->setQuantity(1)
+            ->setSubCategory($sub_category_viande)
+            ->setType("Kg");
+        $manager->persist($product_saucisse);
+
+        $product_jambon_blanc = new Product();
+        $product_jambon_blanc
+            ->setName("Jambon blanc")
+            ->setDescription("Description ".$product_jambon_blanc->getName())
+            ->setPrice(20.00)
+            ->setVat($product_jambon_blanc->getPrice() * 0.20)
+            ->setStatus("Disponible")
+            ->setQuantity(1)
+            ->setSubCategory($sub_category_viande)
+            ->setType("Kg");
+        $manager->persist($product_jambon_blanc);
+
+        $product_jambon_pays = new Product();
+        $product_jambon_pays
+            ->setName("Jambon de Pays")
+            ->setDescription("Description ".$product_jambon_pays->getName())
+            ->setPrice(25.00)
+            ->setVat($product_jambon_pays->getPrice() * 0.20)
+            ->setStatus("Disponible")
+            ->setQuantity(1)
+            ->setSubCategory($sub_category_viande)
+            ->setType("Kg");
+        $manager->persist($product_jambon_pays);
+
+        //... produits céréales parmis les ingrédients
+
+        $product_flocon_avoine = new Product();
+        $product_flocon_avoine
+            ->setName("Flocons d'avoines")
+            ->setDescription("Description ".$product_flocon_avoine->getName())
+            ->setPrice(3.50)
+            ->setVat($product_flocon_avoine->getPrice() * 0.20)
+            ->setStatus("Disponible")
+            ->setQuantity(1)
+            ->setSubCategory($sub_category_cereale)
+            ->setType("Kg");
+        $manager->persist($product_flocon_avoine);
+
+        $product_flocon_soja = new Product();
+        $product_flocon_soja
+            ->setName("Flocons de soja")
+            ->setDescription("Description ".$product_flocon_soja->getName())
+            ->setPrice(3.80)
+            ->setVat($product_flocon_soja->getPrice() * 0.20)
+            ->setStatus("Disponible")
+            ->setQuantity(1)
+            ->setSubCategory($sub_category_cereale)
+            ->setType("Kg");
+        $manager->persist($product_flocon_soja);
+
+        $product_flocon_ble = new Product();
+        $product_flocon_ble
+            ->setName("Flocons de Blé")
+            ->setDescription("Description ".$product_flocon_ble->getName())
+            ->setPrice(3.20)
+            ->setVat($product_flocon_ble->getPrice() * 0.20)
+            ->setStatus("Disponible")
+            ->setQuantity(1)
+            ->setSubCategory($sub_category_cereale)
+            ->setType("Kg");
+        $manager->persist($product_flocon_ble);
+
+        $product_flocon_mais = new Product();
+        $product_flocon_mais
+            ->setName("Flocons de Maïs")
+            ->setDescription("Description ".$product_flocon_mais->getName())
+            ->setPrice(3.40)
+            ->setVat($product_flocon_mais->getPrice() * 0.20)
+            ->setStatus("Disponible")
+            ->setQuantity(1)
+            ->setSubCategory($sub_category_cereale)
+            ->setType("Kg");
+        $manager->persist($product_flocon_mais);
+
+        //... produits oléagineux parmis les ingrédients
+
+        $product_amande = new Product();
+        $product_amande
+            ->setName("Amandes")
+            ->setDescription("Description ".$product_amande->getName())
+            ->setPrice(7.20)
+            ->setVat($product_amande->getPrice() * 0.20)
+            ->setStatus("Disponible")
+            ->setQuantity(1)
+            ->setSubCategory($sub_category_oleagineu)
+            ->setType("Kg");
+        $manager->persist($product_amande);
+
+        $product_noisette = new Product();
+        $product_noisette
+            ->setName("Noisettes")
+            ->setDescription("Description ".$product_noisette->getName())
+            ->setPrice(6.50)
+            ->setVat($product_noisette->getPrice() * 0.20)
+            ->setStatus("Disponible")
+            ->setQuantity(1)
+            ->setSubCategory($sub_category_oleagineu)
+            ->setType("Kg");
+        $manager->persist($product_noisette);
+
+        $product_noix= new Product();
+        $product_noix
+            ->setName("Noix")
+            ->setDescription("Description ".$product_noix->getName())
+            ->setPrice(6.20)
+            ->setVat($product_noix->getPrice() * 0.20)
+            ->setStatus("Disponible")
+            ->setQuantity(1)
+            ->setSubCategory($sub_category_oleagineu)
+            ->setType("Kg");
+        $manager->persist($product_noix);
+
+        $product_noix_bresil= new Product();
+        $product_noix_bresil
+            ->setName("Noix du Brésil")
+            ->setDescription("Description ".$product_noix_bresil->getName())
+            ->setPrice(8.40)
+            ->setVat($product_noix_bresil->getPrice() * 0.20)
+            ->setStatus("Disponible")
+            ->setQuantity(1)
+            ->setSubCategory($sub_category_oleagineu)
+            ->setType("Kg");
+        $manager->persist($product_noix_bresil);
+
+        $product_noix_pecan= new Product();
+        $product_noix_pecan
+            ->setName("Noix de Pecan")
+            ->setDescription("Description ".$product_noix_pecan->getName())
+            ->setPrice(8.20)
+            ->setVat($product_noix_pecan->getPrice() * 0.20)
+            ->setStatus("Disponible")
+            ->setQuantity(1)
+            ->setSubCategory($sub_category_oleagineu)
+            ->setType("Kg");
+        $manager->persist($product_noix_pecan);
+
+        //... produits graines parmis les ingrédients
+
+        $product_graine_tournesol = new Product();
+        $product_graine_tournesol
+            ->setName("Graines de Trounesol")
+            ->setDescription("Description ".$product_graine_tournesol->getName())
+            ->setPrice(2.00)
+            ->setVat($product_graine_tournesol->getPrice() * 0.20)
+            ->setStatus("Disponible")
+            ->setQuantity(1)
+            ->setSubCategory($sub_category_graine)
+            ->setType("Kg");
+        $manager->persist($product_graine_tournesol);
+
+        $product_graine_courge = new Product();
+        $product_graine_courge
+            ->setName("Graines de Courges")
+            ->setDescription("Description ".$product_graine_courge->getName())
+            ->setPrice(2.50)
+            ->setVat($product_graine_courge->getPrice() * 0.20)
+            ->setStatus("Disponible")
+            ->setQuantity(1)
+            ->setSubCategory($sub_category_graine)
+            ->setType("Kg");
+        $manager->persist($product_graine_courge);
+
+        $product_graine_chia = new Product();
+        $product_graine_chia
+            ->setName("Graines de Chia")
+            ->setDescription("Description ".$product_graine_chia->getName())
+            ->setPrice(4.70)
+            ->setVat($product_graine_chia->getPrice() * 0.20)
+            ->setStatus("Disponible")
+            ->setQuantity(1)
+            ->setSubCategory($sub_category_graine)
+            ->setType("Kg");
+        $manager->persist($product_graine_chia);
+
+        $product_graine_pavot = new Product();
+        $product_graine_pavot
+            ->setName("Graines de Pavot")
+            ->setDescription("Description ".$product_graine_pavot->getName())
+            ->setPrice(3.60)
+            ->setVat($product_graine_pavot->getPrice() * 0.20)
+            ->setStatus("Disponible")
+            ->setQuantity(1)
+            ->setSubCategory($sub_category_graine)
+            ->setType("Kg");
+        $manager->persist($product_graine_pavot);
+
+        // produits annexes parmis les ingrédients
+
+        $product_nutella = new Product();
+        $product_nutella
+            ->setName("Nutella")
+            ->setDescription("Description ".$product_nutella->getName())
+            ->setPrice(6.00)
+            ->setVat($product_nutella->getPrice() * 0.20)
+            ->setStatus("Disponible")
+            ->setQuantity(1)
+            ->setSubCategory($sub_category_product_annexe)
+            ->setType("Kg");
+        $manager->persist($product_nutella);
+
+        $product_chantilly = new Product();
+        $product_chantilly
+            ->setName("Chantilly")
+            ->setDescription("Description ".$product_chantilly->getName())
+            ->setPrice(1.00)
+            ->setVat($product_chantilly->getPrice() * 0.20)
+            ->setStatus("Disponible")
+            ->setQuantity(1)
+            ->setSubCategory($sub_category_product_annexe)
+            ->setType("Unit");
+        $manager->persist($product_chantilly);
+
+        // produits glace parmis les ingrédients
+
+        $product_glace_vanille = new Product();
+        $product_glace_vanille
+            ->setName("Glace vanille")
+            ->setDescription("Description ".$product_glace_vanille->getName())
+            ->setPrice(4.00)
+            ->setVat($product_glace_vanille->getPrice() * 0.20)
+            ->setStatus("Disponible")
+            ->setQuantity(1)
+            ->setSubCategory($sub_category_glace)
+            ->setType("Kg");
+        $manager->persist($product_glace_vanille);
+
+        $product_glace_fraise = new Product();
+        $product_glace_fraise
+            ->setName("Glace fraise")
+            ->setDescription("Description ".$product_glace_fraise->getName())
+            ->setPrice(4.00)
+            ->setVat($product_glace_fraise->getPrice() * 0.20)
+            ->setStatus("Disponible")
+            ->setQuantity(1)
+            ->setSubCategory($sub_category_glace)
+            ->setType("Kg");
+        $manager->persist($product_glace_fraise);
+
+        $product_glace_coco = new Product();
+        $product_glace_coco
+            ->setName("Glace coco")
+            ->setDescription("Description ".$product_glace_coco->getName())
+            ->setPrice(4.00)
+            ->setVat($product_glace_coco->getPrice() * 0.20)
+            ->setStatus("Disponible")
+            ->setQuantity(1)
+            ->setSubCategory($sub_category_glace)
+            ->setType("Kg");
+        $manager->persist($product_glace_coco);
+
+        $product_glace_chocolat = new Product();
+        $product_glace_chocolat
+            ->setName("Glace chocolat")
+            ->setDescription("Description ".$product_glace_chocolat->getName())
+            ->setPrice(4.00)
+            ->setVat($product_glace_chocolat->getPrice() * 0.20)
+            ->setStatus("Disponible")
+            ->setQuantity(1)
+            ->setSubCategory($sub_category_glace)
+            ->setType("Kg");
+        $manager->persist($product_glace_chocolat);
+
+        //... produits canette parmis les boissons
+
+        $product_canette_coca = new Product();
+        $product_canette_coca
+            ->setName("Canette de Coca")
+            ->setDescription("Canette de 33cl de ".$product_canette_coca->getName())
+            ->setPrice(1.10)
+            ->setVat($product_canette_coca->getPrice() * 0.20)
+            ->setStatus("Disponible")
+            ->setQuantity(1)
+            ->setSubCategory($sub_category_canette)
+            ->setType("Unit");
+        $manager->persist($product_canette_coca);
+
+        $product_canette_fanta = new Product();
+        $product_canette_fanta
+            ->setName("Canette de Fanta")
+            ->setDescription("Canette de 33cl de ".$product_canette_fanta->getName())
+            ->setPrice(1.10)
+            ->setVat($product_canette_fanta->getPrice() * 0.20)
+            ->setStatus("Disponible")
+            ->setQuantity(1)
+            ->setSubCategory($sub_category_canette)
+            ->setType("Unit");
+        $manager->persist($product_canette_fanta);
+
+        $product_canette_orangina = new Product();
+        $product_canette_orangina
+            ->setName("Canette d'Orangina")
+            ->setDescription("Canette de 33cl de ".$product_canette_orangina->getName())
+            ->setPrice(1.10)
+            ->setVat($product_canette_orangina->getPrice() * 0.20)
+            ->setStatus("Disponible")
+            ->setQuantity(1)
+            ->setSubCategory($sub_category_canette)
+            ->setType("Unit");
+        $manager->persist($product_canette_orangina);
+
+        //... produits bouteille en verre parmis les boissons
+
+        $product_bouteille_coca = new Product();
+        $product_bouteille_coca
+            ->setName("Bouteille de coca")
+            ->setDescription("Bouteille de 50cl de".$product_bouteille_coca->getName())
+            ->setPrice(2.10)
+            ->setVat($product_bouteille_coca->getPrice() * 0.20)
+            ->setStatus("Disponible")
+            ->setQuantity(1)
+            ->setSubCategory($sub_category_bouteille_verre)
+            ->setType("Unit");
+        $manager->persist($product_bouteille_coca);
+
+        $product_bouteille_orangina = new Product();
+        $product_bouteille_orangina
+            ->setName("Bouteille d'orangina")
+            ->setDescription("Bouteille de 50cl de".$product_bouteille_orangina->getName())
+            ->setPrice(2.10)
+            ->setVat($product_bouteille_orangina->getPrice() * 0.20)
+            ->setStatus("Disponible")
+            ->setQuantity(1)
+            ->setSubCategory($sub_category_bouteille_verre)
+            ->setType("Unit");
+        $manager->persist($product_bouteille_orangina);
+
+        //... produits desserts industriels parmis les desserts
+
+        $product_cookie = new Product();
+        $product_cookie
+            ->setName("Cookie")
+            ->setDescription("Description ".$product_cookie->getName())
+            ->setPrice(2.00)
+            ->setVat($product_cookie->getPrice() * 0.20)
+            ->setStatus("Disponible")
+            ->setQuantity(1)
+            ->setSubCategory($sub_category_dessert_industriel)
+            ->setType("Unit");
+        $manager->persist($product_cookie);
+
+        $product_brownie = new Product();
+        $product_brownie
+            ->setName("Brownie")
+            ->setDescription("Description ".$product_brownie->getName())
+            ->setPrice(3.20)
+            ->setVat($product_brownie->getPrice() * 0.20)
+            ->setStatus("Disponible")
+            ->setQuantity(1)
+            ->setSubCategory($sub_category_dessert_industriel)
+            ->setType("Unit");
+        $manager->persist($product_brownie);
+
+        $product_muffin = new Product();
+        $product_muffin
+            ->setName("Muffin")
+            ->setDescription("Description ".$product_muffin->getName())
+            ->setPrice(2.70)
+            ->setVat($product_muffin->getPrice() * 0.20)
+            ->setStatus("Disponible")
+            ->setQuantity(1)
+            ->setSubCategory($sub_category_dessert_industriel)
+            ->setType("Unit");
+        $manager->persist($product_muffin);
+
+        //Produits plats industriels parmis les plats
+
+        $product_salade_complete = new Product();
+        $product_salade_complete
+            ->setName("Salade complète")
+            ->setDescription("Description ".$product_salade_complete->getName())
+            ->setPrice(4.50)
+            ->setVat($product_salade_complete->getPrice() * 0.20)
+            ->setStatus("Disponible")
+            ->setQuantity(1)
+            ->setSubCategory($sub_category_plat_industriel)
+            ->setType("Unit");
+        $manager->persist($product_salade_complete);
+
+        
         $manager->flush();
     }
 }
