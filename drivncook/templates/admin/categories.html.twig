@@ -37,7 +37,7 @@
                         <td>
                             <a class="mr-2" data-toggle="tooltip" data-placement="top" title="Modifier" href="{{ path('admin_category_edit', { 'id': categorie.id}) }}"><i class="fas fa-pen"></i></a>
                             <a href="#" data-href="{{ path('admin_category_delete', { 'id': categorie.id}) }}" class="" data-placement="bottom"
-                               title="Supprimer" data-toggle="modal" data-target="#delete_franchise">
+                               title="Supprimer" data-toggle="modal" data-target="#delete_category">
                                 <i class="fas fa-trash-alt"></i>
                             </a>
                         </td>
@@ -52,7 +52,7 @@
         </table>
 
 {#        Modal de suppression d'une catégorie#}
-        <div class="modal fade" id="delete_franchise" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal fade" id="delete_category" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">

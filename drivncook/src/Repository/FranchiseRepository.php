@@ -47,4 +47,5 @@ class FranchiseRepository extends ServiceEntityRepository
         ;
     }
     */
+
 }
