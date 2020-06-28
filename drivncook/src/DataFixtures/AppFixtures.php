@@ -257,7 +257,7 @@ class AppFixtures extends Fixture
 
         $second_warehouse_capacity = new MaxCapacity();
         $second_warehouse_capacity
-            ->setMaxIngredients(30000)
+            ->setMaxIngredients(35000)
             ->setMaxMeals(5000)
             ->setMaxDrinks(5000)
             ->setMaxDesserts(5000)
@@ -555,6 +555,27 @@ class AppFixtures extends Fixture
             ->setCategory($category_repas);
         $manager->persist($sub_category_brunch);
 
+        $sub_category_salade = new SubCategory();
+        $sub_category_salade
+            ->setName("Salades")
+            ->setDescription("Relatif aux salades")
+            ->setCategory($category_repas);
+        $manager->persist($sub_category_salade);
+
+        $sub_category_plat_normal = new SubCategory();
+        $sub_category_plat_normal
+            ->setName("Plat normal")
+            ->setDescription("Relatif à quelconque plats")
+            ->setCategory($category_repas);
+        $manager->persist($sub_category_plat_normal);
+
+        $sub_category_toast = new SubCategory();
+        $sub_category_toast
+            ->setName("Toast")
+            ->setDescription("Relatif aux toasts")
+            ->setCategory($category_repas);
+        $manager->persist($sub_category_toast);
+
 
 
 
@@ -668,6 +689,30 @@ class AppFixtures extends Fixture
             ->setType("Kg");
         $manager->persist($product_grains_cafe);
 
+        $product_the_vert = new Product();
+        $product_the_vert
+            ->setName("Sachet de thé vert")
+            ->setDescription("Description ".$product_the_vert->getName())
+            ->setPrice(0.20)
+            ->setVat($product_the_vert->getPrice() * 0.20)
+            ->setStatus("Disponible")
+            ->setQuantity(1)
+            ->setSubCategory($sub_category_standard)
+            ->setType("Unit");
+        $manager->persist($product_the_vert);
+
+        $product_the_menthe = new Product();
+        $product_the_menthe
+            ->setName("Sachet de thé à la menthe")
+            ->setDescription("Description ".$product_the_menthe->getName())
+            ->setPrice(0.20)
+            ->setVat($product_the_menthe->getPrice() * 0.20)
+            ->setStatus("Disponible")
+            ->setQuantity(1)
+            ->setSubCategory($sub_category_standard)
+            ->setType("Unit");
+        $manager->persist($product_the_menthe);
+
         $product_lait = new Product();
         $product_lait
             ->setName("Lait")
@@ -775,6 +820,18 @@ class AppFixtures extends Fixture
             ->setSubCategory($sub_category_standard)
             ->setType("Kg");
         $manager->persist($product_pourdre_coco);
+
+        $product_pourdre_chocolat = new Product();
+        $product_pourdre_chocolat
+            ->setName("Poudre Chocolat")
+            ->setDescription("Description ".$product_pourdre_chocolat->getName())
+            ->setPrice(5.30)
+            ->setVat($product_pourdre_chocolat->getPrice() * 0.20)
+            ->setStatus("Disponible")
+            ->setQuantity(1)
+            ->setSubCategory($sub_category_standard)
+            ->setType("Kg");
+        $manager->persist($product_pourdre_chocolat);
 
         $product_canelle = new Product();
         $product_canelle
@@ -888,6 +945,18 @@ class AppFixtures extends Fixture
             ->setType("Unit");
         $manager->persist($product_tomate);
 
+        $product_avocat = new Product();
+        $product_avocat
+            ->setName("Avocats")
+            ->setDescription("Description ".$product_avocat->getName())
+            ->setPrice(1.50)
+            ->setVat($product_avocat->getPrice() * 0.20)
+            ->setStatus("Disponible")
+            ->setQuantity(1)
+            ->setSubCategory($sub_category_fruit)
+            ->setType("Unit");
+        $manager->persist($product_avocat);
+
         $product_concombre = new Product();
         $product_concombre
             ->setName("Concombre")
@@ -896,7 +965,7 @@ class AppFixtures extends Fixture
             ->setVat($product_concombre->getPrice() * 0.20)
             ->setStatus("Disponible")
             ->setQuantity(1)
-            ->setSubCategory($sub_category_legume)
+            ->setSubCategory($sub_category_fruit)
             ->setType("Kg");
         $manager->persist($product_concombre);
 
@@ -908,7 +977,7 @@ class AppFixtures extends Fixture
             ->setVat($product_courgette->getPrice() * 0.20)
             ->setStatus("Disponible")
             ->setQuantity(1)
-            ->setSubCategory($sub_category_legume)
+            ->setSubCategory($sub_category_fruit)
             ->setType("Kg");
         $manager->persist($product_courgette);
 
@@ -923,6 +992,66 @@ class AppFixtures extends Fixture
             ->setSubCategory($sub_category_fruit)
             ->setType("Unit");
         $manager->persist($product_banane);
+
+        $product_ananas = new Product();
+        $product_ananas
+            ->setName("Ananas")
+            ->setDescription("Description ".$product_ananas->getName())
+            ->setPrice(1.50)
+            ->setVat($product_ananas->getPrice() * 0.20)
+            ->setStatus("Disponible")
+            ->setQuantity(1)
+            ->setSubCategory($sub_category_fruit)
+            ->setType("Unit");
+        $manager->persist($product_ananas);
+
+        $product_mangue = new Product();
+        $product_mangue
+            ->setName("Mangue")
+            ->setDescription("Description ".$product_mangue->getName())
+            ->setPrice(1.30)
+            ->setVat($product_mangue->getPrice() * 0.20)
+            ->setStatus("Disponible")
+            ->setQuantity(1)
+            ->setSubCategory($sub_category_fruit)
+            ->setType("Unit");
+        $manager->persist($product_mangue);
+
+        $product_citron = new Product();
+        $product_citron
+            ->setName("Citron")
+            ->setDescription("Description ".$product_citron->getName())
+            ->setPrice(1.20)
+            ->setVat($product_citron->getPrice() * 0.20)
+            ->setStatus("Disponible")
+            ->setQuantity(1)
+            ->setSubCategory($sub_category_fruit)
+            ->setType("Unit");
+        $manager->persist($product_citron);
+
+        $product_citron_vert = new Product();
+        $product_citron_vert
+            ->setName("Citron vert")
+            ->setDescription("Description ".$product_citron_vert->getName())
+            ->setPrice(1.14)
+            ->setVat($product_citron_vert->getPrice() * 0.20)
+            ->setStatus("Disponible")
+            ->setQuantity(1)
+            ->setSubCategory($sub_category_fruit)
+            ->setType("Unit");
+        $manager->persist($product_citron_vert);
+
+        $product_fraises = new Product();
+        $product_fraises
+            ->setName("Fraises")
+            ->setDescription("Description ".$product_fraises->getName())
+            ->setPrice(12.00)
+            ->setVat($product_fraises->getPrice() * 0.20)
+            ->setStatus("Disponible")
+            ->setQuantity(1)
+            ->setSubCategory($sub_category_fruit)
+            ->setType("Kg");
+        $manager->persist($product_fraises);
 
         $product_kiwi = new Product();
         $product_kiwi
@@ -1494,6 +1623,69 @@ class AppFixtures extends Fixture
         $warehouse_stock = new WarehouseStock();
         $warehouse_stock
             ->setWarehouse($warehouse_alpha)
+            ->setProduct($product_avocat)
+            ->setQuantity(500);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_alpha)
+            ->setProduct($product_the_vert)
+            ->setQuantity(500);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_alpha)
+            ->setProduct($product_fraises)
+            ->setQuantity(100);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_alpha)
+            ->setProduct($product_ananas)
+            ->setQuantity(500);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_alpha)
+            ->setProduct($product_mangue)
+            ->setQuantity(500);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_alpha)
+            ->setProduct($product_citron)
+            ->setQuantity(500);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_alpha)
+            ->setProduct($product_citron_vert)
+            ->setQuantity(500);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_alpha)
+            ->setProduct($product_the_menthe)
+            ->setQuantity(500);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_alpha)
+            ->setProduct($product_pourdre_chocolat)
+            ->setQuantity(100);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_alpha)
             ->setProduct($product_mozarella)
             ->setQuantity(150);
         $manager->persist($warehouse_stock);
@@ -2009,6 +2201,69 @@ class AppFixtures extends Fixture
             ->setWarehouse($warehouse_beta)
             ->setProduct($product_oeuf)
             ->setQuantity(1000);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_beta)
+            ->setProduct($product_avocat)
+            ->setQuantity(500);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_beta)
+            ->setProduct($product_fraises)
+            ->setQuantity(100);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_beta)
+            ->setProduct($product_ananas)
+            ->setQuantity(500);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_beta)
+            ->setProduct($product_mangue)
+            ->setQuantity(500);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_beta)
+            ->setProduct($product_citron)
+            ->setQuantity(500);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_beta)
+            ->setProduct($product_citron_vert)
+            ->setQuantity(500);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_beta)
+            ->setProduct($product_the_vert)
+            ->setQuantity(500);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_beta)
+            ->setProduct($product_the_menthe)
+            ->setQuantity(500);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_beta)
+            ->setProduct($product_pourdre_chocolat)
+            ->setQuantity(100);
         $manager->persist($warehouse_stock);
 
         $warehouse_stock = new WarehouseStock();
@@ -2540,6 +2795,69 @@ class AppFixtures extends Fixture
         $warehouse_stock = new WarehouseStock();
         $warehouse_stock
             ->setWarehouse($warehouse_omega)
+            ->setProduct($product_avocat)
+            ->setQuantity(500);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_omega)
+            ->setProduct($product_fraises)
+            ->setQuantity(100);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_omega)
+            ->setProduct($product_ananas)
+            ->setQuantity(500);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_omega)
+            ->setProduct($product_mangue)
+            ->setQuantity(500);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_omega)
+            ->setProduct($product_citron)
+            ->setQuantity(500);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_omega)
+            ->setProduct($product_citron_vert)
+            ->setQuantity(500);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_omega)
+            ->setProduct($product_the_vert)
+            ->setQuantity(500);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_omega)
+            ->setProduct($product_the_menthe)
+            ->setQuantity(500);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_omega)
+            ->setProduct($product_pourdre_chocolat)
+            ->setQuantity(100);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_omega)
             ->setProduct($product_sucrerie)
             ->setQuantity(500);
         $manager->persist($warehouse_stock);
@@ -3052,6 +3370,69 @@ class AppFixtures extends Fixture
             ->setWarehouse($warehouse_zeta)
             ->setProduct($product_oeuf)
             ->setQuantity(1000);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_zeta)
+            ->setProduct($product_avocat)
+            ->setQuantity(500);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_zeta)
+            ->setProduct($product_fraises)
+            ->setQuantity(100);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_zeta)
+            ->setProduct($product_ananas)
+            ->setQuantity(500);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_zeta)
+            ->setProduct($product_mangue)
+            ->setQuantity(500);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_zeta)
+            ->setProduct($product_citron)
+            ->setQuantity(500);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_zeta)
+            ->setProduct($product_citron_vert)
+            ->setQuantity(500);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_zeta)
+            ->setProduct($product_the_vert)
+            ->setQuantity(500);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_zeta)
+            ->setProduct($product_the_menthe)
+            ->setQuantity(500);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_zeta)
+            ->setProduct($product_pourdre_chocolat)
+            ->setQuantity(100);
         $manager->persist($warehouse_stock);
 
         $warehouse_stock = new WarehouseStock();
@@ -3962,6 +4343,997 @@ class AppFixtures extends Fixture
 
 
 
+        $article = new Article();
+        $article
+            ->setName("Crêpe Nutella")
+            ->setDescription("Description d'une ".$article->getName())
+            ->setSubCategory($sub_category_crepe)
+            ->setPrice(9.00)
+            ->setVat($article->getPrice() * 0.20)
+            ->setStatus("Disponible");
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_oeuf)
+            ->setArticle($article)
+            ->setQuantity(1)
+            ->setType("Unit");
+        $manager->persist($recipe);
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_sucre)
+            ->setArticle($article)
+            ->setQuantity(2)
+            ->setType("g");
+        $manager->persist($recipe);
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_farine)
+            ->setArticle($article)
+            ->setQuantity(30)
+            ->setType("g");
+        $manager->persist($recipe);
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_huile_olive)
+            ->setArticle($article)
+            ->setQuantity(1)
+            ->setType("cl");
+        $manager->persist($recipe);
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_lait)
+            ->setArticle($article)
+            ->setQuantity(5)
+            ->setType("cl");
+        $manager->persist($recipe);
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_nutella)
+            ->setArticle($article)
+            ->setQuantity(20)
+            ->setType("g");
+        $manager->persist($recipe);
+        $manager->persist($article);
+
+
+
+
+        $article = new Article();
+        $article
+            ->setName("Crêpe Gourmande")
+            ->setDescription("Description d'une ".$article->getName())
+            ->setSubCategory($sub_category_crepe)
+            ->setPrice(12.50)
+            ->setVat($article->getPrice() * 0.20)
+            ->setStatus("Disponible");
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_oeuf)
+            ->setArticle($article)
+            ->setQuantity(1)
+            ->setType("Unit");
+        $manager->persist($recipe);
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_sucre)
+            ->setArticle($article)
+            ->setQuantity(2)
+            ->setType("g");
+        $manager->persist($recipe);
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_farine)
+            ->setArticle($article)
+            ->setQuantity(30)
+            ->setType("g");
+        $manager->persist($recipe);
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_huile_olive)
+            ->setArticle($article)
+            ->setQuantity(1)
+            ->setType("cl");
+        $manager->persist($recipe);
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_lait)
+            ->setArticle($article)
+            ->setQuantity(5)
+            ->setType("cl");
+        $manager->persist($recipe);
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_nutella)
+            ->setArticle($article)
+            ->setQuantity(20)
+            ->setType("g");
+        $manager->persist($recipe);
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_glace_vanille)
+            ->setArticle($article)
+            ->setQuantity(20)
+            ->setType("g");
+        $manager->persist($recipe);
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_pourdre_coco)
+            ->setArticle($article)
+            ->setQuantity(5)
+            ->setType("g");
+        $manager->persist($recipe);
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_chantilly)
+            ->setArticle($article)
+            ->setQuantity(1)
+            ->setType("Unit");
+        $manager->persist($recipe);
+        $manager->persist($article);
+
+
+
+
+
+
+
+
+        $article = new Article();
+        $article
+            ->setName("Crêpe sucre-canelle")
+            ->setDescription("Description d'une ".$article->getName())
+            ->setSubCategory($sub_category_crepe)
+            ->setPrice(8.00)
+            ->setVat($article->getPrice() * 0.20)
+            ->setStatus("Disponible");
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_oeuf)
+            ->setArticle($article)
+            ->setQuantity(1)
+            ->setType("Unit");
+        $manager->persist($recipe);
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_sucre)
+            ->setArticle($article)
+            ->setQuantity(10)
+            ->setType("g");
+        $manager->persist($recipe);
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_farine)
+            ->setArticle($article)
+            ->setQuantity(30)
+            ->setType("g");
+        $manager->persist($recipe);
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_huile_olive)
+            ->setArticle($article)
+            ->setQuantity(1)
+            ->setType("cl");
+        $manager->persist($recipe);
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_lait)
+            ->setArticle($article)
+            ->setQuantity(5)
+            ->setType("cl");
+        $manager->persist($recipe);
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_canelle)
+            ->setArticle($article)
+            ->setQuantity(3)
+            ->setType("g");
+        $manager->persist($recipe);
+        $manager->persist($article);
+
+
+
+
+        $article = new Article();
+        $article
+            ->setName("Salade royale")
+            ->setDescription("Description d'une ".$article->getName())
+            ->setSubCategory($sub_category_salade)
+            ->setPrice(9.70)
+            ->setVat($article->getPrice() * 0.20)
+            ->setStatus("Disponible");
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_salade)
+            ->setArticle($article)
+            ->setQuantity(200)
+            ->setType("g");
+        $manager->persist($recipe);
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_tomate)
+            ->setArticle($article)
+            ->setQuantity(2)
+            ->setType("Unit");
+        $manager->persist($recipe);
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_concombre)
+            ->setArticle($article)
+            ->setQuantity(20)
+            ->setType("g");
+        $manager->persist($recipe);
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_huile_olive)
+            ->setArticle($article)
+            ->setQuantity(3)
+            ->setType("cl");
+        $manager->persist($recipe);
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_jambon_pays)
+            ->setArticle($article)
+            ->setQuantity(100)
+            ->setType("g");
+        $manager->persist($recipe);
+        $manager->persist($article);
+
+
+
+
+        $article = new Article();
+        $article
+            ->setName("Canette de Coca")
+            ->setDescription($product_canette_coca->getDescription())
+            ->setSubCategory($sub_category_bouteille_verre)
+            ->setPrice(1.70)
+            ->setVat($article->getPrice() * 0.20)
+            ->setStatus("Disponible");
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_canette_coca)
+            ->setArticle($article)
+            ->setQuantity(1)
+            ->setType("Unit");
+        $manager->persist($recipe);
+        $manager->persist($article);
+
+
+
+        $article = new Article();
+        $article
+            ->setName("Canette de Fanta")
+            ->setDescription($product_canette_fanta->getDescription())
+            ->setSubCategory($sub_category_bouteille_verre)
+            ->setPrice(1.70)
+            ->setVat($article->getPrice() * 0.20)
+            ->setStatus("Disponible");
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_canette_fanta)
+            ->setArticle($article)
+            ->setQuantity(1)
+            ->setType("Unit");
+        $manager->persist($recipe);
+        $manager->persist($article);
+
+
+
+
+        $article = new Article();
+        $article
+            ->setName("Canette d'Orangina")
+            ->setDescription($product_canette_orangina->getDescription())
+            ->setSubCategory($sub_category_bouteille_verre)
+            ->setPrice(1.70)
+            ->setVat($article->getPrice() * 0.20)
+            ->setStatus("Disponible");
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_canette_orangina)
+            ->setArticle($article)
+            ->setQuantity(1)
+            ->setType("Unit");
+        $manager->persist($recipe);
+        $manager->persist($article);
+
+
+
+
+
+        $article = new Article();
+        $article
+            ->setName("Bouteille de Coca")
+            ->setDescription($product_bouteille_coca->getDescription())
+            ->setSubCategory($sub_category_bouteille_verre)
+            ->setPrice(2.70)
+            ->setVat($article->getPrice() * 0.20)
+            ->setStatus("Disponible");
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_bouteille_coca)
+            ->setArticle($article)
+            ->setQuantity(1)
+            ->setType("Unit");
+        $manager->persist($recipe);
+        $manager->persist($article);
+
+
+
+
+
+
+        $article = new Article();
+        $article
+            ->setName("Bouteille d'Orangina")
+            ->setDescription($product_bouteille_orangina->getDescription())
+            ->setSubCategory($sub_category_bouteille_verre)
+            ->setPrice(2.70)
+            ->setVat($article->getPrice() * 0.20)
+            ->setStatus("Disponible");
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_bouteille_orangina)
+            ->setArticle($article)
+            ->setQuantity(1)
+            ->setType("Unit");
+        $manager->persist($recipe);
+        $manager->persist($article);
+
+
+
+        $article = new Article();
+        $article
+            ->setName("Chocolat chaud")
+            ->setDescription("Description d'une ".$article->getName())
+            ->setSubCategory($sub_category_boisson_chaude)
+            ->setPrice(4.00)
+            ->setVat($article->getPrice() * 0.20)
+            ->setStatus("Disponible");
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_lait)
+            ->setArticle($article)
+            ->setQuantity(40)
+            ->setType("cl");
+        $manager->persist($recipe);
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_pourdre_chocolat)
+            ->setArticle($article)
+            ->setQuantity(12)
+            ->setType("g");
+        $manager->persist($recipe);
+
+
+        $manager->persist($article);
+
+
+
+
+
+        $article = new Article();
+        $article
+            ->setName("Chocolat chaud gourmand")
+            ->setDescription("Description d'une ".$article->getName())
+            ->setSubCategory($sub_category_boisson_chaude)
+            ->setPrice(5.00)
+            ->setVat($article->getPrice() * 0.20)
+            ->setStatus("Disponible");
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_lait)
+            ->setArticle($article)
+            ->setQuantity(40)
+            ->setType("cl");
+        $manager->persist($recipe);
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_pourdre_chocolat)
+            ->setArticle($article)
+            ->setQuantity(12)
+            ->setType("g");
+        $manager->persist($recipe);
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_pourdre_coco)
+            ->setArticle($article)
+            ->setQuantity(6)
+            ->setType("g");
+        $manager->persist($recipe);
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_chantilly)
+            ->setArticle($article)
+            ->setQuantity(1)
+            ->setType("Unit");
+        $manager->persist($recipe);
+
+        $manager->persist($article);
+
+
+
+
+        $article = new Article();
+        $article
+            ->setName("Jus d'oranges pressées")
+            ->setDescription("Description d'une ".$article->getName())
+            ->setSubCategory($sub_category_jus)
+            ->setPrice(3.70)
+            ->setVat($article->getPrice() * 0.20)
+            ->setStatus("Disponible");
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_orange)
+            ->setArticle($article)
+            ->setQuantity(2)
+            ->setType("Unit");
+        $manager->persist($recipe);
+
+        $manager->persist($article);
+
+
+        $article = new Article();
+        $article
+            ->setName("Jus de pommes pressées")
+            ->setDescription("Description d'une ".$article->getName())
+            ->setSubCategory($sub_category_jus)
+            ->setPrice(3.70)
+            ->setVat($article->getPrice() * 0.20)
+            ->setStatus("Disponible");
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_pomme)
+            ->setArticle($article)
+            ->setQuantity(2)
+            ->setType("Unit");
+        $manager->persist($recipe);
+
+        $manager->persist($article);
+
+
+
+        $article = new Article();
+        $article
+            ->setName("Café court")
+            ->setDescription("Description d'un ".$article->getName())
+            ->setSubCategory($sub_category_boisson_chaude)
+            ->setPrice(2.30)
+            ->setVat($article->getPrice() * 0.20)
+            ->setStatus("Disponible");
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_grains_cafe)
+            ->setArticle($article)
+            ->setQuantity(8)
+            ->setType("g");
+        $manager->persist($recipe);
+
+        $manager->persist($article);
+
+
+
+
+        $article = new Article();
+        $article
+            ->setName("Café long")
+            ->setDescription("Description d'un ".$article->getName())
+            ->setSubCategory($sub_category_boisson_chaude)
+            ->setPrice(2.30)
+            ->setVat($article->getPrice() * 0.20)
+            ->setStatus("Disponible");
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_grains_cafe)
+            ->setArticle($article)
+            ->setQuantity(8)
+            ->setType("g");
+        $manager->persist($recipe);
+
+        $manager->persist($article);
+
+
+
+        $article = new Article();
+        $article
+            ->setName("Café au lait")
+            ->setDescription("Description d'un ".$article->getName())
+            ->setSubCategory($sub_category_boisson_chaude)
+            ->setPrice(2.70)
+            ->setVat($article->getPrice() * 0.20)
+            ->setStatus("Disponible");
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_grains_cafe)
+            ->setArticle($article)
+            ->setQuantity(8)
+            ->setType("g");
+        $manager->persist($recipe);
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_lait)
+            ->setArticle($article)
+            ->setQuantity(10)
+            ->setType("cl");
+        $manager->persist($recipe);
+
+        $manager->persist($article);
+
+
+        $article = new Article();
+        $article
+            ->setName("Thé vert")
+            ->setDescription("Description d'un ".$article->getName())
+            ->setSubCategory($sub_category_boisson_chaude)
+            ->setPrice(2.00)
+            ->setVat($article->getPrice() * 0.20)
+            ->setStatus("Disponible");
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_the_vert)
+            ->setArticle($article)
+            ->setQuantity(1)
+            ->setType("Unit");
+        $manager->persist($recipe);
+
+        $manager->persist($article);
+
+
+
+        $article = new Article();
+        $article
+            ->setName("Thé menthe")
+            ->setDescription("Description d'un ".$article->getName())
+            ->setSubCategory($sub_category_boisson_chaude)
+            ->setPrice(2.00)
+            ->setVat($article->getPrice() * 0.20)
+            ->setStatus("Disponible");
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_the_menthe)
+            ->setArticle($article)
+            ->setQuantity(1)
+            ->setType("Unit");
+        $manager->persist($recipe);
+
+        $manager->persist($article);
+
+
+
+
+
+        $article = new Article();
+        $article
+            ->setName("Smoothie pomme-banane-kiwi")
+            ->setDescription("Description d'un ".$article->getName())
+            ->setSubCategory($sub_category_smoothie)
+            ->setPrice(5.50)
+            ->setVat($article->getPrice() * 0.20)
+            ->setStatus("Disponible");
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_pomme)
+            ->setArticle($article)
+            ->setQuantity(1)
+            ->setType("Unit");
+        $manager->persist($recipe);
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_banane)
+            ->setArticle($article)
+            ->setQuantity(1)
+            ->setType("Unit");
+        $manager->persist($recipe);
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_kiwi)
+            ->setArticle($article)
+            ->setQuantity(1)
+            ->setType("Unit");
+        $manager->persist($recipe);
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_lait)
+            ->setArticle($article)
+            ->setQuantity(25)
+            ->setType("cl");
+        $manager->persist($recipe);
+
+        $manager->persist($article);
+
+
+
+
+        $article = new Article();
+        $article
+            ->setName("Smoothie pomme-banane-fraise")
+            ->setDescription("Description d'un ".$article->getName())
+            ->setSubCategory($sub_category_smoothie)
+            ->setPrice(5.50)
+            ->setVat($article->getPrice() * 0.20)
+            ->setStatus("Disponible");
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_pomme)
+            ->setArticle($article)
+            ->setQuantity(1)
+            ->setType("Unit");
+        $manager->persist($recipe);
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_banane)
+            ->setArticle($article)
+            ->setQuantity(1)
+            ->setType("Unit");
+        $manager->persist($recipe);
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_fraises)
+            ->setArticle($article)
+            ->setQuantity(100)
+            ->setType("g");
+        $manager->persist($recipe);
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_lait)
+            ->setArticle($article)
+            ->setQuantity(25)
+            ->setType("cl");
+        $manager->persist($recipe);
+
+        $manager->persist($article);
+
+
+        $article = new Article();
+        $article
+            ->setName("Smoothie ananas-mangue-pomme-Citron vert")
+            ->setDescription("Description d'un ".$article->getName())
+            ->setSubCategory($sub_category_smoothie)
+            ->setPrice(5.50)
+            ->setVat($article->getPrice() * 0.20)
+            ->setStatus("Disponible");
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_ananas)
+            ->setArticle($article)
+            ->setQuantity(1)
+            ->setType("Unit");
+        $manager->persist($recipe);
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_mangue)
+            ->setArticle($article)
+            ->setQuantity(1)
+            ->setType("Unit");
+        $manager->persist($recipe);
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_pomme)
+            ->setArticle($article)
+            ->setQuantity(1)
+            ->setType("Unit");
+        $manager->persist($recipe);
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_citron_vert)
+            ->setArticle($article)
+            ->setQuantity(1)
+            ->setType("Unit");
+        $manager->persist($recipe);
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_lait)
+            ->setArticle($article)
+            ->setQuantity(25)
+            ->setType("cl");
+        $manager->persist($recipe);
+
+        $manager->persist($article);
+
+
+
+        $article = new Article();
+        $article
+            ->setName("Smoothie pomme-banane-kiwi")
+            ->setDescription("Description d'un ".$article->getName())
+            ->setSubCategory($sub_category_smoothie)
+            ->setPrice(5.50)
+            ->setVat($article->getPrice() * 0.20)
+            ->setStatus("Disponible");
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_fraises)
+            ->setArticle($article)
+            ->setQuantity(150)
+            ->setType("g");
+        $manager->persist($recipe);
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_myrtille)
+            ->setArticle($article)
+            ->setQuantity(150)
+            ->setType("g");
+        $manager->persist($recipe);
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_lait)
+            ->setArticle($article)
+            ->setQuantity(25)
+            ->setType("cl");
+        $manager->persist($recipe);
+
+        $manager->persist($article);
+
+
+
+
+
+
+
+        $article = new Article();
+        $article
+            ->setName("Cookie")
+            ->setDescription("Description d'un ".$article->getName())
+            ->setSubCategory($sub_category_dessert_industriel)
+            ->setPrice(2.50)
+            ->setVat($article->getPrice() * 0.20)
+            ->setStatus("Disponible");
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_cookie)
+            ->setArticle($article)
+            ->setQuantity(1)
+            ->setType("Unit");
+        $manager->persist($recipe);
+
+        $manager->persist($article);
+
+
+
+        $article = new Article();
+        $article
+            ->setName("Muffin")
+            ->setDescription("Description d'un ".$article->getName())
+            ->setSubCategory($sub_category_dessert_industriel)
+            ->setPrice(2.20)
+            ->setVat($article->getPrice() * 0.20)
+            ->setStatus("Disponible");
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_muffin)
+            ->setArticle($article)
+            ->setQuantity(1)
+            ->setType("Unit");
+        $manager->persist($recipe);
+
+        $manager->persist($article);
+
+
+
+        $article = new Article();
+        $article
+            ->setName("Brownie")
+            ->setDescription("Description d'un ".$article->getName())
+            ->setSubCategory($sub_category_dessert_industriel)
+            ->setPrice(3.50)
+            ->setVat($article->getPrice() * 0.20)
+            ->setStatus("Disponible");
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_brownie)
+            ->setArticle($article)
+            ->setQuantity(1)
+            ->setType("Unit");
+        $manager->persist($recipe);
+
+        $manager->persist($article);
+
+
+
+        $article = new Article();
+        $article
+            ->setName("Croissant")
+            ->setDescription("Description d'un ".$article->getName())
+            ->setSubCategory($sub_category_dessert_industriel)
+            ->setPrice(1.30)
+            ->setVat($article->getPrice() * 0.20)
+            ->setStatus("Disponible");
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_croissant)
+            ->setArticle($article)
+            ->setQuantity(1)
+            ->setType("Unit");
+        $manager->persist($recipe);
+
+        $manager->persist($article);
+
+
+
+
+
+        $article = new Article();
+        $article
+            ->setName("Sucrerie")
+            ->setDescription("Description d'un ".$article->getName())
+            ->setSubCategory($sub_category_dessert_industriel)
+            ->setPrice(2.30)
+            ->setVat($article->getPrice() * 0.20)
+            ->setStatus("Disponible");
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_sucrerie)
+            ->setArticle($article)
+            ->setQuantity(1)
+            ->setType("Unit");
+        $manager->persist($recipe);
+
+        $manager->persist($article);
+
+
+
+
+
+
+        $article = new Article();
+        $article
+            ->setName("Oeufs à la coque")
+            ->setDescription("Description d'un ".$article->getName())
+            ->setSubCategory($sub_category_plat_normal)
+            ->setPrice(4.30)
+            ->setVat($article->getPrice() * 0.20)
+            ->setStatus("Disponible");
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_oeuf)
+            ->setArticle($article)
+            ->setQuantity(3)
+            ->setType("Unit");
+        $manager->persist($recipe);
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_sel)
+            ->setArticle($article)
+            ->setQuantity(5)
+            ->setType("g");
+        $manager->persist($recipe);
+
+        $manager->persist($article);
+
+
+
+
+        $article = new Article();
+        $article
+            ->setName("Toast au saumon et fromage frais")
+            ->setDescription("Description d'un ".$article->getName())
+            ->setSubCategory($sub_category_toast)
+            ->setPrice(5.60)
+            ->setVat($article->getPrice() * 0.20)
+            ->setStatus("Disponible");
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_saumon)
+            ->setArticle($article)
+            ->setQuantity(200)
+            ->setType("g");
+        $manager->persist($recipe);
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_fromage_rais)
+            ->setArticle($article)
+            ->setQuantity(100)
+            ->setType("g");
+        $manager->persist($recipe);
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_tranche_pain)
+            ->setArticle($article)
+            ->setQuantity(200)
+            ->setType("g");
+        $manager->persist($recipe);
+
+        $manager->persist($article);
+
+
+
+        $article = new Article();
+        $article
+            ->setName("Toast à l'avocat")
+            ->setDescription("Description d'un ".$article->getName())
+            ->setSubCategory($sub_category_toast)
+            ->setPrice(5.60)
+            ->setVat($article->getPrice() * 0.20)
+            ->setStatus("Disponible");
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_avocat)
+            ->setArticle($article)
+            ->setQuantity(1)
+            ->setType("Unit");
+        $manager->persist($recipe);
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_tranche_pain)
+            ->setArticle($article)
+            ->setQuantity(200)
+            ->setType("g");
+        $manager->persist($recipe);
+
+        $manager->persist($article);
 
 
 

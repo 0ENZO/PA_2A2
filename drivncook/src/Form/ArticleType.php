@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Article;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -35,7 +36,13 @@ class ArticleType extends AbstractType
                 "allow_delete" => true,   // Permet la suppression d'objet lié à article en cas de besoin (dans le formulaire d'édition par exmlp)
                 "delete_empty" => true,
             ])
-
+            ->add('status', ChoiceType::class, [
+                "choices" => [
+                    "Disponible" => "Disponible",
+                    "Indisponible" => "Indisponible",
+                    "En cours de vérifications" => "Vérification"
+                ]
+            ])
             ->add('save', SubmitType::class, [
                 "label" => "Enregistrer"
             ])
