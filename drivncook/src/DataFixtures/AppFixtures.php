@@ -2,8 +2,10 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Article;
 use App\Entity\Category;
 use App\Entity\MaxCapacity;
+use App\Entity\Recipe;
 use App\Entity\Role;
 use App\Entity\Truck;
 use App\Entity\User;
@@ -962,6 +964,18 @@ class AppFixtures extends Fixture
             ->setType("Kg");
         $manager->persist($product_jambon_pays);
 
+        $product_blanc_poulet = new Product();
+        $product_blanc_poulet
+            ->setName("Blanc de poulet")
+            ->setDescription("Description ".$product_blanc_poulet->getName())
+            ->setPrice(18.70)
+            ->setVat($product_blanc_poulet->getPrice() * 0.20)
+            ->setStatus("Disponible")
+            ->setQuantity(1)
+            ->setSubCategory($sub_category_viande)
+            ->setType("Kg");
+        $manager->persist($product_blanc_poulet);
+
         //... produits céréales parmis les ingrédients
 
         $product_flocon_avoine = new Product();
@@ -1331,6 +1345,13 @@ class AppFixtures extends Fixture
             ->setWarehouse($warehouse_alpha)
             ->setProduct($product_oeuf)
             ->setQuantity(1000);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_alpha)
+            ->setProduct($product_blanc_poulet)
+            ->setQuantity(200);
         $manager->persist($warehouse_stock);
 
         $warehouse_stock = new WarehouseStock();
@@ -1760,6 +1781,13 @@ class AppFixtures extends Fixture
             ->setWarehouse($warehouse_beta)
             ->setProduct($product_oeuf)
             ->setQuantity(1000);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_beta)
+            ->setProduct($product_blanc_poulet)
+            ->setQuantity(200);
         $manager->persist($warehouse_stock);
 
         $warehouse_stock = new WarehouseStock();
@@ -2200,6 +2228,13 @@ class AppFixtures extends Fixture
         $warehouse_stock = new WarehouseStock();
         $warehouse_stock
             ->setWarehouse($warehouse_omega)
+            ->setProduct($product_blanc_poulet)
+            ->setQuantity(200);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_omega)
             ->setProduct($product_pain)
             ->setQuantity(100);
         $manager->persist($warehouse_stock);
@@ -2626,6 +2661,13 @@ class AppFixtures extends Fixture
         $warehouse_stock = new WarehouseStock();
         $warehouse_stock
             ->setWarehouse($warehouse_zeta)
+            ->setProduct($product_blanc_poulet)
+            ->setQuantity(200);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_zeta)
             ->setProduct($product_pain)
             ->setQuantity(100);
         $manager->persist($warehouse_stock);
@@ -3040,8 +3082,118 @@ class AppFixtures extends Fixture
 
 
 
-        // Article
-        
+        // ARTICLE
+
+        $article = new Article();
+        $article
+            ->setName("Galette jambon oeufs")
+            ->setDescription("Description d'une ".$article->getName())
+            ->setSubCategory($sub_category_galette)
+            ->setPrice(12.00)
+            ->setVat($article->getPrice() * 0.20)
+            ->setStatus("Disponible");
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_oeuf)
+            ->setArticle($article)
+            ->setQuantity(2)
+            ->setType("Unit");
+        $manager->persist($recipe);
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_jambon_blanc)
+            ->setArticle($article)
+            ->setQuantity(100)
+            ->setType("g");
+        $manager->persist($recipe);
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_gruyere)
+            ->setArticle($article)
+            ->setQuantity(100)
+            ->setType("g");
+        $manager->persist($recipe);
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_gros_sel)
+            ->setArticle($article)
+            ->setQuantity(1)
+            ->setType("g");
+        $manager->persist($recipe);
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_farine)
+            ->setArticle($article)
+            ->setQuantity(1)
+            ->setType("g");
+        $manager->persist($recipe);
+        $manager->persist($article);
+
+
+
+        $article = new Article();
+        $article
+            ->setName("Galette complète")
+            ->setDescription("Description d'une ".$article->getName())
+            ->setSubCategory($sub_category_galette)
+            ->setPrice(13.20)
+            ->setVat($article->getPrice() * 0.20)
+            ->setStatus("Disponible");
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_oeuf)
+            ->setArticle($article)
+            ->setQuantity(1)
+            ->setType("Unit");
+        $manager->persist($recipe);
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_salade)
+            ->setArticle($article)
+            ->setQuantity(30)
+            ->setType("g");
+        $manager->persist($recipe);
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_tomate)
+            ->setArticle($article)
+            ->setQuantity(2)
+            ->setType("Unit");
+        $manager->persist($recipe);
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_gros_sel)
+            ->setArticle($article)
+            ->setQuantity(1)
+            ->setType("g");
+        $manager->persist($recipe);
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_farine)
+            ->setArticle($article)
+            ->setQuantity(1)
+            ->setType("g");
+        $manager->persist($recipe);
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_blanc_poulet)
+            ->setArticle($article)
+            ->setQuantity(100)
+            ->setType("g");
+        $manager->persist($recipe);
+        $manager->persist($article);
+
         $manager->flush();
     }
 }
