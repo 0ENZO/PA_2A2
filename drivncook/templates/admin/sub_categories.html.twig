@@ -35,7 +35,18 @@
                     <tr>
                         <th scope="row">{{ sub_category.id }}</th>
                         <td>{{ sub_category.name }}</td>
-                        <td>{{ sub_category.category }}</td>
+                        <td>
+                            {% if sub_category.category == 'Ingrédients' %}
+                                {% set badge = 'badge-dark' %}
+                            {% elseif sub_category.category == 'Boissons' %}
+                                {% set badge = 'badge-info' %}
+                            {% elseif sub_category.category == 'Desserts' %}
+                                {% set badge = 'badge-light' %}
+                            {% elseif sub_category.category == 'Repas' %}
+                                {% set badge = 'badge-warning' %}
+                            {% endif %}
+                            <span class="badge badge-pill {{ badge }}">{{ sub_category.category }}</span>
+                        </td>
                         <td>{{ sub_category.description }}</td>
                         <td>{{ sub_category.imageName }}</td>
                         <td>

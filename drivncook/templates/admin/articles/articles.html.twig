@@ -13,6 +13,12 @@
             <hr class="my-4">
             <p>Vous pouvez créer un article à partir des différents produits existant dans la base de données de Driv'n Cook.</p>
             <p>Vous pouvez choisir d'ajouter autant d'ingrédients que vous voulez à un article (Recette), veillez simplement à respecter la nomenclature.</p>
+            <hr>
+            <p>Cette section sert de référence - autant pour l'article en lui même que son prix - pour la confection des menu relatifs franchisés.</p>
+            <p>
+                Conformément à l'idendité de la société Driv'n Cook : Un franchisé ne peut pas vendre un article qui n'est pas référencé à cette section.
+                Ce dernier a donc pour obligation d'en faire la demande, pour que la maqure Driv'n Cook puisse  s'associer à un article novateur d'un franchisé, à la société.
+            </p>
         </div>
     </div>
 
@@ -30,12 +36,14 @@
                 <th scope="col">Id</th>
                 <th scope="col">Nom</th>
                 <th scope="col">Description</th>
-                <th scope="col">Recette</th>
+                <th scope="col">Catégorie</th>
                 <th scope="col">Sous catégorie</th>
+                <th scope="col">Recette</th>
                 <th scope="col">Prix HT</th>
                 <th scope="col">TVA</th>
                 <th scope="col">Prix TTC</th>
                 <th scope="col">Image utilisée</th>
+                <th scope="col">Status</th>
                 <th scope="col">Actions</th>
             </tr>
             </thead>
@@ -47,17 +55,37 @@
                         <td>{{ article.name }}</td>
                         <td>{{ article.description }}</td>
                         <td>
+                            {% if article.subCategory.category == 'Ingrédients' %}
+                                {% set badge = 'badge-dark' %}
+                            {% elseif article.subCategory.category == 'Boissons' %}
+                                {% set badge = 'badge-info' %}
+                            {% elseif article.subCategory.category == 'Desserts' %}
+                                {% set badge = 'badge-light' %}
+                            {% elseif article.subCategory.category == 'Repas' %}
+                                {% set badge = 'badge-warning' %}
+                            {% endif %}
+                            <span class="badge badge-pill {{ badge }}">{{ article.subCategory.category }}</span>
+                        </td>
+                        <td>{{ article.subCategory }}</td>
+                        <td>
                             <ul>
                                 {% for recipe in article.recipes %}
                                     <li>{{ recipe }}</li>
                                 {% endfor %}
                             </ul>
                         </td>
-                        <td>{{ article.subCategory }}</td>
                         <td>{{ article.price }} €</td>
                         <td>{{ article.vat }} €</td>
                         <td>{{ article.vat + article.price }} €</td>
                         <td>{{ article.imageName }}</td>
+                        <td>
+                            {% if article.status == 'Disponible' %}
+                                {% set badgeStatus = 'badge-success' %}
+                            {% else %}
+                                {% set badgeStatus = 'badge-danger' %}
+                            {% endif %}
+                                <span class="badge badge-pill {{ badgeStatus }}">{{ article.status }}</span>
+                        </td>
                         <td>
                             <a class="mr-2" data-toggle="tooltip" data-placement="top" title="Modifier"
                                href="{{ path('admin_article_edit', { 'id': article.id}) }}"><i

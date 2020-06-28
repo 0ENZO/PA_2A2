@@ -38,7 +38,18 @@
                         <th scope="row">{{ product.id }}</th>
                         <td>{{ product.name }}</td>
                         <td>{{ product.description }}</td>
-                        <td>{{ product.subCategory.category }}</td>
+                        <td>
+                            {% if product.subCategory.category == 'Ingrédients' %}
+                                {% set badge = 'badge-dark' %}
+                            {% elseif product.subCategory.category == 'Boissons' %}
+                                {% set badge = 'badge-info' %}
+                            {% elseif product.subCategory.category == 'Desserts' %}
+                                {% set badge = 'badge-light' %}
+                            {% elseif product.subCategory.category == 'Repas' %}
+                                {% set badge = 'badge-warning' %}
+                            {% endif %}
+                            <span class="badge badge-pill {{ badge }}">{{ product.subCategory.category }}</span>
+                        </td>
                         <td>{{ product.subCategory }}</td>
                         <td>{{ product.imageName }}</td>
                         <td>{{ product.price }} €</td>

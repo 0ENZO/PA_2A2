@@ -72,23 +72,23 @@
             </li>
             <li class="list-group-item d-flex justify-content-between align-items-center">
                 Nombre total d'ingrédients dans l'entrepôt {{ warehouse.name }}
-                <span class="badge badge-primary badge-pill">{{ nb_ingredients }}</span>
-                <span class="badge badge-primary badge-dark">{{ nb_max_ingredients }}</span>
+                <span class="badge badge-dark badge-pill">{{ nb_ingredients }}</span>
+                <span class="badge badge-secondary">{{ nb_max_ingredients }}</span>
             </li>
             <li class="list-group-item d-flex justify-content-between align-items-center">
                 Nombre total de boissons dans l'entrepôt {{ warehouse.name }}
-                <span class="badge badge-primary badge-pill">{{ nb_drinks }}</span>
-                <span class="badge badge-primary badge-dark">{{ nb_max_drinks }}</span>
+                <span class="badge badge-info badge-pill">{{ nb_drinks }}</span>
+                <span class="badge badge-secondary">{{ nb_max_drinks }}</span>
             </li>
             <li class="list-group-item d-flex justify-content-between align-items-center">
                 Nombre total de desserts dans l'entrepôt {{ warehouse.name }}
-                <span class="badge badge-primary badge-pill">{{nb_desserts}}</span>
-                <span class="badge badge-primary badge-dark">{{nb_max_desserts}}</span>
+                <span class="badge badge-light badge-pill">{{nb_desserts}}</span>
+                <span class="badge badge-secondary">{{nb_max_desserts}}</span>
             </li>
             <li class="list-group-item d-flex justify-content-between align-items-center">
                 Nombre total de repas actuels dans l'entrepôt {{ warehouse.name }}
-                <span class="badge badge-primary badge-pill">{{nb_meals}}</span>
-                <span class="badge badge-primary badge-dark">{{nb_max_meals}}</span>
+                <span class="badge badge-warning badge-pill">{{nb_meals}}</span>
+                <span class="badge badge-secondary">{{nb_max_meals}}</span>
             </li>
         </ul>
     </div>
@@ -114,6 +114,7 @@
             <tr>
                 <th scope="col">Id</th>
                 <th scope="col">Produit</th>
+                <th scope="col">Catégorie</th>
                 <th scope="col">Quantité unitaire produit</th>
                 <th scope="col">Quantité dans l'entrepôt</th>
                 <th scope="col">Status</th>
@@ -129,6 +130,18 @@
             <tr>
                 <th scope="row">{{ item.id }}</th>
                 <td>{{ item.product.name }}</td>
+                <td>
+                    {% if item.product.subCategory.category.name == 'Ingrédients' %}
+                        {% set badge = 'badge-dark' %}
+                    {% elseif item.product.subCategory.category.name == 'Boissons' %}
+                        {% set badge = 'badge-info' %}
+                    {% elseif item.product.subCategory.category.name == 'Desserts' %}
+                        {% set badge = 'badge-light' %}
+                    {% elseif item.product.subCategory.category.name == 'Repas' %}
+                        {% set badge = 'badge-warning' %}
+                    {% endif %}
+                    <span class="badge badge-pill {{ badge }}">{{ item.product.subCategory.category.name }}</span>
+                </td>
                 <td>{{ item.product.quantity }} {{ item.product.type }}</td>
                 <td>{{ item.quantity * item.product.quantity }} {{ item.product.type }}</td>
                 <td class="{% if item.product.status == 'Disponible' %}available-product{% elseif item.product.status == 'Indisponible' %}unvailable-product{% endif %}">{{ item.product.status }}</td>

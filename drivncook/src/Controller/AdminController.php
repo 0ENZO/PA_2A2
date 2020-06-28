@@ -610,26 +610,32 @@ class AdminController extends AbstractController
         $nb_desserts = 0;
         $nb_meals = 0;
         $nb_products = 0;
-        foreach ($stock as $item => $product) {
+
+//        echo "avant boucle".$nb_ingredients."<br>";
+        foreach ($stock as $product) {
 //            echo $item." = ".$product->getProduct()->getSubCategory()->getCategory()->getName();
 //            echo "<br>";
 
             $category = $product->getProduct()->getSubCategory()->getCategory()->getName();
             $quantity = $product->getQuantity();
 
+//            echo $category."-".$quantity."<br>";
+
             $nb_products += $quantity;
 
-            if ($category === "Ingrédients") {
+            if ($category == "Ingrédients") {
                 $nb_ingredients += $quantity;
+//                echo "pendant la boucle pour le produit : ".$product." : ".$nb_ingredients."<br>";
             } elseif ($category === "Boissons") {
                 $nb_drinks += $quantity;
             } elseif ($category === "Desserts") {
-                $nb_desserts = $quantity;
+                $nb_desserts += $quantity;
             } elseif ($category === "Repas") {
                 $nb_meals += $quantity;
             } else
                 continue; // Aucune catégories trouvées
         }
+//        echo "après boucle".$nb_ingredients."<br>";
 
         // Ajout d'un produit dans l'entrepot
         $warehouse_stock = new WarehouseStock();
@@ -646,8 +652,6 @@ class AdminController extends AbstractController
             return $this->redirectToRoute("admin_warehouse_show", ["name" => $name]);
         }
 
-        // TODO : Informations de l'entrepots. Tout ce qu'il contient.
-        // TODO : Modifications de l'entrepot, comme la taille s'il y a des travaux etc
 
         return $this->render("admin/warehouse.html.twig", [
             "warehouse" => $warehouse,

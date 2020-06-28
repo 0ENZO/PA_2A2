@@ -74,6 +74,11 @@ class User implements UserInterface
     private $password;
 
     /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $complete_address;
+
+    /**
      * @ORM\Column(type="date")
      */
     private $birthDate;
@@ -137,6 +142,24 @@ class User implements UserInterface
     {
         return $this->id;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getCompleteAddress()
+    {
+        return $this->complete_address;
+    }
+
+    /**
+     * @param mixed $complete_address
+     */
+    public function setCompleteAddress($complete_address): void
+    {
+        $this->complete_address = $complete_address;
+    }
+
+
 
     public function getPseudo(): ?string
     {

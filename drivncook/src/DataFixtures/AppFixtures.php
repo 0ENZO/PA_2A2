@@ -2,8 +2,10 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Article;
 use App\Entity\Category;
 use App\Entity\MaxCapacity;
+use App\Entity\Recipe;
 use App\Entity\Role;
 use App\Entity\Truck;
 use App\Entity\User;
@@ -14,6 +16,7 @@ use App\Entity\Department;
 use App\Entity\Product;
 use App\Entity\SubCategory;
 use App\Entity\Warehouse;
+use App\Entity\WarehouseStock;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Validator\Constraints\Date;
@@ -33,7 +36,7 @@ class AppFixtures extends Fixture
 
 
 
-        // Création des rôles client / franchise / admin
+        // RÔLES
 
         $role_client = new Role();
         $role_client->setName('Client');
@@ -52,13 +55,27 @@ class AppFixtures extends Fixture
 
 
 
-        // Création adresse
+        // ADRESSES
 
         // Départements
 
         $department = new Department();
         $department->setName('Ile de France');
         $manager->persist($department);
+
+        $department2 = new Department();
+        $department2->setName('Loiret');
+        $manager->persist($department2);
+
+        $ille_et_vilaine = new Department();
+        $ille_et_vilaine->setName('Ille et Vilaine');
+        $manager->persist($ille_et_vilaine);
+
+        $isere = new Department();
+        $isere->setName('Isère');
+        $manager->persist($isere);
+
+
 
         // Villes
 
@@ -75,6 +92,29 @@ class AppFixtures extends Fixture
             ->setPostalCode("75000");
         $manager->persist($city2);
 
+        $orleans = new City();
+        $orleans
+            ->setName("Orléans")
+            ->setDepartment($department2)
+            ->setPostalCode("45000");
+        $manager->persist($orleans);
+
+        $rennes = new City();
+        $rennes
+            ->setName("Rennes")
+            ->setDepartment($ille_et_vilaine)
+            ->setPostalCode('35000');
+        $manager->persist($rennes);
+
+        $grenoble = new City();
+        $grenoble
+            ->setName('Grenoble')
+            ->setDepartment($isere)
+            ->setPostalCode('38000');
+        $manager->persist($grenoble);
+
+
+
         // Addresse finale (ville + département + rue)
 
         $address = new Address();
@@ -83,14 +123,41 @@ class AppFixtures extends Fixture
         $address->setCity($city);
         $manager->persist($address);
 
-        $address_warehouse = new Address();
-        $address_warehouse
+        $address_warehouse_paris = new Address();
+        $address_warehouse_paris
             ->setStreet("Rue de vendeaume")
             ->setNumber("42")
             ->setCity($city2);
-        $manager->persist($address_warehouse);
+        $manager->persist($address_warehouse_paris);
 
-        // Création des premiers users : Client et Admin
+        $address_warehouse_orleans= new Address();
+        $address_warehouse_orleans
+            ->setStreet("Boulevards, droits des Hommes")
+            ->setNumber("13")
+            ->setCity($orleans);
+        $manager->persist($address_warehouse_orleans);
+
+        $address_warehouse_rennes = new Address();
+        $address_warehouse_rennes
+            ->setStreet('Boulevard de Verdun')
+            ->setNumber('56')
+            ->setCity($rennes);
+        $manager->persist($address_warehouse_rennes);
+
+        $address_warehouse_grenoble = new Address();
+        $address_warehouse_grenoble
+            ->setStreet("Rue Gustave Flaubert")
+            ->setNumber('23')
+            ->setCity($grenoble);
+        $manager->persist($address_warehouse_grenoble);
+
+
+
+
+
+
+
+        // UTILISATEURS
 
         $client = new User();
         $client->setRole($role_client);
@@ -141,7 +208,7 @@ class AppFixtures extends Fixture
 
 
 
-        // Création franchisés
+        // FRANCHISÉS
 
         for($i = 0 ; $i < 10 ; $i++){
             $franchise = new Franchise();
@@ -158,71 +225,103 @@ class AppFixtures extends Fixture
             $manager->persist($franchise);
         }
 
-        // Création des capacité max
+
+
+
+
+
+
+
+        // CAPACITÉS MAX
 
         // camion
         $truck_capacity = new MaxCapacity();
         $truck_capacity
             ->setMaxIngredients(1000)
-            ->setMaxDrinks(500)
-            ->setMaxDesserts(500)
-            ->setMaxMeals(500);
+            ->setMaxDrinks(250)
+            ->setMaxDesserts(200)
+            ->setMaxMeals(200)
+            ->setName("Capacité camion standard");
         $manager->persist($truck_capacity);
 
         // entrepôts
-        $warehouse_capacity = new MaxCapacity();
-        $warehouse_capacity
-            ->setMaxIngredients(10000)
+
+        $main_warehouse_capacity = new MaxCapacity();
+        $main_warehouse_capacity
+            ->setMaxIngredients(50000)
+            ->setMaxMeals(10000)
+            ->setMaxDrinks(10000)
+            ->setMaxDesserts(10000)
+            ->setName("Capacité entrepôt Paris");
+        $manager->persist($main_warehouse_capacity);
+
+        $second_warehouse_capacity = new MaxCapacity();
+        $second_warehouse_capacity
+            ->setMaxIngredients(30000)
             ->setMaxMeals(5000)
             ->setMaxDrinks(5000)
-            ->setMaxDesserts(5000);
-        $manager->persist($warehouse_capacity);
+            ->setMaxDesserts(5000)
+            ->setName("Capacité entrepôt extérieur");
+        $manager->persist($second_warehouse_capacity);
 
 
-        // Création des entrepôts
 
-        $warhouse = new Warehouse();
+
+
+
+
+
+        // ENTREPOTS
+
+        $warehouse_alpha = new Warehouse();
         $name = "Alpha";
-        $warhouse
+        $warehouse_alpha
             ->setName($name)
             ->setEmail($name."@drivncook.fr")
-            ->setAddress($address_warehouse)
+            ->setAddress($address_warehouse_paris)
             ->setPhoneNumber("0645733429")
-            ->setMaxCapacity($warehouse_capacity);
-        $manager->persist($warhouse);
+            ->setMaxCapacity($main_warehouse_capacity);
+        $manager->persist($warehouse_alpha);
 
-        $warhouse = new Warehouse();
+        $warehouse_beta = new Warehouse();
         $name = "Beta";
-        $warhouse
+        $warehouse_beta
             ->setName($name)
             ->setEmail($name."@drivncook.fr")
-            ->setAddress($address_warehouse)
+            ->setAddress($address_warehouse_orleans)
             ->setPhoneNumber("0645733429")
-            ->setMaxCapacity($warehouse_capacity);
-        $manager->persist($warhouse);
+            ->setMaxCapacity($second_warehouse_capacity);
+        $manager->persist($warehouse_beta);
 
-        $warhouse = new Warehouse();
+        $warehouse_omega = new Warehouse();
         $name = "Omega";
-        $warhouse
+        $warehouse_omega
             ->setName($name)
             ->setEmail($name."@drivncook.fr")
-            ->setAddress($address_warehouse)
+            ->setAddress($address_warehouse_rennes)
             ->setPhoneNumber("0645733429")
-            ->setMaxCapacity($warehouse_capacity);
-        $manager->persist($warhouse);
+            ->setMaxCapacity($second_warehouse_capacity);
+        $manager->persist($warehouse_omega);
 
-        $warhouse = new Warehouse();
+        $warehouse_zeta = new Warehouse();
         $name = "Zeta";
-        $warhouse
+        $warehouse_zeta
             ->setName($name)
             ->setEmail($name."@drivncook.fr")
-            ->setAddress($address_warehouse)
+            ->setAddress($address_warehouse_grenoble)
             ->setPhoneNumber("0645733429")
-            ->setMaxCapacity($warehouse_capacity);
-        $manager->persist($warhouse);
+            ->setMaxCapacity($second_warehouse_capacity);
+        $manager->persist($warehouse_zeta);
 
 
-        // Création des camions
+
+
+
+
+
+
+
+        // CAMIONS
 
         // Appartient à personne
         $empty_truck = new Truck();
@@ -261,11 +360,13 @@ class AppFixtures extends Fixture
 
 
 
+
+
         // CATEGORIES
 
         $category_ingredient = new Category();
         $category_ingredient
-            ->setName('Ingredients')
+            ->setName('Ingrédients')
             ->setDescription("Tout ce qui est relatif aux ".$category_ingredient->getName().".");
         $manager->persist($category_ingredient);
 
@@ -277,7 +378,7 @@ class AppFixtures extends Fixture
 
         $category_dessert = new Category();
         $category_dessert
-            ->setName('Dessert')
+            ->setName('Desserts')
             ->setDescription("Tout ce qui est relatif aux ".$category_dessert->getName().".");
         $manager->persist($category_dessert);
 
@@ -286,6 +387,8 @@ class AppFixtures extends Fixture
             ->setName('Repas')
             ->setDescription("Tout ce qui est relatif aux ".$category_repas->getName().".");
         $manager->persist($category_repas);
+
+
 
 
 
@@ -459,6 +562,12 @@ class AppFixtures extends Fixture
 
 
 
+
+
+
+
+
+
         // PRODUITS
 
         //... produits standars parmis les ingrédients
@@ -547,6 +656,18 @@ class AppFixtures extends Fixture
             ->setType("Kg");
         $manager->persist($product_gros_sel);
 
+        $product_grains_cafe = new Product();
+        $product_grains_cafe
+            ->setName("Grain de café")
+            ->setDescription("Description ".$product_grains_cafe->getName())
+            ->setPrice(9.50)
+            ->setVat($product_grains_cafe->getPrice() * 0.20)
+            ->setStatus("Disponible")
+            ->setQuantity(1)
+            ->setSubCategory($sub_category_standard)
+            ->setType("Kg");
+        $manager->persist($product_grains_cafe);
+
         $product_lait = new Product();
         $product_lait
             ->setName("Lait")
@@ -570,6 +691,18 @@ class AppFixtures extends Fixture
             ->setSubCategory($sub_category_standard)
             ->setType("Kg");
         $manager->persist($product_beurre);
+
+        $product_huile_olive = new Product();
+        $product_huile_olive
+            ->setName("Huile d'olive")
+            ->setDescription("Description ".$product_huile_olive->getName())
+            ->setPrice(3.50)
+            ->setVat($product_huile_olive->getPrice() * 0.20)
+            ->setStatus("Disponible")
+            ->setQuantity(1)
+            ->setSubCategory($sub_category_standard)
+            ->setType("L");
+        $manager->persist($product_huile_olive);
 
         $product_sucre = new Product();
         $product_sucre
@@ -595,6 +728,18 @@ class AppFixtures extends Fixture
             ->setType("Kg");
         $manager->persist($product_fromage_rais);
 
+        $product_mozarella = new Product();
+        $product_mozarella
+            ->setName("Mozarella")
+            ->setDescription("Description ".$product_mozarella->getName())
+            ->setPrice(14.90)
+            ->setVat($product_mozarella->getPrice() * 0.20)
+            ->setStatus("Disponible")
+            ->setQuantity(1)
+            ->setSubCategory($sub_category_standard)
+            ->setType("Kg");
+        $manager->persist($product_mozarella);
+
         $product_gruyere = new Product();
         $product_gruyere
             ->setName("Gruyère")
@@ -606,6 +751,18 @@ class AppFixtures extends Fixture
             ->setSubCategory($sub_category_standard)
             ->setType("Kg");
         $manager->persist($product_gruyere);
+
+        $product_fromage_local = new Product();
+        $product_fromage_local
+            ->setName("Fromage local")
+            ->setDescription("Description ".$product_fromage_local->getName())
+            ->setPrice(15.20)
+            ->setVat($product_fromage_local->getPrice() * 0.20)
+            ->setStatus("Disponible")
+            ->setQuantity(1)
+            ->setSubCategory($sub_category_standard)
+            ->setType("Kg");
+        $manager->persist($product_fromage_local);
 
         $product_pourdre_coco = new Product();
         $product_pourdre_coco
@@ -669,6 +826,30 @@ class AppFixtures extends Fixture
             ->setType("Kg");
         $manager->persist($product_salade);
 
+        $product_haricot = new Product();
+        $product_haricot
+            ->setName("Haricots")
+            ->setDescription("Description ".$product_haricot->getName())
+            ->setPrice(3.70)
+            ->setVat($product_haricot->getPrice() * 0.20)
+            ->setStatus("Disponible")
+            ->setQuantity(1)
+            ->setSubCategory($sub_category_legume)
+            ->setType("Kg");
+        $manager->persist($product_haricot);
+
+        $product_champignon = new Product();
+        $product_champignon
+            ->setName("Champignon")
+            ->setDescription("Description ".$product_champignon->getName())
+            ->setPrice(5.30)
+            ->setVat($product_champignon->getPrice() * 0.20)
+            ->setStatus("Disponible")
+            ->setQuantity(1)
+            ->setSubCategory($sub_category_legume)
+            ->setType("Kg");
+        $manager->persist($product_champignon);
+
         $product_patate = new Product();
         $product_patate
             ->setName("Pommes de terres")
@@ -706,6 +887,30 @@ class AppFixtures extends Fixture
             ->setSubCategory($sub_category_fruit)
             ->setType("Unit");
         $manager->persist($product_tomate);
+
+        $product_concombre = new Product();
+        $product_concombre
+            ->setName("Concombre")
+            ->setDescription("Description ".$product_concombre->getName())
+            ->setPrice(1.80)
+            ->setVat($product_concombre->getPrice() * 0.20)
+            ->setStatus("Disponible")
+            ->setQuantity(1)
+            ->setSubCategory($sub_category_legume)
+            ->setType("Kg");
+        $manager->persist($product_concombre);
+
+        $product_courgette = new Product();
+        $product_courgette
+            ->setName("Courgette")
+            ->setDescription("Description ".$product_courgette->getName())
+            ->setPrice(1.70)
+            ->setVat($product_courgette->getPrice() * 0.20)
+            ->setStatus("Disponible")
+            ->setQuantity(1)
+            ->setSubCategory($sub_category_legume)
+            ->setType("Kg");
+        $manager->persist($product_courgette);
 
         $product_banane = new Product();
         $product_banane
@@ -819,6 +1024,30 @@ class AppFixtures extends Fixture
             ->setType("Kg");
         $manager->persist($product_bacon);
 
+        $product_salami = new Product();
+        $product_salami
+            ->setName("Salami")
+            ->setDescription("Description ".$product_salami->getName())
+            ->setPrice(15.00)
+            ->setVat($product_salami->getPrice() * 0.20)
+            ->setStatus("Disponible")
+            ->setQuantity(1)
+            ->setSubCategory($sub_category_viande)
+            ->setType("Kg");
+        $manager->persist($product_salami);
+
+        $product_saucisse_allemande = new Product();
+        $product_saucisse_allemande
+            ->setName("Saucisse allemande")
+            ->setDescription("Description ".$product_saucisse_allemande->getName())
+            ->setPrice(28.10)
+            ->setVat($product_saucisse_allemande->getPrice() * 0.20)
+            ->setStatus("Disponible")
+            ->setQuantity(1)
+            ->setSubCategory($sub_category_viande)
+            ->setType("Kg");
+        $manager->persist($product_saucisse_allemande);
+
         $product_saucisse = new Product();
         $product_saucisse
             ->setName("Saucisses")
@@ -854,6 +1083,18 @@ class AppFixtures extends Fixture
             ->setSubCategory($sub_category_viande)
             ->setType("Kg");
         $manager->persist($product_jambon_pays);
+
+        $product_blanc_poulet = new Product();
+        $product_blanc_poulet
+            ->setName("Blanc de poulet")
+            ->setDescription("Description ".$product_blanc_poulet->getName())
+            ->setPrice(18.70)
+            ->setVat($product_blanc_poulet->getPrice() * 0.20)
+            ->setStatus("Disponible")
+            ->setQuantity(1)
+            ->setSubCategory($sub_category_viande)
+            ->setType("Kg");
+        $manager->persist($product_blanc_poulet);
 
         //... produits céréales parmis les ingrédients
 
@@ -1171,6 +1412,30 @@ class AppFixtures extends Fixture
             ->setType("Unit");
         $manager->persist($product_cookie);
 
+        $product_croissant = new Product();
+        $product_croissant
+            ->setName("Croissant")
+            ->setDescription("Description ".$product_croissant->getName())
+            ->setPrice(1.00)
+            ->setVat($product_croissant->getPrice() * 0.20)
+            ->setStatus("Disponible")
+            ->setQuantity(1)
+            ->setSubCategory($sub_category_dessert_industriel)
+            ->setType("Unit");
+        $manager->persist($product_croissant);
+
+        $product_sucrerie = new Product();
+        $product_sucrerie
+            ->setName("Sucrerie")
+            ->setDescription("Description ".$product_sucrerie->getName())
+            ->setPrice(1.20)
+            ->setVat($product_sucrerie->getPrice() * 0.20)
+            ->setStatus("Disponible")
+            ->setQuantity(1)
+            ->setSubCategory($sub_category_dessert_industriel)
+            ->setType("Unit");
+        $manager->persist($product_sucrerie);
+
         $product_brownie = new Product();
         $product_brownie
             ->setName("Brownie")
@@ -1209,7 +1474,2499 @@ class AppFixtures extends Fixture
             ->setType("Unit");
         $manager->persist($product_salade_complete);
 
-        
+
+
+
+
+
+
+        // REMPLISSAGES DES ENTREPÔTS
+
+        // remplissage alpha
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_alpha)
+            ->setProduct($product_oeuf)
+            ->setQuantity(1000);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_alpha)
+            ->setProduct($product_mozarella)
+            ->setQuantity(150);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_alpha)
+            ->setProduct($product_grains_cafe)
+            ->setQuantity(400);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_alpha)
+            ->setProduct($product_champignon)
+            ->setQuantity(250);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_alpha)
+            ->setProduct($product_haricot)
+            ->setQuantity(200);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_alpha)
+            ->setProduct($product_blanc_poulet)
+            ->setQuantity(200);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_alpha)
+            ->setProduct($product_pain)
+            ->setQuantity(100);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_alpha)
+            ->setProduct($product_mouillette)
+            ->setQuantity(200);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_alpha)
+            ->setProduct($product_tranche_pain)
+            ->setQuantity(150);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_alpha)
+            ->setProduct($product_farine)
+            ->setQuantity(250);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_alpha)
+            ->setProduct($product_sel)
+            ->setQuantity(250);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_alpha)
+            ->setProduct($product_gros_sel)
+            ->setQuantity(250);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_alpha)
+            ->setProduct($product_sucre)
+            ->setQuantity(250);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_alpha)
+            ->setProduct($product_lait)
+            ->setQuantity(500);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_alpha)
+            ->setProduct($product_beurre)
+            ->setQuantity(500);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_alpha)
+            ->setProduct($product_fromage_rais)
+            ->setQuantity(100);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_alpha)
+            ->setProduct($product_gruyere)
+            ->setQuantity(300);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_alpha)
+            ->setProduct($product_pourdre_coco)
+            ->setQuantity(100);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_alpha)
+            ->setProduct($product_sucrerie)
+            ->setQuantity(500);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_alpha)
+            ->setProduct($product_croissant)
+            ->setQuantity(500);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_alpha)
+            ->setProduct($product_huile_olive)
+            ->setQuantity(200);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_alpha)
+            ->setProduct($product_concombre)
+            ->setQuantity(300);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_alpha)
+            ->setProduct($product_courgette)
+            ->setQuantity(300);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_alpha)
+            ->setProduct($product_salami)
+            ->setQuantity(200);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_alpha)
+            ->setProduct($product_saucisse_allemande)
+            ->setQuantity(200);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_alpha)
+            ->setProduct($product_fromage_local)
+            ->setQuantity(220);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_alpha)
+            ->setProduct($product_canelle)
+            ->setQuantity(100);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_alpha)
+            ->setProduct($product_haricot_vert)
+            ->setQuantity(125);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_alpha)
+            ->setProduct($product_haricot_beurre)
+            ->setQuantity(125);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_alpha)
+            ->setProduct($product_salade)
+            ->setQuantity(265);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_alpha)
+            ->setProduct($product_patate)
+            ->setQuantity(300);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_alpha)
+            ->setProduct($product_pousse_epinard)
+            ->setQuantity(50);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_alpha)
+            ->setProduct($product_tomate)
+            ->setQuantity(1000);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_alpha)
+            ->setProduct($product_banane)
+            ->setQuantity(1000);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_alpha)
+            ->setProduct($product_kiwi)
+            ->setQuantity(1000);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_alpha)
+            ->setProduct($product_pomme)
+            ->setQuantity(1000);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_alpha)
+            ->setProduct($product_orange)
+            ->setQuantity(1000);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_alpha)
+            ->setProduct($product_framboise)
+            ->setQuantity(300);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_alpha)
+            ->setProduct($product_myrtille)
+            ->setQuantity(300);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_alpha)
+            ->setProduct($product_sardine)
+            ->setQuantity(110);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_alpha)
+            ->setProduct($product_saumon)
+            ->setQuantity(230);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_alpha)
+            ->setProduct($product_bacon)
+            ->setQuantity(250);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_alpha)
+            ->setProduct($product_saucisse)
+            ->setQuantity(250);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_alpha)
+            ->setProduct($product_jambon_blanc)
+            ->setQuantity(200);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_alpha)
+            ->setProduct($product_jambon_pays)
+            ->setQuantity(200);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_alpha)
+            ->setProduct($product_flocon_avoine)
+            ->setQuantity(1000);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_alpha)
+            ->setProduct($product_flocon_soja)
+            ->setQuantity(1000);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_alpha)
+            ->setProduct($product_flocon_mais)
+            ->setQuantity(1000);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_alpha)
+            ->setProduct($product_flocon_ble)
+            ->setQuantity(1000);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_alpha)
+            ->setProduct($product_amande)
+            ->setQuantity(1000);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_alpha)
+            ->setProduct($product_noisette)
+            ->setQuantity(1000);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_alpha)
+            ->setProduct($product_noix)
+            ->setQuantity(1000);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_alpha)
+            ->setProduct($product_noix_bresil)
+            ->setQuantity(1000);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_alpha)
+            ->setProduct($product_noix_pecan)
+            ->setQuantity(1000);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_alpha)
+            ->setProduct($product_graine_chia)
+            ->setQuantity(500);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_alpha)
+            ->setProduct($product_graine_pavot)
+            ->setQuantity(500);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_alpha)
+            ->setProduct($product_graine_courge)
+            ->setQuantity(500);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_alpha)
+            ->setProduct($product_graine_tournesol)
+            ->setQuantity(500);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_alpha)
+            ->setProduct($product_nutella)
+            ->setQuantity(300);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_alpha)
+            ->setProduct($product_chantilly)
+            ->setQuantity(1000);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_alpha)
+            ->setProduct($product_glace_chocolat)
+            ->setQuantity(300);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_alpha)
+            ->setProduct($product_glace_fraise)
+            ->setQuantity(300);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_alpha)
+            ->setProduct($product_glace_vanille)
+            ->setQuantity(300);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_alpha)
+            ->setProduct($product_glace_coco)
+            ->setQuantity(300);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_alpha)
+            ->setProduct($product_canette_fanta)
+            ->setQuantity(1000);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_alpha)
+            ->setProduct($product_canette_coca)
+            ->setQuantity(1000);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_alpha)
+            ->setProduct($product_canette_orangina)
+            ->setQuantity(1000);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_alpha)
+            ->setProduct($product_bouteille_coca)
+            ->setQuantity(500);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_alpha)
+            ->setProduct($product_bouteille_orangina)
+            ->setQuantity(500);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_alpha)
+            ->setProduct($product_cookie)
+            ->setQuantity(2000);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_alpha)
+            ->setProduct($product_brownie)
+            ->setQuantity(500);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_alpha)
+            ->setProduct($product_muffin)
+            ->setQuantity(500);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_alpha)
+            ->setProduct($product_salade_complete)
+            ->setQuantity(100);
+        $manager->persist($warehouse_stock);
+
+
+
+
+
+
+
+
+        // Entrepot Beta
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_beta)
+            ->setProduct($product_oeuf)
+            ->setQuantity(1000);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_beta)
+            ->setProduct($product_sucrerie)
+            ->setQuantity(500);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_beta)
+            ->setProduct($product_croissant)
+            ->setQuantity(500);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_beta)
+            ->setProduct($product_huile_olive)
+            ->setQuantity(200);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_beta)
+            ->setProduct($product_concombre)
+            ->setQuantity(300);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_beta)
+            ->setProduct($product_courgette)
+            ->setQuantity(300);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_beta)
+            ->setProduct($product_salami)
+            ->setQuantity(200);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_beta)
+            ->setProduct($product_saucisse_allemande)
+            ->setQuantity(200);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_beta)
+            ->setProduct($product_fromage_local)
+            ->setQuantity(220);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_beta)
+            ->setProduct($product_mozarella)
+            ->setQuantity(150);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_beta)
+            ->setProduct($product_grains_cafe)
+            ->setQuantity(400);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_beta)
+            ->setProduct($product_champignon)
+            ->setQuantity(250);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_beta)
+            ->setProduct($product_haricot)
+            ->setQuantity(200);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_beta)
+            ->setProduct($product_blanc_poulet)
+            ->setQuantity(200);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_beta)
+            ->setProduct($product_pain)
+            ->setQuantity(100);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_beta)
+            ->setProduct($product_mouillette)
+            ->setQuantity(200);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_beta)
+            ->setProduct($product_tranche_pain)
+            ->setQuantity(150);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_beta)
+            ->setProduct($product_farine)
+            ->setQuantity(250);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_beta)
+            ->setProduct($product_sel)
+            ->setQuantity(250);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_beta)
+            ->setProduct($product_gros_sel)
+            ->setQuantity(250);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_beta)
+            ->setProduct($product_sucre)
+            ->setQuantity(250);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_beta)
+            ->setProduct($product_lait)
+            ->setQuantity(500);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_beta)
+            ->setProduct($product_beurre)
+            ->setQuantity(500);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_beta)
+            ->setProduct($product_fromage_rais)
+            ->setQuantity(100);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_beta)
+            ->setProduct($product_gruyere)
+            ->setQuantity(300);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_beta)
+            ->setProduct($product_pourdre_coco)
+            ->setQuantity(100);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_beta)
+            ->setProduct($product_canelle)
+            ->setQuantity(100);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_beta)
+            ->setProduct($product_haricot_vert)
+            ->setQuantity(125);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_beta)
+            ->setProduct($product_haricot_beurre)
+            ->setQuantity(125);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_beta)
+            ->setProduct($product_salade)
+            ->setQuantity(265);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_beta)
+            ->setProduct($product_patate)
+            ->setQuantity(300);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_beta)
+            ->setProduct($product_pousse_epinard)
+            ->setQuantity(50);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_beta)
+            ->setProduct($product_tomate)
+            ->setQuantity(1000);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_beta)
+            ->setProduct($product_banane)
+            ->setQuantity(1000);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_beta)
+            ->setProduct($product_kiwi)
+            ->setQuantity(1000);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_beta)
+            ->setProduct($product_pomme)
+            ->setQuantity(1000);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_beta)
+            ->setProduct($product_orange)
+            ->setQuantity(1000);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_beta)
+            ->setProduct($product_framboise)
+            ->setQuantity(300);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_beta)
+            ->setProduct($product_myrtille)
+            ->setQuantity(300);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_beta)
+            ->setProduct($product_sardine)
+            ->setQuantity(110);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_beta)
+            ->setProduct($product_saumon)
+            ->setQuantity(230);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_beta)
+            ->setProduct($product_bacon)
+            ->setQuantity(250);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_beta)
+            ->setProduct($product_saucisse)
+            ->setQuantity(250);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_beta)
+            ->setProduct($product_jambon_blanc)
+            ->setQuantity(200);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_beta)
+            ->setProduct($product_jambon_pays)
+            ->setQuantity(200);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_beta)
+            ->setProduct($product_flocon_avoine)
+            ->setQuantity(1000);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_beta)
+            ->setProduct($product_flocon_soja)
+            ->setQuantity(1000);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_beta)
+            ->setProduct($product_flocon_mais)
+            ->setQuantity(1000);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_beta)
+            ->setProduct($product_flocon_ble)
+            ->setQuantity(1000);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_beta)
+            ->setProduct($product_amande)
+            ->setQuantity(1000);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_beta)
+            ->setProduct($product_noisette)
+            ->setQuantity(1000);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_beta)
+            ->setProduct($product_noix)
+            ->setQuantity(1000);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_beta)
+            ->setProduct($product_noix_bresil)
+            ->setQuantity(1000);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_beta)
+            ->setProduct($product_noix_pecan)
+            ->setQuantity(1000);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_beta)
+            ->setProduct($product_graine_chia)
+            ->setQuantity(500);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_beta)
+            ->setProduct($product_graine_pavot)
+            ->setQuantity(500);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_beta)
+            ->setProduct($product_graine_courge)
+            ->setQuantity(500);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_beta)
+            ->setProduct($product_graine_tournesol)
+            ->setQuantity(500);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_beta)
+            ->setProduct($product_nutella)
+            ->setQuantity(300);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_beta)
+            ->setProduct($product_chantilly)
+            ->setQuantity(1000);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_beta)
+            ->setProduct($product_glace_chocolat)
+            ->setQuantity(300);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_beta)
+            ->setProduct($product_glace_fraise)
+            ->setQuantity(300);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_beta)
+            ->setProduct($product_glace_vanille)
+            ->setQuantity(300);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_beta)
+            ->setProduct($product_glace_coco)
+            ->setQuantity(300);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_beta)
+            ->setProduct($product_canette_fanta)
+            ->setQuantity(1000);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_beta)
+            ->setProduct($product_canette_coca)
+            ->setQuantity(1000);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_beta)
+            ->setProduct($product_canette_orangina)
+            ->setQuantity(1000);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_beta)
+            ->setProduct($product_bouteille_coca)
+            ->setQuantity(500);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_beta)
+            ->setProduct($product_bouteille_orangina)
+            ->setQuantity(500);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_beta)
+            ->setProduct($product_cookie)
+            ->setQuantity(2000);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_beta)
+            ->setProduct($product_brownie)
+            ->setQuantity(500);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_beta)
+            ->setProduct($product_muffin)
+            ->setQuantity(500);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_beta)
+            ->setProduct($product_salade_complete)
+            ->setQuantity(100);
+        $manager->persist($warehouse_stock);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        // Entrepot Omega
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_omega)
+            ->setProduct($product_oeuf)
+            ->setQuantity(1000);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_omega)
+            ->setProduct($product_sucrerie)
+            ->setQuantity(500);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_omega)
+            ->setProduct($product_croissant)
+            ->setQuantity(500);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_omega)
+            ->setProduct($product_huile_olive)
+            ->setQuantity(200);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_omega)
+            ->setProduct($product_concombre)
+            ->setQuantity(300);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_omega)
+            ->setProduct($product_courgette)
+            ->setQuantity(300);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_omega)
+            ->setProduct($product_salami)
+            ->setQuantity(200);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_omega)
+            ->setProduct($product_saucisse_allemande)
+            ->setQuantity(200);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_omega)
+            ->setProduct($product_fromage_local)
+            ->setQuantity(220);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_omega)
+            ->setProduct($product_mozarella)
+            ->setQuantity(150);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_omega)
+            ->setProduct($product_grains_cafe)
+            ->setQuantity(400);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_omega)
+            ->setProduct($product_champignon)
+            ->setQuantity(250);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_omega)
+            ->setProduct($product_haricot)
+            ->setQuantity(200);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_omega)
+            ->setProduct($product_blanc_poulet)
+            ->setQuantity(200);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_omega)
+            ->setProduct($product_pain)
+            ->setQuantity(100);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_omega)
+            ->setProduct($product_mouillette)
+            ->setQuantity(200);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_omega)
+            ->setProduct($product_tranche_pain)
+            ->setQuantity(150);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_omega)
+            ->setProduct($product_farine)
+            ->setQuantity(250);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_omega)
+            ->setProduct($product_sel)
+            ->setQuantity(250);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_omega)
+            ->setProduct($product_gros_sel)
+            ->setQuantity(250);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_omega)
+            ->setProduct($product_sucre)
+            ->setQuantity(250);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_omega)
+            ->setProduct($product_lait)
+            ->setQuantity(500);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_omega)
+            ->setProduct($product_beurre)
+            ->setQuantity(500);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_omega)
+            ->setProduct($product_fromage_rais)
+            ->setQuantity(100);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_omega)
+            ->setProduct($product_gruyere)
+            ->setQuantity(300);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_omega)
+            ->setProduct($product_pourdre_coco)
+            ->setQuantity(100);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_omega)
+            ->setProduct($product_canelle)
+            ->setQuantity(100);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_omega)
+            ->setProduct($product_haricot_vert)
+            ->setQuantity(125);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_omega)
+            ->setProduct($product_haricot_beurre)
+            ->setQuantity(125);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_omega)
+            ->setProduct($product_salade)
+            ->setQuantity(265);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_omega)
+            ->setProduct($product_patate)
+            ->setQuantity(300);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_omega)
+            ->setProduct($product_pousse_epinard)
+            ->setQuantity(50);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_omega)
+            ->setProduct($product_tomate)
+            ->setQuantity(1000);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_omega)
+            ->setProduct($product_banane)
+            ->setQuantity(1000);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_omega)
+            ->setProduct($product_kiwi)
+            ->setQuantity(1000);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_omega)
+            ->setProduct($product_pomme)
+            ->setQuantity(1000);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_omega)
+            ->setProduct($product_orange)
+            ->setQuantity(1000);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_omega)
+            ->setProduct($product_framboise)
+            ->setQuantity(300);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_omega)
+            ->setProduct($product_myrtille)
+            ->setQuantity(300);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_omega)
+            ->setProduct($product_sardine)
+            ->setQuantity(110);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_omega)
+            ->setProduct($product_saumon)
+            ->setQuantity(230);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_omega)
+            ->setProduct($product_bacon)
+            ->setQuantity(250);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_omega)
+            ->setProduct($product_saucisse)
+            ->setQuantity(250);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_omega)
+            ->setProduct($product_jambon_blanc)
+            ->setQuantity(200);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_omega)
+            ->setProduct($product_jambon_pays)
+            ->setQuantity(200);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_omega)
+            ->setProduct($product_flocon_avoine)
+            ->setQuantity(1000);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_omega)
+            ->setProduct($product_flocon_soja)
+            ->setQuantity(1000);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_omega)
+            ->setProduct($product_flocon_mais)
+            ->setQuantity(1000);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_omega)
+            ->setProduct($product_flocon_ble)
+            ->setQuantity(1000);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_omega)
+            ->setProduct($product_amande)
+            ->setQuantity(1000);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_omega)
+            ->setProduct($product_noisette)
+            ->setQuantity(1000);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_omega)
+            ->setProduct($product_noix)
+            ->setQuantity(1000);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_omega)
+            ->setProduct($product_noix_bresil)
+            ->setQuantity(1000);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_omega)
+            ->setProduct($product_noix_pecan)
+            ->setQuantity(1000);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_omega)
+            ->setProduct($product_graine_chia)
+            ->setQuantity(500);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_omega)
+            ->setProduct($product_graine_pavot)
+            ->setQuantity(500);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_omega)
+            ->setProduct($product_graine_courge)
+            ->setQuantity(500);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_omega)
+            ->setProduct($product_graine_tournesol)
+            ->setQuantity(500);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_omega)
+            ->setProduct($product_nutella)
+            ->setQuantity(300);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_omega)
+            ->setProduct($product_chantilly)
+            ->setQuantity(1000);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_omega)
+            ->setProduct($product_glace_chocolat)
+            ->setQuantity(300);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_omega)
+            ->setProduct($product_glace_fraise)
+            ->setQuantity(300);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_omega)
+            ->setProduct($product_glace_vanille)
+            ->setQuantity(300);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_omega)
+            ->setProduct($product_glace_coco)
+            ->setQuantity(300);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_omega)
+            ->setProduct($product_canette_fanta)
+            ->setQuantity(1000);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_omega)
+            ->setProduct($product_canette_coca)
+            ->setQuantity(1000);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_omega)
+            ->setProduct($product_canette_orangina)
+            ->setQuantity(1000);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_omega)
+            ->setProduct($product_bouteille_coca)
+            ->setQuantity(500);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_omega)
+            ->setProduct($product_bouteille_orangina)
+            ->setQuantity(500);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_omega)
+            ->setProduct($product_cookie)
+            ->setQuantity(2000);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_omega)
+            ->setProduct($product_brownie)
+            ->setQuantity(500);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_omega)
+            ->setProduct($product_muffin)
+            ->setQuantity(500);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_omega)
+            ->setProduct($product_salade_complete)
+            ->setQuantity(100);
+        $manager->persist($warehouse_stock);
+
+
+
+
+
+        // Entrepot Zeta
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_zeta)
+            ->setProduct($product_oeuf)
+            ->setQuantity(1000);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_zeta)
+            ->setProduct($product_sucrerie)
+            ->setQuantity(500);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_zeta)
+            ->setProduct($product_croissant)
+            ->setQuantity(500);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_zeta)
+            ->setProduct($product_huile_olive)
+            ->setQuantity(200);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_zeta)
+            ->setProduct($product_concombre)
+            ->setQuantity(300);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_zeta)
+            ->setProduct($product_courgette)
+            ->setQuantity(300);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_zeta)
+            ->setProduct($product_salami)
+            ->setQuantity(200);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_zeta)
+            ->setProduct($product_saucisse_allemande)
+            ->setQuantity(200);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_zeta)
+            ->setProduct($product_fromage_local)
+            ->setQuantity(220);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_zeta)
+            ->setProduct($product_mozarella)
+            ->setQuantity(150);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_zeta)
+            ->setProduct($product_grains_cafe)
+            ->setQuantity(400);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_zeta)
+            ->setProduct($product_champignon)
+            ->setQuantity(250);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_zeta)
+            ->setProduct($product_haricot)
+            ->setQuantity(200);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_zeta)
+            ->setProduct($product_blanc_poulet)
+            ->setQuantity(200);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_zeta)
+            ->setProduct($product_pain)
+            ->setQuantity(100);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_zeta)
+            ->setProduct($product_mouillette)
+            ->setQuantity(200);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_zeta)
+            ->setProduct($product_tranche_pain)
+            ->setQuantity(150);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_zeta)
+            ->setProduct($product_farine)
+            ->setQuantity(250);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_zeta)
+            ->setProduct($product_sel)
+            ->setQuantity(250);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_zeta)
+            ->setProduct($product_gros_sel)
+            ->setQuantity(250);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_zeta)
+            ->setProduct($product_sucre)
+            ->setQuantity(250);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_zeta)
+            ->setProduct($product_lait)
+            ->setQuantity(500);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_zeta)
+            ->setProduct($product_beurre)
+            ->setQuantity(500);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_zeta)
+            ->setProduct($product_fromage_rais)
+            ->setQuantity(100);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_zeta)
+            ->setProduct($product_gruyere)
+            ->setQuantity(300);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_zeta)
+            ->setProduct($product_pourdre_coco)
+            ->setQuantity(100);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_zeta)
+            ->setProduct($product_canelle)
+            ->setQuantity(100);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_zeta)
+            ->setProduct($product_haricot_vert)
+            ->setQuantity(125);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_zeta)
+            ->setProduct($product_haricot_beurre)
+            ->setQuantity(125);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_zeta)
+            ->setProduct($product_salade)
+            ->setQuantity(265);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_zeta)
+            ->setProduct($product_patate)
+            ->setQuantity(300);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_zeta)
+            ->setProduct($product_pousse_epinard)
+            ->setQuantity(50);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_zeta)
+            ->setProduct($product_tomate)
+            ->setQuantity(1000);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_zeta)
+            ->setProduct($product_banane)
+            ->setQuantity(1000);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_zeta)
+            ->setProduct($product_kiwi)
+            ->setQuantity(1000);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_zeta)
+            ->setProduct($product_pomme)
+            ->setQuantity(1000);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_zeta)
+            ->setProduct($product_orange)
+            ->setQuantity(1000);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_zeta)
+            ->setProduct($product_framboise)
+            ->setQuantity(300);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_zeta)
+            ->setProduct($product_myrtille)
+            ->setQuantity(300);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_zeta)
+            ->setProduct($product_sardine)
+            ->setQuantity(110);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_zeta)
+            ->setProduct($product_saumon)
+            ->setQuantity(230);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_zeta)
+            ->setProduct($product_bacon)
+            ->setQuantity(250);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_zeta)
+            ->setProduct($product_saucisse)
+            ->setQuantity(250);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_zeta)
+            ->setProduct($product_jambon_blanc)
+            ->setQuantity(200);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_zeta)
+            ->setProduct($product_jambon_pays)
+            ->setQuantity(200);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_zeta)
+            ->setProduct($product_flocon_avoine)
+            ->setQuantity(1000);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_zeta)
+            ->setProduct($product_flocon_soja)
+            ->setQuantity(1000);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_zeta)
+            ->setProduct($product_flocon_mais)
+            ->setQuantity(1000);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_zeta)
+            ->setProduct($product_flocon_ble)
+            ->setQuantity(1000);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_zeta)
+            ->setProduct($product_amande)
+            ->setQuantity(1000);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_zeta)
+            ->setProduct($product_noisette)
+            ->setQuantity(1000);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_zeta)
+            ->setProduct($product_noix)
+            ->setQuantity(1000);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_zeta)
+            ->setProduct($product_noix_bresil)
+            ->setQuantity(1000);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_zeta)
+            ->setProduct($product_noix_pecan)
+            ->setQuantity(1000);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_zeta)
+            ->setProduct($product_graine_chia)
+            ->setQuantity(500);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_zeta)
+            ->setProduct($product_graine_pavot)
+            ->setQuantity(500);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_zeta)
+            ->setProduct($product_graine_courge)
+            ->setQuantity(500);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_zeta)
+            ->setProduct($product_graine_tournesol)
+            ->setQuantity(500);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_zeta)
+            ->setProduct($product_nutella)
+            ->setQuantity(300);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_zeta)
+            ->setProduct($product_chantilly)
+            ->setQuantity(1000);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_zeta)
+            ->setProduct($product_glace_chocolat)
+            ->setQuantity(300);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_zeta)
+            ->setProduct($product_glace_fraise)
+            ->setQuantity(300);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_zeta)
+            ->setProduct($product_glace_vanille)
+            ->setQuantity(300);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_zeta)
+            ->setProduct($product_glace_coco)
+            ->setQuantity(300);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_zeta)
+            ->setProduct($product_canette_fanta)
+            ->setQuantity(1000);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_zeta)
+            ->setProduct($product_canette_coca)
+            ->setQuantity(1000);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_zeta)
+            ->setProduct($product_canette_orangina)
+            ->setQuantity(1000);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_zeta)
+            ->setProduct($product_bouteille_coca)
+            ->setQuantity(500);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_zeta)
+            ->setProduct($product_bouteille_orangina)
+            ->setQuantity(500);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_zeta)
+            ->setProduct($product_cookie)
+            ->setQuantity(2000);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_zeta)
+            ->setProduct($product_brownie)
+            ->setQuantity(500);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_zeta)
+            ->setProduct($product_muffin)
+            ->setQuantity(500);
+        $manager->persist($warehouse_stock);
+
+        $warehouse_stock = new WarehouseStock();
+        $warehouse_stock
+            ->setWarehouse($warehouse_zeta)
+            ->setProduct($product_salade_complete)
+            ->setQuantity(100);
+        $manager->persist($warehouse_stock);
+
+
+
+
+
+        // ARTICLE
+
+        $article = new Article();
+        $article
+            ->setName("Galette jambon oeufs")
+            ->setDescription("Description d'une ".$article->getName())
+            ->setSubCategory($sub_category_galette)
+            ->setPrice(12.00)
+            ->setVat($article->getPrice() * 0.20)
+            ->setStatus("Disponible");
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_oeuf)
+            ->setArticle($article)
+            ->setQuantity(2)
+            ->setType("Unit");
+        $manager->persist($recipe);
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_jambon_blanc)
+            ->setArticle($article)
+            ->setQuantity(100)
+            ->setType("g");
+        $manager->persist($recipe);
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_gruyere)
+            ->setArticle($article)
+            ->setQuantity(100)
+            ->setType("g");
+        $manager->persist($recipe);
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_gros_sel)
+            ->setArticle($article)
+            ->setQuantity(1)
+            ->setType("g");
+        $manager->persist($recipe);
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_farine)
+            ->setArticle($article)
+            ->setQuantity(1)
+            ->setType("g");
+        $manager->persist($recipe);
+        $manager->persist($article);
+
+
+
+        $article = new Article();
+        $article
+            ->setName("Galette complète")
+            ->setDescription("Description d'une ".$article->getName())
+            ->setSubCategory($sub_category_galette)
+            ->setPrice(13.20)
+            ->setVat($article->getPrice() * 0.20)
+            ->setStatus("Disponible");
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_oeuf)
+            ->setArticle($article)
+            ->setQuantity(1)
+            ->setType("Unit");
+        $manager->persist($recipe);
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_salade)
+            ->setArticle($article)
+            ->setQuantity(30)
+            ->setType("g");
+        $manager->persist($recipe);
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_tomate)
+            ->setArticle($article)
+            ->setQuantity(2)
+            ->setType("Unit");
+        $manager->persist($recipe);
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_gros_sel)
+            ->setArticle($article)
+            ->setQuantity(1)
+            ->setType("g");
+        $manager->persist($recipe);
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_farine)
+            ->setArticle($article)
+            ->setQuantity(1)
+            ->setType("g");
+        $manager->persist($recipe);
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_blanc_poulet)
+            ->setArticle($article)
+            ->setQuantity(100)
+            ->setType("g");
+        $manager->persist($recipe);
+        $manager->persist($article);
+
+
+
+
+        $article = new Article();
+        $article
+            ->setName("Galette à l'américaine")
+            ->setDescription("Description d'une ".$article->getName())
+            ->setSubCategory($sub_category_galette)
+            ->setPrice(14.00)
+            ->setVat($article->getPrice() * 0.20)
+            ->setStatus("Disponible");
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_oeuf)
+            ->setArticle($article)
+            ->setQuantity(1)
+            ->setType("Unit");
+        $manager->persist($recipe);
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_gros_sel)
+            ->setArticle($article)
+            ->setQuantity(1)
+            ->setType("g");
+        $manager->persist($recipe);
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_farine)
+            ->setArticle($article)
+            ->setQuantity(1)
+            ->setType("g");
+        $manager->persist($recipe);
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_saucisse)
+            ->setArticle($article)
+            ->setQuantity(100)
+            ->setType("g");
+        $manager->persist($recipe);
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_bacon)
+            ->setArticle($article)
+            ->setQuantity(150)
+            ->setType("g");
+        $manager->persist($recipe);
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_beurre)
+            ->setArticle($article)
+            ->setQuantity(10)
+            ->setType("g");
+        $manager->persist($recipe);
+        $manager->persist($article);
+
+
+
+
+
+
+        $article = new Article();
+        $article
+            ->setName("Brunch anglais")
+            ->setDescription("Description d'une ".$article->getName())
+            ->setSubCategory($sub_category_brunch)
+            ->setPrice(11.30)
+            ->setVat($article->getPrice() * 0.20)
+            ->setStatus("Disponible");
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_oeuf)
+            ->setArticle($article)
+            ->setQuantity(2)
+            ->setType("Unit");
+        $manager->persist($recipe);
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_sel)
+            ->setArticle($article)
+            ->setQuantity(5)
+            ->setType("g");
+        $manager->persist($recipe);
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_saucisse)
+            ->setArticle($article)
+            ->setQuantity(200)
+            ->setType("g");
+        $manager->persist($recipe);
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_bacon)
+            ->setArticle($article)
+            ->setQuantity(100)
+            ->setType("g");
+        $manager->persist($recipe);
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_haricot)
+            ->setArticle($article)
+            ->setQuantity(150)
+            ->setType("g");
+        $manager->persist($recipe);
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_champignon)
+            ->setArticle($article)
+            ->setQuantity(50)
+            ->setType("g");
+        $manager->persist($recipe);
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_tranche_pain)
+            ->setArticle($article)
+            ->setQuantity(100)
+            ->setType("g");
+        $manager->persist($recipe);
+        $manager->persist($article);
+
+
+
+
+
+
+        $article = new Article();
+        $article
+            ->setName("Brunch français")
+            ->setDescription("Description d'une ".$article->getName())
+            ->setSubCategory($sub_category_brunch)
+            ->setPrice(13.30)
+            ->setVat($article->getPrice() * 0.20)
+            ->setStatus("Disponible");
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_oeuf)
+            ->setArticle($article)
+            ->setQuantity(2)
+            ->setType("Unit");
+        $manager->persist($recipe);
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_sel)
+            ->setArticle($article)
+            ->setQuantity(5)
+            ->setType("g");
+        $manager->persist($recipe);
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_jambon_pays)
+            ->setArticle($article)
+            ->setQuantity(100)
+            ->setType("g");
+        $manager->persist($recipe);
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_jambon_pays)
+            ->setArticle($article)
+            ->setQuantity(100)
+            ->setType("g");
+        $manager->persist($recipe);
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_mouillette)
+            ->setArticle($article)
+            ->setQuantity(300)
+            ->setType("g");
+        $manager->persist($recipe);
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_champignon)
+            ->setArticle($article)
+            ->setQuantity(50)
+            ->setType("g");
+        $manager->persist($recipe);
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_salade)
+            ->setArticle($article)
+            ->setQuantity(50)
+            ->setType("g");
+        $manager->persist($recipe);
+        $manager->persist($article);
+
+
+
+
+
+
+        $article = new Article();
+        $article
+            ->setName("Brunch allemand")
+            ->setDescription("Description d'une ".$article->getName())
+            ->setSubCategory($sub_category_brunch)
+            ->setPrice(14.30)
+            ->setVat($article->getPrice() * 0.20)
+            ->setStatus("Disponible");
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_oeuf)
+            ->setArticle($article)
+            ->setQuantity(1)
+            ->setType("Unit");
+        $manager->persist($recipe);
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_sel)
+            ->setArticle($article)
+            ->setQuantity(5)
+            ->setType("g");
+        $manager->persist($recipe);
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_salami)
+            ->setArticle($article)
+            ->setQuantity(200)
+            ->setType("g");
+        $manager->persist($recipe);
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_saucisse_allemande)
+            ->setArticle($article)
+            ->setQuantity(200)
+            ->setType("g");
+        $manager->persist($recipe);
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_mouillette)
+            ->setArticle($article)
+            ->setQuantity(300)
+            ->setType("g");
+        $manager->persist($recipe);
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_tomate)
+            ->setArticle($article)
+            ->setQuantity(50)
+            ->setType("g");
+        $manager->persist($recipe);
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_salade)
+            ->setArticle($article)
+            ->setQuantity(50)
+            ->setType("g");
+        $manager->persist($recipe);
+
+        $recipe = new Recipe();
+        $recipe
+            ->setProduct($product_fromage_local)
+            ->setArticle($article)
+            ->setQuantity(50)
+            ->setType("g");
+        $manager->persist($recipe);
+        $manager->persist($article);
+
+
+
+
+
+
+
+
+
+
+
+
         $manager->flush();
     }
 }

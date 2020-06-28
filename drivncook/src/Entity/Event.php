@@ -23,6 +23,11 @@ class Event
     private $id;
 
     /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $complete_address;
+
+    /**
      * @ORM\Column(type="string", length=100)
      */
     private $name;
@@ -84,6 +89,24 @@ class Event
     {
         return $this->id;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getCompleteAddress()
+    {
+        return $this->complete_address;
+    }
+
+    /**
+     * @param mixed $complete_address
+     */
+    public function setCompleteAddress($complete_address): void
+    {
+        $this->complete_address = $complete_address;
+    }
+
+
 
     public function getName(): ?string
     {
