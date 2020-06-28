@@ -132,7 +132,12 @@ class PaymentController extends AbstractController
             $manager->flush();
 
             $this->addFlash("success", "Vous avez ajouté un nouveau moyen de paiement.");
-            return $this->redirectToRoute("franchise_profil");
+            if ($user instanceof Franchise) {
+                return $this->redirectToRoute("franchise_profil");
+            } elseif ($user instanceof  User) {
+                return $this->redirectToRoute("customer_profil");
+            }
+
         }
 
         return $this->render("payment/credit_card.html.twig", [
@@ -147,6 +152,7 @@ class PaymentController extends AbstractController
      */
     public function credit_card_edit($id, Request $request) {
         $manager = $this->getDoctrine()->getManager();
+        $user = $this->getUser();
         $credit_card = $manager->getRepository(CreditCard::class)->find($id);
         $form = $this->createForm(CreditCardType::class, $credit_card);
 
@@ -160,7 +166,13 @@ class PaymentController extends AbstractController
             $manager->flush();
 
             $this->addFlash("primary", "Vous avez modifié vos informations relatives à vos moyens de paiement.");
-            return $this->redirectToRoute("franchise_profil");
+
+            if ($user instanceof Franchise) {
+                return $this->redirectToRoute("franchise_profil");
+            } elseif ($user instanceof  User) {
+                return $this->redirectToRoute("customer_profil");
+            }
+
         }
 
         return $this->render("payment/credit_card.html.twig", [
@@ -174,12 +186,17 @@ class PaymentController extends AbstractController
      */
     public function credit_card_delete($id, Request $request) {
         $manager = $this->getDoctrine()->getManager();
+        $user = $this->getUser();
         $credit_card = $manager->getRepository(CreditCard::class)->find($id);
         $manager->remove($credit_card);
         $manager->flush();
 
         $this->addFlash("danger", "Vous avez supprimé un moyen de paiement.");
-        return $this->redirectToRoute("franchise_profil");
+        if ($user instanceof Franchise) {
+            return $this->redirectToRoute("franchise_profil");
+        } elseif ($user instanceof  User) {
+            return $this->redirectToRoute("customer_profil");
+        }
     }
 
 }
