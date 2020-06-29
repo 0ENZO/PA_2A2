@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controller;
 
 use App\Entity\Article;
@@ -269,8 +270,8 @@ class AdminController extends AbstractController
     //GESTION EVENTS
 
     /**
-    * @Route("/event", name="admin_event_show")
-    */
+     * @Route("/event", name="admin_event_show")
+     */
     public function event_show(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
@@ -581,9 +582,12 @@ class AdminController extends AbstractController
         $warehouses = $manager->getRepository(Warehouse::class)->findAll();
 
         return $this->render("admin/warehouses_menu.html.twig", [
-            "warehouses" =>$warehouses
+            "warehouses" => $warehouses
         ]);
     }
+
+
+
 
 
     /**
@@ -644,13 +648,46 @@ class AdminController extends AbstractController
         $add_warehouse_stock_form->remove("warehouse");
         $add_warehouse_stock_form->handleRequest($request);
 
-        if ($add_warehouse_stock_form->isSubmitted() and $add_warehouse_stock_form->isValid()) {
-            $manager->persist($warehouse_stock);
-            $manager->flush();
 
-            $this->addFlash("success", "Vous avez ajouté un nouveau produit à cet entrepôt.");
-            return $this->redirectToRoute("admin_warehouse_show", ["name" => $name]);
+        if ($add_warehouse_stock_form->isSubmitted() and $add_warehouse_stock_form->isValid()) {
+
+            // TODO : Faire une fonction pour la vérification de quantité et l'utiliser partout
+
+            $involved_category = $warehouse_stock->getProduct()->getSubCategory()->getCategory()->getName();
+            $involved_quantity = $warehouse_stock->getQuantity();
+            if ($involved_category === 'Ingrédients') {
+                $actual_quantity = $nb_ingredients;
+                $max_quantity = $nb_max_ingredients;
+            }
+            elseif ($category === "Boissons") {
+                $actual_quantity = $nb_drinks;
+                $max_quantity = $nb_max_drinks;
+            }
+            elseif ($category === "Desserts") {
+                $actual_quantity = $nb_desserts;
+                $max_quantity = $nb_max_desserts;
+            }
+            elseif ($involved_category === 'Repas') {
+                $actual_quantity = $nb_meals;
+                $max_quantity = $nb_max_meals;
+            }
+            else {
+                $this->addFlash("danger", "Une erreur est survenue. Veuillez réésayer utltérieusement");
+                return $this->redirectToRoute("admin_warehouse_show", ["name" => $name]);
+            }
+
+            if ($involved_quantity + $actual_quantity > $max_quantity) {
+                $this->addFlash("danger", "Impossible de rajouté plus de produits de cette catégorie : Il n'y a pas assez de place pour la quantité que vous avez entré !");
+                return $this->redirectToRoute('admin_warehouse_show', ["name" => $name]);
+            } else {
+                $manager->persist($warehouse_stock);
+                $manager->flush();
+                $this->addFlash("success", "Vous avez ajouté un nouveau produit à cet entrepôt.");
+                return $this->redirectToRoute("admin_warehouse_show", ["name" => $name]);
+            }
         }
+
+        // TODO : Ne pas oublier de faire l'édition d'un entrepôt
 
 
         return $this->render("admin/warehouse.html.twig", [
@@ -666,20 +703,18 @@ class AdminController extends AbstractController
             "nb_max_desserts" => $nb_max_desserts,
             "nb_max_meals" => $nb_max_meals,
             "nb_products" => $nb_products,
-            "nb_max_products" => $nb_max_products
+            "nb_max_products" => $nb_max_products,
         ]);
     }
 
 
 
-
-
-
-
+    
     /**
      * @Route("warehouse/edit/{name}", name="admin_warehouse_edit")
      */
-    public function admin_warehouse_edit($name, Request $request) {
+    public function admin_warehouse_edit($name, Request $request)
+    {
 
         $manager = $this->getDoctrine()->getManager();
         $warehouse = $manager->getRepository(Warehouse::class)->findOneBy(["name" => $name]);
@@ -699,15 +734,12 @@ class AdminController extends AbstractController
     }
 
 
-    public function admin_warehouse_stock_edit($id, Request $request) {
-
-    }
-
 
     /**
      * @Route("warehouse/{name}/stock/delete/{id}", name="admin_warehouse_stock_delete")
      */
-    public function admin_warehouse_stock_delete($name ,$id, Request $request) {
+    public function admin_warehouse_stock_delete($name, $id, Request $request)
+    {
 
         $manager = $this->getDoctrine()->getManager();
         $warehouse_stock = $manager->getRepository(WarehouseStock::class)->find($id);
@@ -728,7 +760,8 @@ class AdminController extends AbstractController
     /**
      * @Route("/articles", name="admin_article_show")
      */
-    public function admin_article_show(Request $request) {
+    public function admin_article_show(Request $request)
+    {
 
         $manager = $this->getDoctrine()->getManager();
         $articles = $manager->getRepository(Article::class)->findAll();
@@ -766,7 +799,8 @@ class AdminController extends AbstractController
     /**
      * @Route("/article/edit/{id}", name="admin_article_edit")
      */
-    public function admin_article_edit($id, Request $request) {
+    public function admin_article_edit($id, Request $request)
+    {
         $manager = $this->getDoctrine()->getManager();
         $article = $manager->getRepository(Article::class)->find($id);
         $recipes = $article->getRecipes();
@@ -800,7 +834,8 @@ class AdminController extends AbstractController
     /**
      * @Route("/article/delete/{id}", name="admin_article_delete")
      */
-    public function admin_article_delete($id, Request $request) {
+    public function admin_article_delete($id, Request $request)
+    {
         $manager = $this->getDoctrine()->getManager();
         $article = $manager->getRepository(Article::class)->find($id);
 
@@ -821,7 +856,8 @@ class AdminController extends AbstractController
     /**
      * @Route("/max-capacity", name="admin_max_capacity_show")
      */
-    public function admin_max_capacity_show(Request $request) {
+    public function admin_max_capacity_show(Request $request)
+    {
         $manager = $this->getDoctrine()->getManager();
 
         $max_capacities = $manager->getRepository(MaxCapacity::class)->findAll();
@@ -857,6 +893,7 @@ class AdminController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() and $form->isValid()) {
+
             $manager->flush();
 
             $this->addFlash("primary", "Une capacité maximale a été modifiée.");
@@ -883,7 +920,6 @@ class AdminController extends AbstractController
         $this->addFlash("danger", "La capacité maximale que vous avez sélectionné a été supprimée");
         return $this->redirectToRoute("admin_max_capacity_show");
     }
-
 
 
 }
