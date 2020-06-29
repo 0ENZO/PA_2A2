@@ -2,6 +2,8 @@
 namespace App\Controller;
 
 use App\Entity\Article;
+use App\Entity\Breakdown;
+use App\Entity\BreakdownType;
 use App\Entity\Category;
 use App\Entity\Franchise;
 use App\Entity\MaxCapacity;
@@ -11,10 +13,13 @@ use App\Entity\Truck;
 use App\Entity\User;
 use App\Entity\Role;
 use App\Entity\Event;
+use App\Entity\ReportBreakdown;
 use App\Entity\Warehouse;
 
 use App\Entity\WarehouseStock;
 use App\Form\ArticleType;
+use App\Form\BreakdownsType;
+use App\Form\BreakdownTypeType;
 use App\Form\CategoryType;
 use App\Form\FranchiseType;
 use App\Form\MaxCapacityType;
@@ -23,10 +28,13 @@ use App\Form\TruckType;
 use App\Form\SubCategoryType;
 use App\Form\UserType;
 use App\Form\EventType;
-
+use App\Form\ReportBreakdownType;
 use App\Form\WarehouseStockType;
 use App\Form\WarehouseType;
+use App\Repository\BreakdownRepository;
+use App\Repository\BreakdownTypeRepository;
 use App\Repository\FranchiseRepository;
+use App\Repository\ReportBreakdownRepository;
 use App\Repository\TruckRepository;
 use App\Repository\UserRepository;
 use App\Repository\RoleRepository;
@@ -789,11 +797,6 @@ class AdminController extends AbstractController
         return $this->redirectToRoute("admin_article_show");
     }
 
-
-
-
-
-
     // CAPACITES MAX
 
     /**
@@ -863,5 +866,147 @@ class AdminController extends AbstractController
     }
 
 
+    // Pannes camions
 
+    /**
+     * @Route("/pannes", name="admin_breakdown_show")
+     */
+    public function admin_breakdown_show(Request $request, BreakdownRepository $breakdownRepository, BreakdownTypeRepository $breakdownTypeRepository, ReportBreakdownRepository $reportBreakdownRepository)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $breakdownTypes = $breakdownTypeRepository->findAll();
+        $breakdowns = $breakdownRepository->findAll();
+
+        $breakdown = new Breakdown();
+        $breakdownType = new BreakdownType();
+
+        $form_breakdown = $this->createForm(BreakdownsType::class, $breakdown);
+        $form_breakdown->handleRequest($request);
+
+        if ($form_breakdown->isSubmitted() and $form_breakdown->isValid()) {
+            $em->persist($breakdown);
+            $em->flush();
+
+            $this->addFlash("primary", "Un type de panne a été ajouté");
+            return $this->redirectToRoute("admin_breakdown_show");
+        }
+
+        $form_breakdownType = $this->createForm(BreakdownTypeType::class, $breakdownType);
+        $form_breakdownType->handleRequest($request);
+
+        if ($form_breakdownType->isSubmitted() and $form_breakdownType->isValid()) {
+            $em->persist($breakdownType);
+            $em->flush();
+
+            $this->addFlash("primary", "Une panne a été ajouté");
+            return $this->redirectToRoute("admin_breakdown_show");
+        }
+
+
+        return $this->render('admin/breakdown/show.html.twig', [
+            'breakdownTypes' => $breakdownTypes,
+            'breakdowns' => $breakdowns,
+            'form_breakdown' => $form_breakdown->createView(),
+            'form_breakdownType' => $form_breakdownType->createView()
+        ]);
+    }
+
+    /**
+     * @Route("/panne_type/{id}", name="admin_breakdownType_edit", requirements={"id"="\d+"})
+     */
+    public function admin_breakdownType_edit(Request $request, $id, BreakdownTypeRepository $breakdownTypeRepository)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $breakdownType = $breakdownTypeRepository->findOneById($id);
+        $form = $this->createForm(BreakdownTypeType::class, $breakdownType);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+            $em->flush();
+            $this->addFlash("primary", "La panne type a été modifiée");
+            return $this->redirectToRoute("admin_breakdown_show");
+        }
+
+        return $this->render('admin/breakdown/breakdownType/edit.html.twig', [
+            'form' => $form->createView()
+        ]);
+    }
+
+    /**
+     * @Route("/panne_type/supprimer/{id}", name="admin_breakdownType_delete", requirements={"id"="\d+"})
+     */
+    public function admin_breakdownType_delete($id, Request $request, BreakdownTypeRepository $breakdownTypeRepository)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $breakdownType = $breakdownTypeRepository->findOneBy($id);
+
+        $em->remove($breakdownType);
+        $em->flush();
+
+        $this->addFlash("danger", "La panne type a été supprimée");
+        return $this->redirectToRoute("admin_breakdown_show");
+    }
+
+    /**
+     * @Route("/panne/{id}", name="admin_breakdown_edit", requirements={"id"="\d+"})
+     */
+    public function admin_breakdown_edit(Request $request, $id, BreakdownRepository $breakdownRepository)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $breakdown = $breakdownRepository->findOneById($id);
+        $form = $this->createForm(BreakdownsType::class, $breakdown);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+            $em->flush();
+            $this->addFlash("primary", "La panne type a été modifiée");
+            return $this->redirectToRoute("admin_breakdown_show");
+        }
+
+        return $this->render('admin/breakdown/breakdownType/edit.html.twig', [
+            'form' => $form->createView()
+        ]);
+    }
+
+    /**
+     * @Route("/panne/supprimer/{id}", name="admin_breakdown_delete", requirements={"id"="\d+"})
+     */
+    public function admin_breakdown_delete($id, Request $request, BreakdownRepository $breakdownRepository)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $breakdown = $breakdownRepository->findOneBy($id);
+
+        $em->remove($breakdown);
+        $em->flush();
+
+        $this->addFlash("danger", "La panne a été supprimée");
+        return $this->redirectToRoute("admin_breakdown_show");
+    }
+
+    /**
+     * @Route("/SAV", name="admin_reportBreakdown_show")
+     */
+    public function admin_reportBreakdown_show(Request $request, ReportBreakdownRepository $reportBreakdownRepository)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $reportBreakdowns = $reportBreakdownRepository->findAll();
+
+        $report = new ReportBreakdown();
+
+        $form = $this->createForm(ReportBreakdownType::class, $report);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() and $form->isValid()) {
+            $em->persist($report);
+            $em->flush();
+
+            $this->addFlash("primary", "Une nouvelle panne a été enregistrée");
+            return $this->redirectToRoute("admin_reportBreakdown_show");
+        }
+
+        return $this->render('admin/breakdown/report_show.html.twig', [
+            'reportBreakdowns' => $reportBreakdowns,
+            'form' => $form->createView()
+        ]);
+    }
 }
