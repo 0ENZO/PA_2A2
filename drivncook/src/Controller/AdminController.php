@@ -659,11 +659,11 @@ class AdminController extends AbstractController
                 $actual_quantity = $nb_ingredients;
                 $max_quantity = $nb_max_ingredients;
             }
-            elseif ($category === "Boissons") {
+            elseif ($involved_category === 'Boissons') {
                 $actual_quantity = $nb_drinks;
                 $max_quantity = $nb_max_drinks;
             }
-            elseif ($category === "Desserts") {
+            elseif ($involved_category === 'Desserts') {
                 $actual_quantity = $nb_desserts;
                 $max_quantity = $nb_max_desserts;
             }
@@ -709,7 +709,7 @@ class AdminController extends AbstractController
 
 
 
-    
+
     /**
      * @Route("warehouse/edit/{name}", name="admin_warehouse_edit")
      */
