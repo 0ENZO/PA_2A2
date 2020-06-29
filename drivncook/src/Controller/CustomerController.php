@@ -22,6 +22,8 @@ class CustomerController extends AbstractController
         $user = $this->getUser();
         $credit_cards = $manager->getRepository(CreditCard::class)->findBy(["user" => $user]);
 
+
+
         $form = $this->createForm(UserType::class, $user);
         $form->remove("Role");
 

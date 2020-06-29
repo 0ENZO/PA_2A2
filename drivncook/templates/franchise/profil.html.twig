@@ -295,7 +295,8 @@
                                                 <tbody>
                                                 <tr>
                                                     <td>Numéro de carte</td>
-                                                    <td>{{ credit_card.cardNumber }}</td>
+                                                    {% set arrayCBN = credit_card.cardNumber | split('', 4) %}
+                                                    <td>{{ arrayCBN[0] }} - {{ arrayCBN[1] }} - {{ arrayCBN[2] }} - {{ arrayCBN[3] }}</td>
                                                 </tr>
                                                 <tr>
                                                     <td>Date d'expiration</td>
