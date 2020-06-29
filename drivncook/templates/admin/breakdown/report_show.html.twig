@@ -1,0 +1,93 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}SAV{% endblock %}
+
+{% block body %}
+
+    <div class="container mt-5">
+
+        <button class="btn btn-primary rounded-circlez mb-3" id="button_add_reportBreakdown" data-toggle="modal" data-target="#add_reportBreakdown">
+            <span class="fa fa-plus mr-2"></span>Déclarer une panne
+        </button>
+
+        <a href="{{ path('admin_show') }}" class="btn btn-outline-dark mb-3">Retour au menu administrateur</a>
+
+        <h4 class="text-center mt-2">Pannes déclarées</h4>
+        <table class="table mt-4">
+            <thead class="thead-dark">
+                <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Camion</th>
+                <th scope="col">Panne</th>
+                <th scope="col">Description</th>
+                <th scope="col">Date</th>
+                <th scope="col">Statut</th>
+                <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for reportBreakdown in reportBreakdowns %}
+                    <tr>
+                        <th scope="row">{{ reportBreakdown.id}}</th>
+                        <td>{{ reportBreakdown.truck }}</td>
+                        <td>{{ reportBreakdown.breakdown }}</td>
+                        <td>{{ reportBreakdown.description }}</td>
+                        <td>{{ reportBreakdown.date|date("d/m/Y") }}</td>
+                        <td>{{ reportBreakdown.status }}</td>
+
+                        <td>
+                            <a class="mr-2" data-toggle="tooltip" data-placement="top" title="Modifier" href="{{ path('admin_breakdownType_edit', { 'id': reportBreakdown.id}) }}">
+                                <i class="fas fa-pen"></i>
+                            </a>
+                            <a href="#" data-href="{{ path('admin_breakdownType_delete', { 'id': reportBreakdown.id}) }}" class="mr-2" data-placement="bottom" 
+                            title="Supprimer" data-toggle="modal" data-target="#delete_breakdownType">
+                                <i class="fas fa-trash-alt"></i>
+                            </a> 
+                            <a href="{{ path('show_breakdown', { 'id': reportBreakdown.id}) }}" class="" data-placement="bottom" title="Voir">
+                                <i class="far fa-eye"></i>
+                            </a>  
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="modal fade" id="delete_reportBreakdown" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        Supprimer une panne
+                    </div>
+                    <div class="modal-body">
+                        Êtes-vous sûr de vouloir supprimer cette panne ?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Fermer</button>
+                        <a class="btn btn-danger btn-ok text-white">Supprimer</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="add_reportBreakdown" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header d-flex align-items-center">
+                        <h4 class="modal-title mb-0" id="add_reportBreakdown">Déclarer une panne</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true"><i class="fas fa-times"></i></span>
+                        </button>
+                    </div>
+                    <div class="modal-body bg-body">
+                        {{ form_start(form) }}
+                            {{ form_widget(form) }}
+                        {{ form_end(form) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    
+{% endblock %}
+

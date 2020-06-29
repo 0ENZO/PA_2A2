@@ -28,13 +28,6 @@ class ProductController extends AbstractController
      */
     public function index(ProductRepository $productRepository,  WarehouseRepository $warehouseRepository, $id, Request $request, SessionInterface $session)
     { 
-        /*
-        $pagination = $paginator->paginate(
-            $productRepository->findAllQuery(),
-            $request->query->getInt('page', 1),
-            10
-        );
-        */
 
         $data = new SearchData();
         $data->page = $request->get('page', 1);
@@ -61,7 +54,6 @@ class ProductController extends AbstractController
             'products' => $products,
             'warehouse' => $warehouse,
             'form' => $form->createView()
-            // 'pagination' => $pagination
         ]);
     
     }

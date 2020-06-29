@@ -130,12 +130,18 @@ class User implements UserInterface
      */
     private $rewards;
 
+    /**
+     * @ORM\OneToMany(targetEntity=AnswerReportBreakdown::class, mappedBy="user")
+     */
+    private $answerReportBreakdowns;
+
     public function __construct()
     {
         $this->creditCards = new ArrayCollection();
         $this->userOrders = new ArrayCollection();
         $this->votes = new ArrayCollection();
         $this->rewards = new ArrayCollection();
+        $this->answerReportBreakdowns = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -511,6 +517,37 @@ class User implements UserInterface
         if ($this->rewards->contains($reward)) {
             $this->rewards->removeElement($reward);
             $reward->removeUser($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|AnswerReportBreakdown[]
+     */
+    public function getAnswerReportBreakdowns(): Collection
+    {
+        return $this->answerReportBreakdowns;
+    }
+
+    public function addAnswerReportBreakdown(AnswerReportBreakdown $answerReportBreakdown): self
+    {
+        if (!$this->answerReportBreakdowns->contains($answerReportBreakdown)) {
+            $this->answerReportBreakdowns[] = $answerReportBreakdown;
+            $answerReportBreakdown->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAnswerReportBreakdown(AnswerReportBreakdown $answerReportBreakdown): self
+    {
+        if ($this->answerReportBreakdowns->contains($answerReportBreakdown)) {
+            $this->answerReportBreakdowns->removeElement($answerReportBreakdown);
+            // set the owning side to null (unless already changed)
+            if ($answerReportBreakdown->getUser() === $this) {
+                $answerReportBreakdown->setUser(null);
+            }
         }
 
         return $this;

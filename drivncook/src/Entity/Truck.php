@@ -65,10 +65,16 @@ class Truck
      */
     private $maintenanceManuals;
 
+    /**
+     * @ORM\OneToMany(targetEntity=ReportBreakdown::class, mappedBy="truck")
+     */
+    private $reportBreakdowns;
+
     public function __construct()
     {
         $this->technicalControls = new ArrayCollection();
         $this->maintenanceManuals = new ArrayCollection();
+        $this->reportBreakdowns = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -231,5 +237,36 @@ class Truck
     public function __toString()
     {
         return $this->brand . $this->model;
+    }
+
+    /**
+     * @return Collection|ReportBreakdown[]
+     */
+    public function getReportBreakdowns(): Collection
+    {
+        return $this->reportBreakdowns;
+    }
+
+    public function addReportBreakdown(ReportBreakdown $reportBreakdown): self
+    {
+        if (!$this->reportBreakdowns->contains($reportBreakdown)) {
+            $this->reportBreakdowns[] = $reportBreakdown;
+            $reportBreakdown->setTruck($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReportBreakdown(ReportBreakdown $reportBreakdown): self
+    {
+        if ($this->reportBreakdowns->contains($reportBreakdown)) {
+            $this->reportBreakdowns->removeElement($reportBreakdown);
+            // set the owning side to null (unless already changed)
+            if ($reportBreakdown->getTruck() === $this) {
+                $reportBreakdown->setTruck(null);
+            }
+        }
+
+        return $this;
     }
 }

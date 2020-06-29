@@ -30,7 +30,11 @@
                 {% for truck in trucks %}
                     <tr>
                         <th scope="row">{{ truck.id}}</th>
-                        <td>{{ truck.id }}</td>
+                        {% if truck.franchise is defined and truck.franchise is not null %}
+                            <td>{{ truck.franchise }}</td>
+                        {% else %}
+                            <td>Pas assigné</td>
+                        {% endif %}
                         <td>{{ truck.maxCapacity }}</td>
                         <td>{{ truck.brand}}</td>
                         <td>{{ truck.model }}</td>
@@ -42,7 +46,7 @@
                             title="Supprimer" data-toggle="modal" data-target="#delete_truck">
                                 <i class="fas fa-trash-alt"></i>
                             </a>  
-                            <a href="" data-toggle="tooltip" data-placement="bottom" title="Assigner">
+                            <a href="{{ path('assign_truck', {'idTruck' : truck.id}) }}" data-toggle="tooltip" data-placement="bottom" title="Assigner" data-toggle="modal" data-target="#assign_truck">
                                 <i class="fas fa-reply"></i>
                             </a>
                         </td>
