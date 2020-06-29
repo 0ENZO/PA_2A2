@@ -4,9 +4,12 @@ namespace App\Entity;
 
 use App\Repository\CreditCardRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=CreditCardRepository::class)
+ * @UniqueEntity(fields={"cardNumber"}, message="Cette carte bancaire existe déjà.")
  */
 class CreditCard
 {
@@ -19,21 +22,53 @@ class CreditCard
 
     /**
      * @ORM\Column(type="string", length=16)
+     * @Assert\Regex(
+     *     pattern="/^[0-9]*$/",
+     *     match=true,
+     *     message="Vous ne pouver mettre ques des chiffres dans ce champs"
+     * )
+     * @Assert\Length(
+     *     min="16",
+     *     minMessage="Vous devez mettre un nombre à 16 chiffres, correspondant aux chiffres de votre carte bancaire",
+     *     max="16",
+     *     maxMessage="Vous devez mettre un nombre à 16 chiffres, correspondant aux chiffres de votre carte bancaire"
+     * )
      */
     private $cardNumber;
 
     /**
      * @ORM\Column(type="date")
+     * @Assert\GreaterThanOrEqual(
+     *     "today UTC",
+     *     message="Vous devez disposez d'une carte valide : La date limite maximum accepté étant celle d'aujourd'hui"
+     * )
      */
     private $expirationDate;
 
     /**
      * @ORM\Column(type="string", length=3)
+     * @Assert\Regex(
+     *     pattern="/^[0-9]*$/",
+     *     match=true,
+     *     message="Vous ne pouver mettre ques des chiffres dans ce champs"
+     * )
+     * @Assert\Length(
+     *     min="3",
+     *     minMessage="Vous devez mettre un nombre à 3 chiffres exactement, correspondant aux chiffres au dos de votre carte bancaire",
+     *     max="3",
+     *     maxMessage="Vous devez mettre un nombre à 3 chiffres exactement, correspondant aux chiffres au dos votre carte bancaire"
+     * )
      */
     private $verificationCode;
 
     /**
      * @ORM\Column(type="string", length=100)
+     * @Assert\Regex(
+     *     pattern="/^[a-zA-Z\s]*$/",
+     *     match=true,
+     *     message="Vous ne pouvez pas mettre de chiffres dans ce champs",
+     *     normalizer="trim"
+     * )
      */
     private $name;
 
