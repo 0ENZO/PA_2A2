@@ -18,14 +18,77 @@ use Symfony\Component\Routing\Annotation\Route;
 class AdminWarehouseController extends AbstractController
 {
 
+    // Fonctions utiles pour les fonctions du Controller
+
+    /**
+     * @param $warehouse
+     * @return array
+     * Description : Ratourne un tableau associatif de toutes quantités relatives à l'entrepôt passé en paramètre
+     */
+    private function getWarehouseCurrentCapacity($warehouse) : array {
+
+        $manager = $this->getDoctrine()->getManager();
+        $warehouse = $manager->getRepository(Warehouse::class)->find($warehouse);
+        $stock = $manager->getRepository(WarehouseStock::class)->findBy(["warehouse" => $warehouse]);
+
+        $nb_ingredients = 0;
+        $nb_drinks = 0;
+        $nb_desserts = 0;
+        $nb_meals = 0;
+        $nb_products = 0;
+
+        foreach ($stock as $product) {
+
+            $category = $product->getProduct()->getSubCategory()->getCategory()->getName();
+            $quantity = $product->getQuantity();
+
+            $nb_products += $quantity;
+
+            if ($category == "Ingrédients") {
+                $nb_ingredients += $quantity;
+            } elseif ($category === "Boissons") {
+                $nb_drinks += $quantity;
+            } elseif ($category === "Desserts") {
+                $nb_desserts += $quantity;
+            } elseif ($category === "Repas") {
+                $nb_meals += $quantity;
+            } else
+                continue; // Aucune catégories trouvées
+        }
+
+        $array = [
+            "nb_max_ingredients" => $warehouse->getMaxCapacity()->getMaxIngredients(),
+            "nb_max_drinks" => $warehouse->getMaxCapacity()->getMaxDrinks(),
+            "nb_max_desserts" => $warehouse->getMaxCapacity()->getMaxDesserts(),
+            "nb_max_meals" => $warehouse->getMaxCapacity()->getMaxMeals(),
+            "nb_max_products" =>
+                $warehouse->getMaxCapacity()->getMaxIngredients() +
+                $warehouse->getMaxCapacity()->getMaxDrinks() +
+                $warehouse->getMaxCapacity()->getMaxDesserts() +
+                $warehouse->getMaxCapacity()->getMaxMeals(),
+            "nb_ingredients" => $nb_ingredients,
+            "nb_drinks" => $nb_drinks,
+            "nb_desserts" => $nb_desserts,
+            "nb_meals" => $nb_meals,
+            "nb_products" => $nb_products
+        ];
+
+        return $array;
+    }
+
+
+
+
+
+
+
+    // Fonctions controller
+
     /**
      * @Route("/warehouse", name="admin_warehouse_menu")
      */
     public function admin_warehouse_menu()
     {
-
-        // TODO : Mettre le nombre de produits exactes / nombre max de produits
-
         $manager = $this->getDoctrine()->getManager();
         $warehouses = $manager->getRepository(Warehouse::class)->findAll();
 
@@ -33,9 +96,6 @@ class AdminWarehouseController extends AbstractController
             "warehouses" => $warehouses
         ]);
     }
-
-
-
 
 
     /**
@@ -47,56 +107,14 @@ class AdminWarehouseController extends AbstractController
         $warehouse = $manager->getRepository(Warehouse::class)->findOneBy(["name" => $name]);
         $stock = $manager->getRepository(WarehouseStock::class)->findBy(["warehouse" => $warehouse]);
 
+        $warehouseData = $this->getWarehouseCurrentCapacity($warehouse);
 
-        // Récuprations des quantité maximales de stockage par catégories + total des quantités max
-        $nb_max_ingredients = $warehouse->getMaxCapacity()->getMaxIngredients();
-        $nb_max_drinks = $warehouse->getMaxCapacity()->getMaxDrinks();
-        $nb_max_desserts = $warehouse->getMaxCapacity()->getMaxDesserts();
-        $nb_max_meals = $warehouse->getMaxCapacity()->getMaxMeals();
-
-        $nb_max_products = $nb_max_ingredients + $nb_max_drinks + $nb_max_desserts + $nb_max_meals;
-
-        // Récupération des quantité de produits classé par catégories + total des quantités cumulées
-        $nb_ingredients = 0;
-        $nb_drinks = 0;
-        $nb_desserts = 0;
-        $nb_meals = 0;
-        $nb_products = 0;
-
-//        echo "avant boucle".$nb_ingredients."<br>";
-        foreach ($stock as $product) {
-//            echo $item." = ".$product->getProduct()->getSubCategory()->getCategory()->getName();
-//            echo "<br>";
-
-            $category = $product->getProduct()->getSubCategory()->getCategory()->getName();
-            $quantity = $product->getQuantity();
-
-//            echo $category."-".$quantity."<br>";
-
-            $nb_products += $quantity;
-
-            if ($category == "Ingrédients") {
-                $nb_ingredients += $quantity;
-//                echo "pendant la boucle pour le produit : ".$product." : ".$nb_ingredients."<br>";
-            } elseif ($category === "Boissons") {
-                $nb_drinks += $quantity;
-            } elseif ($category === "Desserts") {
-                $nb_desserts += $quantity;
-            } elseif ($category === "Repas") {
-                $nb_meals += $quantity;
-            } else
-                continue; // Aucune catégories trouvées
-        }
-//        echo "après boucle".$nb_ingredients."<br>";
-
-        // Ajout d'un produit dans l'entrepot
         $warehouse_stock = new WarehouseStock();
         $warehouse_stock->setWarehouse($warehouse);
         $add_warehouse_stock_form = $this->createForm(WarehouseStockType::class, $warehouse_stock);
         $add_warehouse_stock_form->remove("warehouse");
+
         $add_warehouse_stock_form->handleRequest($request);
-
-
         if ($add_warehouse_stock_form->isSubmitted() and $add_warehouse_stock_form->isValid()) {
 
             // TODO : Faire une fonction pour la vérification de quantité et l'utiliser partout
@@ -104,20 +122,20 @@ class AdminWarehouseController extends AbstractController
             $involved_category = $warehouse_stock->getProduct()->getSubCategory()->getCategory()->getName();
             $involved_quantity = $warehouse_stock->getQuantity();
             if ($involved_category === 'Ingrédients') {
-                $actual_quantity = $nb_ingredients;
-                $max_quantity = $nb_max_ingredients;
+                $actual_quantity = $warehouseData["nb_ingredients"];
+                $max_quantity = $warehouseData["nb_max_ingredients"];
             }
             elseif ($involved_category === 'Boissons') {
-                $actual_quantity = $nb_drinks;
-                $max_quantity = $nb_max_drinks;
+                $actual_quantity = $warehouseData["nb_drinks"];
+                $max_quantity = $warehouseData["nb_max_drinks"];
             }
             elseif ($involved_category === 'Desserts') {
-                $actual_quantity = $nb_desserts;
-                $max_quantity = $nb_max_desserts;
+                $actual_quantity = $warehouseData["nb_desserts"];
+                $max_quantity = $warehouseData["nb_max_desserts"];
             }
             elseif ($involved_category === 'Repas') {
-                $actual_quantity = $nb_meals;
-                $max_quantity = $nb_max_meals;
+                $actual_quantity = $warehouseData["nb_meals"];
+                $max_quantity = $warehouseData["nb_max_meals"];
             }
             else {
                 $this->addFlash("danger", "Une erreur est survenue. Veuillez réésayer utltérieusement");
@@ -142,16 +160,16 @@ class AdminWarehouseController extends AbstractController
             "warehouse" => $warehouse,
             "stock" => $stock,
             "add_warehouse_stock_form" => $add_warehouse_stock_form->createView(),
-            "nb_ingredients" => $nb_ingredients,
-            "nb_drinks" => $nb_drinks,
-            "nb_desserts" => $nb_desserts,
-            "nb_meals" => $nb_meals,
-            "nb_max_ingredients" => $nb_max_ingredients,
-            "nb_max_drinks" => $nb_max_drinks,
-            "nb_max_desserts" => $nb_max_desserts,
-            "nb_max_meals" => $nb_max_meals,
-            "nb_products" => $nb_products,
-            "nb_max_products" => $nb_max_products,
+            "nb_ingredients" => $warehouseData["nb_ingredients"],
+            "nb_drinks" => $warehouseData["nb_drinks"],
+            "nb_desserts" => $warehouseData["nb_desserts"],
+            "nb_meals" => $warehouseData["nb_meals"],
+            "nb_max_ingredients" => $warehouseData["nb_max_ingredients"],
+            "nb_max_drinks" => $warehouseData["nb_max_drinks"],
+            "nb_max_desserts" => $warehouseData["nb_max_desserts"],
+            "nb_max_meals" => $warehouseData["nb_max_meals"],
+            "nb_products" => $warehouseData["nb_products"],
+            "nb_max_products" => $warehouseData["nb_max_products"],
         ]);
     }
 
