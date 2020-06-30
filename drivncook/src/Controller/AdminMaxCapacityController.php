@@ -16,6 +16,10 @@ use Symfony\Component\Routing\Annotation\Route;
 class AdminMaxCapacityController extends AbstractController
 {
 
+
+    // TODO : Tout comme je l'ai fait dans entrepot : Vérifier que si on mofidie la quantité, on ne va pas en dessous de ce qu'il y a déjà en stock.
+
+
     /**
      * @Route("/max-capacity", name="admin_max_capacity_show")
      */

@@ -4,9 +4,15 @@ namespace App\Entity;
 
 use App\Repository\WarehouseStockRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=WarehouseStockRepository::class)
+ * @UniqueEntity(
+ *     fields={"warehouse", "product"},
+ *     message="Le produit est dejà présent dans cet entrepôt. Veuillez l'éditer afin d'actualiser son contenu ou le supprimer."
+ * )
  */
 class WarehouseStock
 {
@@ -31,6 +37,11 @@ class WarehouseStock
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\Regex(
+     *     pattern="/^[0-9]*$/",
+     *     match=true,
+     *     message="Vous ne pouver mettre ques des chiffres dans ce champs"
+     * )
      */
     private $quantity;
 
