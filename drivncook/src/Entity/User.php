@@ -54,12 +54,12 @@ class User implements UserInterface
     private $phoneNumber;
 
     /**
-     * @ORM\Column(type="string", length=11, nullable=true)
+     * @ORM\Column(type="integer", nullable=true)
      */
     private $euroPoints;
 
     /**
-     * @ORM\Column(type="string", length=11, nullable=true)
+     * @ORM\Column(type="integer", nullable=true)
      */
     private $formulePoints;
 
