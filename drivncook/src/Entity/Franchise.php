@@ -91,6 +91,11 @@ class Franchise implements UserInterface
     private $votes;
 
     /**
+     * @ORM\Column(type="boolean", options={"default"=0})
+     */
+    private $isActivated;
+
+    /**
      * NOTE: This is not a mapped field of entity metadata, just a simple property.
      * @Vich\UploadableField(mapping="message_image", fileNameProperty="imageName")
      * @Assert\Image(
@@ -576,4 +581,23 @@ class Franchise implements UserInterface
 
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getIsActivated()
+    {
+        return $this->isActivated;
+    }
+
+    /**
+     * @param mixed $isActivated
+     */
+    public function setIsActivated($isActivated): void
+    {
+        $this->isActivated = $isActivated;
+    }
+
+
+
 }

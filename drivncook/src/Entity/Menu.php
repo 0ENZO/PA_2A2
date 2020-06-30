@@ -191,4 +191,41 @@ class Menu
 
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * @param mixed $status
+     */
+    public function setStatus($status): self
+    {
+        $this->status = $status;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getIsLocked()
+    {
+        return $this->isLocked;
+    }
+
+    /**
+     * @param mixed $isLocked
+     */
+    public function setIsLocked($isLocked): self
+    {
+        $this->isLocked = $isLocked;
+        return $this;
+    }
+
+
+
 }

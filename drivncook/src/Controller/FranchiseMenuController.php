@@ -2,11 +2,13 @@
 
 namespace App\Controller;
 
+use App\Entity\Article;
 use App\Entity\Franchise;
+use App\Entity\Menu;
+use Doctrine\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use function Sodium\add;
 
 /**
  * @Route("/ma-franchise")
@@ -27,6 +29,56 @@ class FranchiseMenuController extends AbstractController
         else
             return false;
     }
+
+    /**
+     * @param $id
+     * @param ObjectManager $manager
+     * @return bool
+     * Description : Cherche à savoir si un franchisé est sur le marché ou pas (isActivated == 1 ou 0)
+     */
+    public function isActivated($id, ObjectManager $manager) : bool {
+        $franchise = $manager->getRepository(Franchise::class)->findOneBy(["id" => $id]);
+        if ($franchise->getIsActivated() != 0 )
+            return true;
+        else
+            false;
+    }
+
+
+    /**
+     * @return bool
+     * Description : Permet l'établissement du menu de base d'un franchisé
+     * Retourne true uniquement en cas de succès
+     */
+    private function auto_filling() : bool {
+
+        // TODO : ça fonctionne. Manque plus qu'à le rattacher à un franchisé et faire ça pour tous les articles et le mettre dans un service pour pas que ça prenne de place
+
+        $manager = $this->getDoctrine()->getManager();
+        $a_repo = $manager->getRepository(Article::class);
+        $avaiblable = "Disponible";
+        $unvailable = "Indisponible";
+
+        $menu = new Menu();
+        $menu
+            ->addArticle($a_repo->findOneBy(["name" => "Oeufs à la coque"]))
+            ->addArticle($a_repo->findOneBy(["name" => "Canette de Coca"]))
+            ->setName("Oeufs à la coque avec canette de coco izy")
+            ->setPrice(100.99)
+            ->setVat($menu->getPrice() * 0.20)
+            ->setDescription("Un oeufs à la coque avec un canette de coca à 100 balles. Du jamais vu.")
+            ->setStatus($avaiblable)
+            ->setIsLocked(1);
+
+        $manager->persist($menu);
+        $manager->flush();
+
+        return true;
+    }
+
+
+
+
 
 
 
@@ -51,7 +103,7 @@ class FranchiseMenuController extends AbstractController
 
 
     /**
-     * @Route("/{id}/auto-fill", name="menu_auto_filled")
+     * @Route("/{id}/auto-remplissage", name="menu_auto_filled")
      */
     public function menu_auto_filled($id)
     {
@@ -70,7 +122,7 @@ class FranchiseMenuController extends AbstractController
 
 
     /**
-     * @Route("/{id}/auto-fill/proccess", name="menu_auto_filled_process")
+     * @Route("/{id}/auto-remplissage/accepte", name="menu_auto_filled_process")
      */
     public function menu_auto_filled_process($id)
     {
@@ -80,7 +132,7 @@ class FranchiseMenuController extends AbstractController
         }
 
         // TODO : Fonction qui créer les menus automatiquement. Faire un `return true`
-        $performed_process = true;
+        $performed_process = $this->auto_filling();
 
         if ($performed_process) {
             $this->addFlash("success", "Les menus sont auto générés et vous êtes maintenant présent parmis la liste des franchisé actuellment en activité !");
