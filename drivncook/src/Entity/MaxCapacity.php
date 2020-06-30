@@ -6,9 +6,12 @@ use App\Repository\MaxCapacityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=MaxCapacityRepository::class)
+ * @UniqueEntity(fields={"name"}, message="Une capacité ayant ce nom est déjà prise. Veuillez en sélectionner une autre")
  */
 class MaxCapacity
 {
@@ -26,21 +29,41 @@ class MaxCapacity
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\Regex(
+     *     pattern="/^[0-9]*$/",
+     *     match=true,
+     *     message="Vous ne pouver mettre ques des chiffres dans ce champs"
+     * )
      */
     private $maxIngredients;
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\Regex(
+     *     pattern="/^[0-9]*$/",
+     *     match=true,
+     *     message="Vous ne pouver mettre ques des chiffres dans ce champs"
+     * )
      */
     private $maxDrinks;
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\Regex(
+     *     pattern="/^[0-9]*$/",
+     *     match=true,
+     *     message="Vous ne pouver mettre ques des chiffres dans ce champs"
+     * )
      */
     private $maxDesserts;
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\Regex(
+     *     pattern="/^[0-9]*$/",
+     *     match=true,
+     *     message="Vous ne pouver mettre ques des chiffres dans ce champs"
+     * )
      */
     private $maxMeals;
 
