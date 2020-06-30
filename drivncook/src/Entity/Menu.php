@@ -45,6 +45,16 @@ class Menu
     private $vat;
 
     /**
+     * @ORM\Column(type="string")
+     */
+    private $status;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isLocked;
+
+    /**
      * @ORM\OneToMany(targetEntity=RewardContent::class, mappedBy="menu")
      */
     private $rewardContents;
