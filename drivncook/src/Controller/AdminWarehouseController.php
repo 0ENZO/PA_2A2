@@ -20,6 +20,8 @@ class AdminWarehouseController extends AbstractController
 
     // Fonctions utiles pour les fonctions du Controller
 
+    // TODO : Checker les produits disponible/indisponible pour qu'un franchisé ne puisse pas commander, même si y'a du stock un produit qui serait indisponible
+
     /**
      * @param $warehouse
      * @return array
