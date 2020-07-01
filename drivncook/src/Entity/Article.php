@@ -75,7 +75,7 @@ class Article
     private $userOrderContents;
 
     /**
-     * @ORM\OneToMany(targetEntity=Recipe::class, mappedBy="article")
+     * @ORM\OneToMany(targetEntity=Recipe::class, mappedBy="article", orphanRemoval=true)
      * @Assert\Valid()
      */
     private $recipes;

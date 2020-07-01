@@ -112,7 +112,13 @@
                             </div>
 
                             <div class="tab-pane" id="pane_franchise" role="tabpanel">
-                                franchise
+
+                                <div class="text-center">
+                                    <h3 class="display-3">Ma Franchise</h3>
+                                </div>
+
+                                <a class="btn btn-primary" href="{{ path('franchise_menu', {"id" : franchise.id}) }}">Gérer ma franchise</a>
+
                             </div>
 
                             <div class="tab-pane active" id="pane_truck" role="tabpanel">
