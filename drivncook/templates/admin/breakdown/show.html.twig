@@ -4,6 +4,22 @@
 
 {% block body %}
 
+
+    <div class="container mt-3">
+        <div class="jumbotron">
+            <h1 class="display-4">{% trans %}Gestion des références de pannes{% endtrans %}</h1>
+            <p class="lead">{% trans %}C'est ici que l'on détermine les types de pannes et les pannes qui leur sont attribuées.{% endtrans %}</p>
+            <hr>
+            <div class="card-body">
+                <p>{% trans %}Les types de pannes réprésentent le niveau de gravité global d'un panne.{% endtrans %}</p>
+                <p>{% trans %}Et les pannes en question sont les différentes pannes qu'il est possible de déclarer et répertorier en fonction de son typé précédemment déclaré.{% endtrans %}</p>
+                <hr>
+                <p class="text-muted">{% trans %}Note : Les pannes de type 2 et 3 entrainent une suspenssion de l'activité du franchisé jusqu'à qu'elle soit résolue.{% endtrans %}</p>
+
+            </div>
+        </div>
+    </div>
+
     <div class="container mt-5">
 
         <button class="btn btn-primary rounded-circlez mb-3" id="button_add_breakdownType" data-toggle="modal" data-target="#add_breakdownType">
@@ -22,7 +38,6 @@
                 <th scope="col">Id</th>
                 <th scope="col">Nom</th>
                 <th scope="col">Description</th>
-                <th scope="col">Panne(s)</th>
                 <th scope="col">Actions</th>
                 </tr>
             </thead>
@@ -32,11 +47,7 @@
                         <th scope="row">{{ breakdownType.id}}</th>
                         <td>{{ breakdownType.name }}</td>
                         <td>{{ breakdownType.description }}</td>
-                        <td>
-                            {% for breakdown in breakdownType.breakdowns %}
-                                {{ (breakdown.statement|length>35)? breakdown.statement|slice(0,35)~'..' : breakdown.statement }}
-                            {% endfor %}
-                        </td>
+
                         <td>
                             <a class="mr-2" data-toggle="tooltip" data-placement="top" title="Modifier" href="{{ path('admin_breakdownType_edit', { 'id': breakdownType.id}) }}"><i class="fas fa-pen"></i></a>
                             <a href="#" data-href="{{ path('admin_breakdownType_delete', { 'id': breakdownType.id}) }}" class="" data-placement="bottom" 
@@ -66,11 +77,7 @@
                     <tr>
                         <th scope="row">{{ breakdown.id}}</th>
                         <td>{{ breakdown.statement }}</td>
-                        <td>
-                            {% for breakdownType in breakdown.breakdownType %}
-                                {{ (breakdownType|length>35)? breakdownType|slice(0,35)~'..' : breakdownType }}
-                            {% endfor %}
-                        </td>
+                        <td>{{ breakdown.breakdownType }}</td>
                         <td>
                             <a class="mr-2" data-toggle="tooltip" data-placement="top" title="Modifier" href="{{ path('admin_breakdown_edit', { 'id': breakdown.id}) }}"><i class="fas fa-pen"></i></a>
                             <a href="#" data-href="{{ path('admin_breakdown_delete', { 'id': breakdown.id}) }}" class="" data-placement="bottom"

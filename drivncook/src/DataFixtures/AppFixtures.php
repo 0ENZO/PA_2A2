@@ -3,6 +3,8 @@
 namespace App\DataFixtures;
 
 use App\Entity\Article;
+use App\Entity\Breakdown;
+use App\Entity\BreakdownType;
 use App\Entity\Category;
 use App\Entity\MaxCapacity;
 use App\Entity\Recipe;
@@ -313,6 +315,136 @@ class AppFixtures extends Fixture
             ->setPhoneNumber("0645733429")
             ->setMaxCapacity($second_warehouse_capacity);
         $manager->persist($warehouse_zeta);
+
+
+
+
+
+
+
+        // TYPES DE PANNES
+
+        $breakdown_type_1 = new BreakdownType();
+        $breakdown_type_1
+            ->setName("Urgence de type 1")
+            ->setDescription("Sont répertoriées ici les pannes n'étant pas fatales ni dérangeantes pour le franchisé ou bien le client.");
+        $manager->persist($breakdown_type_1);
+
+        $breakdown_type_2 = new BreakdownType();
+        $breakdown_type_2
+            ->setName("Urgence de type 2")
+            ->setDescription("Sont répertoriées ici les pannes nuisant un peu à l'activité du franchisé.
+             Ce genre de pannes nuit à l'activité économique du franchisé mais non à la sécurité du franchisé et / ou du client.");
+        $manager->persist($breakdown_type_2);
+
+        $breakdown_type_3 = new BreakdownType();
+        $breakdown_type_3
+            ->setName("Urgence de type 3")
+            ->setDescription("Sont répertoriées ici les pannes compromettant gravement l'activité économique du franchisé.
+            Mais aussi lorsque ces mêmes pannes compromettent la sécurité et / ou la santé du franchisé / client ");
+        $manager->persist($breakdown_type_3);
+
+
+
+
+
+
+
+
+
+        // PANNES
+
+        //... de type 1
+
+
+        $breakdown = new Breakdown();
+        $breakdown
+            ->setBreakdownType($breakdown_type_1)
+            ->setStatement("Panne de phare");
+        $manager->persist($breakdown);
+
+        $breakdown = new Breakdown();
+        $breakdown
+            ->setBreakdownType($breakdown_type_1)
+            ->setStatement("Panne de lumières");
+        $manager->persist($breakdown);
+
+        $breakdown = new Breakdown();
+        $breakdown
+            ->setBreakdownType($breakdown_type_1)
+            ->setStatement("Pannes extérieures (Egratinure au niveau de la carosserie du véhicule");
+        $manager->persist($breakdown);
+
+        $breakdown = new Breakdown();
+        $breakdown
+            ->setBreakdownType($breakdown_type_1)
+            ->setStatement("Détérioration de la peinture");
+        $manager->persist($breakdown);
+
+        //... de type 2
+
+
+        $breakdown = new Breakdown();
+        $breakdown
+            ->setBreakdownType($breakdown_type_2)
+            ->setStatement("Arrêt des fonctions motrices du véhicules");
+        $manager->persist($breakdown);
+
+        $breakdown = new Breakdown();
+        $breakdown
+            ->setBreakdownType($breakdown_type_2)
+            ->setStatement("Panne de l'appareil de cuisson");
+        $manager->persist($breakdown);
+
+        $breakdown = new Breakdown();
+        $breakdown
+            ->setBreakdownType($breakdown_type_2)
+            ->setStatement("Panne de frein");
+        $manager->persist($breakdown);
+
+        $breakdown = new Breakdown();
+        $breakdown
+            ->setBreakdownType($breakdown_type_2)
+            ->setStatement("Panne du système d'ouverture du stand / des volets");
+        $manager->persist($breakdown);
+
+        $breakdown = new Breakdown();
+        $breakdown
+            ->setBreakdownType($breakdown_type_2)
+            ->setStatement("Panne du panneau solaire");
+        $manager->persist($breakdown);
+
+        //.. de type 3
+
+        $breakdown = new Breakdown();
+        $breakdown
+            ->setBreakdownType($breakdown_type_3)
+            ->setStatement("Panne du groupe électrogène");
+        $manager->persist($breakdown);
+
+        $breakdown = new Breakdown();
+        $breakdown
+            ->setBreakdownType($breakdown_type_3)
+            ->setStatement("Arrivée d'eau défectueuse");
+        $manager->persist($breakdown);
+
+        $breakdown = new Breakdown();
+        $breakdown
+            ->setBreakdownType($breakdown_type_3)
+            ->setStatement("Panne de la caisse");
+        $manager->persist($breakdown);
+
+        $breakdown = new Breakdown();
+        $breakdown
+            ->setBreakdownType($breakdown_type_3)
+            ->setStatement("Panne moteur");
+        $manager->persist($breakdown);
+
+        $breakdown = new Breakdown();
+        $breakdown
+            ->setBreakdownType($breakdown_type_3)
+            ->setStatement("Contamination bactériologique");
+        $manager->persist($breakdown);
 
 
 
