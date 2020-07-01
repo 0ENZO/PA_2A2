@@ -6,28 +6,80 @@
 
     <div class="container mt-3">
         <div class="jumbotron">
-            <h1 class="display-4">{{'Ma franchise'|trans}}</h1>
-            <p class="lead">{{'C\'est ici qu\'est produit la moitié du sel français '|trans}}</p>
+            <h1 class="display-4">{% trans %}Ma Franchise !{% endtrans %}</h1>
+            <p class="lead">{% trans %}Voici un menu qui concerne ce que va afficher en ligne votre activité {% endtrans %}</p>
             <hr class="my-4">
-            <p>blabla</p>
+            <p>{% trans %}Si vous n'avez pas encore commencé votre activité, vous devez créer un menu
+                    basé sur l'ensemble des article de Driv'n Cook. Ce faisant, il vous suffit alors de
+                    cliquer sur le bouton correspondant afin de créer votre menu généré de façons automatique
+                    et ainsi pouvoir lancer (enfin) votre activité !{% endtrans %}</p>
+            <p>{% trans %}{% endtrans %}</p>
         </div>
     </div>
 
-{#    {{ dump(franchise) }}#}
-{#    {{ dump(test) }}#}
+    {#    {{ dump(franchise) }}#}
+    {#    {{ dump(test) }}#}
+    {#    {{ dump(menus) }}#}
 
     <div class="container">
 
         <div class="row">
-
-
-            <a href="{{ path('menu_auto_filled', {"id" : franchise.id}) }}" class="btn btn-primary col-12 my-2">Page pour accepter la création auto de menu</a>
-            <a href="{{ path('menu_reset', {'id' : franchise.id}) }}" class="btn btn-danger col-12 my-2">Supprimer le menu et désactiver sa mise en vente</a>
-            <a href="" class="btn btn-primary col-12 my-2">Créer un menu</a>
-            <a href="" class="btn btn-primary col-12 my-2">Modifier un menu</a>
-            <a href="" class="btn btn-primary col-12 my-2">Supprimer un menu</a>
-
+            <div class="col-6">
+                <a href="{{ path('menu_auto_filled', {"id" : franchise.id}) }}" class="btn btn-primary col-12 my-2">Mise
+                    en place de mon menu et débuter mon activité</a>
+            </div>
+            <div class="col-6">
+                <a href="{{ path('menu_reset', {'id' : franchise.id}) }}" class="btn btn-danger col-12 my-2">Suppression
+                    de mon menu et mettre fin à mon activité</a>
+            </div>
         </div>
+
+    </div>
+
+
+    <div class="container-fluid">
+
+        <table class="table table-striped mt-5">
+            <thead>
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Nom du menu</th>
+                <th scope="col">Articles associé.s</th>
+                <th scope="col">Ingrédient article.s</th>
+                <th scope="col">Image</th>
+                <th scope="col">Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for menu in menus %}
+                <tr>
+                    <th scope="row">{{ menu.id }}</th>
+                    <td>{{ menu.name }}</td>
+                    <td>
+                        {% for content in menu.article %}
+                            {{ content }}
+                        {% endfor %}
+                    </td>
+                    <td>
+                        {% for content in menu.article %}
+                            <ul>
+                                {% for recipe in content.recipes %}
+                                    <li>{{ recipe }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endfor %}
+                    </td>
+                    <td></td>
+                    <td>
+                        {# TODO : Faire les opérations de suppresion et d'édition TOUT en empechant d'agir sur les isLocked == 1 #}
+                        <a class="btn btn-primary" href="#">CRUD</a>
+                        <a class="btn btn-danger" href="#">CRUD</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
 
     </div>
 

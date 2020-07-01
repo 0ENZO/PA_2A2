@@ -32,11 +32,11 @@ class FranchiseMenuController extends AbstractController
 
     /**
      * @param $id
-     * @param ObjectManager $manager
      * @return bool
      * Description : Cherche à savoir si un franchisé est sur le marché ou pas (isActivated == 1 ou 0)
      */
-    public function isActivated($id, ObjectManager $manager) : bool {
+    public function isActivated($id) : bool {
+        $manager = $this->getDoctrine()->getManager();
         $franchise = $manager->getRepository(Franchise::class)->findOneBy(["id" => $id]);
         if ($franchise->getIsActivated() != 0 )
             return true;
@@ -44,6 +44,21 @@ class FranchiseMenuController extends AbstractController
             false;
     }
 
+    /**
+     * @param $id
+     * @return bool
+     * Description: Fetch tous les menus possibles d'un franchisé.
+     *              Retourne false s'il a déjà au moins un menu
+     *              Retourne true s'il n'a aucun menu
+     */
+    public function hasEmptyMenu($id) : bool {
+        $manager = $this->getDoctrine()->getManager();
+        $menus = $manager->getRepository(Menu::class)->findBy(["franchise" => $id]);
+        if (!empty($menus))
+            return false;
+        else
+            return true;
+    }
 
     /**
      * @return bool
@@ -125,8 +140,12 @@ class FranchiseMenuController extends AbstractController
             return $this->redirectToRoute("about");
         }
 
+        $manager = $this->getDoctrine()->getManager();
+        $menus = $manager->getRepository(Menu::class)->findBy(["franchise" => $id]);
+
         return $this->render('franchise_menu/index.html.twig', [
-            "franchise" => $this->getUser()
+            "franchise" => $this->getUser(),
+            "menus" => $menus
         ]);
     }
 
@@ -141,7 +160,12 @@ class FranchiseMenuController extends AbstractController
             return $this->redirectToRoute("about");
         }
 
-        // TODO Faire une fonction pour voir s'il a deja fait son auto fill -> pas besoin de la faire encore
+        // TODO vérifier s'il a un camion ou qu'il ne soit pas en panne
+
+        if ( ($this->hasEmptyMenu($id)) == false ) {
+            $this->addFlash("danger", "Vous avez déjà un menu actif. Veuillez le supprimer pour en re-créer un à nouveau");
+            return $this->redirectToRoute("franchise_profil");
+        }
 
         return $this->render("franchise_menu/menu_auto_filled.html.twig", [
             "id" => $id
@@ -160,21 +184,21 @@ class FranchiseMenuController extends AbstractController
             return $this->redirectToRoute("about");
         }
 
-        // TODO : Fonction qui créer les menus automatiquement. Faire un `return true`
-        $performed_process = $this->auto_filling($id);
+        $performed_process = false;
+        $needToFill = $this->hasEmptyMenu($id);
+        if ($needToFill)
+            $performed_process = $this->auto_filling($id);
 
         if ($performed_process) {
             $this->addFlash("success", "Les menus sont auto générés et vous êtes maintenant présent parmis la liste des franchisé actuellment en activité !");
         } else {
-            $this->addFlash("danger", "Une erreure est survenu. Veuillez rééssayer ultérieusement");
+            $this->addFlash("danger", "Vous avez déjà un menu actif. Veuillez le supprimer pour en re-créer un à nouveau");
+            return $this->redirectToRoute("franchise_profil");
         }
 
         return $this->render("franchise_menu/menu_auto_filled_validated.html.twig");
 
     }
-
-
-
 
 
     /**
@@ -187,12 +211,17 @@ class FranchiseMenuController extends AbstractController
             return $this->redirectToRoute("about");
         }
 
-        $reset = $this->delete_menu($id);
+        $has_empty_menu = $this->hasEmptyMenu($id);
+        $reset = false;
+        if ($has_empty_menu == false) {
+            $reset = $this->delete_menu($id);
+        }
 
         if ($reset) {
             $this->addFlash("success", "Tous vos menus ont été supprimés. Vous êtes maintenant hors activité.");
         } else {
-            $this->addFlash("danger", "Une erreure est survenu. Veuillez rééssayer ultérieusement.");
+            $this->addFlash("danger", "Vous n'avez aucun menu pour le moment. Veuillez en créer un pour vous mettre en activité");
+            return $this->redirectToRoute("franchise_profil");
         }
 
         return $this->render("franchise_menu/menu_reset.html.twig", [
