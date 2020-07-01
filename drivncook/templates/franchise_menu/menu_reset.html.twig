@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Reset menu{% endblock %}
+
+{% block body %}
+
+    <div class="container mt-3">
+        <div class="jumbotron">
+            <h1 class="display-4">{% trans %}Carte supprimé - Hors activité{% endtrans %}</h1>
+            <div class="card-body">
+                <p class="lead">{% trans %}Tous vos menus ont été supprimés avec succès.{% endtrans %}</p>
+                <p class="lead">{% trans %}Vous êtes également hors activité pour le moment.{% endtrans %}</p>
+                <p class="lead">{% trans %}Si vous n'avez pas d'autres problèmes en dehors du manque de manu,
+                        il vous suffit d'en recréer un automatiquement selon notre base de donées afin de vous
+                        remettre en activité.{% endtrans %}</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="container mt-3">
+        <a href="{{ path('franchise_profil') }}" class="btn btn-outline-dark">{% trans %}Revenir à mon profile{% endtrans %}</a>
+    </div>
+
+
+{% endblock %}

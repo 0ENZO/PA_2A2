@@ -593,9 +593,10 @@ class Franchise implements UserInterface
     /**
      * @param mixed $isActivated
      */
-    public function setIsActivated($isActivated): void
+    public function setIsActivated($isActivated): self
     {
         $this->isActivated = $isActivated;
+        return $this;
     }
 
 

@@ -217,6 +217,7 @@ class AppFixtures extends Fixture
             $franchise->setLastName('Default');
             $franchise->setEmail('franchise'. $i .'@drivncook.fr');
             $franchise->setAddress($address);
+            $franchise->setIsActivated(0);
             $franchise->setPassword($this->passwordEncoder->encodePassword(
                 $franchise,
                 'azerty'

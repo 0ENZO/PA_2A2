@@ -6,9 +6,17 @@
 
     <div class="container mt-3">
         <div class="jumbotron">
-            <h1 class="display-4">Menu crée</h1>
+            <h1 class="display-4">{% trans %}Création du menu terminé{% endtrans %}</h1>
+            <div class="card-body">
+                <p class="lead">{% trans %}Tous vos menus ont été créé avec succès.{% endtrans %}</p>
+                <p class="lead">{% trans %}Vous êtes également en activité à partir de maintenant.{% endtrans %}</p>
+                <p class="lead">{% trans %}Driv'n Cook vous souhaite de faire bon voyage : La route risque d'être longue !{% endtrans %}</p>
+            </div>
         </div>
     </div>
 
+    <div class="container mt-3">
+        <a href="{{ path('franchise_profil') }}" class="btn btn-outline-dark">{% trans %}Revenir à mon profile{% endtrans %}</a>
+    </div>
 
 {% endblock %}

@@ -1,12 +1,16 @@
 # PA_2A2
 
+
+
 ## About
+
+
 
 > What is this project ?
 
-It is the final project from our 2 year during ESGI computer science Study.
+It is the final project from our 2 years during ESGI computer science Study.
 This is the end of 2 years of general learning about global computer science knowlegde.
-If our project is validated, we can continue our Study by selecting a speciality, which we will focus on during thenext 3 years.
+If our project is validated, we can continue our studies by selecting a speciality, which we will focus on during the next 3 years.
 
 > What's the subject ?
 
@@ -16,14 +20,14 @@ This is a franchise, and some people can be franchised, to belong to the firm.
 In that way, they can have a truck, and start working like it was its own firm (the franchised will to give royalties to the mother firm).
 Franchised people can supply themselves by bying to one of the different warehouses available of the firm.
 
-Client can register themselves to the website, to perform an order to some franchised.
+Clients can register themselves to the website, to perform an order to some franchised.
 The registered client can win some fidelity points by spending money or buy a specific menu.
-These points can be spent to have a discount in the next order, or win a free menu, depending of the type of the points they have.
+These points can be spent to have a discount in the next order, or win a free menu, depending of the type of the points they would have.
 
-The firm have to can everythings in order, that's why there are also and big backend-processus for all of the Website application.
+The firm has to keep an eye on everythings related to their brand, that's why there is also and big backend-processus for all of the Website application, like a CRUD (Create, Read, Update, Delete) operations on all of the entites, like warehouses, money management, products and articles etc.
 
-The last, communication have to be secure, and a Network proposal with EVE-NG technology have to be used to represent the trafic between the warehouses
-(this part is independant of the websitr processus and is not showed here in this repository)
+The last :  communication has to be secure, and a Network proposal with EVE-NG technology have to be used to represent the trafic between the warehouses
+(This part is independant of the website processus and is not showed here in this repository)
 
 > How can we succed ?
 
@@ -31,24 +35,27 @@ We have to respect some programming rules on all the projetcs :
 * Make the registering of franchised people only in C language, via a QRcode creation, FTP/SFTP transfer and reading to the hosting server)
 * Use Php/JS for the backend (We were free to use anything related to php/js, so we choose Symfony)
 * Make a 3D three.js model as website showcase
-* Use JAVA for the fidelity card system
-* Have a focntionnal Network Shema in EVE-NG with IP-sec and NAT process
+* Use JAVA for the fidelity card system (Not present on the site itself, just an desktop application we have to lunch and connect with our account to manage cards)
+* Have a fonctionnal Network Shema in EVE-NG with IP-sec and NAT process
 * Respect all the rules defined in the subject
 
 ## 1. Prerequisites   
 
-To run successfuly this web application localy, you will have to verify the following checklist :
+
+
+To run successfuly this __web application__ localy, you will have to verify the following checklist :
+
 * Having **composer** installed on your machine
 * Having **yarn** installed on your machine
 * Having a local server such as **MAMP**, **WAMP** or **XAMPP**.
 * (Optional) Having a **Linux machine** (VM or real) to handle the **C language** part
 
-Our project is full Symfony Web Application. It is based on some packages that are always updated by the Symfony developers and community (with a lot of bundle managed by Symfony).
+Our project is full Symfony Web Application. It is based on some packages that are always updated by the Symfony developers and community (with a lot of bundles managed by Symfony).
 
-Knowing that, **compser** help the php dependencies trought all the application, and yarn help javascript dependancies trought all the assets used by the application.
-That's why you need to perfom the following command when you have downloaded all the web project :
+Knowing that, **compser** does help the php dependencies trought all the application, and yarn helps javascript dependancies trought all the assets used by the application.
+That's why you need to perfom the following commands when you have downloaded all the web project :
 
-(NB : All the following command have to be performed at the root of the Web Application, which is ` PA_2A2/drivncook/` )
+(NB : All the following commands have to be performed at the root of the Web Application, which is ` PA_2A2/drivncook/` )
 
 ```
 composer require
@@ -57,11 +64,11 @@ yarn install
 
 Of course, you will need a server to run the Web Application localy.
 
-And the last, having a Machine linux to run the C programm will bu useful. This step is optionnal, beacause all the Application will works without that.
-This is just better to have one, to register the franchise people throught the database 
-(Because we had to manage the franchise people registration only in C language, but you can still add one manually lovev with the fixtures)
+And the last, having a Machine linux to run the C programm will be useful. This step is optionnal, because all the Application will works without that.
+This is just better to have one, to register the franchise people throught the database
+(Because we had to manage the franchise people registration only in C language, but you can still add one manually with the __fixtures__)
 
-That's why you need to perfom the following command when you have downloaded all the web project :
+
 
 ## 2. Installation
 
@@ -79,12 +86,11 @@ This is here you have to check your own local configuration to fill the right in
 
 Or you can copy this line, and create a file  `.env.local` at the root of the folder, paste it, and check the configurations.
 
-This way, symfony will only look at the `.env.local` instead of the `.env` file when you are performing local processing.
+This way, symfony will only looks at the `.env.local` instead of the `.env` file when you are performing local processing.
 
 ### 2.2 Creation of the database
 
-With Doctrine, Entity Class represents our database. So we have to tell Doctrine to translate what's inside our class, to SQL satement. In order to perform this action,
-you have to execute the following statements :
+With Doctrine, Entity Classes represent our database. So we have to tell Doctrine to translate what's inside our class, to SQL satements. In order to perform this action, you have to execute the following commands :
 
 (NB : All the following commands have to be performed at the root of the Web Application, which is ` PA_2A2/drivncook/` )
 
@@ -93,7 +99,7 @@ you have to execute the following statements :
 php bin/console doctrine:database:create
 ```
 
-2. Execute the migrations to the last, which represent Entity modifications in the projet thought time :
+2. Execute the migrations to the last, which represent Entity modifications in the projet thought time, from the begining to the last one :
 ````
 php bin/console doctrine:migrations:migrate
 ````
