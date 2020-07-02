@@ -49,6 +49,7 @@ class ReportBreakdownType extends AbstractType
                 'delete_label' => false,
                 "allow_delete" => false,
             ])
+            ->add('status')
             ->add('save', SubmitType::class, [
                 'label' => 'Enregistrer'
             ])

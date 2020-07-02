@@ -82,7 +82,9 @@
                                 <div>
                                     <input type='button' name="btnMinus" data-id="{{ product.id }}" value='-' class='qtyminus' field='quantity' id="btnMinus{{product.id}}"/>
                                     {% for warehouseStock in product.warehouseStocks %}
-                                        <input type='text' name='quantity' value='1' class='qty' id="cifri{{product.id}}" data-max="{{ warehouseStock.quantity }}" /> 
+                                        {% if warehouseStock.warehouse.id == warehouse.id %}
+                                            <input type='text' name='quantity' value='1' class='qty' id="cifri{{product.id}}" data-max="{{ warehouseStock.quantity }}" /> 
+                                        {% endif %}
                                     {% endfor %}
                                     <input type='button' name="btnPlus" data-id="{{ product.id }}" value='+' class='qtyplus' field='quantity' id="btnPlus{{product.id}}"/>
                                 </div>
