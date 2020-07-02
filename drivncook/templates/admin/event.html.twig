@@ -4,6 +4,17 @@
 
 {% block body %}
 
+	<div class="container mt-3">
+		<div class="jumbotron">
+			<h1 class="display-4">{% trans %}Gestion des Évenements.{% endtrans %}</h1>
+			<div class="card-body">
+				<p class="lead">{% trans %}Bienvenue dans la gestion des évenements{% endtrans %}</p>
+				<p class="lead">{% trans %}Cette section est réservée à la consultation des évenements de Driv'n Cook{% endtrans %}</p>
+				<p class="lead">{% trans %}Il est possible de voir qui y participe et à quel endroit.{% endtrans %}</p>
+			</div>
+		</div>
+	</div>
+
 	<div class="container mt-5">
 
 		<button class="btn btn-primary rounded-circlez mb-3" id="button_add_event" data-toggle="modal" data-target="#add_event">
