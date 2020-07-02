@@ -6,6 +6,7 @@ use App\Entity\Warehouse;
 use App\Entity\WarehouseStock;
 use App\Form\WarehouseStockType;
 use App\Form\WarehouseType;
+use App\Service\WarehouseService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -146,6 +147,13 @@ class AdminWarehouseController extends AbstractController
     public function admin_warehouse_show($name, Request $request)
     {
         $manager = $this->getDoctrine()->getManager();
+
+        // Test service
+        // Instanciation du service qu'on vient de créer
+        $myHelloService = new WarehouseService($manager, $request);
+        // Execution de la fonction sayHello, que l'on vient de mettre grace à l'objet instancié
+        $hello = $myHelloService->sayHello();
+
         $warehouse = $manager->getRepository(Warehouse::class)->findOneBy(["name" => $name]);
         $stock = $manager->getRepository(WarehouseStock::class)->findBy(["warehouse" => $warehouse]);
 
@@ -174,7 +182,8 @@ class AdminWarehouseController extends AbstractController
             "warehouse" => $warehouse,
             "stock" => $stock,
             "warehouseData" => $warehouseData,
-            "add_warehouse_stock_form" => $add_warehouse_stock_form->createView()
+            "add_warehouse_stock_form" => $add_warehouse_stock_form->createView(),
+            "hello" => $hello // On passe la variable à twig pour l'afficher
         ]);
     }
 
