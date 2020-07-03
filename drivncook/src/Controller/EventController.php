@@ -12,12 +12,13 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
-* @Route("/event", name="event")
+* @Route("/event")
 */
 class EventController extends AbstractController
 {
+
     /**
-     * @Route("/show", name="show")
+     * @Route("/", name="voir_event")
      */
     public function show(Request $request)
     {
@@ -27,7 +28,9 @@ class EventController extends AbstractController
         $events = $em->getRepository(Event::class)->findOneBy(["franchise" => $franchise]);
 
 
-        return $this->render('event/event.html.twig', [ 'events' => $events]);
+        return $this->render('event/show.html.twig', [ 
+            'events' => $events
+        ]);
     }
 
     /**

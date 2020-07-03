@@ -151,9 +151,11 @@ class AdminBreakdownController extends AbstractController
         $report = new ReportBreakdown();
 
         $form = $this->createForm(ReportBreakdownType::class, $report);
+        $form->remove('status');
         $form->handleRequest($request);
 
         if ($form->isSubmitted() and $form->isValid()) {
+            $report->setStatus('0');
             $em->persist($report);
             $em->flush();
 
