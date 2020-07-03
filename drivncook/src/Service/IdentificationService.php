@@ -20,7 +20,8 @@ class IdentificationService extends AbstractController
     /**
      * @param $id
      * @return bool
-     * Description : Vérifie que c'est bien le franchisé connecté qui manage son menu et pas un autre
+     * Description: Vérifie que c'est bien le franchisé connecté qui manage son menu et pas un autre
+     *              Permet d'accéder à un autre profil franchisé en passant par l'url comme un petit filou
      */
     public function isTheRightFranchise($id) : bool {
         $franchise = $this->getUser();
