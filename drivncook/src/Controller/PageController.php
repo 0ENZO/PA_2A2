@@ -24,20 +24,20 @@ class PageController extends AbstractController
     public function contact(Request $request, \Swift_Mailer $mailer)
     {
         $form = $this->createForm(ContactType::class);
+        $form->remove('lastName');
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $mail = $form->get('email')->getData();
-            $firstName = $form->get('firstName')->getData();
-            $lastName = $form->get('lastName')->getData();
-            dump($firstName);
+            // $firstName = $form->get('firstName')->getData();
+            $message = $form->get('message')->getData();
 
             $email = (new \Swift_Message())
                 ->setSubject('Learn - Nouveau commentaire')
                 ->setFrom('enzo.arhab@gmail.com')
                 ->setTo($mail)
                 ->setBcc('enzo.arhab@gmail.com')
-                ->setBody($lastName)
+                ->setBody($message)
             ;   
             $mailer->send($email);
 

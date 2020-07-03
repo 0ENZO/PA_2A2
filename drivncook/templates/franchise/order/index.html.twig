@@ -24,35 +24,37 @@
 				<tbody>
 					{% for item in items %}
 						{% for warehouseStock in item.product.warehouseStocks %}
-							{% if item.quantity > warehouseStock.quantity %}
-								<tr class="table-danger">
-									<td>{{item.product.name}}</td> 
-									<td>{{item.product.vat}}
-										€</td>
-									<td>{{item.quantity}}</td>
-									<td>{{  item.product.vat * item.quantity }} 
-										€</td>
-									<td>
-										<a href="{{ path('franchise_cart_delete', {id: item.product.id}) }}" class="btn btn-danger btn-sm mr-2">
-											<i class="fas fa-trash"></i>
-										</a>
-										<a href="{{ path('franchise_cart_adjust', {product: item.product.id, maxQty: warehouseStock.quantity }) }}" class="btn btn-info btn-sm">
-											<i class="fas fa-balance-scale"></i>
-										</a>
-									</td>
-							{% else %}
-								<tr>
-									<td>{{item.product.name}}</td> 
-									<td>{{item.product.vat}}
-										€</td>
-									<td>{{item.quantity}}</td>
-									<td>{{  item.product.vat * item.quantity }} 
-										€</td>
-									<td>
-										<a href="{{ path('franchise_cart_delete', {id: item.product.id}) }}" class="btn btn-danger btn-sm">
-											<i class="fas fa-trash"></i>
-										</a>
-									</td>
+							{% if warehouseStock.warehouse.id == app.session.get('cart_warehouse') %}
+								{% if item.quantity > warehouseStock.quantity %}
+									<tr class="table-danger">
+										<td>{{item.product.name}}</td> 
+										<td>{{ item.product.vat + item.product.price }}
+											€</td>
+										<td>{{item.quantity}}</td>
+										<td>{{  (item.product.vat + item.product.price) * item.quantity }} 
+											€</td>
+										<td>
+											<a href="{{ path('franchise_cart_delete', {id: item.product.id}) }}" class="btn btn-danger btn-sm mr-2">
+												<i class="fas fa-trash"></i>
+											</a>
+											<a href="{{ path('franchise_cart_adjust', {product: item.product.id, maxQty: warehouseStock.quantity }) }}" class="btn btn-info btn-sm">
+												<i class="fas fa-balance-scale"></i>
+											</a>
+										</td>
+								{% else %}
+									<tr>
+										<td>{{item.product.name}}</td> 
+										<td>{{item.product.vat}}
+											€</td>
+										<td>{{item.quantity}}</td>
+										<td>{{  item.product.vat * item.quantity }} 
+											€</td>
+										<td>
+											<a href="{{ path('franchise_cart_delete', {id: item.product.id}) }}" class="btn btn-danger btn-sm">
+												<i class="fas fa-trash"></i>
+											</a>
+										</td>
+								{% endif %}
 							{% endif %}
 						{% endfor %}
 

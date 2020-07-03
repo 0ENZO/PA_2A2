@@ -18,15 +18,12 @@ class EventController extends AbstractController
 {
 
     /**
-     * @Route("/", name="voir_event")
+     * @Route("/", name="show_event")
      */
     public function show(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $franchise = $this->getUser()->getId();
-        dump($franchise);
-        $events = $em->getRepository(Event::class)->findOneBy(["franchise" => $franchise]);
-
+        $events = $em->getRepository(Event::class)->findAll();
 
         return $this->render('event/show.html.twig', [ 
             'events' => $events
