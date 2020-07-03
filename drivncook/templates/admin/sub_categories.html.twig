@@ -10,6 +10,18 @@
     {#        {{ dump(sub_categories) }}#}
     {#    {% endif %}#}
 
+    <div class="container mt-3">
+        <div class="jumbotron">
+            <h1 class="display-4">{% trans %}Gestion des Sous-Catégories{% endtrans %}</h1>
+            <div class="card-body">
+                <p class="lead">{% trans %}Bienvenue dans la gestion sous-catégories.{% endtrans %}</p>
+                <p class="lead">{% trans %}Regroupe l'ensemble des sous-catégories de drivn'cook{% endtrans %}</p>
+                <hr>
+                <p class="text-muted">{% trans %}Ce sont grâces à elles que seront identités les articles et produits, auquel ils sont directement relatés.{% endtrans %}</p>
+            </div>
+        </div>
+    </div>
+
     <div class="container mt-5">
         <!-- Button trigger modal -->
         <button type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#add_category">

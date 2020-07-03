@@ -8,6 +8,20 @@
     {#        {{ dump(categories) }}#}
     {#    {% endif %}#}
 
+    <div class="container mt-3">
+        <div class="jumbotron">
+            <h1 class="display-4">{% trans %}Gestion des Capacités Maximales{% endtrans %}</h1>
+            <div class="card-body">
+                <p class="lead">{% trans %}Bienvenue dans la gestion des capacités maximales en vigueur concernant les entités de Driv'n Cook.{% endtrans %}</p>
+                <p class="lead">{% trans %}Ces capacités servent de références aux aux camions, mais aussi aux entrepôts existant.{% endtrans %}</p>
+                <hr>
+                <p class="text-muted">{% trans %}Selon les différents potentiels changements au cours du temps de ces entités, en cas
+                    de travaux par exemple, il est impératif de mofiier et d'éditer l'entité concerné, afin de mettre à jour la quantité de produit nécessaire
+                    lors des prochaines apports de stock dans les entrepôts.{% endtrans %}</p>
+            </div>
+        </div>
+    </div>
+
     <div class="container mt-5">
         <!-- Button trigger modal -->
         <button type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#add_category">

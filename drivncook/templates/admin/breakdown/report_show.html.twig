@@ -4,6 +4,21 @@
 
 {% block body %}
 
+    <div class="container mt-3">
+        <div class="jumbotron">
+            <h1 class="display-4">{% trans %}Gestion des Pannes.{% endtrans %}</h1>
+            <div class="card-body">
+                <p class="lead">{% trans %}Bienvenue dans la gestion des pannes{% endtrans %}</p>
+                <p class="lead">{% trans %}Cette section est réservée à la consultation et la résolution des pannes de camions que les franchisés
+                    pauvent déclarer.{% endtrans %}</p>
+                <p class="lead">{% trans %}Pour rappel, dans le cas d'une panne de Type 2 ou 3, et si le status est "en cours" (0). Cela entrainerai une
+                    suspenssion de l'activité du franchisé.{% endtrans %}</p>
+                <hr>
+                <p class="text-muted">{% trans %}Un suivis par message du technicien est disponible pour suivre les échanges à propos de l'anvancé de résolutions de problèmes{% endtrans %}</p>
+            </div>
+        </div>
+    </div>
+
     <div class="container mt-5">
 
         <button class="btn btn-primary rounded-circlez mb-3" id="button_add_reportBreakdown" data-toggle="modal" data-target="#add_reportBreakdown">
