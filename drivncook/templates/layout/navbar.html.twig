@@ -6,9 +6,11 @@
 
 	<div class="collapse navbar-collapse " id="navbarSupportedContent">
 		<ul class="navbar-nav ml-auto">
+			{% if is_granted('ROLE_USER') %}
 			<li class="nav-item mr-4">
 				<a class="nav-link" href="{{ path('hungry_menu') }}">{{'Une petite faim ?'|trans}}</a>
 			</li>
+			{% endif %}
             <li class="nav-item mr-4">
 				<a class="nav-link" href="{{ path('contact') }}">{{'Nous contacter'|trans}}</a>
 			</li>
@@ -39,6 +41,7 @@
 								<i class="mr-2 fas fa-user-cog"></i>
 								{{'Administration'|trans}}
 							</a>
+						{% else %}
 							<a class="dropdown-item" href="{{ path('customer_profil') }}">
 								<i class="mr-2 far fa-id-card"></i>
 								{{'Profil client'|trans}}

@@ -4,9 +4,7 @@
 
 {% block body %}
 
-    {{ dump(menus) }}
-
-
+{#
     <div class="container-fluid">
 
         <table class="table table-striped mt-5">
@@ -17,7 +15,7 @@
                 <th scope="col">Articles associé.s</th>
                 <th scope="col">Ingrédient article.s</th>
                 <th scope="col">Image</th>
-                <th scope="col">Prix</th> {#On affiche directement le prix TTC aux clients#}
+                <th scope="col">Prix</th> <!--On affiche directement le prix TTC aux clients-->
                 <th scope="col">Actions</th>
             </tr>
             </thead>
@@ -43,14 +41,170 @@
                     <td></td>
                     <td>{{ menu.price + menu.vat }} €</td>
                     <td>
-                        <a href="#" class="btn btn-success">Ajouter au panier</a> {# faire en traitement ici à partir de menu en envoyant son id. A toi de jouer enzo !#}
+                        <a href="#" class="btn btn-success">Ajouter au panier</a> <!-- faire en traitement ici à partir de menu en envoyant son id. A toi de jouer enzo ! -->
                     </td>
                 </tr>
             {% endfor %}
             </tbody>
         </table>
+    </div>
+#}
 
-
+    <div class="d-flex justify-content-end my-3">
+        <a href="{{ path('user_cart_show')}}" class="btn btn-primary{# rounded-circle link-fixed #}">
+            Passer à la caisse <i class="fas fa-shopping-cart ml-2"></i>
+        </a>
     </div>
 
+    <div id="menu">
+        <div class="wrapper">
+
+            <h2>Notre Menu</h2>
+          
+            <div class="buttons-container">
+                <a href="#" class="button button--is-active" data-target="menuMenu">Menus</a>
+                <a href="#" class="button" data-target="mealMenu">Plats</a>
+                <a href="#" class="button" data-target="drinkMenu">Boissons</a>
+                <a href="#" class="button" data-target="dessertMenu">Desserts</a>
+            </div>
+          
+
+            <div class="menu menu--is-visible" id="menuMenu">
+                {% for menu in menus %}
+                    {% if menu.subCategory is defined and menu.subCategory is not null and menu.subCategory.category.name =='Menus' %}
+                        <div class="item">
+                            <div class="item__header">
+                                <h3 class="item__title">{{ menu.name }}</h3>
+                                <span class="item__dots"></span>
+                                <span class="item__price">{{ menu.price + menu.vat }} €</span>
+                            </div>
+                            <p class="item__description">{{ menu.description|length > 50 ? menu.description|slice(0,50) ~ '..' : menu.description }}</p>
+                            <a href="{{ path('user_cart_add', {'id': menu.id , 'qty': 1}) }}">Commander</a>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div> 
+
+            <div class="menu menu" id="mealMenu">
+                {% for menu in menus %}
+                    {% if menu.subCategory is defined and menu.subCategory is not null and menu.subCategory.category.name =='Repas' %}
+                        <div class="item">
+                            <div class="item__header">
+                                <h3 class="item__title">{{ menu.name }}</h3>
+                                <span class="item__dots"></span>
+                                <span class="item__price">{{ menu.price + menu.vat }} €</span>
+                            </div>
+                            <p class="item__description">{{ menu.description|length > 50 ? menu.description|slice(0,50) ~ '..' : menu.description }}</p>
+                            <a href="{{ path('user_cart_add', {'id': menu.id , 'qty': 1}) }}">Commander</a>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div> 
+          
+
+            <div class="menu" id="drinkMenu">
+                {% for menu in menus %}
+                    {% if menu.subCategory is defined and menu.subCategory is not null and menu.subCategory.category.name =='Boissons' %}
+                        <div class="item">
+                            <div class="item__header">
+                                <h3 class="item__title">{{ menu.name }}</h3>
+                                <span class="item__dots"></span>
+                                <span class="item__price">{{ menu.price + menu.vat }} €</span>
+                            </div>
+                            <p class="item__description">{{ menu.description|length > 50 ? menu.description|slice(0,50) ~ '..' : menu.description }}</p>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+          
+
+            <div class="menu" id="dessertMenu">
+                {% for menu in menus %}
+                    {% if menu.subCategory is defined and menu.subCategory is not null and menu.subCategory.category.name =='Desserts' %}
+                        <div class="item">
+                            <div class="item__header">
+                                <h3 class="item__title">{{ menu.name }}</h3>
+                                <span class="item__dots"></span>
+                                <span class="item__price">{{ menu.price + menu.vat }} €</span>
+                            </div>
+                            <p class="item__description">{{ menu.description|length > 50 ? menu.description|slice(0,50) ~ '..' : menu.description }}</p>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div> 
+    </div>
+
+{% endblock %}
+
+{% block scripts %}
+    {{ parent() }}
+
+    <script>
+        const buttons = document.querySelectorAll('.button');
+        const menus = document.querySelectorAll('.menu');
+
+        const highlight = document.createElement('span');
+        document.body.appendChild(highlight);
+        highlight.classList.add('highlight');
+
+        // Set initial dimensions and position of 'highlight' based on activeButton coords 
+        function initialHightlightLocation() {
+        const activeButton = document.querySelector('.button--is-active');
+        const activeButtonCoords = activeButton.getBoundingClientRect();
+
+        const initialCoords = {
+            width: activeButtonCoords.width,
+            height: activeButtonCoords.height,
+            left: activeButtonCoords.left + window.scrollX,
+            top: activeButtonCoords.top + window.scrollY
+        }
+
+        highlight.style.width = `${initialCoords.width}px`;
+        highlight.style.height = `${initialCoords.height}px`;
+        highlight.style.transform = `translate(${initialCoords.left}px, ${initialCoords.top}px)`;
+        }
+
+        function handleClick(e) {
+        e.preventDefault();
+
+        buttons.forEach(button => button.classList.remove('button--is-active'));
+        this.classList.add('button--is-active');
+
+        // Set current dimensions and position of 'highlight' based on the clicked button 
+        const buttonCoords = this.getBoundingClientRect();
+        const coords = {
+            width: buttonCoords.width,
+            height: buttonCoords.height,
+            left: buttonCoords.left + window.scrollX,
+            top: buttonCoords.top + window.scrollY
+        }
+        highlight.style.width = `${coords.width}px`;
+        highlight.style.height = `${coords.height}px`;
+        highlight.style.transform = `translate(${coords.left}px, ${coords.top}px)`;
+
+        // Show the menu associated to the clicked button
+        const targetMenu = document.querySelector(`#${this.dataset.target}`);
+        menus.forEach(menu => {
+            menu.classList.remove('menu--is-visible');
+            targetMenu.classList.add('menu--is-visible');
+        })
+        }
+
+        window.addEventListener('load', initialHightlightLocation);
+        window.addEventListener('resize', initialHightlightLocation);
+        buttons.forEach(button => button.addEventListener('click', handleClick));
+    </script>
+
+    <script>
+        $(document).ready(function () {
+        window.onscroll = function (ev) {
+            if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 180) {
+                document.getElementById('bouton_idee').style.opacity = "0";
+            } else {
+                document.getElementById('bouton_idee').style.opacity = "1";
+            }
+        };
+    });
+    </script>
 {% endblock %}

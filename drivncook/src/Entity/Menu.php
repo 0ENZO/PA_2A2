@@ -66,10 +66,21 @@ class Menu
      */
     private $article;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=SubCategory::class, inversedBy="menus")
+     */
+    private $subCategory;
+
+    /**
+     * @ORM\OneToMany(targetEntity=UserOrderContent::class, mappedBy="menu")
+     */
+    private $userOrderContents;
+
     public function __construct()
     {
         $this->rewardContents = new ArrayCollection();
         $this->article = new ArrayCollection();
+        $this->userOrderContents = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -230,6 +241,49 @@ class Menu
 
     public function __toString() : string {
         return $this->id." : ".$this->name."<br>";
+    }
+
+    public function getSubCategory(): ?SubCategory
+    {
+        return $this->subCategory;
+    }
+
+    public function setSubCategory(?SubCategory $subCategory): self
+    {
+        $this->subCategory = $subCategory;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|UserOrderContent[]
+     */
+    public function getUserOrderContents(): Collection
+    {
+        return $this->userOrderContents;
+    }
+
+    public function addUserOrderContent(UserOrderContent $userOrderContent): self
+    {
+        if (!$this->userOrderContents->contains($userOrderContent)) {
+            $this->userOrderContents[] = $userOrderContent;
+            $userOrderContent->setMenu($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserOrderContent(UserOrderContent $userOrderContent): self
+    {
+        if ($this->userOrderContents->contains($userOrderContent)) {
+            $this->userOrderContents->removeElement($userOrderContent);
+            // set the owning side to null (unless already changed)
+            if ($userOrderContent->getMenu() === $this) {
+                $userOrderContent->setMenu(null);
+            }
+        }
+
+        return $this;
     }
 
 }

@@ -474,13 +474,6 @@ class User implements UserInterface
      * @see UserInterface
      */
     public function getRoles(): array{
-        /* $rolez = $this->role;
-        // guarantee every user at least has ROLE_USER
-        foreach ($rolez as $role){
-            $roles[] = $role;
-        }
-        return $roles; */
-        // return ['ROLE_USER'];
         return str_split($this->role, 20);
     }
 

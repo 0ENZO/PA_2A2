@@ -129,6 +129,11 @@ class Franchise implements UserInterface
      */
     private $franchiseStocks;
 
+    /**
+     * @ORM\OneToMany(targetEntity=UserOrder::class, mappedBy="franchise")
+     */
+    private $userOrders;
+
     public function __construct()
     {
         $this->trucks = new ArrayCollection();
@@ -139,6 +144,7 @@ class Franchise implements UserInterface
         $this->creditCards = new ArrayCollection();
         $this->events = new ArrayCollection();
         $this->franchiseStocks = new ArrayCollection();
+        $this->userOrders = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -599,6 +605,37 @@ class Franchise implements UserInterface
     public function setIsActivated($isActivated): self
     {
         $this->isActivated = $isActivated;
+        return $this;
+    }
+
+    /**
+     * @return Collection|UserOrder[]
+     */
+    public function getUserOrders(): Collection
+    {
+        return $this->userOrders;
+    }
+
+    public function addUserOrder(UserOrder $userOrder): self
+    {
+        if (!$this->userOrders->contains($userOrder)) {
+            $this->userOrders[] = $userOrder;
+            $userOrder->setFranchise($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserOrder(UserOrder $userOrder): self
+    {
+        if ($this->userOrders->contains($userOrder)) {
+            $this->userOrders->removeElement($userOrder);
+            // set the owning side to null (unless already changed)
+            if ($userOrder->getFranchise() === $this) {
+                $userOrder->setFranchise(null);
+            }
+        }
+
         return $this;
     }
 

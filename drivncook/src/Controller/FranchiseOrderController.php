@@ -69,7 +69,6 @@ class FranchiseOrderController extends AbstractController
      */
     public function add($id, $qty, SessionInterface $session, Request $request)
     {
-
         if($qty > 0){
             $cart = $session->get('cart', []);
             if (!empty($cart[$id])){
@@ -87,7 +86,6 @@ class FranchiseOrderController extends AbstractController
         return $this->redirectToRoute('product_index', [
             'id' => $warehouse,
         ]);
-
     }
 
     /**
