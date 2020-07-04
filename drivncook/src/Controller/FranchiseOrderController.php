@@ -45,17 +45,17 @@ class FranchiseOrderController extends AbstractController
             ];
         }
 
-        $totalTTC = 0;
+        $totalVAT = 0;
         $totalHT = 0;
 
         foreach ($filledCart as $item){
             $vatProduct = $item['product']->getVat() * $item['quantity'];
             $priceProduct = $item['product']->getPrice() * $item['quantity'];
-            $totalTTC += $vatProduct;
+            $totalVAT += $vatProduct;
             $totalHT += $priceProduct;
         }
 
-        $session->set('cart_totalTTC', $totalTTC);
+        $session->set('cart_totalTTC', $totalVAT + $totalHT);
         $session->set('cart_totalHT', $totalHT);
 
         return $this->render('franchise/order/index.html.twig', [

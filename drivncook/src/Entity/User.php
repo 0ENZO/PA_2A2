@@ -110,7 +110,7 @@ class User implements UserInterface
 
     /**
      * NOTE: This is not a mapped field of entity metadata, just a simple property.
-     * @Vich\UploadableField(mapping="message_image", fileNameProperty="imageName")
+     * @Vich\UploadableField(mapping="profile_images", fileNameProperty="imageName")
      * @Assert\Image(
      *  maxSize = "5M",
      *  mimeTypes={ "image/gif", "image/jpeg", "image/png" }

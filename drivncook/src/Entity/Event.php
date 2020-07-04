@@ -12,6 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=EventRepository::class)
+ * @Vich\Uploadable
  */
 class Event
 {
@@ -60,7 +61,7 @@ class Event
 
     /**
      * NOTE: This is not a mapped field of entity metadata, just a simple property.
-     * @Vich\UploadableField(mapping="message_image", fileNameProperty="imageName")
+     * @Vich\UploadableField(mapping="event_images", fileNameProperty="imageName")
      * @Assert\Image(
      *  maxSize = "5M",
      *  mimeTypes={ "image/gif", "image/jpeg", "image/png" }
