@@ -32,5 +32,33 @@ class IdentificationService extends AbstractController
     }
 
 
+    /**
+     * @param $id
+     * @return bool
+     * Description: Vérifie que c'est bien le bon user qui est sur la page, pour emêcher un petit filou de se balader avec l'url
+     */
+    public function isTheRightUser($id) : bool {
+        $user = $this->getUser();
+        if ($user->getId() == $id)
+            return true;
+        else
+            return false;
+    }
+
+
+    /**
+     * @param $user
+     * @return bool
+     * Description: Vérifie que l'user, est bien un admin ou non.
+     */
+    public function isAdmin($user) : bool {
+        $role = $user->getRole()->getName();
+        if ($role != "Admin")
+            return false;
+        else
+            return true;
+    }
+
+
 
 }

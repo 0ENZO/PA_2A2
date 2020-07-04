@@ -139,34 +139,69 @@
                                 {% if credit_cards is defined and credit_cards is not null %}
                                     {% for credit_card in credit_cards %}
 
-                                        <table class="table table-borderless my-5">
-                                            <tbody>
-                                            <tr>
-                                                <td>Numéro de carte</td>
-                                                <td>{{ credit_card.cardNumber }}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Date d'expiration</td>
-                                                <td>{{ credit_card.expirationDate|date("d/m/Y") }}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Code de vérification</td>
-                                                <td>{{ credit_card.verificationCode }}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Prénom et Nom</td>
-                                                <td>{{ credit_card.name }}</td>
-                                            </tr>
+                                        <div style="min-width: 600px; margin-right: 600px">
+                                            <div class="card-body"
+                                                 style="background: #2e46cc; border-radius: 15px; color: white">
 
-                                            </tbody>
-                                        </table>
+                                                <div class="row my-3">
+                                                    <div class="col-4">
+                                                        <img src="{{ asset('images/cb/cb.png') }}"
+                                                             alt="image-cb-cb">
+                                                    </div>
+                                                    <div class="col-4">
+                                                        <img src="{{ asset('images/cb/mastercard.png') }}"
+                                                             alt="image-cb-mc">
+                                                    </div>
+                                                    <div class="col-4">
+                                                        <img src="{{ asset('images/cb/visa.png') }}"
+                                                             alt="image-cb-visa">
+                                                    </div>
+                                                </div>
+
+                                                <div class="row ml-1 mb-1">
+                                                    <img src="{{ asset('images/cb/chip.png') }}"
+                                                         alt="image-chip">
+                                                </div>
+
+                                                Numéro de carte :
+                                                <div style="background: rgba(24,24,25,0.74); color: #cca223; border-radius: 20px"
+                                                     class="mx-auto px-3 mb-2">
+                                                    {% set arrayCBN = credit_card.cardNumber | split('', 4) %} {{ arrayCBN[0] }}
+                                                    - {{ arrayCBN[1] }} - {{ arrayCBN[2] }} - {{ arrayCBN[3] }}
+                                                </div>
+
+                                                <div class="row mb-2">
+                                                    <div class="col-6">Date d'expiration :
+                                                        <div style="background: rgba(24,24,25,0.74); color : #cca223; border-radius: 20px"
+                                                             class="mx-auto px-3">
+                                                            {{ credit_card.expirationDate|date("d/m/Y") }}
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        Code de vérifications:
+                                                        <div style="background: rgba(24,24,25,0.74); color: #cca223; border-radius: 20px"
+                                                             class="mx-auto px-3">
+                                                            {{ credit_card.verificationCode }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                Propriétaire de la carte :
+                                                <div style="color: #cca223" class="mx-auto px-3 mb-2">
+                                                    {{ credit_card.name }}
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                        <hr>
 
                                         <div class="text-center">
                                             <a class="btn btn-primary" href="{{ path('payment_process', {"selected_credit_card" : credit_card.id}) }}">Sélectionner</a>
                                         </div>
 
 
-                                        <hr>
+
 
                                     {% endfor %}
                                 {% else %}
@@ -244,31 +279,63 @@
                     <h3 class="h3 display-5 text-center">Méthode de paiment sélectionné</h3>
                 </div>
 
-                <div class="card-body">
 
-                    <table class="table table-borderless my-5">
-                        <tbody>
-                        <tr>
-                            <td>Numéro de carte</td>
-                            <td>{{ selected_credit_card.cardNumber }}</td>
-                        </tr>
-                        <tr>
-                            <td>Date d'expiration</td>
-                            <td>{{ selected_credit_card.expirationDate|date("d/m/Y") }}</td>
-                        </tr>
-                        <tr>
-                            <td>Code de vérification</td>
-                            <td>{{ selected_credit_card.verificationCode }}</td>
-                        </tr>
-                        <tr>
-                            <td>Prénom et Nom</td>
-                            <td>{{ selected_credit_card.name }}</td>
-                        </tr>
+                <div class="my-3" style="min-width: 700px; margin-right: 600px; margin-left: 200px">
+                    <div class="card-body"
+                         style="background: #2e46cc; border-radius: 15px; color: white">
 
-                        </tbody>
-                    </table>
+                        <div class="row my-3">
+                            <div class="col-4">
+                                <img src="{{ asset('images/cb/cb.png') }}"
+                                     alt="image-cb-cb">
+                            </div>
+                            <div class="col-4">
+                                <img src="{{ asset('images/cb/mastercard.png') }}"
+                                     alt="image-cb-mc">
+                            </div>
+                            <div class="col-4">
+                                <img src="{{ asset('images/cb/visa.png') }}"
+                                     alt="image-cb-visa">
+                            </div>
+                        </div>
 
+                        <div class="row ml-1 mb-1">
+                            <img src="{{ asset('images/cb/chip.png') }}"
+                                 alt="image-chip">
+                        </div>
+
+                        Numéro de carte :
+                        <div style="background: rgba(24,24,25,0.74); color: #cca223; border-radius: 20px"
+                             class="mx-auto px-3 mb-2">
+                            {% set arrayCBN = selected_credit_card.cardNumber | split('', 4) %} {{ arrayCBN[0] }}
+                            - {{ arrayCBN[1] }} - {{ arrayCBN[2] }} - {{ arrayCBN[3] }}
+                        </div>
+
+                        <div class="row mb-2">
+                            <div class="col-6">Date d'expiration :
+                                <div style="background: rgba(24,24,25,0.74); color : #cca223; border-radius: 20px"
+                                     class="mx-auto px-3">
+                                    {{ selected_credit_card.expirationDate|date("d/m/Y") }}
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                Code de vérifications:
+                                <div style="background: rgba(24,24,25,0.74); color: #cca223; border-radius: 20px"
+                                     class="mx-auto px-3">
+                                    {{ selected_credit_card.verificationCode }}
+                                </div>
+                            </div>
+                        </div>
+
+                        Propriétaire de la carte :
+                        <div style="color: #cca223" class="mx-auto px-3 mb-2">
+                            {{ selected_credit_card.name }}
+                        </div>
+
+                    </div>
                 </div>
+
+
 
             </div>
         </div>
