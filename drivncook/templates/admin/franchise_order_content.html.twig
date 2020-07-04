@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion monétaire{% endblock %}
+
+{% block body %}
+
+<div class="container mt-3">
+    <div class="jumbotron">
+        <h1 class="display-4">{% trans %}Contenu de commande franchisé{% endtrans %}</h1>
+        <p class="lead">{% trans %}Contient ici toutes les données relatives au contenu d'une commande franchisé{% endtrans %}</p>
+    </div>
+</div>
+
+{#    {{ dump(franchiseOrderContent) }}#}
+
+    <div class="container text-center">
+        <a href="{{ path('admin_money_show') }}" class="btn btn-outline-dark">Retour à la gestion monétaire</a>
+    </div>
+
+    <div class="container">
+
+        <table class="table mt-4">
+            <thead class="thead-dark">
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Produit</th>
+                <th scope="col">Quantité </th>
+                <th scope="col">Catégorie </th>
+            </tr>
+            </thead>
+            <tbody>
+            {% if franchiseOrderContent is defined and franchiseOrderContent is not empty %}
+                {% for content in franchiseOrderContent %}
+                    <tr>
+                        <th scope="row">{{ content.id }}</th>
+                        <td>{{ content.product }}</td>
+                        <td>{{ content.quantity }} {{ content.product.type }}</td>
+                        <td>
+                            {% if content.product.subCategory.category.name == 'Ingrédients' %}
+                                {% set badge = 'badge-dark' %}
+                            {% elseif content.product.subCategory.category.name == 'Boissons' %}
+                                {% set badge = 'badge-info' %}
+                            {% elseif content.product.subCategory.category.name == 'Desserts' %}
+                                {% set badge = 'badge-light' %}
+                            {% elseif content.product.subCategory.category.name == 'Repas' %}
+                                {% set badge = 'badge-warning' %}
+                            {% endif %}
+                            <span class="badge badge-pill {{ badge }}">{{ content.product.subCategory.category.name }}</span>
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% else %}
+                <tr>Aucun produits n'est disponibles</tr>
+            {% endif %}
+
+
+            </tbody>
+        </table>
+    </div>
+
+{% endblock %}
