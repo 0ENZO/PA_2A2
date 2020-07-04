@@ -24,10 +24,6 @@ class AdminMoneyController extends AbstractController
      */
     public function admin_money_show(EntityManagerInterface $manager, IdentificationService $identificationService, MoneyService $moneyService)
     {
-        if (!$identificationService->isAdmin($this->getUser())) {
-            $this->addFlash("danger", "Vous n'avez pas les droits pour vous rendre sur cette page");
-            return $this->redirectToRoute("about");
-        }
 
         $franchiseOrders = $manager->getRepository(FranchiseOrder::class)->findAll();
 
@@ -44,10 +40,6 @@ class AdminMoneyController extends AbstractController
      */
     public function admin_franchise_order_show($franchiseOrderId, EntityManagerInterface $manager, IdentificationService $identificationService)
     {
-        if (!$identificationService->isAdmin($this->getUser())) {
-            $this->addFlash("danger", "Vous n'avez pas les droits pour vous rendre sur cette page");
-            return $this->redirectToRoute("about");
-        }
 
         $franchiseOrderContent = $manager->getRepository(FranchiseOrderContent::class)->findBy(["franchiseOrder" => $franchiseOrderId]);
 
