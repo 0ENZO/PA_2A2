@@ -4,9 +4,12 @@ namespace App\Controller;
 
 use App\Entity\Article;
 use App\Entity\Franchise;
+use App\Entity\FranchiseStock;
 use App\Entity\Menu;
 use App\Service\FranchiseMenuService;
 use App\Service\IdentificationService;
+use App\Service\TruckService;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -34,6 +37,32 @@ class FranchiseMenuController extends AbstractController
         return $this->render('franchise_menu/index.html.twig', [
             "franchise" => $this->getUser(),
             "menus" => $menus
+        ]);
+    }
+
+
+    /**
+     * @Route("/{id}/mon-stock", name="franchise_stock")
+     */
+    public function franchiseStock($id, IdentificationService $identificationService, EntityManagerInterface $manager, TruckService $truckService)
+    {
+        if (!$identificationService->isTheRightFranchise($id)) {
+            $this->addFlash("danger", "Erreur d'authentification détectée.");
+            return $this->redirectToRoute("about");
+        }
+
+        $stock = $manager->getRepository(FranchiseStock::class)->findBy(["franchise" => $id]);
+        $franchise = $manager->getRepository(Franchise::class)->findOneBy(["id" => $id]);
+
+        $franchiseStockData = null;
+        if ($truckService->hasTruck($franchise)){
+            $franchiseStockData = $truckService->getFranchiseCurrentCapacity($franchise);
+        }
+
+        return $this->render("franchise_menu/franchise_stock.html.twig", [
+            "stock" => $stock,
+            "id" => $franchise->getId(),
+            "franchiseStockData" => $franchiseStockData
         ]);
     }
 

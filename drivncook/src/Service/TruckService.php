@@ -8,6 +8,7 @@ use App\Entity\Franchise;
 use App\Entity\FranchiseStock;
 use App\Entity\Truck;
 use Doctrine\ORM\EntityManagerInterface;
+use phpDocumentor\Reflection\Types\False_;
 
 class TruckService
 {
@@ -21,13 +22,14 @@ class TruckService
 
 
     /**
+     * Description: Retourne un tableau associatif des valeurs max et actuels d'un camion d'un franchisé (FranchiseStock)
+     *              Attention. Doit avoir un camion, auquel cas => Donne une erreur lor de l'obtention des capacités maximales
      * @param $franchise
      * @return array
-     * Description: Retourne un tableau associatif des valeurs max et actuels d'un camion d'un franchisé (FranchiseStock)
      */
     public function getFranchiseCurrentCapacity($franchise) : array {
 
-        $truck = $this->manager->getRepository(Truck::class)->findOneBy(["franchise" => $franchise]);
+        $truck = $this->manager->getRepository(Truck::class)->findOneBy(["franchise" => $franchise->getId()]);
         $stock = $this->manager->getRepository(FranchiseStock::class)->findBy(["franchise" => $franchise]);
 
         $nb_ingredients = 0;
@@ -109,6 +111,19 @@ class TruckService
         }
 
         if ($involved_quantity + $actual_quantity > $max_quantity)
+            return false;
+        else
+            return true;
+    }
+
+    /**
+     * Description : Permet de savor, pour un franchisé donné, s'il possède un camion ou non.
+     * @param $franchise
+     * @return bool
+     */
+    public function hasTruck($franchise) : bool {
+        $truck = $this->manager->getRepository(Truck::class)->findOneBy(["franchise" => $franchise]);
+        if (empty($truck))
             return false;
         else
             return true;

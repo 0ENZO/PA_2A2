@@ -23,7 +23,8 @@ class HungryController extends AbstractController
         /*
          * TODO : Faire une fonction qui check tout ce qui pourrait empêcher un franchisé de vendre ses articles
          * - Checker si son camion est indisponible à cause d'une panne, est en révision etc
-         * - S'il a été désactivé par l'administrateur pour une raison diverses.
+         * - S'il a été désactivé par l'administrateur pour une raison diverses -> FAIT
+         * - S'il na pas de menu -> FAIT
          */
 
         /*
@@ -40,12 +41,9 @@ class HungryController extends AbstractController
 
         $verifiedFranchise = [];
         foreach ($franchises as $franchise) {
-            if ((!$franchiseMenuService->hasEmptyMenu($franchise->getId())) || ($franchiseMenuService->isActivated($franchise->getId()))) {
-                $this->addFlash("success", $franchise->getId());
+            if ((!$franchiseMenuService->hasEmptyMenu($franchise->getId())) || ($franchiseMenuService->isActivated($franchise->getId())))
                 array_push($verifiedFranchise, $franchise);
-            }
         }
-
 
         return $this->render('hungry/index.html.twig', [
             'franchises' => $verifiedFranchise,

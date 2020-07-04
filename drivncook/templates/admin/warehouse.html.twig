@@ -58,11 +58,11 @@
 
         <h5 class="display-5 mt-3">Occupation en %</h5>
         <div class="progress mt-3">
-            <div class="progress-bar" role="progressbar" style="width: {{ proportion }}%;" aria-valuenow="25" aria-valuemin="0"
-                 aria-valuemax="{{ warehouseData.nb_max_products }}">{{ proportion }}%
+            <div class="progress-bar" role="progressbar" style="width: {{ proportion | round(2, 'floor') }}%;" aria-valuenow="25" aria-valuemin="0"
+                 aria-valuemax="{{ warehouseData.nb_max_products }}">{{ proportion | round(2, 'floor') }}%
             </div>
         </div>
-        <div class="lead">{{ proportion }}%</div>
+        <div class="lead">{{ proportion | round(2, 'floor') }}%</div>
 
 
     </div>
