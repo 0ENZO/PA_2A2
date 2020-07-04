@@ -41,15 +41,15 @@ class AppFixtures extends Fixture
         // RÔLES
 
         $role_client = new Role();
-        $role_client->setName('Client');
+        $role_client->setName('ROLE_USER');
         $manager->persist($role_client);
 
         $role_franchise = new Role();
-        $role_franchise->setName('Franchise');
+        $role_franchise->setName('ROLE_FRANCHISE');
         $manager->persist($role_franchise);
 
         $role_admin = new Role();
-        $role_admin->setName('Admin');
+        $role_admin->setName('ROLE_ADMIN');
         $manager->persist($role_admin);
 
 
@@ -203,6 +203,33 @@ class AppFixtures extends Fixture
         $romain->setIsActivated(true);
         $manager->persist($romain);
 
+        $enzo = new User();
+        $enzo->setRole($role_admin);
+        $enzo->setFirstName('Enzo');
+        $enzo->setLastName('Arhab');
+        $enzo->setPseudo('Aineuzo');
+        $enzo->setEmail('enzo.arhab@gmail.com');
+        $enzo->setBirthDate(new \DateTime());
+        $enzo->setPassword($this->passwordEncoder->encodePassword(
+            $enzo,
+            'azerty'
+        ));
+        $enzo->setIsActivated(true);
+        $manager->persist($enzo);
+
+        $alex = new User();
+        $alex->setRole($role_admin);
+        $alex->setFirstName('Alexandre');
+        $alex->setLastName('Boudon');
+        $alex->setPseudo('Akael');
+        $alex->setEmail('alexandre_boudon@hotmail.fr');
+        $alex->setBirthDate(new \DateTime());
+        $alex->setPassword($this->passwordEncoder->encodePassword(
+            $alex,
+            'azerty'
+        ));
+        $alex->setIsActivated(true);
+        $manager->persist($alex);
 
 
 

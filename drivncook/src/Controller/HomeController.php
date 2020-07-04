@@ -14,7 +14,6 @@ class HomeController extends AbstractController
     public function index(): Response
     {
         return $this->render('home/index.html.twig', [
-            
         ]);
     }
     /**
@@ -23,7 +22,6 @@ class HomeController extends AbstractController
     public function blank(): Response
     {
         return $this->render('home/blank.html.twig', [
-            
         ]);
     }
 

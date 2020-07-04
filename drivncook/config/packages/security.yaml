@@ -2,10 +2,10 @@ security:
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     encoders:
         App\Entity\Franchise:
-            algorithm: auto
+            algorithm: sha256
 
         App\Entity\User:
-            algorithm: auto
+            algorithm: sha256
             
     providers:
         # users_in_memory: { memory: null }
@@ -49,3 +49,9 @@ security:
         - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/login$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         # - { path: ^/profile, roles: ROLE_USER }
+        # - { path: ^/editeur, roles: ROLE_EDITOR }
+
+    role_hierarchy:
+        # ROLE_EDITOR: ROLE_USER
+        # ROLE_ADMIN: ROLE_EDITOR
+        ROLE_ADMIN: ROLE_USER

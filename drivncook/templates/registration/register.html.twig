@@ -1,0 +1,116 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Register{% endblock %}
+
+{% block body %}
+
+    <div class="container mt-5">
+
+        {% for flashError in app.flashes('verify_email_error') %}
+            <div class="alert alert-danger" role="alert">
+                {{ flashError }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        {% endfor %}
+
+        <h2 class="text-center">Inscription</h2>
+        <hr class="my-3">
+
+        {{ form_start(registrationForm) }}
+
+        <div class="pt-3 col-md-9 mx-auto px-auto">
+            <div class="row d-flex align-items-center align-self-center mb-3 mx-auto">
+                <div class="col-md-2"><strong>Email</strong></div>
+                <div class="col-md-10">{{ form_widget(registrationForm.email) }}</div>
+                <div class="ml-3">
+                    {{ form_errors(registrationForm.email) }}
+                </div>
+            </div>
+
+            <div class="row d-flex align-items-center align-self-center mb-3 mx-auto">
+                <div class="col-md-2"><strong>Pseudo</strong></div>
+                <div class="col-md-10">{{ form_widget(registrationForm.pseudo) }}</div>
+                {% if form_errors(registrationForm.pseudo) %}
+                    <div class="ml-3">
+                        {{ form_errors(registrationForm.pseudo) }}
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="row d-flex align-items-center mb-3 mx-auto">
+                <div class="col-md-2"><strong>Prénom</strong></div>
+                <div class="col-md-4">{{ form_widget(registrationForm.firstName) }}</div>
+                {% if form_errors(registrationForm.firstName) %}
+                    <div class="ml-3">
+                        {{ form_errors(registrationForm.firstName) }}
+                    </div>
+                {% endif %}
+                <div class="col-md-2"><strong>Nom</strong></div>
+                <div class="col-md-4">{{ form_widget(registrationForm.lastName) }}</div>
+                {% if form_errors(registrationForm.lastName) %}
+                    <div class="ml-3">
+                        {{ form_errors(registrationForm.lastName) }}
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="row d-flex align-items-center align-self-center mb-3 mx-auto">
+                <div class="col-md-2"><strong>Téléphone</strong></div>
+                <div class="col-md-10">{{ form_widget(registrationForm.phoneNumber) }}</div>
+                {% if form_errors(registrationForm.phoneNumber) %}
+                    <div class="ml-3">
+                        {{ form_errors(registrationForm.phoneNumber) }}
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="row d-flex align-items-center align-self-center mb-3 mx-auto">
+                <div class="col-md-2"><strong>Adresse</strong></div>
+                <div class="col-md-10">{{ form_widget(registrationForm.completeAddress) }}</div>
+                {% if form_errors(registrationForm.completeAddress) %}
+                    <div class="ml-3">
+                        {{ form_errors(registrationForm.completeAddress) }}
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="row d-flex align-items-center align-self-center mb-3 mx-auto">
+                <div class="col-md-2"><strong>Date</strong></div>
+                <div class="col-md-4">{{ form_widget(registrationForm.birthDate) }}</div>
+                {% if form_errors(registrationForm.birthDate) %}
+                    <div class="ml-3">
+                        {{ form_errors(registrationForm.birthDate) }}
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="row d-flex align-items-center align-self-center mb-3 mx-auto">
+                <div class="col-md-2"><strong>Mot de passe</strong></div>
+                <div class="col-md-4">{{ form_widget(registrationForm.plainPassword) }}</div>
+                {% if form_errors(registrationForm.plainPassword) %}
+                    <div class="ml-3">
+                        {{ form_errors(registrationForm.plainPassword) }}
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="row d-flex align-items-center align-self-center mb-3 mx-auto">
+                <div class="col-md-5"><strong>J'accepte les termes & conditions</strong></div>
+                <div class="col-md-4">{{ form_widget(registrationForm.agreeTerms) }}</div>
+
+                <div class="col-md-3">
+                    <button class="btn btn-lg btn-secondary mt-4" type="submit">
+                        S'inscire
+                    </button>
+                </div>
+
+            </div>
+
+
+        </div>
+    {{ form_end(registrationForm) }}
+
+    </div>
+{% endblock %}
