@@ -115,7 +115,7 @@ class FranchiseOrderController extends AbstractController
         $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
         $cart = $session->get('cart', []);
-        $total = $session->get('cart_totalTTC') + $session->get('cart_totalHT');
+        $total = $session->get('cart_totalTTC');
         $cart_warehouse = $session->get('cart_warehouse');
         $warehouse = $warehouseRepository->findOneById($cart_warehouse);
         
