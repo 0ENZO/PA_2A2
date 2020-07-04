@@ -15,7 +15,6 @@ class WarehouseService
         $this->manager = $manager;
     }
 
-
     /**
      * @param $warehouse
      * @return array

@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Franchise;
+use App\Entity\Menu;
+use App\Service\FranchiseMenuService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -16,7 +18,7 @@ class HungryController extends AbstractController
     /**
      * @Route("/", name="hungry_menu")
      */
-    public function hungry_menu()
+    public function hungry_menu(FranchiseMenuService $franchiseMenuService)
     {
         /*
          * TODO : Faire une fonction qui check tout ce qui pourrait empêcher un franchisé de vendre ses articles
@@ -36,9 +38,17 @@ class HungryController extends AbstractController
         $manager = $this->getDoctrine()->getManager();
         $franchises = $manager->getRepository(Franchise::class)->findAll();
 
+        $verifiedFranchise = [];
+        foreach ($franchises as $franchise) {
+            if ((!$franchiseMenuService->hasEmptyMenu($franchise->getId())) || ($franchiseMenuService->isActivated($franchise->getId()))) {
+                $this->addFlash("success", $franchise->getId());
+                array_push($verifiedFranchise, $franchise);
+            }
+        }
+
 
         return $this->render('hungry/index.html.twig', [
-            'franchises' => $franchises,
+            'franchises' => $verifiedFranchise,
         ]);
     }
 
@@ -50,11 +60,13 @@ class HungryController extends AbstractController
 
         $manager = $this->getDoctrine()->getManager();
         $franchise = $manager->getRepository(Franchise::class)->findOneBy(["id" => $id]);
+        $menus = $manager->getRepository(Menu::class)->findBy(["franchise" => $id]);
 
         // TODO Afficher le menu du franchisé
 
         return $this->render("hungry/menu_showcase.html.twig", [
-            "franchise" => $franchise
+            "franchise" => $franchise,
+            "menus" => $menus
         ]);
 
     }

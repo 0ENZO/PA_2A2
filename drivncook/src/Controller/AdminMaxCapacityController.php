@@ -3,7 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\MaxCapacity;
+use App\Entity\Truck;
+use App\Entity\Warehouse;
 use App\Form\MaxCapacityType;
+use App\Service\MaxCapacityService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,9 +18,6 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class AdminMaxCapacityController extends AbstractController
 {
-
-
-    // TODO : Tout comme je l'ai fait dans entrepot : Vérifier que si on mofidie la quantité, on ne va pas en dessous de ce qu'il y a déjà en stock.
 
 
     /**
@@ -51,7 +51,7 @@ class AdminMaxCapacityController extends AbstractController
     /**
      * @Route("/max-capacity/edit/{id}", name="admin_max_capacity_edit")
      */
-    public function admin_max_capacity_edit($id, Request $request)
+    public function admin_max_capacity_edit($id, Request $request, MaxCapacityService $maxCapacityService)
     {
         $manager = $this->getDoctrine()->getManager();
         $max_capacity = $manager->getRepository(MaxCapacity::class)->find($id);

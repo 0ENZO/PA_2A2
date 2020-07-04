@@ -44,8 +44,11 @@ class FranchiseMenuService
         if ($franchise->getIsActivated() != 0 )
             return true;
         else
-            false;
+            return false;
     }
+
+
+    // TODO hasCurrentBreakdown (T2 ou T3)
 
 
     /**
@@ -100,6 +103,7 @@ class FranchiseMenuService
         foreach ($menus as $menu) {
             $this->manager->remove($menu);
         }
+        $franchise->setIsActivated(0);
         $this->manager->flush();
 
         return true;

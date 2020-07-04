@@ -22,7 +22,7 @@ php bin/console doctrine:database:create
 
 # Met à jour la base de données, en fonction du shema d'objet que l'on a dans
 # l'application Symfony, donc dans le Manager
-php bin/console doctrine:schema:update --force
+php bin/console doctrine:migrations:migrate --no-interaction
 
 # Charge les fixtures
 php bin/console doctrine:fixtures:load --append

@@ -4,8 +4,53 @@
 
 {% block body %}
 
-    {% if franchise %}
-    {{ dump(franchise) }}
-    {% endif %}
+    {{ dump(menus) }}
+
+
+    <div class="container-fluid">
+
+        <table class="table table-striped mt-5">
+            <thead>
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Nom du menu</th>
+                <th scope="col">Articles associé.s</th>
+                <th scope="col">Ingrédient article.s</th>
+                <th scope="col">Image</th>
+                <th scope="col">Prix</th> {#On affiche directement le prix TTC aux clients#}
+                <th scope="col">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for menu in menus %}
+                <tr>
+                    <th scope="row">{{ menu.id }}</th>
+                    <td>{{ menu.name }}</td>
+                    <td>
+                        {% for content in menu.article %}
+                            {{ content }}
+                        {% endfor %}
+                    </td>
+                    <td>
+                        {% for content in menu.article %}
+                            <ul>
+                                {% for recipe in content.recipes %}
+                                    <li>{{ recipe }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endfor %}
+                    </td>
+                    <td></td>
+                    <td>{{ menu.price + menu.vat }} €</td>
+                    <td>
+                        <a href="#" class="btn btn-success">Ajouter au panier</a> {# faire en traitement ici à partir de menu en envoyant son id. A toi de jouer enzo !#}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+
+    </div>
 
 {% endblock %}
