@@ -25,7 +25,7 @@
 						{{ app.user.email }}
 					</a>
 					<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-						{% if is_granted('ROLE_USER') %}
+						{% if is_granted('ROLE_FRANCHISE') %}
 							<a class="dropdown-item" href="{{ path('franchise_profil') }}">
 								<i class="mr-2 far fa-id-card"></i>
 								{{'Mon compte'|trans}}

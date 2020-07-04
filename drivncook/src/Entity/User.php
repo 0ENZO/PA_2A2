@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\HttpFoundation\File\File;
 use Doctrine\Common\Collections\ArrayCollection;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
@@ -14,6 +15,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @Vich\Uploadable
+ * @UniqueEntity(fields={"email"}, message="Cette adresse email est déjà utilisée")
  */
 class User implements UserInterface
 {
@@ -463,9 +465,23 @@ class User implements UserInterface
     *
     * @return string[] The user roles
     */
-    public function getRoles()
+    /*public function getRoles()
     {
-    return ['ROLE_ADMIN'];
+        return str_split($this->role, 20);
+    }*/
+
+    /**
+     * @see UserInterface
+     */
+    public function getRoles(): array{
+        /* $rolez = $this->role;
+        // guarantee every user at least has ROLE_USER
+        foreach ($rolez as $role){
+            $roles[] = $role;
+        }
+        return $roles; */
+        // return ['ROLE_USER'];
+        return str_split($this->role, 20);
     }
 
     /**

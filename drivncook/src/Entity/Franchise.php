@@ -10,10 +10,12 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=FranchiseRepository::class)
  * @Vich\Uploadable
+ * @UniqueEntity(fields={"email"}, message="Cette adresse email est déjà utilisée")
  */
 class Franchise implements UserInterface
 {
@@ -456,7 +458,7 @@ class Franchise implements UserInterface
     *
     *     public function getRoles()
     *     {
-    *         return ['ROLE_USER'];
+    *         return ['ROLE_FRANCHISE'];
     *     }
     *
     * Alternatively, the roles might be stored on a ``roles`` property,
@@ -467,7 +469,8 @@ class Franchise implements UserInterface
     */
     public function getRoles()
     {
-        return ['ROLE_USER'];
+        return ['ROLE_FRANCHISE'];
+        // return $this->role;
     }
 
     /**
