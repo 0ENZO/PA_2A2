@@ -21,7 +21,7 @@ class FranchiseMenuController extends AbstractController
     /**
      * @Route("/{id}", name="franchise_menu")
      */
-    public function index($id, Request $request, IdentificationService $identificationService)
+    public function index($id, Request $request, IdentificationService $identificationService, FranchiseMenuService $franchiseMenuService)
     {
         if (!$identificationService->isTheRightFranchise($id)) {
             $this->addFlash("danger", "Erreur d'authentification détectée.");
