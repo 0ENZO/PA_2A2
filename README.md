@@ -72,6 +72,15 @@ This is just better to have one, to register the franchise people throught the d
 
 ## 2. Installation
 
+### 2.05 Activate the assets (CSS et JS)
+
+We user Webpack encore for this projet, and that's why you need to perform the following commands in order to activate the assets
+
+```
+yarn install
+yarn encore dev
+```
+
 ### 2.1 Configuration of the database
 
 Symfony includes its own **ORM** (Object Relationnal Mapping) , wihch is **Doctrine**
