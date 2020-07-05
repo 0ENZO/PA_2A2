@@ -256,8 +256,29 @@
 
                                 <div class="tab-pane" id="pane_votes" role="tabpanel">
                                     <div class="col-md-8 mx-auto mt-3">
-                                        <h2 class="text-bold text-center">Mes avis</h2>
+                                        <h2 class="text-bold text-center mb-4">Mes avis</h2>
 
+                                        {% if votes is defined and votes is not null %}
+                                            {% for vote in votes %}
+                                                <div class="">
+                                                    <h5>Commande du {{ vote.date|date("d/m/Y") }} </h5>
+                                                    <span>
+                                                        {% for i in 1.. vote.rate%}
+                                                            <i class="ml-2 fas fa-star"></i>
+                                                        {% endfor %}
+                                                        {% for i in 1..(5 - vote.rate) %}
+                                                            <i class="ml-2 far fa-star"></i>
+                                                        {% endfor %}
+                                                    </span>
+                                                    <p>{{ vote.comment }}</p>
+                                                </div>
+                                                <hr class="my-2">
+                                            {% endfor %}
+                                        {% endif %}
+                                        {# 
+                                        
+                                        <i class="ml-2 fas fa-star"></i>
+                                        #}
 
 
                                     </div>

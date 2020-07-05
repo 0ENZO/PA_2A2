@@ -6,9 +6,13 @@ use App\Entity\Franchise;
 use App\Entity\UserOrder;
 use App\Service\CartService;
 use App\Entity\UserOrderContent;
+use App\Entity\Vote;
+use App\Form\VoteType;
 use App\Repository\MenuRepository;
 use App\Repository\FranchiseRepository;
 use App\Repository\FranchiseStockRepository;
+use App\Repository\UserOrderRepository;
+use App\Repository\VoteRepository;
 use Knp\Bundle\SnappyBundle\KnpSnappyBundle;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,6 +21,7 @@ use Knp\Bundle\SnappyBundle\Snappy\Response\PdfResponse;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 /**
  * @Route("/client/commande") 
@@ -168,6 +173,8 @@ class UserOrderController extends AbstractController
             $session->remove('cart');
             $session->remove('cart_totalTTC');
             $session->remove('cart_totalHT');
+
+            $session->set('order_id', $order->getId());
         }
         return $this->redirectToRoute('payment_success');
     }
@@ -214,5 +221,43 @@ class UserOrderController extends AbstractController
         } else {
             throw new \Exception('Vous n\'êtes pas autorisé à accéder à cette ressource.');    
         }
+    }
+    /**
+     * @Route("/avis", name="user_order_vote")
+     * @isGranted("ROLE_USER")
+     */
+    public function vote(Request $request, Session $session, UserOrderRepository $userOrderRepository){
+
+        $em = $this->getDoctrine()->getManager();
+        $id = $session->get('order_id');
+        $order = $userOrderRepository->findOneById($id);
+
+        $vote = new Vote();
+        $form = $this->createForm(VoteType::class, $vote);
+        $form
+            ->remove('user')
+            ->remove('date')
+            ->remove('franchise')
+            ;
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()){
+            $vote->setUser($this->getUser());
+            $vote->setDate(new \DateTime());
+            $vote->setFranchise($order->getFranchise());
+
+            $request->getSession()->getFlashBag()->add('info', 'Avis envoyé.');
+            $session->remove('order_id');
+            
+            $em->persist($vote);
+            $em->flush();
+
+            return $this->redirectToRoute('home');
+        }
+
+        return $this->render('vote/new.html.twig', [
+            'form' => $form->createView(),
+            'order' => $order
+        ]);
     }
 }

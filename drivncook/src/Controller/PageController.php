@@ -33,7 +33,7 @@ class PageController extends AbstractController
             $message = $form->get('message')->getData();
 
             $email = (new \Swift_Message())
-                ->setSubject('Learn - Nouveau commentaire')
+                ->setSubject('Nouveau message')
                 ->setFrom('drivn.cook.equipe@gmail.com')
                 ->setTo($mail)
                 ->setBcc('drivn.cook.equipe@gmail.com')

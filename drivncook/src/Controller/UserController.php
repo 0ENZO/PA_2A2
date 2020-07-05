@@ -5,6 +5,7 @@ namespace App\Controller;
 
 use App\Entity\Role;
 use App\Entity\User;
+use App\Entity\Vote;
 use App\Form\UserType;
 use App\Entity\UserOrder;
 use App\Entity\CreditCard;
@@ -39,8 +40,7 @@ class UserController extends AbstractController
         $user = $this->getUser();
         $orders = $em->getRepository(UserOrder::class)->findByUser($user);
         $credit_cards = $em->getRepository(CreditCard::class)->findBy(["user" => $user]);
-
-
+        $votes = $em->getRepository(Vote::class)->findByUser($user);
 
         $form = $this->createForm(UserType::class, $user);
         $form->remove("Role");
@@ -57,7 +57,8 @@ class UserController extends AbstractController
             'user' => $user,
             'form' => $form->createView(),
             'credit_cards' =>$credit_cards,
-            'orders' => array_reverse($orders)
+            'orders' => array_reverse($orders),
+            'votes' => $votes
         ]);
     }
 }
