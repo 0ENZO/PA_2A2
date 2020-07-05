@@ -24,12 +24,6 @@ class UserOrderContent
     private $userOrder;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Article::class, inversedBy="userOrderContents")
-     * @ORM\JoinColumn(nullable=true)
-     */
-    private $article;
-
-    /**
      * @ORM\Column(type="integer")
      */
     private $quantity;
@@ -52,18 +46,6 @@ class UserOrderContent
     public function setUserOrder(?UserOrder $userOrder): self
     {
         $this->userOrder = $userOrder;
-
-        return $this;
-    }
-
-    public function getArticle(): ?Article
-    {
-        return $this->article;
-    }
-
-    public function setArticle(?Article $article): self
-    {
-        $this->article = $article;
 
         return $this;
     }

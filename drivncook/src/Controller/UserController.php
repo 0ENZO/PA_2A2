@@ -2,13 +2,16 @@
 
 namespace App\Controller;
 
+
 use App\Entity\Role;
 use App\Entity\User;
 use App\Form\UserType;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use App\Entity\UserOrder;
+use App\Entity\CreditCard;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 
@@ -28,41 +31,33 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/register", name="register")
+     * @Route("/profil", name="user_profil")
      */
-    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder) {
+    public function user_profil(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $user = $this->getUser();
+        $orders = $em->getRepository(UserOrder::class)->findByUser($user);
+        $credit_cards = $em->getRepository(CreditCard::class)->findBy(["user" => $user]);
 
-        $manager = $this->getDoctrine()->getManager();
-        $role = $manager->getRepository(Role::class)->findOneBy(["id" => 1]);
 
-        $user = new User();
-        $user->setRole($role);
 
         $form = $this->createForm(UserType::class, $user);
         $form->remove("Role");
 
-        $mdp = $form['password']->getData();
-        if ($mdp != null) {
-            $hashed_mdp = $passwordEncoder->encodePassword($user, $mdp);
-        }
-
-
         $form->handleRequest($request);
 
         if ($form->isSubmitted() and $form->isValid()) {
-//            $user->setPassword()
-//            $manager->persist($user);
-//            $manager->flush();
-            $this->addFlash("success", "Bienvenu parmis nous !");
-//            return $this->redirectToRoute("app_login");
+            $em->flush();
+            $this->addFlash("primary", "Vos modifications ont bien été pris en compte.");
+            return $this->redirectToRoute('user_profil');
         }
 
-        return $this->render("security/register.html.twig", [
-            "form" => $form->createView(),
-            "mdp" => $mdp,
-            "hashed_mdp" => $mdp
+        return $this->render('user/profil.html.twig', [
+            'user' => $user,
+            'form' => $form->createView(),
+            'credit_cards' =>$credit_cards,
+            'orders' => array_reverse($orders)
         ]);
-
     }
-
 }

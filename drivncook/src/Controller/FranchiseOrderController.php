@@ -6,26 +6,28 @@ use Faker;
 use App\Entity\Product;
 use App\Entity\Warehouse;
 use App\Entity\FranchiseOrder;
-use App\Entity\FranchiseOrderContent;
 use App\Entity\FranchiseStock;
-use App\Repository\FranchiseOrderContentRepository;
+use App\Entity\FranchiseOrderContent;
 use App\Repository\ProductRepository;
 use App\Repository\WarehouseRepository;
-
 use Doctrine\ORM\EntityManagerInterface;
+
 use App\Repository\FranchiseOrderRepository;
 use App\Repository\FranchiseStockRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Repository\FranchiseOrderContentRepository;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Knp\Bundle\SnappyBundle\Snappy\Response\PdfResponse;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
- * @Route("/commande") 
+ * @Route("/franchise/commande") 
+ * @IsGranted("ROLE_FRANCHISE")
  */
 class FranchiseOrderController extends AbstractController
 {

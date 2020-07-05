@@ -56,6 +56,11 @@ class UserOrder
      */
     private $totalPrice;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=false)
+     */
+    private $completeAddress;
+
     public function __construct()
     {
         $this->userOrderContents = new ArrayCollection();
@@ -165,6 +170,18 @@ class UserOrder
     public function setTotalPrice(float $totalPrice): self
     {
         $this->totalPrice = $totalPrice;
+
+        return $this;
+    }
+
+    public function getCompleteAddress(): ?string
+    {
+        return $this->completeAddress;
+    }
+
+    public function setCompleteAddress(?string $completeAddress): self
+    {
+        $this->completeAddress = $completeAddress;
 
         return $this;
     }

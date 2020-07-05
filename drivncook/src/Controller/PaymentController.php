@@ -137,7 +137,7 @@ class PaymentController extends AbstractController
             if ($user instanceof Franchise) {
                 return $this->redirectToRoute("franchise_profil");
             } elseif ($user instanceof  User) {
-                return $this->redirectToRoute("customer_profil");
+                return $this->redirectToRoute("user_profil");
             }
 
         }
@@ -172,7 +172,7 @@ class PaymentController extends AbstractController
             if ($user instanceof Franchise) {
                 return $this->redirectToRoute("franchise_profil");
             } elseif ($user instanceof  User) {
-                return $this->redirectToRoute("customer_profil");
+                return $this->redirectToRoute("user_profil");
             }
 
         }
@@ -197,7 +197,7 @@ class PaymentController extends AbstractController
         if ($user instanceof Franchise) {
             return $this->redirectToRoute("franchise_profil");
         } elseif ($user instanceof  User) {
-            return $this->redirectToRoute("customer_profil");
+            return $this->redirectToRoute("user_profil");
         }
     }
 

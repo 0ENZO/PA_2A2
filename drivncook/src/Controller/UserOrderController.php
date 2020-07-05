@@ -11,8 +11,13 @@ use App\Repository\MenuRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
+/**
+ * @Route("/client/commande") 
+ * IsGranted("ROLE_USER")
+ */
 class UserOrderController extends AbstractController
 {
     /**
@@ -119,9 +124,8 @@ class UserOrderController extends AbstractController
 
             $order = new UserOrder();
             $order->setUser($user);
-            dump($user);
-            dump($franchise);
             $order->setFranchise($franchise);
+            $order->setCompleteAddress('Adresse statique à 1 rue de la flemme, Néant 00001');
             $order->setDate(new \DateTime());
             $order->setStatus(1);
             $order->setTotalPrice($total);
@@ -149,5 +153,22 @@ class UserOrderController extends AbstractController
             $session->remove('cart_totalHT');
         }
         return $this->redirectToRoute('payment_success');
+    }
+
+    /**
+     * @Route("/{id}", name="user_order_show", requirements={"id"="\d+"})
+     */
+    public function show($id){
+
+        $em = $this->getDoctrine()->getManager();
+        $order = $em->getRepository(UserOrder::class)->findOneById($id);
+
+        if ($this->getUser() == $order->getUser()) {
+            return $this->render('user/order/show.html.twig', [
+                'order' => $order
+            ]);
+        } else {
+            throw new \Exception('Vous n\'êtes pas autorisé à accéder à  cette commande');    
+        }
     }
 }

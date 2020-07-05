@@ -548,6 +548,12 @@ class AppFixtures extends Fixture
             ->setDescription("Tout ce qui est relatif aux ".$category_repas->getName().".");
         $manager->persist($category_repas);
 
+        $category_menu = new Category();
+        $category_menu
+            ->setName('Menus')
+            ->setDescription("Tout ce qui est relatif aux ".$category_menu->getName().".");
+        $manager->persist($category_menu);
+
 
 
 
@@ -712,7 +718,7 @@ class AppFixtures extends Fixture
         $sub_category_brunch
             ->setName("Brunchs")
             ->setDescription("Relatif aux brunchs")
-            ->setCategory($category_repas);
+            ->setCategory($category_menu);
         $manager->persist($sub_category_brunch);
 
         $sub_category_salade = new SubCategory();
