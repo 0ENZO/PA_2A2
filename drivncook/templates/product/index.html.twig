@@ -154,7 +154,7 @@
                     var qty = document.getElementById("cifri" + id).value;
                     console.log('id' + id);
                     console.log('qty ' + qty);
-                    fetch(`/commande/panier/add/${id}/${qty}`, {
+                    fetch(`franchise/commande/panier/add/${id}/${qty}`, {
                     method: 'POST'
                     }).then(res => window.location.reload()); // On renvoit sur la page active 
                 }

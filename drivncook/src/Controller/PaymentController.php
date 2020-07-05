@@ -38,7 +38,13 @@ class PaymentController extends AbstractController
         }
 
         $credit_card = new CreditCard();
-        $credit_cards = $manager->getRepository(CreditCard::class)->findBy(["franchise" => $user]);
+
+        if ($this->getUser() instanceof User){
+            $credit_cards = $manager->getRepository(CreditCard::class)->findBy(["user" => $user]);
+
+        } elseif ( $this->getUser() instanceof Franchise) {
+            $credit_cards = $manager->getRepository(CreditCard::class)->findBy(["franchise" => $user]);
+        }
 
         if (!empty($selected_credit_card) || $selected_credit_card != null) {
             $selected_credit_card = $manager->getRepository(CreditCard::class)->find($selected_credit_card);

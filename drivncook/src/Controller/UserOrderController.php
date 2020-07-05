@@ -4,12 +4,16 @@ namespace App\Controller;
 
 use App\Entity\Franchise;
 use App\Entity\UserOrder;
-use App\Entity\UserOrderContent;
-use App\Repository\FranchiseRepository;
 use App\Service\CartService;
+use App\Entity\UserOrderContent;
 use App\Repository\MenuRepository;
+use App\Repository\FranchiseRepository;
+use App\Repository\FranchiseStockRepository;
+use Knp\Bundle\SnappyBundle\KnpSnappyBundle;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Knp\Bundle\SnappyBundle\Snappy\Response\PdfResponse;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -111,7 +115,7 @@ class UserOrderController extends AbstractController
     /**
      * @Route("/panier/validate", name="user_cart_validate")
      */
-    public function validate(SessionInterface $session, FranchiseRepository $franchiseRepository, MenuRepository $menuRepository)
+    public function validate(SessionInterface $session, FranchiseRepository $franchiseRepository, MenuRepository $menuRepository, FranchiseStockRepository $franchiseStockRepository)
     {
         $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
@@ -132,7 +136,19 @@ class UserOrderController extends AbstractController
             
             foreach ($cart as $id => $quantity){
                 $menu = $menuRepository->find($id);
+                /* 
+                $articles = $menu->getArticle();
 
+                // Que 1 article pour le moment, méthode à changer
+                foreach ($articles as $article){
+                    $product = $article->getRecipe()->getProduct();
+                    $recipeQty = $article->getRecipe()->getQuantity();
+                    // $stock = $franchiseStockRepository->findOneByProduct($product);
+                    $stockQty = $stock->getQuantity();
+                    $franchiseStocks = $franchiseStockRepository->findByFranchise($franchise);
+                    $stock = $
+                }
+                */
                 // Ajout des produits dans la commande 
                 $content = new UserOrderContent();
                 $content->setUserOrder($order);
@@ -140,10 +156,11 @@ class UserOrderController extends AbstractController
 
                 for ($i=0; $i < $quantity; $i++) { 
                     $contentQty = $content->getQuantity();
-                    $content->setQuantity($contentQty+1);                    
+                    $content->setQuantity($contentQty+1);         
                 }
                 $em->persist($content);
             }
+
             $em->persist($order);
             $em->flush();
 
@@ -169,6 +186,33 @@ class UserOrderController extends AbstractController
             ]);
         } else {
             throw new \Exception('Vous n\'êtes pas autorisé à accéder à  cette commande');    
+        }
+    }
+
+    /**
+     * @Route("/pdf/{id}", name="user_order_pdf", methods={"GET"}, requirements={"id"="\d+"})
+     */
+    public function pdf($id, \Knp\Snappy\Pdf $knpSnappy)
+    {  
+        $em = $this->getDoctrine()->getManager();
+        $order = $em->getRepository(UserOrder::class)->findOneById($id);
+        if ($this->getUser() == $order->getUser() || $this->isGranted('ROLE_ADMIN')){
+            $knpSnappy->setOption("encoding","UTF-8");
+            $filename = "mypdf";
+            $html = $this->renderView('user/order/show.html.twig' , array(
+                'order' => $order,
+            ));
+            
+            return new Response(
+                $knpSnappy->getOutputFromHtml($html),
+                200,
+                array(
+                    'Content-Type' => 'application/pdf',
+                    'Content-Disposition' => 'inline; filename="'.$filename.'.pdf"'
+                )
+            );
+        } else {
+            throw new \Exception('Vous n\'êtes pas autorisé à accéder à cette ressource.');    
         }
     }
 }

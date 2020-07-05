@@ -124,12 +124,12 @@
                                     {% else %}
                                         <div class="">Vous n'avez enregistré aucun moyen de paiment pour le moments. Vous pouvez soit payez avec une carte bancaire maintenant, ou en enregistrer une ou plusieurs sur votre profil.</div>
                                         <div class="text-center my-3">
-                                            {% if user is defined and user is not empty and user.role.id == 2 %}
-                                                <a class="btn btn-outline-primary" href="{{ path('franchise_profil') }}">Enregistrer un moyen de paiement</a>
-                                            {% elseif user is defined and user is not empty and user.role.id == 2 %}
-                                                <a class="btn btn-outline-primary" href="#{{ path('franchise_profil') }}">Enregistrer un moyen de paiement (mettre à jour vers le profil client quand il existera)</a>
+                                            {% if is_granted('ROLE_USER') %}
+                                                <a class="btn btn-outline-primary" href="{{ path('user_profil') }}">Enregistrer un moyen de paiement</a>
+                                            {% elseif is_granted('ROLE_FRANCHISE') %}
+                                                <a class="btn btn-outline-primary" href="#{{ path('franchise_profil') }}">Enregistrer un moyen de paiement</a>
                                             {% else %}
-                                                <p>Vous n'avez pas accès à cette fonctionnalité. Pour ce faire, vous devez vous inscrire</p>
+                                                <p>Vous n'avez pas accès à cette fonctionnalité. Pour se faire, vous devez vous inscrire</p>
                                             {% endif %}
                                         </div>
                                     {% endif %}
@@ -166,8 +166,8 @@
                                                 Numéro de carte :
                                                 <div style="background: rgba(24,24,25,0.74); color: #cca223; border-radius: 20px"
                                                      class="mx-auto px-3 mb-2">
-                                                    {% set arrayCBN = credit_card.cardNumber | split('', 4) %} {{ arrayCBN[0] }}
-                                                    - {{ arrayCBN[1] }} - {{ arrayCBN[2] }} - {{ arrayCBN[3] }}
+                                                    {% set arrayCBN = credit_card.cardNumber | split('', 4) %} 
+                                                    **** - **** - **** - {{ arrayCBN[3] }}
                                                 </div>
 
                                                 <div class="row mb-2">
@@ -311,8 +311,8 @@
                         Numéro de carte :
                         <div style="background: rgba(24,24,25,0.74); color: #cca223; border-radius: 20px"
                              class="mx-auto px-3 mb-2">
-                            {% set arrayCBN = selected_credit_card.cardNumber | split('', 4) %} {{ arrayCBN[0] }}
-                            - {{ arrayCBN[1] }} - {{ arrayCBN[2] }} - {{ arrayCBN[3] }}
+                            {% set arrayCBN = selected_credit_card.cardNumber | split('', 4) %} 
+                            **** - **** - **** - {{ arrayCBN[3] }}
                         </div>
 
                         <div class="row mb-2">

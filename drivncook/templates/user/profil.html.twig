@@ -167,7 +167,7 @@
                                                     <tr>
                                                         <td>Numéro de carte</td>
                                                         {% set arrayCBN = credit_card.cardNumber | split('', 4) %}
-                                                        <td>{{ arrayCBN[0] }} - {{ arrayCBN[1] }} - {{ arrayCBN[2] }} - {{ arrayCBN[3] }}</td>
+                                                        <td>**** - **** - **** - {{ arrayCBN[3] }}</td>
                                                     </tr>
                                                     <tr>
                                                         <td>Date d'expiration</td>
@@ -230,6 +230,9 @@
                                                                     <br>
                                                                     <a class="btn btn-primary" href="{{ path('user_order_show', {id: order.id}) }}">
                                                                         Voir ma facture <i class="fas fa-chevron-right ml-2"></i>
+                                                                    </a>
+                                                                    <a class="btn btn-success" href="{{ path('user_order_pdf', {id: order.id}) }}">
+                                                                        Export PDF <i class="fas fa-file-pdf ml-2"></i>
                                                                     </a>
     
                                                                   </div>
