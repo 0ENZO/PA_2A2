@@ -22,7 +22,7 @@ class Truck
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $complete_address;
+    private $completeAddress;
 
     /**
      * @ORM\Column(type="string", length=50)
@@ -87,15 +87,15 @@ class Truck
      */
     public function getCompleteAddress()
     {
-        return $this->complete_address;
+        return $this->completeAddress;
     }
 
     /**
-     * @param mixed $complete_address
+     * @param mixed $completeAddress
      */
-    public function setCompleteAddress($complete_address): void
+    public function setCompleteAddress($completeAddress): void
     {
-        $this->complete_address = $complete_address;
+        $this->completeAddress = $completeAddress;
     }
 
 

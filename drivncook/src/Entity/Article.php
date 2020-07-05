@@ -70,11 +70,6 @@ class Article
     private $subCategory;
 
     /**
-     * @ORM\OneToMany(targetEntity=UserOrderContent::class, mappedBy="article")
-     */
-    private $userOrderContents;
-
-    /**
      * @ORM\OneToMany(targetEntity=Recipe::class, mappedBy="article", orphanRemoval=true)
      * @Assert\Valid()
      */
@@ -111,7 +106,6 @@ class Article
 
     public function __construct()
     {
-        $this->userOrderContents = new ArrayCollection();
         $this->recipes = new ArrayCollection();
         $this->menus = new ArrayCollection();
     }
@@ -195,37 +189,6 @@ class Article
     public function setSubCategory(?SubCategory $subCategory): self
     {
         $this->subCategory = $subCategory;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|UserOrderContent[]
-     */
-    public function getUserOrderContents(): Collection
-    {
-        return $this->userOrderContents;
-    }
-
-    public function addUserOrderContent(UserOrderContent $userOrderContent): self
-    {
-        if (!$this->userOrderContents->contains($userOrderContent)) {
-            $this->userOrderContents[] = $userOrderContent;
-            $userOrderContent->setArticle($this);
-        }
-
-        return $this;
-    }
-
-    public function removeUserOrderContent(UserOrderContent $userOrderContent): self
-    {
-        if ($this->userOrderContents->contains($userOrderContent)) {
-            $this->userOrderContents->removeElement($userOrderContent);
-            // set the owning side to null (unless already changed)
-            if ($userOrderContent->getArticle() === $this) {
-                $userOrderContent->setArticle(null);
-            }
-        }
 
         return $this;
     }
@@ -326,9 +289,8 @@ class Article
         return $this;
     }
 
-
-    public function __toString() {
+    public function __toString()
+    {
         return $this->name;
     }
-
 }

@@ -7,6 +7,7 @@ use App\Entity\Franchise;
 use App\Entity\User;
 use App\Entity\Warehouse;
 use App\Form\CreditCardType;
+use App\Repository\FranchiseRepository;
 use App\Repository\WarehouseRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,7 +25,7 @@ class PaymentController extends AbstractController
      * Le Paiement de 50k euros des franchisé est deja pris en compte ultérieurement.l
      * @Route("/{selected_credit_card}", name="payment_process")
      */
-    public function index(Request $request, Session $session, $selected_credit_card = null, WarehouseRepository $warehouseRepository) {
+    public function index(Request $request, Session $session, $selected_credit_card = null, WarehouseRepository $warehouseRepository, FranchiseRepository $franchiseRepository) {
         // TODO ATTENTION. Rien n'est sécurisé ici. L'id de la final_cb passe tout le temps en GET. J'ai pas trouvé d'autres moyen pour le moment
         // TODO ATTENTION. Il va falloir aussi veiller à encoder les informations sensibles (informations bancaires nottement)
         // TODO ATTENTION. A terme, remplacer toutes les fausses valeurs par des vraies
@@ -67,6 +68,8 @@ class PaymentController extends AbstractController
         
         if ($user instanceof Franchise) {
             $consignee = $warehouseRepository->findOneById($session->get('cart_warehouse'));
+        } else {
+            $consignee = $franchiseRepository->findOneById($session->get('cart_franchise'));
         }
 
         if (empty($user)) {
@@ -75,7 +78,6 @@ class PaymentController extends AbstractController
         } else {
             $source = $user;
         }
-
 
         return $this->render('payment/index.html.twig', [
            "customer_form" => $customer_form->createView(),
@@ -135,7 +137,7 @@ class PaymentController extends AbstractController
             if ($user instanceof Franchise) {
                 return $this->redirectToRoute("franchise_profil");
             } elseif ($user instanceof  User) {
-                return $this->redirectToRoute("customer_profil");
+                return $this->redirectToRoute("user_profil");
             }
 
         }
@@ -170,7 +172,7 @@ class PaymentController extends AbstractController
             if ($user instanceof Franchise) {
                 return $this->redirectToRoute("franchise_profil");
             } elseif ($user instanceof  User) {
-                return $this->redirectToRoute("customer_profil");
+                return $this->redirectToRoute("user_profil");
             }
 
         }
@@ -195,7 +197,7 @@ class PaymentController extends AbstractController
         if ($user instanceof Franchise) {
             return $this->redirectToRoute("franchise_profil");
         } elseif ($user instanceof  User) {
-            return $this->redirectToRoute("customer_profil");
+            return $this->redirectToRoute("user_profil");
         }
     }
 

@@ -72,6 +72,7 @@ class FranchiseMenuService
                 ->setFranchise($franchise)
                 ->addArticle($article)
                 ->setName($article->getName())
+                ->setSubCategory($article->getSubCategory())
                 ->setPrice($article->getPrice())
                 ->setVat($menu->getPrice() * 0.20)
                 ->setDescription($article->getDescription())

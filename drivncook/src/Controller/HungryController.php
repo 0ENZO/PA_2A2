@@ -7,6 +7,7 @@ use App\Entity\Menu;
 use App\Service\FranchiseMenuService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
 
 
@@ -54,8 +55,9 @@ class HungryController extends AbstractController
     /**
      * @Route("/franchise/{id}/menu", name="menu_showcase")
      */
-    public function menu_showcase($id, Request $request) {
+    public function menu_showcase($id, Session $session) {
 
+        $session->set('cart_franchise', $id);
         $manager = $this->getDoctrine()->getManager();
         $franchise = $manager->getRepository(Franchise::class)->findOneBy(["id" => $id]);
         $menus = $manager->getRepository(Menu::class)->findBy(["franchise" => $id]);

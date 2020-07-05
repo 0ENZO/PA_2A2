@@ -255,7 +255,11 @@
                     <tr>
                         <td>Destinataire du paiement de la commande</td>
                         <td>{% if consignee is defined and consignee is not null %}
-                                {{ consignee.name }} - {{ consignee.address }}
+                                {% if consignee.name is defined %}
+                                    {{ consignee.name }} - {{ consignee.address }}
+                                {% else %}
+                                    Drivncook - {{ consignee.address }}
+                                {% endif %}
                             {% else %}
                                 <strong>Ceci ne devrait pas s'afficher</strong>
                             {% endif %}
@@ -341,7 +345,11 @@
         </div>
 
         <div class="container text-center">
-            <a href="{{ path('franchise_cart_validate') }}" class="btn btn-success">CONFIRMER LE PAIEMENT</a>
+            {% if app.session.get('cart_warehouse') is defined and app.session.get('cart_warehouse') is not null %}
+                <a href="{{ path('franchise_cart_validate') }}" class="btn btn-success">CONFIRMER LE PAIEMENT</a>
+            {% elseif app.session.get('cart_franchise') is defined and app.session.get('cart_franchise') is not null %}
+                <a href="{{ path('user_cart_validate') }}" class="btn btn-success">CONFIRMER LE PAIEMENT</a>
+            {% endif %}
         </div>
     {% endif %}
 

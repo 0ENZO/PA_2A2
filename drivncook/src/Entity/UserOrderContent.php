@@ -24,15 +24,14 @@ class UserOrderContent
     private $userOrder;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Article::class, inversedBy="userOrderContents")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $article;
-
-    /**
      * @ORM\Column(type="integer")
      */
     private $quantity;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Menu::class, inversedBy="userOrderContents")
+     */
+    private $menu;
 
     public function getId(): ?int
     {
@@ -51,18 +50,6 @@ class UserOrderContent
         return $this;
     }
 
-    public function getArticle(): ?Article
-    {
-        return $this->article;
-    }
-
-    public function setArticle(?Article $article): self
-    {
-        $this->article = $article;
-
-        return $this;
-    }
-
     public function getQuantity(): ?int
     {
         return $this->quantity;
@@ -71,6 +58,18 @@ class UserOrderContent
     public function setQuantity(int $quantity): self
     {
         $this->quantity = $quantity;
+
+        return $this;
+    }
+
+    public function getMenu(): ?Menu
+    {
+        return $this->menu;
+    }
+
+    public function setMenu(?Menu $menu): self
+    {
+        $this->menu = $menu;
 
         return $this;
     }
