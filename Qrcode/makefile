@@ -12,14 +12,14 @@ GTKLIB = `pkg-config --cflags --libs gtk+-3.0`
 LDSLIB = `sdl2-config --libs`
 LDFLAGS = $(PTHREAD) $(GTKLIB) -export-dynamic $(LDSLIB)
 
-SRCS = main.c qrcodegen.c
+SRCS = main.c qrcodegen.c sha256.c
 
 OBJS = $(SRCS:.c=.o)
 
 all: $(NAME)
 
 $(NAME):	$(OBJS) 
-	$(CC) -o $(NAME) $(OBJS) $(LDFLAGS) $(LIBS)  -lmysqlclient -lSDL2_image -lcurl
+	$(CC) -o $(NAME) $(OBJS) $(LDFLAGS) $(LIBS) -lSDL2_image -lcurl -lssl -lcrypto
 
 $(OBJS): $(SRCS)
 	$(CC) $(CFLAGS) $(GTKLIB) $(SRCS)
