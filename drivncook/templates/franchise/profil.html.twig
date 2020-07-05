@@ -29,7 +29,7 @@
                     <div class="profile-usermenu">
                         <ul class="nav nav-tabs flex-column ml-4" id="myTab" role="tablist">
                             <li class="nav-item">
-                              <a class="nav-link" href="" id="nav_profile" data-target="#pane_profile" data-toggle="tab">
+                              <a class="nav-link active" href="" id="nav_profile" data-target="#pane_profile" data-toggle="tab">
                                   <i class="mr-2 fas fa-id-card"></i>Mon profil
                               </a>
                             </li>
@@ -44,7 +44,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                              <a class="nav-link active" href="" id="nav_truck" data-target="#pane_truck" data-toggle="tab">
+                              <a class="nav-link" href="" id="nav_truck" data-target="#pane_truck" data-toggle="tab">
                                   <i class="mr-2 fas fa-truck"></i>Mon camion
                                 </a>
                             </li>
@@ -68,7 +68,7 @@
                     <div class="card-body">
                         <div class="tab-content" id="myTabContent">
 
-                            <div class="tab-pane" id="pane_profile" role="tabpanel">
+                            <div class="tab-pane active" id="pane_profile" role="tabpanel">
                                 <div class="col-md-8 mx-auto mt-3">
                                     <h2 class="text-bold text-center">Mon profil</h2>
 
@@ -121,7 +121,7 @@
 
                             </div>
 
-                            <div class="tab-pane active" id="pane_truck" role="tabpanel">
+                            <div class="tab-pane" id="pane_truck" role="tabpanel">
                                 <div class="col-md-6 mx-auto mt-5">
                                     <img class="img-fluid" src="{{ asset('/images/food_truck.jpg') }}" alt="">
 
@@ -209,16 +209,18 @@
                                                             </div>
                                                         
                                                             <div id="collapse{{loop.index}}" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
-                                                              <div class="card-body">
-                                                                {% for franchiseOrderContent in order.franchiseOrderContents %}
-                                                                    {{ franchiseOrderContent.product.name}}, 
-                                                                {% endfor %}
-                                                                <br>
-                                                                <a class="btn btn-primary" href="{{ path('franchise_order_show', {id: order.id}) }}">
-                                                                    Voir ma facture <i class="fas fa-chevron-right ml-2"></i>
-                                                                </a>
-
-                                                              </div>
+                                                                <div class="card-body">
+                                                                    {% for franchiseOrderContent in order.franchiseOrderContents %}
+                                                                        {{ franchiseOrderContent.product.name}}, 
+                                                                    {% endfor %}
+                                                                    <br>
+                                                                    <a class="btn btn-primary" href="{{ path('franchise_order_show', {id: order.id}) }}">
+                                                                        Voir ma facture <i class="fas fa-chevron-right ml-2"></i>
+                                                                    </a>
+                                                                    <a class="btn btn-success" href="{{ path('franchise_order_pdf', {id: order.id}) }}">
+                                                                        Export PDF <i class="fas fa-file-pdf ml-2"></i>
+                                                                    </a>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     {% endfor %}

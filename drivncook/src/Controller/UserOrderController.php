@@ -4,12 +4,15 @@ namespace App\Controller;
 
 use App\Entity\Franchise;
 use App\Entity\UserOrder;
-use App\Entity\UserOrderContent;
-use App\Repository\FranchiseRepository;
 use App\Service\CartService;
+use App\Entity\UserOrderContent;
 use App\Repository\MenuRepository;
+use App\Repository\FranchiseRepository;
+use Knp\Bundle\SnappyBundle\KnpSnappyBundle;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Knp\Bundle\SnappyBundle\Snappy\Response\PdfResponse;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -169,6 +172,33 @@ class UserOrderController extends AbstractController
             ]);
         } else {
             throw new \Exception('Vous n\'êtes pas autorisé à accéder à  cette commande');    
+        }
+    }
+
+    /**
+     * @Route("/pdf/{id}", name="user_order_pdf", methods={"GET"}, requirements={"id"="\d+"})
+     */
+    public function pdf($id, \Knp\Snappy\Pdf $knpSnappy)
+    {  
+        $em = $this->getDoctrine()->getManager();
+        $order = $em->getRepository(UserOrder::class)->findOneById($id);
+        if ($this->getUser() == $order->getUser() || $this->isGranted('ROLE_ADMIN')){
+            $knpSnappy->setOption("encoding","UTF-8");
+            $filename = "mypdf";
+            $html = $this->renderView('user/order/show.html.twig' , array(
+                'order' => $order,
+            ));
+            
+            return new Response(
+                $knpSnappy->getOutputFromHtml($html),
+                200,
+                array(
+                    'Content-Type' => 'application/pdf',
+                    'Content-Disposition' => 'inline; filename="'.$filename.'.pdf"'
+                )
+            );
+        } else {
+            throw new \Exception('Vous n\'êtes pas autorisé à accéder à cette ressource.');    
         }
     }
 }

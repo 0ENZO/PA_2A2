@@ -19,6 +19,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\FranchiseOrderContentRepository;
 use Symfony\Component\HttpFoundation\Session\Session;
+use Knp\Bundle\SnappyBundle\KnpSnappyBundle;
 use Knp\Bundle\SnappyBundle\Snappy\Response\PdfResponse;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -275,21 +276,26 @@ class FranchiseOrderController extends AbstractController
 
         $em = $this->getDoctrine()->getManager();
         $order = $em->getRepository(FranchiseOrder::class)->findOneById($id);
+
+        if ($this->getUser() == $order->getFranchise() || $this->isGranted('ROLE_ADMIN')){
         
-        $knpSnappy->setOption("encoding","UTF-8");
-        $filename = "mypdf";
-        $html = $this->renderView('franchise/order/show.html.twig' , array(
-            'order' => $order,
-        ));
-        
-        return new Response(
-            $knpSnappy->getOutputFromHtml($html),
-            200,
-            array(
-                'Content-Type' => 'application/pdf',
-                'Content-Disposition' => 'inline; filename="'.$filename.'.pdf"'
-            )
-        );
+            $knpSnappy->setOption("encoding","UTF-8");
+            $filename = "mypdf";
+            $html = $this->renderView('franchise/order/show.html.twig' , array(
+                'order' => $order,
+            ));
+            
+            return new Response(
+                $knpSnappy->getOutputFromHtml($html),
+                200,
+                array(
+                    'Content-Type' => 'application/pdf',
+                    'Content-Disposition' => 'inline; filename="'.$filename.'.pdf"'
+                )
+            );
+        } else {
+            throw new \Exception('Vous n\'êtes pas autorisé à accéder à cette ressource.');    
+        }
     }
 
     /**

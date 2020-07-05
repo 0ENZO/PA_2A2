@@ -34,9 +34,9 @@ class PageController extends AbstractController
 
             $email = (new \Swift_Message())
                 ->setSubject('Learn - Nouveau commentaire')
-                ->setFrom('enzo.arhab@gmail.com')
+                ->setFrom('drivn.cook.equipe@gmail.com')
                 ->setTo($mail)
-                ->setBcc('enzo.arhab@gmail.com')
+                ->setBcc('drivn.cook.equipe@gmail.com')
                 ->setBody($message)
             ;   
             $mailer->send($email);
