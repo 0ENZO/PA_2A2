@@ -8,6 +8,7 @@ use App\Service\CartService;
 use App\Entity\UserOrderContent;
 use App\Repository\MenuRepository;
 use App\Repository\FranchiseRepository;
+use App\Repository\FranchiseStockRepository;
 use Knp\Bundle\SnappyBundle\KnpSnappyBundle;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -114,7 +115,7 @@ class UserOrderController extends AbstractController
     /**
      * @Route("/panier/validate", name="user_cart_validate")
      */
-    public function validate(SessionInterface $session, FranchiseRepository $franchiseRepository, MenuRepository $menuRepository)
+    public function validate(SessionInterface $session, FranchiseRepository $franchiseRepository, MenuRepository $menuRepository, FranchiseStockRepository $franchiseStockRepository)
     {
         $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
@@ -135,7 +136,19 @@ class UserOrderController extends AbstractController
             
             foreach ($cart as $id => $quantity){
                 $menu = $menuRepository->find($id);
+                /* 
+                $articles = $menu->getArticle();
 
+                // Que 1 article pour le moment, méthode à changer
+                foreach ($articles as $article){
+                    $product = $article->getRecipe()->getProduct();
+                    $recipeQty = $article->getRecipe()->getQuantity();
+                    // $stock = $franchiseStockRepository->findOneByProduct($product);
+                    $stockQty = $stock->getQuantity();
+                    $franchiseStocks = $franchiseStockRepository->findByFranchise($franchise);
+                    $stock = $
+                }
+                */
                 // Ajout des produits dans la commande 
                 $content = new UserOrderContent();
                 $content->setUserOrder($order);
@@ -143,10 +156,11 @@ class UserOrderController extends AbstractController
 
                 for ($i=0; $i < $quantity; $i++) { 
                     $contentQty = $content->getQuantity();
-                    $content->setQuantity($contentQty+1);                    
+                    $content->setQuantity($contentQty+1);         
                 }
                 $em->persist($content);
             }
+
             $em->persist($order);
             $em->flush();
 

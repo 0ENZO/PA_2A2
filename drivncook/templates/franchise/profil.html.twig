@@ -327,8 +327,8 @@
                                                     Numéro de carte :
                                                     <div style="background: rgba(24,24,25,0.74); color: #cca223; border-radius: 20px"
                                                          class="mx-auto px-3 mb-2">
-                                                        {% set arrayCBN = credit_card.cardNumber | split('', 4) %} {{ arrayCBN[0] }}
-                                                        - {{ arrayCBN[1] }} - {{ arrayCBN[2] }} - {{ arrayCBN[3] }}
+                                                        {% set arrayCBN = credit_card.cardNumber | split('', 4) %} 
+                                                        **** - **** - **** - {{ arrayCBN[3] }}
                                                     </div>
 
                                                     <div class="row mb-2">
