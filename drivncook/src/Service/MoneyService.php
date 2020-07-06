@@ -23,7 +23,6 @@ class MoneyService
     /**
      * @return array
      * Description: Retourne toutes les informations monétaire de la société
-     * TODO : A compléter pour remplacer les XXX dans le template des récapitulatifs monétaires globaux
      */
     public function getMoneyData() : array {
         $franchiseOrders = $this->manager->getRepository(FranchiseOrder::class)->findAll();
@@ -65,6 +64,39 @@ class MoneyService
         ];
 
         return $moneyData;
+    }
+
+    /**
+     * @param array $franchiseOrders
+     * @param array $userOrders
+     * @return array
+     * Description: Retourne les recettes en fonctions des dépenses et rentrées d'agent d'un franchisé
+     */
+    public function getFranchiseSalesRevenu(array $franchiseOrders, array $userOrders) : array {
+
+        $total_franchise_orders = 0;
+        $total_royalties_given = 0;
+        $total_gain = 0;
+
+        foreach ($franchiseOrders as $franchiseOrder) {
+            $total_franchise_orders += $franchiseOrder->getTotalPrice();
+        }
+
+        foreach ($userOrders as $userOrder) {
+            $total_royalties_given += $userOrder->getTotalPrice() * 0.04;
+            $total_gain += $userOrder->getTotalPrice() - ($userOrder->getTotalPrice() * 0.04);
+        }
+
+        $franchiseMoneyData = [
+            "total_franchise_orders" => $total_franchise_orders,
+            "total_royalties_given" => $total_royalties_given,
+            "total_gain" => $total_gain,
+            "total" => $total_gain - ($total_franchise_orders + $total_royalties_given)
+        ];
+
+        return $franchiseMoneyData;
+
+
     }
 
 
