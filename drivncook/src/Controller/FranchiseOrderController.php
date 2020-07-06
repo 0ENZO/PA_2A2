@@ -139,7 +139,9 @@ class FranchiseOrderController extends AbstractController
 
                 // Ajout des produits dans le stock franchisé
                 // Modifier pour récup le stock correspondant
-                $franchiseStock = $franchiseStockRepository->findOneByProduct($product);
+                // $franchiseStock = $franchiseStockRepository->findOneByProduct($product);
+                $franchiseStock = $franchiseStockRepository->findByProductAndFranchise($product, $this->getUser());
+                dump($franchiseStock);
 
                 if (!$franchiseStock){
                     $franchiseStock = new FranchiseStock();
