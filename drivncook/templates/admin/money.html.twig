@@ -53,15 +53,15 @@
                 <tbody>
                 <tr>
                     <td>Totaux des commandes franchisés</td>
-                    <td>{{ moneyData["money_franchise_order"] }} €</td>
+                    <td>{{ moneyData["money_franchise_order"] | format_currency('EUR') }}</td>
                 </tr>
                 <tr>
                     <td>Totaux des royalties franchisés :</td>
-                    <td>{{ moneyData["money_user_order"] }} €</td>
+                    <td>{{ moneyData["money_user_order"] | format_currency('EUR')}}</td>
                 </tr>
                 <tr>
                     <td>Totaux des coûts d'adhésion des franchisés :</td>
-                    <td>{{ moneyData["money_enroled_franchise"] }} €</td>
+                    <td>{{ moneyData["money_enroled_franchise"] | format_currency('EUR') }}</td>
                 </tr>
                 </tbody>
             </table>
@@ -72,7 +72,7 @@
                 <tbody>
                 <tr>
                     <td>Chiffre d'affaire :</td>
-                    <td>{{ moneyData["sales_revenue"] }} €</td>
+                    <td>{{ moneyData["sales_revenue"] | format_currency('EUR') }}</td>
                 </tr>
                 </tbody>
             </table>
@@ -102,7 +102,7 @@
                         <th scope="row">{{ franchise.id }}</th>
                         <td>{{ franchise.firstName }} {{ franchise.firstName }}</td>
                         <td>Driv'n Cook</td>
-                        <td style="color: #58a259">+ 50 000 €</td>
+                        <td style="color: #58a259">+ 50 000,00 €</td>
                     </tr>
                 {% endfor %}
             {% else %}
@@ -139,7 +139,7 @@
                         <td>{{ franchiseOrder.franchise }}</td>
                         <td>{{ franchiseOrder.warehouse }} - Driv'n Cook</td>
                         <td>{{ franchiseOrder.date | date('j/m/y') }}</td>
-                        <td style="color: #58a259">+ {{ franchiseOrder.totalPrice }} €</td>
+                        <td style="color: #58a259">+ {{ franchiseOrder.totalPrice | format_currency('EUR') }}</td>
                         <td>
                             <a href="{{ path('admin_franchise_order_content', {"franchiseOrderId" : franchiseOrder.id}) }}"><i class="far fa-eye"></i></a>
                         </td>
@@ -181,8 +181,9 @@
                         <td>{{ userOrder.user }}</td>
                         <td>{{ userOrder.franchise.firstName }} {{ userOrder.franchise.firstName }} - Driv'n Cook</td>
                         <td>{{ userOrder.date | date('j/m/y') }}</td>
-                        <td>{{ userOrder.totalPrice }} €</td>
-                        <td style="color: #58a259">+ {{ userOrder.totalPrice * 0.04 }} €</td>
+                        <td>{{ userOrder.totalPrice | format_currency('EUR') }} </td>
+                        {% set totalPrice = userOrder.totalPrice * 0.04 %}
+                        <td style="color: #58a259">+ {{ totalPrice | format_currency('EUR') }} </td>
                         <td>
                             <a href="{{ path('admin_user_order_content', {"userOrderId" : userOrder.id}) }}"><i class="far fa-eye"></i></a>
                         </td>

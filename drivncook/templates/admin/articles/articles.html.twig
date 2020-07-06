@@ -74,9 +74,10 @@
                                 {% endfor %}
                             </ul>
                         </td>
-                        <td>{{ article.price }} €</td>
-                        <td>{{ article.vat }} €</td>
-                        <td>{{ article.vat + article.price }} €</td>
+                        <td>{{ article.price | format_currency('EUR') }}</td>
+                        <td>{{ article.vat | format_currency('EUR') }}</td>
+                        {% set ttc = article.vat + article.price %}
+                        <td>{{ ttc | format_currency('EUR') }}</td>
                         <td>{{ article.imageName }}</td>
                         <td>
                             {% if article.status == 'Disponible' %}
