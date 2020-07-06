@@ -6,6 +6,7 @@ use App\Entity\Article;
 use App\Entity\Breakdown;
 use App\Entity\BreakdownType;
 use App\Entity\Category;
+use App\Entity\FranchiseStock;
 use App\Entity\MaxCapacity;
 use App\Entity\Recipe;
 use App\Entity\Role;
@@ -21,8 +22,11 @@ use App\Entity\Warehouse;
 use App\Entity\WarehouseStock;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Validator\Constraints\Date;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use App\Repository\FranchiseRepository;
+use App\Repository\FranchiseStockRepository;
 
 class AppFixtures extends Fixture
 {
@@ -254,11 +258,6 @@ class AppFixtures extends Fixture
             // $franchise->setBirthDate(new \DateTime());
             $manager->persist($franchise);
         }
-
-
-
-
-
 
 
 
@@ -5501,9 +5500,28 @@ class AppFixtures extends Fixture
 
         $manager->persist($article);
 
+        $manager->flush();
 
 
 
+        $franchises = $manager->getRepository(Franchise::class)->findAll();
+        $products = $manager->getRepository(Product::class)->findAll();
+
+        foreach ($franchises as $franchise) {
+            foreach ($products as $product) {
+
+                $franchise_stock = new FranchiseStock();
+
+                $franchise_stock->setProduct($product);
+                if ($product->getType() == "Kg" || $product->getType() == "L")
+                    $franchise_stock->setQuantity(2);
+                else
+                    $franchise_stock->setQuantity(25);
+                $franchise_stock->setFranchise($franchise);
+
+                $manager->persist($franchise_stock);
+            }
+        }
 
         $manager->flush();
     }

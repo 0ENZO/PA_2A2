@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Visualisation Commandes clientes{% endblock %}
+
+{% block body %}
+
+    <div class="container mt-3">
+        <div class="jumbotron">
+            <h1 class="display-4">{% trans %}Contenu de commande client{% endtrans %}</h1>
+            <p class="lead">{% trans %}Contient ici toutes les données relatives au contenu d'une commande client{% endtrans %}</p>
+        </div>
+    </div>
+
+{#        {{ dump(userOrderContent) }}#}
+
+    <div class="container text-center">
+        <a href="{{ path('admin_money_show') }}" class="btn btn-outline-dark">Retour à la gestion monétaire</a>
+    </div>
+
+    <div class="container">
+
+        <table class="table mt-4">
+            <thead class="thead-dark">
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Menu</th>
+                <th scope="col">Quantité </th>
+                <th scope="col">Catégorie</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% if userOrderContent is defined and userOrderContent is not empty %}
+                {% for content in userOrderContent %}
+                    <tr>
+                        <th scope="row">{{ content.id }}</th>
+                        <td>{{ content.menu.name }}</td>
+                        <td>{{ content.quantity }}</td>
+                        <td>
+                            {% if content.menu.subCategory == 'Plat normal' %}
+                                {% set badge = 'badge-warning' %}
+                            {% elseif content.menu.subCategory == 'Brunchs' %}
+                                {% set badge = 'badge-info' %}
+                            {% else %}
+                                {% set badge = 'badge-dark' %}
+                            {% endif %}
+                            <span class="badge badge-pill {{ badge }}">{{ content.menu.subCategory }}</span>
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% else %}
+                <tr>Aucun produits n'est disponibles</tr>
+            {% endif %}
+
+
+            </tbody>
+        </table>
+    </div>
+
+{% endblock %}
