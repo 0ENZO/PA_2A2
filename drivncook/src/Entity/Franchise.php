@@ -134,6 +134,11 @@ class Franchise implements UserInterface
      */
     private $userOrders;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Notify::class, mappedBy="franchise")
+     */
+    private $notice;
+
     public function __construct()
     {
         $this->trucks = new ArrayCollection();
@@ -145,6 +150,7 @@ class Franchise implements UserInterface
         $this->events = new ArrayCollection();
         $this->franchiseStocks = new ArrayCollection();
         $this->userOrders = new ArrayCollection();
+        $this->notice = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -633,6 +639,37 @@ class Franchise implements UserInterface
             // set the owning side to null (unless already changed)
             if ($userOrder->getFranchise() === $this) {
                 $userOrder->setFranchise(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Notify[]
+     */
+    public function getNotice(): Collection
+    {
+        return $this->notice;
+    }
+
+    public function addNotice(Notify $notice): self
+    {
+        if (!$this->notice->contains($notice)) {
+            $this->notice[] = $notice;
+            $notice->setFranchise($this);
+        }
+
+        return $this;
+    }
+
+    public function removeNotice(Notify $notice): self
+    {
+        if ($this->notice->contains($notice)) {
+            $this->notice->removeElement($notice);
+            // set the owning side to null (unless already changed)
+            if ($notice->getFranchise() === $this) {
+                $notice->setFranchise(null);
             }
         }
 
