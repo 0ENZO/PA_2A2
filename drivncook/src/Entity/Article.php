@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\ArticleRepository;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\HttpFoundation\File\File;
 use Doctrine\Common\Collections\ArrayCollection;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
@@ -13,6 +14,10 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity(repositoryClass=ArticleRepository::class)
  * @Vich\Uploadable
+ * @UniqueEntity(
+ *     fields={"name"},
+ *     message="Cet article existe déjà dans notre base de données. Veuillez en choisir un autre."
+ * )
  */
 class Article
 {
@@ -25,21 +30,37 @@ class Article
 
     /**
      * @ORM\Column(type="string", length=50)
+     * @Assert\Type(type="string")
+     * @Assert\Length(
+     *     max="25",
+     *     maxMessage="Vous ne pouvers pas mettre un nom d'artcile faisant plus de 25 caractères.",
+     *     min="2",
+     *     minMessage="Vous devez au moins mettre un nom d'article faisnt au moins 2 caractères."
+     * )
      */
     private $name;
 
     /**
+     * @ORM\Column(type="string")
+     * @Assert\Type(type="string")
+     */ // Disponible ou indisponible, comme pour produit
+    private $status;
+
+    /**
      * @ORM\Column(type="text", nullable=true)
+     * @Assert\Type(type="string")
      */
     private $description;
 
     /**
      * @ORM\Column(type="float")
+     * @Assert\Type(type="float")
      */
     private $price;
 
     /**
      * @ORM\Column(type="float")
+     * @Assert\Type(type="float")
      */
     private $vat;
 
@@ -49,18 +70,14 @@ class Article
     private $subCategory;
 
     /**
-     * @ORM\OneToMany(targetEntity=UserOrderContent::class, mappedBy="article")
-     */
-    private $userOrderContents;
-
-    /**
-     * @ORM\OneToMany(targetEntity=Recipe::class, mappedBy="article")
+     * @ORM\OneToMany(targetEntity=Recipe::class, mappedBy="article", orphanRemoval=true)
+     * @Assert\Valid()
      */
     private $recipes;
 
     /**
      * NOTE: This is not a mapped field of entity metadata, just a simple property.
-     * @Vich\UploadableField(mapping="message_image", fileNameProperty="imageName")
+     * @Vich\UploadableField(mapping="article_images", fileNameProperty="imageName")
      * @Assert\Image(
      *  maxSize = "5M",
      *  mimeTypes={ "image/gif", "image/jpeg", "image/png" }
@@ -68,6 +85,13 @@ class Article
      * @var File|null
      */
     private $imageFile;
+
+    /**
+     * @ORM\Column(name="UploadDate" ,type="datetime", nullable=true)
+     *
+     * @var \DateTimeInterface|null
+     */
+    private $updatedAt;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -82,7 +106,6 @@ class Article
 
     public function __construct()
     {
-        $this->userOrderContents = new ArrayCollection();
         $this->recipes = new ArrayCollection();
         $this->menus = new ArrayCollection();
     }
@@ -103,6 +126,24 @@ class Article
 
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * @param mixed $status
+     */
+    public function setStatus($status): void
+    {
+        $this->status = $status;
+    }
+
+
 
     public function getDescription(): ?string
     {
@@ -148,37 +189,6 @@ class Article
     public function setSubCategory(?SubCategory $subCategory): self
     {
         $this->subCategory = $subCategory;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|UserOrderContent[]
-     */
-    public function getUserOrderContents(): Collection
-    {
-        return $this->userOrderContents;
-    }
-
-    public function addUserOrderContent(UserOrderContent $userOrderContent): self
-    {
-        if (!$this->userOrderContents->contains($userOrderContent)) {
-            $this->userOrderContents[] = $userOrderContent;
-            $userOrderContent->setArticle($this);
-        }
-
-        return $this;
-    }
-
-    public function removeUserOrderContent(UserOrderContent $userOrderContent): self
-    {
-        if ($this->userOrderContents->contains($userOrderContent)) {
-            $this->userOrderContents->removeElement($userOrderContent);
-            // set the owning side to null (unless already changed)
-            if ($userOrderContent->getArticle() === $this) {
-                $userOrderContent->setArticle(null);
-            }
-        }
 
         return $this;
     }
@@ -257,6 +267,7 @@ class Article
         return $this->menus;
     }
 
+
     public function addMenu(Menu $menu): self
     {
         if (!$this->menus->contains($menu)) {
@@ -267,6 +278,7 @@ class Article
         return $this;
     }
 
+
     public function removeMenu(Menu $menu): self
     {
         if ($this->menus->contains($menu)) {
@@ -275,5 +287,10 @@ class Article
         }
 
         return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->name;
     }
 }

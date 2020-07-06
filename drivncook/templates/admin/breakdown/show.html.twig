@@ -1,0 +1,166 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion des pannes{% endblock %}
+
+{% block body %}
+
+
+    <div class="container mt-3">
+        <div class="jumbotron">
+            <h1 class="display-4">{% trans %}Gestion des références de pannes{% endtrans %}</h1>
+            <p class="lead">{% trans %}C'est ici que l'on détermine les types de pannes et les pannes qui leur sont attribuées.{% endtrans %}</p>
+            <hr>
+            <div class="card-body">
+                <p>{% trans %}Les types de pannes réprésentent le niveau de gravité global d'un panne.{% endtrans %}</p>
+                <p>{% trans %}Et les pannes en question sont les différentes pannes qu'il est possible de déclarer et répertorier en fonction de son typé précédemment déclaré.{% endtrans %}</p>
+                <hr>
+                <p class="text-muted">{% trans %}Note : Les pannes de type 2 et 3 entrainent une suspenssion de l'activité du franchisé jusqu'à qu'elle soit résolue.{% endtrans %}</p>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="container mt-5">
+
+        <button class="btn btn-primary rounded-circlez mb-3" id="button_add_breakdownType" data-toggle="modal" data-target="#add_breakdownType">
+            <span class="fa fa-plus mr-2"></span>Ajouter un type de panne
+        </button>
+        <button class="btn btn-primary rounded-circlez mb-3" id="button_add_breakdown" data-toggle="modal" data-target="#add_breakdown">
+            <span class="fa fa-plus mr-2"></span>Ajouter une panne
+        </button>
+
+        <a href="{{ path('admin_show') }}" class="btn btn-outline-dark mb-3">Retour au menu administrateur</a>
+
+        <h4 class="text-center mt-2">Types de pannes référencés</h4>
+        <table class="table mt-4">
+            <thead class="thead-dark">
+                <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Nom</th>
+                <th scope="col">Description</th>
+                <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for breakdownType in breakdownTypes %}
+                    <tr>
+                        <th scope="row">{{ breakdownType.id}}</th>
+                        <td>{{ breakdownType.name }}</td>
+                        <td>{{ breakdownType.description }}</td>
+
+                        <td>
+                            <a class="mr-2" data-toggle="tooltip" data-placement="top" title="Modifier" href="{{ path('admin_breakdownType_edit', { 'id': breakdownType.id}) }}"><i class="fas fa-pen"></i></a>
+                            <a href="#" data-href="{{ path('admin_breakdownType_delete', { 'id': breakdownType.id}) }}" class="" data-placement="bottom" 
+                            title="Supprimer" data-toggle="modal" data-target="#delete_breakdownType">
+                                <i class="fas fa-trash-alt"></i>
+                            </a>  
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <hr class="my-4">
+
+        <h4 class="text-center mt-2">Pannes référencées</h4>
+        <table class="table mt-4">
+            <thead class="thead-dark">
+                <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Nom</th>
+                <th scope="col">Types de pannes</th>
+                <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for breakdown in breakdowns %}
+                    <tr>
+                        <th scope="row">{{ breakdown.id}}</th>
+                        <td>{{ breakdown.statement }}</td>
+                        <td>{{ breakdown.breakdownType }}</td>
+                        <td>
+                            <a class="mr-2" data-toggle="tooltip" data-placement="top" title="Modifier" href="{{ path('admin_breakdown_edit', { 'id': breakdown.id}) }}"><i class="fas fa-pen"></i></a>
+                            <a href="#" data-href="{{ path('admin_breakdown_delete', { 'id': breakdown.id}) }}" class="" data-placement="bottom"
+                               title="Supprimer" data-toggle="modal" data-target="#delete_breakdown">
+                                <i class="fas fa-trash-alt"></i>
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="modal fade" id="delete_breakdownType" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        Supprimer un type de panne
+                    </div>
+                    <div class="modal-body">
+                        Êtes-vous sûr de vouloir supprimer ce type de panne ?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Fermer</button>
+                        <a class="btn btn-danger btn-ok text-white">Supprimer</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="add_breakdownType" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header d-flex align-items-center">
+                        <h4 class="modal-title mb-0" id="add_breakdownType">Ajouter un type de panne</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true"><i class="fas fa-times"></i></span>
+                        </button>
+                    </div>
+                    <div class="modal-body bg-body">
+                        {{ form_start(form_breakdownType) }}
+                            {{ form_widget(form_breakdownType) }}
+                        {{ form_end(form_breakdownType) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="delete_breakdown" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        Supprimer une catégorie
+                    </div>
+                    <div class="modal-body">
+                        Êtes-vous sûr de vouloir supprimer cette catégorie ?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Fermer</button>
+                        <a class="btn btn-danger btn-ok text-white">Supprimer</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="add_breakdown" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header d-flex align-items-center">
+                        <h4 class="modal-title mb-0" id="add_breakdown">Ajouter une panne</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true"><i class="fas fa-times"></i></span>
+                        </button>
+                    </div>
+                    <div class="modal-body bg-body">
+                        {{ form_start(form_breakdown) }}
+                            {{ form_widget(form_breakdown) }}
+                        {{ form_end(form_breakdown) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    
+{% endblock %}
+

@@ -1,0 +1,201 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion monétaire{% endblock %}
+
+{% block body %}
+
+    <div class="container mt-3">
+        <div class="jumbotron">
+            <h1 class="display-4">{% trans %}Gestion monétaire{% endtrans %}</h1>
+            <p class="lead">{% trans %}C'est ici que l'on peut consulter les chiffres de ventes globaux de la société{% endtrans %}</p>
+            <hr>
+            <p>{% trans %}Est détaillé dans cette section, l'ensemble des données monétaires, que ce soient depuis les franchisés, de part leurs
+                adhésions et association avec la société, les royalties perçues ou vis-à-vis de leurs commandes au sein des différents entrepôts de Drivn'Cook.{% endtrans %}</p>
+
+        </div>
+    </div>
+
+    {#    {{ dump(franchiseOrders) }}#}
+    {#    {{ dump(franchiseOrders[0]) }}#}
+    {#    {{ dump(franchiseOrders[0].franchiseOrderContents) }}#}
+    {#    {{ dump(franchises) }}#}
+
+    <div class="container text-center">
+        <a href="{{ path('admin_show') }}" class="btn btn-outline-dark mb-2">Retour menu administrateur</a>
+    </div>
+
+    <div class="container mt-3">
+        <div class="jumbotron">
+            <h4 class="text-center display-5">Récapitulatifs globaux</h4>
+            <hr>
+            <p class="lead">{% trans %}Récapitulatif <strong>quantitatif</strong>{% endtrans %}</p>
+            <hr>
+            <table>
+                <tbody>
+                <tr>
+                    <td>Nombre de commande franchisé :</td>
+                    <td>{{ moneyData["nb_franchise_order"] }}</td>
+                </tr>
+                <tr>
+                    <td>Nombre de commande clients :</td>
+                    <td>{{ moneyData["nb_user_order"] }}</td>
+                </tr>
+                <tr>
+                    <td>Nombre de franchisés enrolés</td>
+                    <td>{{ moneyData["nb_franchise"] }}</td>
+                </tr>
+                </tbody>
+            </table>
+            <hr>
+            <p class="lead">{% trans %}Récapitulatif <strong>monétaire</strong>{% endtrans %}</p>
+            <hr>
+            <table>
+                <tbody>
+                <tr>
+                    <td>Totaux des commandes franchisés</td>
+                    <td>{{ moneyData["money_franchise_order"] }} €</td>
+                </tr>
+                <tr>
+                    <td>Totaux des royalties franchisés :</td>
+                    <td>{{ moneyData["money_user_order"] }} €</td>
+                </tr>
+                <tr>
+                    <td>Totaux des coûts d'adhésion des franchisés :</td>
+                    <td>{{ moneyData["money_enroled_franchise"] }} €</td>
+                </tr>
+                </tbody>
+            </table>
+            <hr>
+            <p class="lead">{% trans %}<strong>Total</strong>{% endtrans %}</p>
+            <hr>
+            <table>
+                <tbody>
+                <tr>
+                    <td>Chiffre d'affaire :</td>
+                    <td>{{ moneyData["sales_revenue"] }} €</td>
+                </tr>
+                </tbody>
+            </table>
+            <hr>
+        </div>
+    </div>
+
+    <div class="container">
+
+        <hr>
+
+        <h4 class="display-5">1. Franchisés enrolés</h4>
+
+        <table class="table mt-4">
+            <thead class="thead-dark">
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Payeur</th>
+                <th scope="col">Receveur</th>
+                <th scope="col">Montant</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% if franchises is defined and franchises is not empty %}
+                {% for franchise in franchises %}
+                    <tr>
+                        <th scope="row">{{ franchise.id }}</th>
+                        <td>{{ franchise.firstName }} {{ franchise.firstName }}</td>
+                        <td>Driv'n Cook</td>
+                        <td style="color: #58a259">+ 50 000 €</td>
+                    </tr>
+                {% endfor %}
+            {% else %}
+                <tr>Aucune franchisé enrolés</tr>
+            {% endif %}
+
+
+            </tbody>
+        </table>
+    </div>
+
+    <div class="container mt-5">
+
+        <hr>
+
+        <h4 class="display-5">2. Commandes entrepôts</h4>
+
+        <table class="table mt-4">
+            <thead class="thead-dark">
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Payeur</th>
+                <th scope="col">Receveur</th>
+                <th scope="col">Date</th>
+                <th scope="col">Montant</th>
+                <th scope="col">Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% if franchiseOrders is defined and franchiseOrders is not empty %}
+                {% for franchiseOrder in franchiseOrders %}
+                    <tr>
+                        <th scope="row">{{ franchiseOrder.id }}</th>
+                        <td>{{ franchiseOrder.franchise }}</td>
+                        <td>{{ franchiseOrder.warehouse }} - Driv'n Cook</td>
+                        <td>{{ franchiseOrder.date | date('j/m/y') }}</td>
+                        <td style="color: #58a259">+ {{ franchiseOrder.totalPrice }} €</td>
+                        <td>
+                            <a href="{{ path('admin_franchise_order_content', {"franchiseOrderId" : franchiseOrder.id}) }}"><i class="far fa-eye"></i></a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% else %}
+                <tr>Aucune commande franchises détectées</tr>
+            {% endif %}
+
+
+            </tbody>
+        </table>
+    </div>
+
+
+    <div class="container mt-5">
+
+        <hr>
+
+        <h4 class="display-5">3. Commandes clients</h4>
+
+        <table class="table mt-4">
+            <thead class="thead-dark">
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Payeur</th>
+                <th scope="col">Receveur</th>
+                <th scope="col">Date</th>
+                <th scope="col">Montant brut</th>
+                <th scope="col">Montant net</th>
+                <th scope="col">Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% if userOrders is defined and userOrders is not empty %}
+                {% for userOrder in userOrders %}
+                    <tr>
+                        <th scope="row">{{ userOrder.id }}</th>
+                        <td>{{ userOrder.user }}</td>
+                        <td>{{ userOrder.franchise.firstName }} {{ userOrder.franchise.firstName }} - Driv'n Cook</td>
+                        <td>{{ userOrder.date | date('j/m/y') }}</td>
+                        <td>{{ userOrder.totalPrice }} €</td>
+                        <td style="color: #58a259">+ {{ userOrder.totalPrice * 0.04 }} €</td>
+                        <td>
+                            <a href="{{ path('admin_user_order_content', {"userOrderId" : userOrder.id}) }}"><i class="far fa-eye"></i></a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% else %}
+                <tr>Aucune commandes clients détectées.</tr>
+            {% endif %}
+
+
+            </tbody>
+        </table>
+
+    </div>
+
+{% endblock %}

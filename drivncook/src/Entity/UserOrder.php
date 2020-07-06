@@ -45,6 +45,22 @@ class UserOrder
      */
     private $userOrderContents;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Franchise::class, inversedBy="userOrders")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $franchise;
+
+    /**
+     * @ORM\Column(type="float")
+     */
+    private $totalPrice;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=false)
+     */
+    private $completeAddress;
+
     public function __construct()
     {
         $this->userOrderContents = new ArrayCollection();
@@ -130,6 +146,42 @@ class UserOrder
                 $userOrderContent->setUserOrder(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getFranchise(): ?Franchise
+    {
+        return $this->franchise;
+    }
+
+    public function setFranchise(?Franchise $franchise): self
+    {
+        $this->franchise = $franchise;
+
+        return $this;
+    }
+
+    public function getTotalPrice(): ?float
+    {
+        return $this->totalPrice;
+    }
+
+    public function setTotalPrice(float $totalPrice): self
+    {
+        $this->totalPrice = $totalPrice;
+
+        return $this;
+    }
+
+    public function getCompleteAddress(): ?string
+    {
+        return $this->completeAddress;
+    }
+
+    public function setCompleteAddress(?string $completeAddress): self
+    {
+        $this->completeAddress = $completeAddress;
 
         return $this;
     }

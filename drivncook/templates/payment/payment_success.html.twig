@@ -1,13 +1,28 @@
 {% extends "base.html.twig" %}
 
-{% block title %} Payment réussis {% endblock %}
+{% block title %} Paiement réussit {% endblock %}
 
 {% block body %}
 
     <div class="container">
         <h1 class="display-1 h1 text-center">PAIEMENT VALIDÉ</h1>
-        <p class="lead">Merci de nous avoir fait confiance.</p>
-        <p class="text-muted">Et surtout régalez-vous !</p>
+        <hr class="my-1">
+        <div class="col-md-4 mx-auto mt-5">
+            <p class="lead">Merci de nous avoir fait confiance.</p>
+            <p class="text-muted">Et surtout régalez-vous !</p>
+    
+            {% if is_granted('ROLE_USER') %}
+                <div class="d-flex row">
+                    <a href="{{ path('user_order_vote') }}" class="btn btn-primary mr-2">
+                        Rédiger un avis
+                        <i class="far fa-edit"></i>
+                    </a>
+                    <a href="{{ path('home') }}" class="btn btn-secondary ml-2">
+                        Retour à l'accueil
+                        <i class="fas fa-home"></i>
+                    </a>
+                </div>
+            {% endif %}
+        </div>
     </div>
-
 {% endblock %}

@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\HttpFoundation\File\File;
 use Doctrine\Common\Collections\ArrayCollection;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
@@ -14,6 +15,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @Vich\Uploadable
+ * @UniqueEntity(fields={"email"}, message="Cette adresse email est déjà utilisée")
  */
 class User implements UserInterface
 {
@@ -41,6 +43,10 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=200)
+     * @Assert\Email(
+     *     message="L'addresse mail que vous venez de saisir n'est pas une addresse valide.",
+     *     normalizer="trim"
+     * )
      */
     private $email;
 
@@ -50,12 +56,12 @@ class User implements UserInterface
     private $phoneNumber;
 
     /**
-     * @ORM\Column(type="string", length=11, nullable=true)
+     * @ORM\Column(type="integer", nullable=true)
      */
     private $euroPoints;
 
     /**
-     * @ORM\Column(type="string", length=11, nullable=true)
+     * @ORM\Column(type="integer", nullable=true)
      */
     private $formulePoints;
 
@@ -68,6 +74,11 @@ class User implements UserInterface
      * @ORM\Column(type="string", length=255)
      */
     private $password;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $completeAddress;
 
     /**
      * @ORM\Column(type="date")
@@ -101,7 +112,7 @@ class User implements UserInterface
 
     /**
      * NOTE: This is not a mapped field of entity metadata, just a simple property.
-     * @Vich\UploadableField(mapping="message_image", fileNameProperty="imageName")
+     * @Vich\UploadableField(mapping="profile_images", fileNameProperty="imageName")
      * @Assert\Image(
      *  maxSize = "5M",
      *  mimeTypes={ "image/gif", "image/jpeg", "image/png" }
@@ -121,18 +132,42 @@ class User implements UserInterface
      */
     private $rewards;
 
+    /**
+     * @ORM\OneToMany(targetEntity=AnswerReportBreakdown::class, mappedBy="user")
+     */
+    private $answerReportBreakdowns;
+
     public function __construct()
     {
         $this->creditCards = new ArrayCollection();
         $this->userOrders = new ArrayCollection();
         $this->votes = new ArrayCollection();
         $this->rewards = new ArrayCollection();
+        $this->answerReportBreakdowns = new ArrayCollection();
     }
 
     public function getId(): ?int
     {
         return $this->id;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getCompleteAddress()
+    {
+        return $this->completeAddress;
+    }
+
+    /**
+     * @param mixed $completeAddress
+     */
+    public function setCompleteAddress($completeAddress): void
+    {
+        $this->completeAddress = $completeAddress;
+    }
+
+
 
     public function getPseudo(): ?string
     {
@@ -430,9 +465,16 @@ class User implements UserInterface
     *
     * @return string[] The user roles
     */
-    public function getRoles()
+    /*public function getRoles()
     {
-    return ['ROLE_ADMIN'];
+        return str_split($this->role, 20);
+    }*/
+
+    /**
+     * @see UserInterface
+     */
+    public function getRoles(): array{
+        return str_split($this->role, 20);
     }
 
     /**
@@ -484,6 +526,37 @@ class User implements UserInterface
         if ($this->rewards->contains($reward)) {
             $this->rewards->removeElement($reward);
             $reward->removeUser($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|AnswerReportBreakdown[]
+     */
+    public function getAnswerReportBreakdowns(): Collection
+    {
+        return $this->answerReportBreakdowns;
+    }
+
+    public function addAnswerReportBreakdown(AnswerReportBreakdown $answerReportBreakdown): self
+    {
+        if (!$this->answerReportBreakdowns->contains($answerReportBreakdown)) {
+            $this->answerReportBreakdowns[] = $answerReportBreakdown;
+            $answerReportBreakdown->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAnswerReportBreakdown(AnswerReportBreakdown $answerReportBreakdown): self
+    {
+        if ($this->answerReportBreakdowns->contains($answerReportBreakdown)) {
+            $this->answerReportBreakdowns->removeElement($answerReportBreakdown);
+            // set the owning side to null (unless already changed)
+            if ($answerReportBreakdown->getUser() === $this) {
+                $answerReportBreakdown->setUser(null);
+            }
         }
 
         return $this;

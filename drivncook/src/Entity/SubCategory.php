@@ -34,12 +34,12 @@ class SubCategory
     private $description;
 
     /**
-     * @ORM\OneToMany(targetEntity=Product::class, mappedBy="category")
+     * @ORM\OneToMany(targetEntity=Product::class, mappedBy="subCategory")
      */
     private $products;
 
     /**
-     * @ORM\OneToMany(targetEntity=Article::class, mappedBy="category")
+     * @ORM\OneToMany(targetEntity=Article::class, mappedBy="subCategory")
      */
     private $articles;
 
@@ -73,10 +73,16 @@ class SubCategory
      */
     private $updatedAt;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Menu::class, mappedBy="subCategory")
+     */
+    private $menus;
+
     public function __construct()
     {
         $this->products = new ArrayCollection();
         $this->articles = new ArrayCollection();
+        $this->menus = new ArrayCollection();
     }
 
 
@@ -219,5 +225,36 @@ class SubCategory
 
     public function __toString() {
         return $this->name;
+    }
+
+    /**
+     * @return Collection|Menu[]
+     */
+    public function getMenus(): Collection
+    {
+        return $this->menus;
+    }
+
+    public function addMenu(Menu $menu): self
+    {
+        if (!$this->menus->contains($menu)) {
+            $this->menus[] = $menu;
+            $menu->setSubCategory($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMenu(Menu $menu): self
+    {
+        if ($this->menus->contains($menu)) {
+            $this->menus->removeElement($menu);
+            // set the owning side to null (unless already changed)
+            if ($menu->getSubCategory() === $this) {
+                $menu->setSubCategory(null);
+            }
+        }
+
+        return $this;
     }
 }

@@ -32,6 +32,14 @@ vich_uploader:
             delete_on_remove:   false
             namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
 
+        article_images:
+            uri_prefix: /images/articles
+            upload_destination: '%kernel.project_dir%/public/images/articles'
+            inject_on_load:     true
+            delete_on_update:   false
+            delete_on_remove:   false
+            namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
+
         event_images:
             uri_prefix: /images/event
             upload_destination: '%kernel.project_dir%/public/images/event'
@@ -43,6 +51,14 @@ vich_uploader:
         profile_images:
             uri_prefix: /images/profile
             upload_destination: '%kernel.project_dir%/public/images/profile'
+            inject_on_load:     true
+            delete_on_update:   false
+            delete_on_remove:   false
+            namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
+
+        maintenance_images:
+            uri_prefix: /images/maintenance
+            upload_destination: '%kernel.project_dir%/public/images/maintenance'
             inject_on_load:     true
             delete_on_update:   false
             delete_on_remove:   false

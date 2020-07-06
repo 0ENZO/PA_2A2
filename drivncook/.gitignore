@@ -1,5 +1,6 @@
 
 ###> symfony/framework-bundle ###
+/.env
 /.env.local
 /.env.test
 /.env.local.php
@@ -26,3 +27,5 @@ yarn-error.log
 */.DS_Store
 
 /config/packages/doctrine_migrations.yaml
+
+/.idea

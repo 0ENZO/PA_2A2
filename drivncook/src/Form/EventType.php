@@ -3,18 +3,20 @@
 namespace App\Form;
 
 use App\Entity\Event;
-use App\Entity\Franchise;
 use App\Entity\Address;
+use App\Entity\Franchise;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
+use Vich\UploaderBundle\Form\Type\VichImageType;
 
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class EventType extends AbstractType
 {
@@ -22,12 +24,11 @@ class EventType extends AbstractType
     {
         $builder
             ->add('name', TextType::class)
-            ->add('description', TextType::class)
+            ->add('description', TextareaType::class)
             ->add('dateBegin', DateType::class)
             ->add('dateEnd', DateType::class)
             ->add('price', IntegerType::class)
-           # ->add('imageName')
-           ->add('Address', EntityType::class, [
+           ->add('address', EntityType::class, [
               'class' => Address::class,
               'label' => 'Adresse :'
           ])
@@ -36,9 +37,15 @@ class EventType extends AbstractType
                 'label' => 'Franchisé',
                 'multiple'  => true
             ])
-            ->add('save', SubmitType::class, [
-                  'label' => 'Enregistrer'
-              ]);
+            ->add('imageFile', VichImageType::class, [
+                'required' => false,
+                'download_uri' => true,
+                'image_uri' => true,
+                'asset_helper' => true,
+                'download_label' => false,
+                'delete_label' => false,
+                "allow_delete" => false,
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

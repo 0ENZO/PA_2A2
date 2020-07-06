@@ -15,98 +15,82 @@
 
 		<h1 class="h1_pdf">{{'Facture'|trans}}</h1>
 
-		<div class="address address-from">
-			<div class="address_label">{{'De'|trans}}</div>
-			<div class="address_content">
-				<strong>{{ order.idWarehouse.name }}</strong><br>
-				{{ order.idWarehouse.idAdresse.number }}
-				{{ order.idWarehouse.idAdresse.street }}<br>
-				{{ order.idWarehouse.idAdresse.idCity.name }},
-				{{ order.idWarehouse.idAdresse.idCity.postalNumber }}<br>
-				SIRET : 732 829 320 00074
-			</div>
-		</div>
+        <div class="address address-from">
+            <div class="address_label">De</div>
+            <div class="address_content">
+                <strong>{{ order.warehouse.name }}</strong><br>
+                {{ order.warehouse.address.number }} {{ order.warehouse.address.street }}<br>
+                {{ order.warehouse.address.city.name }}, {{ order.warehouse.address.city.postalCode }}<br>
+                SIRET : 732 829 320 00074
+            </div>
+        </div>
 
-		<div class="address address-to">
-			<div class="address_label">{{'Pour'|trans}}</div>
-			<div class="address_content">
-				<strong>{{ order.franchise.firstName }}
-					{{ order.franchise.lastName }}</strong><br>
-				{{ order.franchise.idAdresse.number }}
-				{{ order.franchise.idAdresse.street }}<br>
-				{{ order.franchise.idAdresse.idCity.name }},
-				{{ order.franchise.idAdresse.idCity.postalNumber }}
-			</div>
-		</div>
+        <div class="address address-to">
+            <div class="address_label">Pour</div>
+            <div class="address_content">
+                <strong>{{ order.franchise.firstName }} {{ order.franchise.lastName }}</strong><br>
+                {{ order.franchise.address.number }} {{ order.franchise.address.street }}<br>
+                {{ order.franchise.address.city.name }}, {{ order.franchise.address.city.postalCode }}
+            </div>
+        </div>
 
-		<div class="infos">
-			<div class="infos_label">{{'Facture n°'|trans}}</div>
-			<div class="infos_content">
-				<strong>{{ order.franchiseOrder }}</strong>
-			</div>
-			<div class="infos_label">{{'Emise le'|trans}}
-			</div>
-			<div class="infos_content">{{ order.date|date("d/m/Y")}}</div>
-		</div>
+        <div class="infos">
+            <div class="infos_label">Facture n°</div>
+            <div class="infos_content"><strong>{{ order.id }}</strong></div>
+            <div class="infos_label">Émise le </div>
+            <div class="infos_content">{{ order.date|date("d/m/Y")}}</div>
+        </div>
 
 		<div class="cb"></div>
 
-		<table class="items">
-			<thead>
-				<tr>
-					<th>Description</th>
-					<th style="width: 78px;">Prix HT</th>
-					<th style="width: 108px;">Prix TTC</th>
-				</tr>
-			</thead>
-			<tbody>
-				{% for product in order.idProduct %}
-					<tr>
-						<td>{{ product.name }}</td>
-						<td>{{ product.price }}</td>
-						<td>{{ product.price + product.vat }}</td>
-					</tr>
-				{% endfor %}
+        <table class="items">
+            <thead>
+            <tr>
+                <th>Description</th>
+                <th style="width: 78px;">Quantité</th>
+                <th style="width: 78px;">Prix HT</th>
+                <th style="width: 108px;">Prix TTC</th>
+            </tr>
+            </thead>
+            <tbody>
 
-				<tr class="total total-first">
-					<td colspan="2" class="total_label">{{'Sous-total'|trans}}</td>
-					<td>
-						<strong>
-							{% set sousTotal = 0 %}
-							{% for product in order.idProduct %}
-								{% set sousTotal = sousTotal + product.price %}
-							{% endfor %}
-							{{ sousTotal }}€
-						</strong>
-					</td>
-				</tr>
-				<tr class="total">
-					<td colspan="2" class="total_label">{{'Taxe'|trans}}
-						(20.00%)</td>
-					<td>
-						<strong>
-							{% set vat = 0 %}
-							{% for product in order.idProduct %}
-								{% set vat = vat + product.vat %}
-							{% endfor %}
-							{{ vat }}€
-						</strong>
-					</td>
-				</tr>
-				<tr class="total total-big">
-					<td colspan="2" class="total_label">{{'Total'|trans}}</td>
-					<td>
-						<strong>
-							{% set total = 0 %}
-							{% for product in order.idProduct %}
-								{% set total = total + product.price + product.vat %}
-							{% endfor %}
-							{{ total }}€
-						</strong>
-					</td>
-				</tr>
-			</tbody>
-		</table>
+            {% for franchiseOrderContent in order.franchiseOrderContents %}
+                <tr>
+                    <td>{{ franchiseOrderContent.product.name }}</td>
+                    <td>{{ franchiseOrderContent.quantity }}</td> 
+                    <td>{{ franchiseOrderContent.product.price }}</td>
+                    <td>{{ franchiseOrderContent.product.price + franchiseOrderContent.product.vat }}</td>
+                </tr>
+            {% endfor %}
+
+            <tr class="total total-first">
+                <td colspan="2" class="total_label">Sous-total</td>
+                <td><strong>
+                    {% set sousTotal = 0 %}
+                    {% for franchiseOrderContent in order.franchiseOrderContents %}
+                        {% set sousTotal = sousTotal + franchiseOrderContent.product.price * franchiseOrderContent.quantity %}    
+                    {% endfor %}
+                    {{ sousTotal }}€
+                </strong></td>
+            </tr>
+            <tr class="total">
+                <td colspan="2" class="total_label">Taxe (20.00%)</td>
+                <td><strong>
+                    {% set vat = 0 %}
+                    {% for franchiseOrderContent in order.franchiseOrderContents %}
+                        {% set vat = vat + franchiseOrderContent.product.vat * franchiseOrderContent.quantity %}    
+                    {% endfor %}
+                    {{ vat }}€
+                </strong></td>
+            </tr>
+            <tr class="total total-big">
+                <td colspan="2" class="total_label">Total</td>
+                <td><strong>
+                    {{ order.totalPrice}}€
+                </strong></td>
+            </tr>
+            </tbody>
+        </table>
 
 		<footer class="footer_pdf">
 			Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
@@ -114,4 +98,7 @@
 
 	</body>
 
+{% endblock %}
+
+{% block footer %}
 {% endblock %}

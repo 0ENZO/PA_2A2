@@ -7,8 +7,11 @@ use App\Entity\Franchise;
 use App\Entity\User;
 use App\Entity\Warehouse;
 use App\Form\CreditCardType;
+use App\Repository\FranchiseRepository;
+use App\Repository\WarehouseRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -22,7 +25,7 @@ class PaymentController extends AbstractController
      * Le Paiement de 50k euros des franchisé est deja pris en compte ultérieurement.l
      * @Route("/{selected_credit_card}", name="payment_process")
      */
-    public function index($selected_credit_card = null, Request $request) {
+    public function index(Request $request, Session $session, $selected_credit_card = null, WarehouseRepository $warehouseRepository, FranchiseRepository $franchiseRepository) {
         // TODO ATTENTION. Rien n'est sécurisé ici. L'id de la final_cb passe tout le temps en GET. J'ai pas trouvé d'autres moyen pour le moment
         // TODO ATTENTION. Il va falloir aussi veiller à encoder les informations sensibles (informations bancaires nottement)
         // TODO ATTENTION. A terme, remplacer toutes les fausses valeurs par des vraies
@@ -35,13 +38,18 @@ class PaymentController extends AbstractController
         }
 
         $credit_card = new CreditCard();
-        $credit_cards = $manager->getRepository(CreditCard::class)->findBy(["franchise" => $user]);
 
-        if (!empty($selected_credit_card)) {
+        if ($this->getUser() instanceof User){
+            $credit_cards = $manager->getRepository(CreditCard::class)->findBy(["user" => $user]);
+
+        } elseif ( $this->getUser() instanceof Franchise) {
+            $credit_cards = $manager->getRepository(CreditCard::class)->findBy(["franchise" => $user]);
+        }
+
+        if (!empty($selected_credit_card) || $selected_credit_card != null) {
             $selected_credit_card = $manager->getRepository(CreditCard::class)->find($selected_credit_card);
             $this->addFlash("success", "La carte que vous avez rentré est correcte. Vous pouvez maintenant procéder au paiment.");
         }
-
 
         $customer_form = $this->createForm(CreditCardType::class, $credit_card);
         $customer_form
@@ -59,38 +67,35 @@ class PaymentController extends AbstractController
             $this->addFlash("danger", "Il semble que les informations que vous avez rentrées sont incorrectes. Veuillez réessayer.");
         }
 
-
-
         // Fausses informations en attendant une vraie commande
 
-        $pre_tax_price = 536.90;
-        $tax = $pre_tax_price * 0.2;     // 20% de taxe, puisqu'on est en France
-        $including_taxes_price = $pre_tax_price + $tax;
-
-        $consignee = $manager->getRepository(Franchise::class)->find(rand(0, 8));
+        $totalTTC = $session->get('cart_totalTTC');
+        $totalHT = $session->get('cart_totalHT');
+        
         if ($user instanceof Franchise) {
-            $consignee = "Entrepôt : ".$manager->getRepository(Warehouse::class)->find(rand(1,4));
+            $consignee = $warehouseRepository->findOneById($session->get('cart_warehouse'));
+        } else {
+            $consignee = $franchiseRepository->findOneById($session->get('cart_franchise'));
         }
 
         if (empty($user)) {
+            // TODO : A peaufiner pour clients anonymes
             $source = "A Random Customer";
         } else {
             $source = $user;
         }
-
 
         return $this->render('payment/index.html.twig', [
            "customer_form" => $customer_form->createView(),
             "credit_cards" => $credit_cards,
             "credit_card" => $credit_card,      // La carte vide, ou bien remplie par le client
             // Envoie des fausses informations
-            "pre_tax_price" => $pre_tax_price,
-            "tax" => $tax,
-            "including_taxes_price" => $including_taxes_price,
+            "totalTTC" => $totalTTC,
+            "totalHT" => $totalHT,
             "consignee" => $consignee,
             "source" => $source,
             "user" => $user,
-            "selected_credit_card" => $selected_credit_card
+            "selected_credit_card" => $selected_credit_card, 
         ]);
     }
 
@@ -100,11 +105,6 @@ class PaymentController extends AbstractController
     public function payment_success() {
         return $this->render("payment/payment_success.html.twig");
     }
-
-
-
-
-
 
     // CARTE BANCAIRE
 
@@ -140,7 +140,12 @@ class PaymentController extends AbstractController
             $manager->flush();
 
             $this->addFlash("success", "Vous avez ajouté un nouveau moyen de paiement.");
-            return $this->redirectToRoute("franchise_profil");
+            if ($user instanceof Franchise) {
+                return $this->redirectToRoute("franchise_profil");
+            } elseif ($user instanceof  User) {
+                return $this->redirectToRoute("user_profil");
+            }
+
         }
 
         return $this->render("payment/credit_card.html.twig", [
@@ -155,6 +160,7 @@ class PaymentController extends AbstractController
      */
     public function credit_card_edit($id, Request $request) {
         $manager = $this->getDoctrine()->getManager();
+        $user = $this->getUser();
         $credit_card = $manager->getRepository(CreditCard::class)->find($id);
         $form = $this->createForm(CreditCardType::class, $credit_card);
 
@@ -168,7 +174,13 @@ class PaymentController extends AbstractController
             $manager->flush();
 
             $this->addFlash("primary", "Vous avez modifié vos informations relatives à vos moyens de paiement.");
-            return $this->redirectToRoute("franchise_profil");
+
+            if ($user instanceof Franchise) {
+                return $this->redirectToRoute("franchise_profil");
+            } elseif ($user instanceof  User) {
+                return $this->redirectToRoute("user_profil");
+            }
+
         }
 
         return $this->render("payment/credit_card.html.twig", [
@@ -182,12 +194,17 @@ class PaymentController extends AbstractController
      */
     public function credit_card_delete($id, Request $request) {
         $manager = $this->getDoctrine()->getManager();
+        $user = $this->getUser();
         $credit_card = $manager->getRepository(CreditCard::class)->find($id);
         $manager->remove($credit_card);
         $manager->flush();
 
         $this->addFlash("danger", "Vous avez supprimé un moyen de paiement.");
-        return $this->redirectToRoute("franchise_profil");
+        if ($user instanceof Franchise) {
+            return $this->redirectToRoute("franchise_profil");
+        } elseif ($user instanceof  User) {
+            return $this->redirectToRoute("user_profil");
+        }
     }
 
 }

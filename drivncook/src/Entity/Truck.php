@@ -20,6 +20,11 @@ class Truck
     private $id;
 
     /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $completeAddress;
+
+    /**
      * @ORM\Column(type="string", length=50)
      */
     private $brand;
@@ -60,16 +65,40 @@ class Truck
      */
     private $maintenanceManuals;
 
+    /**
+     * @ORM\OneToMany(targetEntity=ReportBreakdown::class, mappedBy="truck")
+     */
+    private $reportBreakdowns;
+
     public function __construct()
     {
         $this->technicalControls = new ArrayCollection();
         $this->maintenanceManuals = new ArrayCollection();
+        $this->reportBreakdowns = new ArrayCollection();
     }
 
     public function getId(): ?int
     {
         return $this->id;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getCompleteAddress()
+    {
+        return $this->completeAddress;
+    }
+
+    /**
+     * @param mixed $completeAddress
+     */
+    public function setCompleteAddress($completeAddress): void
+    {
+        $this->completeAddress = $completeAddress;
+    }
+
+
 
     public function getBrand(): ?string
     {
@@ -208,5 +237,36 @@ class Truck
     public function __toString()
     {
         return $this->brand . $this->model;
+    }
+
+    /**
+     * @return Collection|ReportBreakdown[]
+     */
+    public function getReportBreakdowns(): Collection
+    {
+        return $this->reportBreakdowns;
+    }
+
+    public function addReportBreakdown(ReportBreakdown $reportBreakdown): self
+    {
+        if (!$this->reportBreakdowns->contains($reportBreakdown)) {
+            $this->reportBreakdowns[] = $reportBreakdown;
+            $reportBreakdown->setTruck($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReportBreakdown(ReportBreakdown $reportBreakdown): self
+    {
+        if ($this->reportBreakdowns->contains($reportBreakdown)) {
+            $this->reportBreakdowns->removeElement($reportBreakdown);
+            // set the owning side to null (unless already changed)
+            if ($reportBreakdown->getTruck() === $this) {
+                $reportBreakdown->setTruck(null);
+            }
+        }
+
+        return $this;
     }
 }

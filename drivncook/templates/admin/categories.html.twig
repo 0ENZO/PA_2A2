@@ -8,6 +8,16 @@
 {#        {{ dump(categories) }}#}
 {#    {% endif %}#}
 
+    <div class="container mt-3">
+        <div class="jumbotron">
+            <h1 class="display-4">{% trans %}Gestion des Catégories{% endtrans %}</h1>
+            <div class="card-body">
+                <p class="lead">{% trans %}Bienvenue dans la gestion catégories.{% endtrans %}</p>
+                <p class="lead">{% trans %}Regroupe l'ensemble des catégories de drivn'cook{% endtrans %}</p>
+            </div>
+        </div>
+    </div>
+
     <div class="container mt-5">
         <!-- Button trigger modal -->
         <button type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#add_category">
@@ -31,13 +41,24 @@
                 {% for categorie in categories %}
                     <tr>
                         <th scope="row">{{ categorie.id }}</th>
-                        <td>{{ categorie.name }}</td>
+                        <td>
+                            {% if categorie.name == 'Ingrédients' %}
+                                {% set badge = 'badge-dark' %}
+                            {% elseif categorie.name == 'Boissons' %}
+                                {% set badge = 'badge-info' %}
+                            {% elseif categorie.name == 'Desserts' %}
+                                {% set badge = 'badge-light' %}
+                            {% elseif categorie.name == 'Repas' %}
+                                {% set badge = 'badge-warning' %}
+                            {% endif %}
+                            <span class="badge badge-pill {{ badge }}">{{ categorie.name }}</span>
+                        </td>
                         <td>{{ categorie.description }}</td>
                         <td>{{ categorie.imageName }}</td>
                         <td>
                             <a class="mr-2" data-toggle="tooltip" data-placement="top" title="Modifier" href="{{ path('admin_category_edit', { 'id': categorie.id}) }}"><i class="fas fa-pen"></i></a>
                             <a href="#" data-href="{{ path('admin_category_delete', { 'id': categorie.id}) }}" class="" data-placement="bottom"
-                               title="Supprimer" data-toggle="modal" data-target="#delete_franchise">
+                               title="Supprimer" data-toggle="modal" data-target="#delete_category">
                                 <i class="fas fa-trash-alt"></i>
                             </a>
                         </td>
@@ -52,7 +73,7 @@
         </table>
 
 {#        Modal de suppression d'une catégorie#}
-        <div class="modal fade" id="delete_franchise" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal fade" id="delete_category" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">

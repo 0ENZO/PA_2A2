@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Génération du menu de base {% endblock %}
+
+{% block body %}
+
+    <div class="container mt-3">
+        <div class="jumbotron">
+            <h1 class="display-4">{{'Menu de base'|trans}}</h1>
+            <p class="lead">{{'C\'est ici que l\'on génère le menu de base, commun à tous les franchisés... et que commence votre aventure ! '|trans}}</p>
+            <hr class="my-4">
+            <p class="text-muted">{% trans %}Promis, on ne va pas vous embêter longtemps avec ça !{% endtrans %}</p>
+        </div>
+    </div>
+
+    <div class="container my-3 text-center">
+        <a href="{{ path('franchise_menu', {"id" : id}) }}" class="btn btn-outline-dark">Retour à Ma Franchise</a>
+    </div>
+
+    <div class="container">
+
+        <div class="jumbotron">
+
+            <h2 class="display-4 text-center my-5">{{'Informations'|trans}}</h2>
+            <h3 class="display-5 text-center my-5">{{'Règles de vente des menus'|trans}}</h3>
+            <p class="lead">{% trans %}Driv'n Cook vous souhaite la bienvenue parmis nous. Nous sommes heureux de pouvoir vous compter comme étant des nôtres.{% endtrans %}</p>
+            <p class="lead">{% trans %}Si vous vous retrouvez sur cette page, c'est que votre aventure au sein de notre famille est le point de commencer...pour <strong>vous</strong>.{% endtrans %}</p>
+            <hr>
+            <p class="lead">{% trans %}
+                    Ainsi, il en va de notre rôle de guide, et de franchise de vous expliquer comment va se passer le processus de mise en vente des articles que vous
+                    allez exposer dans votre vitrine. {% endtrans %}</p>
+            <p class="lead">{% trans %}
+                    Vous avez choisis de devenir un de nos franchisés, vous allez donc représenter notre franchise Driv'n Cook,
+                    ainsi que l'ensemble des collaborateur au sein de Driv'n Cook.{% endtrans %}</p>
+            <hr>
+            <p class="lead">{% trans %}Ce faisant, il est aussi de notre devoir de vous rappellez les règles concernant la vente relative à Driv'n Cook : {% endtrans %}</p>
+
+                <p class="lead">{% trans %}Il est important que notre image Driv'n Cook soit identifiable, et identiée lorsque l'on regarde un des menus exposés par les franchisé.{% endtrans %}</p>
+                <p class="lead">{% trans %}Ainsi, vous allez donc devoir respecter un menu de base, commun à tous les collaborateurs. Notre image pourra alors être reconnu de part plusieurs endroits
+                    et c'est aussi ce que nous recherchons : Nous étendre au maximum dans la France, afin de toucher le plus de monde possibe (Et c'est pour cela qu'on a besoin de vous !){% endtrans %}</p>
+            <p class="lead">{% trans %}Il sera donc obligatoire de de garder en vente ce menu auto généré. Vous ne pouvez pas les supprimez du menu, puisqu'ils font partie de l'indentité de la Franchise{% endtrans %}</p>
+            <p class="lead">{% trans %}Le prix sera basé en fonction du prix de l'article dans notre base de données, il ne sera donc pas possible de les modifier.{% endtrans %}</p>
+            <p class="lead">{% trans %}En revanche, vous être libre de faire des propositions concernant les menus, vous être libre de nous envoyer un mail, et nous étudierons la demande{% endtrans %}</p>
+            <hr>
+            <p class="lead">{% trans %}Maintenant que tout est clarifié, nous pouvons vous laissez débuter votre longue route (on l'espère !) {% endtrans %}</p>
+            <hr>
+            <p class="lead">{% trans %}En cliquant sur le bouton ci-dessous, vous acceptez le fait qu'un menu commun sera généré, et vous pourrez donc en disposer des droits à la vente, et que vous acceptiez le faits ennoncés ci-dessus.{% endtrans %}</p>
+            <div class="text-center mt-4">
+                <a class="btn btn-outline-success" href="{{ path('menu_auto_filled_process', {'id' : id}) }}">J'accepte la création de mon menu ainsi que les conditions évoquées ci-dessus</a>
+            </div>
+
+
+
+
+
+
+
+        </div>
+
+    </div>
+
+{% endblock %}

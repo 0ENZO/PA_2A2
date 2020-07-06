@@ -6,9 +6,12 @@ use App\Repository\WarehouseRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=WarehouseRepository::class)
+ * @UniqueEntity(fields={"name"}, message="Un entrepôt existant porte déjà ce nom.")
  */
 class Warehouse
 {
@@ -21,6 +24,12 @@ class Warehouse
 
     /**
      * @ORM\Column(type="string", length=50)
+     * @Assert\Regex(
+     *     pattern="/^[a-zA-Z\s]*$/",
+     *     match=true,
+     *     message="Vous ne pouvez pas mettre de chiffres dans ce champs",
+     *     normalizer="trim"
+     * )
      */
     private $name;
 

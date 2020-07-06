@@ -1,0 +1,333 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Profil{% endblock %}
+
+{% block body %}
+
+{#    {{ dump(user) }}#}
+
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+        <div class="container-fluid mt-5">
+
+            <div class="row profile">
+
+                <div class="col-md-3">
+                    <div class="profile-sidebar px-1">
+
+                        <div class="profile-userpic text-center">
+                            <img src="https://via.placeholder.com/150" class="img-responsive" alt="">
+                        </div>
+
+                        <div class="profile-usertitle">
+                            <div class="profile-usertitle-name">
+                                {% if user.firstName %}
+                                    {{ user.firstName }} {{ user.lastName }}
+                                {% else %}
+                                    {{ user.email }}
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="profile-usermenu">
+                            <ul class="nav nav-tabs flex-column ml-4" id="myTab" role="tablist">
+
+                                <li class="nav-item">
+                                    <a class="nav-link active" href="" id="nav_profile" data-target="#pane_profile"
+                                       data-toggle="tab">
+                                        <i class="mr-2 fas fa-id-card"></i>Mon profil
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="" id="nav_edit" data-target="#pane_edit"
+                                       data-toggle="tab">
+                                        <i class="mr-2 fas fa-user-edit"></i>Modifier
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="" id="nav_user" data-target="#pane_fidelity_card"
+                                       data-toggle="tab">
+                                        <i class="mr-2 fas fa-trophy"></i>Mes programme fidélité
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="" id="nav_truck" data-target="#pane_credit_card"
+                                       data-toggle="tab">
+                                        <i class="mr-2 fas fa-credit-card"></i>Mes informations bancaires
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="" id="nav_orders" data-target="#pane_orders"
+                                       data-toggle="tab">
+                                        <i class="mr-2 fas fa-cart-arrow-down"></i>Mes commandes
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="" id="nav_orders" data-target="#pane_votes"
+                                       data-toggle="tab">
+                                        <i class="mr-2 far fa-comment-dots"></i>Mes commentaires
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-9">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="tab-content" id="myTabContent">
+
+                                <div class="tab-pane active" id="pane_profile" role="tabpanel">
+                                    <div class="col-md-8 mx-auto mt-3">
+                                        <h2 class="text-bold text-center">Mon profil</h2>
+
+                                        <table class="table table-borderless my-5">
+                                            <tbody>
+                                            <tr>
+                                                <td>Pseudo</td>
+                                                <td>{{ user.pseudo }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Prénom</td>
+                                                {% if user.firstName is defined and user.firstName is not null %}
+                                                    <td>{{ user.firstName }}</td>
+                                                {% endif %}
+                                            </tr>
+                                            <tr>
+                                                <td>Nom</td>
+                                                {% if user.lastName is defined and user.lastName is not null %}
+                                                    <td>{{ user.lastName }}</td>
+                                                {% endif %}
+                                            </tr>
+                                            <tr>
+                                                <td>Email</td>
+                                                <td>{{ user.email }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Numéro de téléphone</td>
+                                                <td>Indisponible pour le moment</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Date d'anniversaire</td>
+                                                <td>{{ user.birthDate|date("d/m/Y") }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Adresse</td>
+                                                {% if user.completeAddress is defined and user.completeAddress is not null %}
+                                                    <td>{{ user.completeAddress }}</td>
+                                                {% endif %}
+                                            </tr>
+                                            </tbody>
+                                        </table>
+
+                                    </div>
+                                </div>
+
+
+                                <div class="tab-pane" id="pane_edit" role="tabpanel">
+                                    <div class="col-md-8 mx-auto mt-3">
+                                        <h2 class="text-bold text-center">Modification</h2>
+
+
+                                        {% if form is defined %}
+
+                                            {{ form_start(form) }}
+                                                {{ form_widget(form) }}
+                                            {{ form_end(form) }}
+
+                                        {% endif %}
+
+
+                                    </div>
+                                </div>
+
+
+
+                                <div class="tab-pane" id="pane_fidelity_card" role="tabpanel">
+                                    <div class="col-md-8 mx-auto mt-3">
+                                        <h2 class="text-bold text-center">Mon programme de fidelité</h2>
+
+
+
+                                    </div>
+                                </div>
+
+                                <div class="tab-pane" id="pane_credit_card" role="tabpanel">
+                                    <div class="col-md-8 mx-auto mt-3">
+                                        <h2 class="text-bold text-center">Mes informations bancaires</h2>
+
+                                        <div class="container text-center">
+                                            <a  class="btn btn-primary" href="{{ path('credit_card_add') }}">Ajouter un moyen de paiement</a>
+                                        </div>
+
+                                        {% if credit_cards is defined and credit_cards is not null %}
+                                            {% for credit_card in credit_cards %}
+
+                                                <div style="min-width: 600px; margin-right: 600px">
+                                                    <div class="card-body"
+                                                         style="background: #2e46cc; border-radius: 15px; color: white">
+
+                                                        <div class="row my-3">
+                                                            <div class="col-4">
+                                                                <img src="{{ asset('images/cb/cb.png') }}"
+                                                                     alt="image-cb-cb">
+                                                            </div>
+                                                            <div class="col-4">
+                                                                <img src="{{ asset('images/cb/mastercard.png') }}"
+                                                                     alt="image-cb-mc">
+                                                            </div>
+                                                            <div class="col-4">
+                                                                <img src="{{ asset('images/cb/visa.png') }}"
+                                                                     alt="image-cb-visa">
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row ml-1 mb-1">
+                                                            <img src="{{ asset('images/cb/chip.png') }}"
+                                                                 alt="image-chip">
+                                                        </div>
+
+                                                        Numéro de carte :
+                                                        <div style="background: rgba(24,24,25,0.74); color: #cca223; border-radius: 20px"
+                                                             class="mx-auto px-3 mb-2">
+                                                            {% set arrayCBN = credit_card.cardNumber | split('', 4) %}
+                                                            **** - **** - **** - {{ arrayCBN[3] }}
+                                                        </div>
+
+                                                        <div class="row mb-2">
+                                                            <div class="col-6">Date d'expiration :
+                                                                <div style="background: rgba(24,24,25,0.74); color : #cca223; border-radius: 20px"
+                                                                     class="mx-auto px-3">
+                                                                    {{ credit_card.expirationDate|date("d/m/Y") }}
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-6">
+                                                                Code de vérifications:
+                                                                <div style="background: rgba(24,24,25,0.74); color: #cca223; border-radius: 20px"
+                                                                     class="mx-auto px-3">
+                                                                    {{ credit_card.verificationCode }}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        Propriétaire de la carte :
+                                                        <div style="color: #cca223" class="mx-auto px-3 mb-2">
+                                                            {{ credit_card.name }}
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+                                                <div class="container text-center">
+                                                    <a class="btn btn-light" href="{{ path('credit_card_edit', {'id' : credit_card.id}) }}">Modifier</a>
+                                                    <a class="btn btn-dark" href="{{ path('credit_card_delete', {'id' : credit_card.id}) }}">Supprimer</a>
+                                                </div>
+
+                                                <hr>
+
+                                            {% endfor %}
+                                        {% else %}
+                                            <p>Vous ne posséder aucun moyens de paiment.</p>
+                                        {% endif %}
+
+
+
+                                    </div>
+                                </div>
+
+                                <div class="tab-pane" id="pane_orders" role="tabpanel">
+                                    <div class="col-md-8 mx-auto mt-3">
+                                        <h3 class="text-bold text-center mt-3 mb-5">Mes commandes</h3>
+                                        <div class="tab-content">
+                                            <div class="tab-pane active" id="pane_last_orders">
+    
+                                                <div class="mt-4" id="accordion">
+                                                    {% if orders is defined and orders is not empty%}
+                                                        {% for order in orders %}
+                                                            <div class="card">
+                                                                <div class="card-header" id="headingOne">
+                                                                  <h5 class="mb-0">
+                                                                    <button class="btn btn-link" data-toggle="collapse" data-target="#collapse{{loop.index}}" aria-expanded="true" aria-controls="collapse{{loop.index}}">
+                                                                        Commande du {{order.date|date("d/m/Y") }} - {{ order.totalPrice }} €
+                                                                    </button>    
+                                                                  </h5>
+                                                                </div>
+                                                            
+                                                                <div id="collapse{{loop.index}}" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+                                                                  <div class="card-body">
+                                                                    {% for userOrderContent in order.userOrderContents %}
+                                                                        {{ userOrderContent.menu.name}}, 
+                                                                    {% endfor %}
+                                                                    <br>
+                                                                    <a class="btn btn-primary" href="{{ path('user_order_show', {id: order.id}) }}">
+                                                                        Voir ma facture <i class="fas fa-chevron-right ml-2"></i>
+                                                                    </a>
+                                                                    <a class="btn btn-success" href="{{ path('user_order_pdf', {id: order.id}) }}">
+                                                                        Export PDF <i class="fas fa-file-pdf ml-2"></i>
+                                                                    </a>
+    
+                                                                  </div>
+                                                                </div>
+                                                            </div>
+                                                        {% endfor %}
+                                                    {% else %}
+                                                        <div class="mt-5">
+                                                            Vous n'avez pas encore passé de commande. 
+                                                            <a href="{{ path('hungry_menu') }}" class="btn btn-primary">
+                                                                Passer commande<i class="fas fa-chevron-right ml-2"></i>
+                                                            </a>
+                                                        </div>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="tab-pane" id="pane_votes" role="tabpanel">
+                                    <div class="col-md-8 mx-auto mt-3">
+                                        <h2 class="text-bold text-center mb-4">Mes avis</h2>
+
+                                        {% if votes is defined and votes is not null %}
+                                            {% for vote in votes %}
+                                                <div class="">
+                                                    <h5>Commande du {{ vote.date|date("d/m/Y") }} </h5>
+                                                    <span>
+                                                        {% for i in 1.. vote.rate%}
+                                                            <i class="ml-2 fas fa-star"></i>
+                                                        {% endfor %}
+                                                        {% for i in 1..(5 - vote.rate) %}
+                                                            <i class="ml-2 far fa-star"></i>
+                                                        {% endfor %}
+                                                    </span>
+                                                    <p>{{ vote.comment }}</p>
+                                                </div>
+                                                <hr class="my-2">
+                                            {% endfor %}
+                                        {% endif %}
+                                        {# 
+                                        
+                                        <i class="ml-2 fas fa-star"></i>
+                                        #}
+
+
+                                    </div>
+                                </div>
+
+
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    {% endif %}
+
+{% endblock %}
+

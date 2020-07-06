@@ -20,9 +20,11 @@
 
 		{% block body %}{% endblock %}
 
-		{{ include('layout/footer.html.twig') }}
+		{% block footer %}
+			{{ include('layout/footer.html.twig') }}
+		{% endblock %}
 
-		{% block javascripts %}
+		{% block scripts %}
 			{{ encore_entry_script_tags('app') }}
 		{% endblock %}
 	</body>

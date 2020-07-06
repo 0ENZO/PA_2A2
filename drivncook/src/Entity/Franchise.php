@@ -10,10 +10,12 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=FranchiseRepository::class)
  * @Vich\Uploadable
+ * @UniqueEntity(fields={"email"}, message="Cette adresse email est déjà utilisée")
  */
 class Franchise implements UserInterface
 {
@@ -23,6 +25,11 @@ class Franchise implements UserInterface
      * @ORM\Column(type="integer")
      */
     private $id;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $completeAddress;
 
     /**
      * @ORM\Column(type="string", length=50)
@@ -86,8 +93,13 @@ class Franchise implements UserInterface
     private $votes;
 
     /**
+     * @ORM\Column(type="boolean", options={"default"=0})
+     */
+    private $isActivated;
+
+    /**
      * NOTE: This is not a mapped field of entity metadata, just a simple property.
-     * @Vich\UploadableField(mapping="message_image", fileNameProperty="imageName")
+     * @Vich\UploadableField(mapping="profile_images", fileNameProperty="imageName")
      * @Assert\Image(
      *  maxSize = "5M",
      *  mimeTypes={ "image/gif", "image/jpeg", "image/png" }
@@ -112,6 +124,16 @@ class Franchise implements UserInterface
      */
     private $events;
 
+    /**
+     * @ORM\OneToMany(targetEntity=FranchiseStock::class, mappedBy="franchise")
+     */
+    private $franchiseStocks;
+
+    /**
+     * @ORM\OneToMany(targetEntity=UserOrder::class, mappedBy="franchise")
+     */
+    private $userOrders;
+
     public function __construct()
     {
         $this->trucks = new ArrayCollection();
@@ -121,12 +143,32 @@ class Franchise implements UserInterface
         $this->votes = new ArrayCollection();
         $this->creditCards = new ArrayCollection();
         $this->events = new ArrayCollection();
+        $this->franchiseStocks = new ArrayCollection();
+        $this->userOrders = new ArrayCollection();
     }
 
     public function getId(): ?int
     {
         return $this->id;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getCompleteAddress()
+    {
+        return $this->completeAddress;
+    }
+
+    /**
+     * @param mixed $completeAddress
+     */
+    public function setCompleteAddress($completeAddress): void
+    {
+        $this->completeAddress = $completeAddress;
+    }
+
+
 
     public function getFirstName(): ?string
     {
@@ -422,7 +464,7 @@ class Franchise implements UserInterface
     *
     *     public function getRoles()
     *     {
-    *         return ['ROLE_USER'];
+    *         return ['ROLE_FRANCHISE'];
     *     }
     *
     * Alternatively, the roles might be stored on a ``roles`` property,
@@ -433,7 +475,8 @@ class Franchise implements UserInterface
     */
     public function getRoles()
     {
-        return ['ROLE_USER'];
+        return ['ROLE_FRANCHISE'];
+        // return $this->role;
     }
 
     /**
@@ -516,4 +559,86 @@ class Franchise implements UserInterface
 
         return $this;
     }
+
+    /**
+     * @return Collection|FranchiseStock[]
+     */
+    public function getFranchiseStocks(): Collection
+    {
+        return $this->franchiseStocks;
+    }
+
+    public function addFranchiseStock(FranchiseStock $franchiseStock): self
+    {
+        if (!$this->franchiseStocks->contains($franchiseStock)) {
+            $this->franchiseStocks[] = $franchiseStock;
+            $franchiseStock->setFranchise($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFranchiseStock(FranchiseStock $franchiseStock): self
+    {
+        if ($this->franchiseStocks->contains($franchiseStock)) {
+            $this->franchiseStocks->removeElement($franchiseStock);
+            // set the owning side to null (unless already changed)
+            if ($franchiseStock->getFranchise() === $this) {
+                $franchiseStock->setFranchise(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getIsActivated()
+    {
+        return $this->isActivated;
+    }
+
+    /**
+     * @param mixed $isActivated
+     */
+    public function setIsActivated($isActivated): self
+    {
+        $this->isActivated = $isActivated;
+        return $this;
+    }
+
+    /**
+     * @return Collection|UserOrder[]
+     */
+    public function getUserOrders(): Collection
+    {
+        return $this->userOrders;
+    }
+
+    public function addUserOrder(UserOrder $userOrder): self
+    {
+        if (!$this->userOrders->contains($userOrder)) {
+            $this->userOrders[] = $userOrder;
+            $userOrder->setFranchise($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserOrder(UserOrder $userOrder): self
+    {
+        if ($this->userOrders->contains($userOrder)) {
+            $this->userOrders->removeElement($userOrder);
+            // set the owning side to null (unless already changed)
+            if ($userOrder->getFranchise() === $this) {
+                $userOrder->setFranchise(null);
+            }
+        }
+
+        return $this;
+    }
+
+
+
 }

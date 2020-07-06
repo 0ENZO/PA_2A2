@@ -44,6 +44,11 @@ class Product
     private $status;
 
     /**
+     * @ORM\Column(type="string", length=50, nullable=true)
+     */
+    private $type;
+
+    /**
      * @ORM\Column(type="float")
      */
     private $vat;
@@ -102,12 +107,18 @@ class Product
      */
     private $imageName;
 
+    /**
+     * @ORM\OneToMany(targetEntity=FranchiseStock::class, mappedBy="product")
+     */
+    private $franchiseStocks;
+
     public function __construct()
     {
         //$this->franchiseOrders = new ArrayCollection();
         $this->franchiseOrderContents = new ArrayCollection();
         $this->recipes = new ArrayCollection();
         $this->warehouseStocks = new ArrayCollection();
+        $this->franchiseStocks = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -341,7 +352,56 @@ class Product
 
     public function __toString()
     {
-        return $this->name.' par '.$this->quantity;
+        return $this->name;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * @param mixed $type
+     */
+    public function setType($type): void
+    {
+        $this->type = $type;
+    }
+
+    /**
+     * @return Collection|FranchiseStock[]
+     */
+    public function getFranchiseStocks(): Collection
+    {
+        return $this->franchiseStocks;
+    }
+
+    public function addFranchiseStock(FranchiseStock $franchiseStock): self
+    {
+        if (!$this->franchiseStocks->contains($franchiseStock)) {
+            $this->franchiseStocks[] = $franchiseStock;
+            $franchiseStock->setProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFranchiseStock(FranchiseStock $franchiseStock): self
+    {
+        if ($this->franchiseStocks->contains($franchiseStock)) {
+            $this->franchiseStocks->removeElement($franchiseStock);
+            // set the owning side to null (unless already changed)
+            if ($franchiseStock->getProduct() === $this) {
+                $franchiseStock->setProduct(null);
+            }
+        }
+
+        return $this;
+    }
+
+
     
 }

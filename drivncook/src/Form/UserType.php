@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Entity\Role;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -30,10 +31,9 @@ class UserType extends AbstractType
             ->add('lastName', TextType::class)
             ->add('email', EmailType::class)
             ->add('password')
-            ->add('phoneNumber', IntegerType::class, [
-                'required' => false
-            ])
-            ->add('birthDate', DateType::class)
+            ->add('phoneNumber')
+            ->add('birthDate', BirthdayType::class)
+            ->add('completeAddress',TextType::class)
             ->add('save', SubmitType::class, [
                 'label' => 'Enregistrer'
             ])

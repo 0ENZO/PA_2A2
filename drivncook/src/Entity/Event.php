@@ -12,6 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=EventRepository::class)
+ * @Vich\Uploadable
  */
 class Event
 {
@@ -21,6 +22,11 @@ class Event
      * @ORM\Column(type="integer")
      */
     private $id;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $completeAddress;
 
     /**
      * @ORM\Column(type="string", length=100)
@@ -55,7 +61,7 @@ class Event
 
     /**
      * NOTE: This is not a mapped field of entity metadata, just a simple property.
-     * @Vich\UploadableField(mapping="message_image", fileNameProperty="imageName")
+     * @Vich\UploadableField(mapping="event_images", fileNameProperty="imageName")
      * @Assert\Image(
      *  maxSize = "5M",
      *  mimeTypes={ "image/gif", "image/jpeg", "image/png" }
@@ -84,6 +90,23 @@ class Event
     {
         return $this->id;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getCompleteAddress()
+    {
+        return $this->completeAddress;
+    }
+
+    /**
+     * @param mixed $completeAddress
+     */
+    public function setCompleteAddress($completeAddress): void
+    {
+        $this->completeAddress = $completeAddress;
+    }
+
 
     public function getName(): ?string
     {

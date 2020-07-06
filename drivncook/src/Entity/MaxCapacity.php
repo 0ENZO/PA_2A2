@@ -6,9 +6,12 @@ use App\Repository\MaxCapacityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=MaxCapacityRepository::class)
+ * @UniqueEntity(fields={"name"}, message="Une capacité ayant ce nom est déjà prise. Veuillez en sélectionner une autre")
  */
 class MaxCapacity
 {
@@ -20,22 +23,47 @@ class MaxCapacity
     private $id;
 
     /**
-     * @ORM\Column(type="smallint")
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $name;
+
+    /**
+     * @ORM\Column(type="integer")
+     * @Assert\Regex(
+     *     pattern="/^[0-9]*$/",
+     *     match=true,
+     *     message="Vous ne pouver mettre ques des chiffres dans ce champs"
+     * )
      */
     private $maxIngredients;
 
     /**
-     * @ORM\Column(type="smallint")
+     * @ORM\Column(type="integer")
+     * @Assert\Regex(
+     *     pattern="/^[0-9]*$/",
+     *     match=true,
+     *     message="Vous ne pouver mettre ques des chiffres dans ce champs"
+     * )
      */
     private $maxDrinks;
 
     /**
-     * @ORM\Column(type="smallint")
+     * @ORM\Column(type="integer")
+     * @Assert\Regex(
+     *     pattern="/^[0-9]*$/",
+     *     match=true,
+     *     message="Vous ne pouver mettre ques des chiffres dans ce champs"
+     * )
      */
     private $maxDesserts;
 
     /**
-     * @ORM\Column(type="smallint")
+     * @ORM\Column(type="integer")
+     * @Assert\Regex(
+     *     pattern="/^[0-9]*$/",
+     *     match=true,
+     *     message="Vous ne pouver mettre ques des chiffres dans ce champs"
+     * )
      */
     private $maxMeals;
 
@@ -109,6 +137,23 @@ class MaxCapacity
     }
 
     /**
+     * @return mixed
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param mixed $name
+     */
+    public function setName($name): void
+    {
+        $this->name = $name;
+    }
+
+
+    /**
      * @return Collection|Truck[]
      */
     public function getTrucks(): Collection
@@ -172,6 +217,6 @@ class MaxCapacity
 
     public function __toString()
     {
-        return $this->maxIngredients.','.$this->maxDrinks.','.$this->maxDesserts.','.$this->maxMeals;
+        return $this->name;
     }
 }

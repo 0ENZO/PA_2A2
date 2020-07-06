@@ -1,4 +1,4 @@
-/home/alex/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/201.6251.14/bin/cmake/linux/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /home/alex/Bureau/Qrcode
+/home/alex/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/201.6668.86/bin/cmake/linux/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /home/alex/Bureau/Qrcode
 -- The C compiler identification is GNU 7.5.0
 -- Check for working C compiler: /usr/bin/cc
 -- Check for working C compiler: /usr/bin/cc -- works

@@ -6,11 +6,13 @@ use App\Entity\CreditCard;
 use App\Entity\FranchiseOrder;
 use App\Entity\Franchise;
 use App\Entity\Truck;
+use App\Entity\UserOrder;
 use App\Form\FranchiseType;
 use App\Repository\FranchiseOrderRepository;
 use App\Repository\FranchiseRepository;
 use App\Repository\TruckRepository;
 
+use App\Service\MoneyService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -26,7 +28,7 @@ class FranchiseController extends AbstractController
     /**
      * @Route("/profil", name="franchise_profil")
      */
-    public function profil(Request $request){
+    public function profil(Request $request, MoneyService $moneyService){
 
         $em = $this->getDoctrine()->getManager();
         $franchise = $this->getUser();
@@ -40,6 +42,9 @@ class FranchiseController extends AbstractController
             var_dump($product);
         }
 */
+        $franchiseOrders = $em->getRepository(FranchiseOrder::class)->findBy(["franchise" => $franchise]);
+        $userOrders = $em->getRepository(UserOrder::class)->findBy(["franchise" => $franchise]);
+
         $form = $this->createForm(FranchiseType::class, $franchise);
         $form->handleRequest($request);
 
@@ -55,7 +60,10 @@ class FranchiseController extends AbstractController
             'truck' => $truck,
             'orders' => array_reverse($orders),
             'form' => $form->createView(),
-            "credit_cards" => $credit_cards
+            "credit_cards" => $credit_cards,
+            "franchiseOrders" => $franchiseOrders,
+            "userOrders" => $userOrders,
+            "FranchiseMoneyData" => $moneyService->getFranchiseSalesRevenu($franchiseOrders, $userOrders)
         ]);
 
     }

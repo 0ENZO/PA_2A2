@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Une petite faim ?{% endblock %}
+
+{% block body %}
+
+    <div class="container mt-3">
+        <div class="jumbotron">
+            <h1 class="display-4">On se commande quelque chose ? </h1>
+            <p class="lead">C'est ici que vous pouvez choisir chez qui vous aller manger</p>
+            <hr class="my-4">
+            <p>Nous sommes maintenant placés un peu partout en France,
+                ainsi, peut importe l'endroit ou vous vous trouvez : Vous trouverez forcément un camion près de chez vous !</p>
+            <p>De plus, chez drivn'Cook, nous réconpensons la créativité des franchisés, c'est pour cela que chaque camion est unique
+            en son genre et possède ainsi sa propre ambiance et atmosphère pour que vous vous sentez le mieux possible
+            et le plus à l'aise également.</p>
+        </div>
+    </div>
+
+{#    {{ dump(franchises) }}#}
+
+    <div class="container-fluid">
+
+
+        <div class="row row-cols-1 row-cols-md-2">
+
+            {% if franchises is empty %}
+                <div class="container">
+                    <div class="alert alert-warning" role="alert">
+                        Aucun franchisés n'est disponible pour le moment. Veuillez repasser plus tard désolé.
+                    </div>
+                </div>
+
+            {% endif %}
+
+            {% for franchise in franchises %}
+
+            <div class="col mb-4">
+                <div class="card">
+                    {% set franchiseCoverPath = "images/franchise-cover/franchise-cover"~loop.index~".jpg" %}
+{#                    {{ dump(franchiseCoverPath) }}#}
+                    <img src="{{ asset(franchiseCoverPath) }}" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h3 class="display-5 text-center">{{ franchise.firstName }} {{ franchise.firstName }}</h3>
+                        <hr>
+                        <h5 class="card-title">Contact</h5>
+                        <p>Email :  {{ franchise.email }}</p>
+                        <p>Téléphone :  {{ franchise.phoneNumber }}</p>
+                        <p class="text-muted">Adresse : {{ franchise.address }}</p>
+                    </div>
+                    <a href="{{ path('menu_showcase', {'id' : franchise.id }) }}" class="btn btn-outline-dark">Voir menu</a>
+                </div>
+            </div>
+
+            {% endfor %}
+
+
+        </div>
+
+
+    </div>
+
+{% endblock %}

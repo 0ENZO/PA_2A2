@@ -6,9 +6,11 @@ use App\Repository\MenuRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=MenuRepository::class)
+ * @UniqueEntity(fields={"franchise", "name"}, message="Vous avez déjà créée un menu de ce genre, veuillez en faire un autre.")
  */
 class Menu
 {
@@ -45,19 +47,40 @@ class Menu
     private $vat;
 
     /**
+     * @ORM\Column(type="string")
+     */
+    private $status;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isLocked;
+
+    /**
      * @ORM\OneToMany(targetEntity=RewardContent::class, mappedBy="menu")
      */
     private $rewardContents;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Article::class, inversedBy="menus")
+     * @ORM\ManyToMany(targetEntity=Article::class, inversedBy="menus", orphanRemoval=true)
      */
     private $article;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=SubCategory::class, inversedBy="menus")
+     */
+    private $subCategory;
+
+    /**
+     * @ORM\OneToMany(targetEntity=UserOrderContent::class, mappedBy="menu")
+     */
+    private $userOrderContents;
 
     public function __construct()
     {
         $this->rewardContents = new ArrayCollection();
         $this->article = new ArrayCollection();
+        $this->userOrderContents = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -181,4 +204,86 @@ class Menu
 
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * @param mixed $status
+     */
+    public function setStatus($status): self
+    {
+        $this->status = $status;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getIsLocked()
+    {
+        return $this->isLocked;
+    }
+
+    /**
+     * @param mixed $isLocked
+     */
+    public function setIsLocked($isLocked): self
+    {
+        $this->isLocked = $isLocked;
+        return $this;
+    }
+
+    public function __toString() : string {
+        return $this->id." : ".$this->name."<br>";
+    }
+
+    public function getSubCategory(): ?SubCategory
+    {
+        return $this->subCategory;
+    }
+
+    public function setSubCategory(?SubCategory $subCategory): self
+    {
+        $this->subCategory = $subCategory;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|UserOrderContent[]
+     */
+    public function getUserOrderContents(): Collection
+    {
+        return $this->userOrderContents;
+    }
+
+    public function addUserOrderContent(UserOrderContent $userOrderContent): self
+    {
+        if (!$this->userOrderContents->contains($userOrderContent)) {
+            $this->userOrderContents[] = $userOrderContent;
+            $userOrderContent->setMenu($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserOrderContent(UserOrderContent $userOrderContent): self
+    {
+        if ($this->userOrderContents->contains($userOrderContent)) {
+            $this->userOrderContents->removeElement($userOrderContent);
+            // set the owning side to null (unless already changed)
+            if ($userOrderContent->getMenu() === $this) {
+                $userOrderContent->setMenu(null);
+            }
+        }
+
+        return $this;
+    }
+
 }

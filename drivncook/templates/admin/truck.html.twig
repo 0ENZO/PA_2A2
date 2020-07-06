@@ -4,6 +4,18 @@
 
 {% block body %}
 
+    <div class="container mt-3">
+        <div class="jumbotron">
+            <h1 class="display-4">{% trans %}Gestion des Camions{% endtrans %}</h1>
+            <div class="card-body">
+                <p class="lead">{% trans %}Bienvenue dans la gestion des camions.{% endtrans %}</p>
+                <p class="lead">{% trans %}Regroupe l'ensemble des camions de drivn'cook, qu'ils soient fonctionnel, occupé ou disponible.{% endtrans %}</p>
+                <hr>
+                <p class="text-muted">{% trans %}Il est aussi possible d'assigner un camion à un franchisé depuis ce menu.{% endtrans %}</p>
+            </div>
+        </div>
+    </div>
+
     <div class="container mt-5">
 
         <button class="btn btn-primary rounded-circlez mb-3" id="button_add_truck" data-toggle="modal" data-target="#add_truck">
@@ -30,7 +42,11 @@
                 {% for truck in trucks %}
                     <tr>
                         <th scope="row">{{ truck.id}}</th>
-                        <td>{{ truck.id }}</td>
+                        {% if truck.franchise is defined and truck.franchise is not null %}
+                            <td>{{ truck.franchise }}</td>
+                        {% else %}
+                            <td>Pas assigné</td>
+                        {% endif %}
                         <td>{{ truck.maxCapacity }}</td>
                         <td>{{ truck.brand}}</td>
                         <td>{{ truck.model }}</td>
@@ -42,7 +58,7 @@
                             title="Supprimer" data-toggle="modal" data-target="#delete_truck">
                                 <i class="fas fa-trash-alt"></i>
                             </a>  
-                            <a href="" data-toggle="tooltip" data-placement="bottom" title="Assigner">
+                            <a href="{{ path('assign_truck', {'idTruck' : truck.id}) }}" data-toggle="tooltip" data-placement="bottom" title="Assigner" data-toggle="modal" data-target="#assign_truck">
                                 <i class="fas fa-reply"></i>
                             </a>
                         </td>

@@ -19,6 +19,8 @@ class WarehouseRepository extends ServiceEntityRepository
         parent::__construct($registry, Warehouse::class);
     }
 
+
+
     // /**
     //  * @return Warehouse[] Returns an array of Warehouse objects
     //  */

@@ -5,6 +5,18 @@
 {% block body %}
 
 
+    <div class="container mt-3">
+        <div class="jumbotron">
+            <h1 class="display-4">{% trans %}Gestion des Utilisateurs{% endtrans %}</h1>
+            <div class="card-body">
+                <p class="lead">{% trans %}Bienvenue dans la gestion des utilisateurs{% endtrans %}</p>
+                <p class="lead">{% trans %}Regroupe l'ensemble des utilisateurs de drivn'cook, que ce soient les clients ou l'équipe de Drivn'Cook{% endtrans %}</p>
+                <hr>
+                <p class="text-muted">{% trans %}Note : les franchisés sont considérés comme des utilisateurs à part. Un menu leurs est par conséquent dédié.{% endtrans %}</p>
+            </div>
+        </div>
+    </div>
+
     <div class="container mt-5">
 
         <button class="btn btn-primary rounded-circlez mb-3" id="button_add_user" data-toggle="modal" data-target="#add_user">

@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Editer une capacité maximale{% endblock %}
+
+{% block body %}
+
+    <div class="container mt-5">
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+        {{ form_end(form) }}
+    </div>
+
+{#    {{ dump(trucks) }}#}
+{#    {% if trucks is not empty %}#}
+{#    {{ dump(trucks[0]) }}#}
+{#    {% endif %}#}
+
+{% endblock %}

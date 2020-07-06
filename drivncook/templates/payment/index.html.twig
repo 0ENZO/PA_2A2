@@ -24,7 +24,6 @@
 
 
 
-    {# A voir pour mettre dans un include et utiliser des varriables à la place, pour l'utiliser plus tard ailleurs #}
     <div class="container mt-3">
         <div class="jumbotron">
             <h1 class="display-4">Paiement de la commande</h1>
@@ -72,7 +71,7 @@
                                <h6 class="my-0">Prix hors taxes</h6>
                                <small class="text-muted">Prix but</small>
                            </div>
-                           <span class="text-muted">{{ pre_tax_price }}€</span>
+                           <span class="text-muted">{{ totalHT }}€</span>
                        </li>
 
                        <li class="list-group-item d-flex justify-content-between lh-condensed">
@@ -80,7 +79,7 @@
                                <h6 class="my-0">Taxes</h6>
                                <small class="text-muted">Taxe française en vigueur : 20%</small>
                            </div>
-                           <span class="text-muted">{{ tax }}€</span>
+                           <span class="text-muted">{{ totalTTC - totalHT }}€</span>
                        </li>
 
                        <li class="list-group-item d-flex justify-content-between lh-condensed">
@@ -88,7 +87,7 @@
                                <h6 class="my-0">Prix TTC</h6>
                                <small class="text-muted">Toutes Taxes Comprises</small>
                            </div>
-                           <span class="text-muted">{{ including_taxes_price }}€</span>
+                           <span class="text-muted">{{ totalTTC }}€</span>
                        </li>
 
                        <li class="list-group-item d-flex justify-content-between lh-condensed">
@@ -96,7 +95,7 @@
                                <h6 class="my-0">TOTAL</h6>
                                <small class="text-muted">À payer</small>
                            </div>
-                           <strong>{{ including_taxes_price }}€</strong>
+                           <strong>{{ totalTTC }}€</strong>
                        </li>
 
                    </ul>
@@ -125,12 +124,12 @@
                                     {% else %}
                                         <div class="">Vous n'avez enregistré aucun moyen de paiment pour le moments. Vous pouvez soit payez avec une carte bancaire maintenant, ou en enregistrer une ou plusieurs sur votre profil.</div>
                                         <div class="text-center my-3">
-                                            {% if user is defined and user is not empty and user.role.id == 2 %}
-                                                <a class="btn btn-outline-primary" href="{{ path('franchise_profil') }}">Enregistrer un moyen de paiement</a>
-                                            {% elseif user is defined and user is not empty and user.role.id == 2 %}
-                                                <a class="btn btn-outline-primary" href="#{{ path('franchise_profil') }}">Enregistrer un moyen de paiement (mettre à jour vers le profil client quand il existera)</a>
+                                            {% if is_granted('ROLE_USER') %}
+                                                <a class="btn btn-outline-primary" href="{{ path('user_profil') }}">Enregistrer un moyen de paiement</a>
+                                            {% elseif is_granted('ROLE_FRANCHISE') %}
+                                                <a class="btn btn-outline-primary" href="#{{ path('franchise_profil') }}">Enregistrer un moyen de paiement</a>
                                             {% else %}
-                                                <p>Vous n'avez pas accès à cette fonctionnalité. Pour ce faire, vous devez vous inscrire</p>
+                                                <p>Vous n'avez pas accès à cette fonctionnalité. Pour se faire, vous devez vous inscrire</p>
                                             {% endif %}
                                         </div>
                                     {% endif %}
@@ -140,34 +139,69 @@
                                 {% if credit_cards is defined and credit_cards is not null %}
                                     {% for credit_card in credit_cards %}
 
-                                        <table class="table table-borderless my-5">
-                                            <tbody>
-                                            <tr>
-                                                <td>Numéro de carte</td>
-                                                <td>{{ credit_card.cardNumber }}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Date d'expiration</td>
-                                                <td>{{ credit_card.expirationDate|date("d/m/Y") }}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Code de vérification</td>
-                                                <td>{{ credit_card.verificationCode }}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Prénom et Nom</td>
-                                                <td>{{ credit_card.name }}</td>
-                                            </tr>
+                                        <div style="min-width: 500px">
+                                            <div class="card-body"
+                                                 style="background: #2e46cc; border-radius: 15px; color: white">
 
-                                            </tbody>
-                                        </table>
+                                                <div class="row my-3">
+                                                    <div class="col-4">
+                                                        <img src="{{ asset('images/cb/cb.png') }}"
+                                                             alt="image-cb-cb">
+                                                    </div>
+                                                    <div class="col-4">
+                                                        <img src="{{ asset('images/cb/mastercard.png') }}"
+                                                             alt="image-cb-mc">
+                                                    </div>
+                                                    <div class="col-4">
+                                                        <img src="{{ asset('images/cb/visa.png') }}"
+                                                             alt="image-cb-visa">
+                                                    </div>
+                                                </div>
+
+                                                <div class="row ml-1 mb-1">
+                                                    <img src="{{ asset('images/cb/chip.png') }}"
+                                                         alt="image-chip">
+                                                </div>
+
+                                                Numéro de carte :
+                                                <div style="background: rgba(24,24,25,0.74); color: #cca223; border-radius: 20px"
+                                                     class="mx-auto px-3 mb-2">
+                                                    {% set arrayCBN = credit_card.cardNumber | split('', 4) %} 
+                                                    **** - **** - **** - {{ arrayCBN[3] }}
+                                                </div>
+
+                                                <div class="row mb-2">
+                                                    <div class="col-6">Date d'expiration :
+                                                        <div style="background: rgba(24,24,25,0.74); color : #cca223; border-radius: 20px"
+                                                             class="mx-auto px-3">
+                                                            {{ credit_card.expirationDate|date("d/m/Y") }}
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        Code de vérifications:
+                                                        <div style="background: rgba(24,24,25,0.74); color: #cca223; border-radius: 20px"
+                                                             class="mx-auto px-3">
+                                                            {{ credit_card.verificationCode }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                Propriétaire de la carte :
+                                                <div style="color: #cca223" class="mx-auto px-3 mb-2">
+                                                    {{ credit_card.name }}
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                        <hr>
 
                                         <div class="text-center">
                                             <a class="btn btn-primary" href="{{ path('payment_process', {"selected_credit_card" : credit_card.id}) }}">Sélectionner</a>
                                         </div>
 
 
-                                        <hr>
+
 
                                     {% endfor %}
                                 {% else %}
@@ -220,11 +254,16 @@
                     </tr>
                     <tr>
                         <td>Destinataire du paiement de la commande</td>
-                        <td>{% if consignee is defined and consignee is not empty %}
-                                {{ consignee }}
-                            {% else %}<strong>Ceci ne devrait pas s'afficher</strong>
+                        <td>{% if consignee is defined and consignee is not null %}
+                                {% if consignee.name is defined %}
+                                    {{ consignee.name }} - {{ consignee.address }}
+                                {% else %}
+                                    Drivncook - {{ consignee.address }}
+                                {% endif %}
+                            {% else %}
+                                <strong>Ceci ne devrait pas s'afficher</strong>
                             {% endif %}
-                            - Driv'n Cook</td>
+                            </td>
                     </tr>
                     </tbody>
                 </table>
@@ -244,37 +283,73 @@
                     <h3 class="h3 display-5 text-center">Méthode de paiment sélectionné</h3>
                 </div>
 
-                <div class="card-body">
 
-                    <table class="table table-borderless my-5">
-                        <tbody>
-                        <tr>
-                            <td>Numéro de carte</td>
-                            <td>{{ selected_credit_card.cardNumber }}</td>
-                        </tr>
-                        <tr>
-                            <td>Date d'expiration</td>
-                            <td>{{ selected_credit_card.expirationDate|date("d/m/Y") }}</td>
-                        </tr>
-                        <tr>
-                            <td>Code de vérification</td>
-                            <td>{{ selected_credit_card.verificationCode }}</td>
-                        </tr>
-                        <tr>
-                            <td>Prénom et Nom</td>
-                            <td>{{ selected_credit_card.name }}</td>
-                        </tr>
+                <div class="my-3" style="min-width: 700px; margin-right: 600px; margin-left: 200px">
+                    <div class="card-body"
+                         style="background: #2e46cc; border-radius: 15px; color: white">
 
-                        </tbody>
-                    </table>
+                        <div class="row my-3">
+                            <div class="col-4">
+                                <img src="{{ asset('images/cb/cb.png') }}"
+                                     alt="image-cb-cb">
+                            </div>
+                            <div class="col-4">
+                                <img src="{{ asset('images/cb/mastercard.png') }}"
+                                     alt="image-cb-mc">
+                            </div>
+                            <div class="col-4">
+                                <img src="{{ asset('images/cb/visa.png') }}"
+                                     alt="image-cb-visa">
+                            </div>
+                        </div>
 
+                        <div class="row ml-1 mb-1">
+                            <img src="{{ asset('images/cb/chip.png') }}"
+                                 alt="image-chip">
+                        </div>
+
+                        Numéro de carte :
+                        <div style="background: rgba(24,24,25,0.74); color: #cca223; border-radius: 20px"
+                             class="mx-auto px-3 mb-2">
+                            {% set arrayCBN = selected_credit_card.cardNumber | split('', 4) %} 
+                            **** - **** - **** - {{ arrayCBN[3] }}
+                        </div>
+
+                        <div class="row mb-2">
+                            <div class="col-6">Date d'expiration :
+                                <div style="background: rgba(24,24,25,0.74); color : #cca223; border-radius: 20px"
+                                     class="mx-auto px-3">
+                                    {{ selected_credit_card.expirationDate|date("d/m/Y") }}
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                Code de vérifications:
+                                <div style="background: rgba(24,24,25,0.74); color: #cca223; border-radius: 20px"
+                                     class="mx-auto px-3">
+                                    {{ selected_credit_card.verificationCode }}
+                                </div>
+                            </div>
+                        </div>
+
+                        Propriétaire de la carte :
+                        <div style="color: #cca223" class="mx-auto px-3 mb-2">
+                            {{ selected_credit_card.name }}
+                        </div>
+
+                    </div>
                 </div>
+
+
 
             </div>
         </div>
 
         <div class="container text-center">
-            <a href="{{ path('payment_success') }}" class="btn btn-success">CONFIRMER LE PAIEMENT</a>
+            {% if app.session.get('cart_warehouse') is defined and app.session.get('cart_warehouse') is not null %}
+                <a href="{{ path('franchise_cart_validate') }}" class="btn btn-success">CONFIRMER LE PAIEMENT</a>
+            {% elseif app.session.get('cart_franchise') is defined and app.session.get('cart_franchise') is not null %}
+                <a href="{{ path('user_cart_validate') }}" class="btn btn-success">CONFIRMER LE PAIEMENT</a>
+            {% endif %}
         </div>
     {% endif %}
 
