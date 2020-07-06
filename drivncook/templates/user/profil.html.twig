@@ -157,40 +157,72 @@
                                     <div class="col-md-8 mx-auto mt-3">
                                         <h2 class="text-bold text-center">Mes informations bancaires</h2>
 
-                                        <a  class="btn btn-primary" href="{{ path('credit_card_add') }}">Ajouter un moyen de paiement</a>
+                                        <div class="container text-center">
+                                            <a  class="btn btn-primary" href="{{ path('credit_card_add') }}">Ajouter un moyen de paiement</a>
+                                        </div>
 
                                         {% if credit_cards is defined and credit_cards is not null %}
                                             {% for credit_card in credit_cards %}
 
-                                                <table class="table table-borderless my-5">
-                                                    <tbody>
-                                                    <tr>
-                                                        <td>Numéro de carte</td>
-                                                        {% set arrayCBN = credit_card.cardNumber | split('', 4) %}
-                                                        <td>**** - **** - **** - {{ arrayCBN[3] }}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Date d'expiration</td>
-                                                        <td>{{ credit_card.expirationDate|date("d/m/Y") }}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Code de vérification</td>
-                                                        <td>{{ credit_card.verificationCode }}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Prénom et Nom</td>
-                                                        <td>{{ credit_card.name }}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>
-                                                            <a class="btn btn-light" href="{{ path('credit_card_edit', {'id' : credit_card.id}) }}">Modifier</a>
-                                                        </td>
-                                                        <td>
-                                                            <a class="btn btn-dark" href="{{ path('credit_card_delete', {'id' : credit_card.id}) }}">Supprimer</a>
-                                                        </td>
-                                                    </tr>
-                                                    </tbody>
-                                                </table>
+                                                <div style="min-width: 600px; margin-right: 600px">
+                                                    <div class="card-body"
+                                                         style="background: #2e46cc; border-radius: 15px; color: white">
+
+                                                        <div class="row my-3">
+                                                            <div class="col-4">
+                                                                <img src="{{ asset('images/cb/cb.png') }}"
+                                                                     alt="image-cb-cb">
+                                                            </div>
+                                                            <div class="col-4">
+                                                                <img src="{{ asset('images/cb/mastercard.png') }}"
+                                                                     alt="image-cb-mc">
+                                                            </div>
+                                                            <div class="col-4">
+                                                                <img src="{{ asset('images/cb/visa.png') }}"
+                                                                     alt="image-cb-visa">
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row ml-1 mb-1">
+                                                            <img src="{{ asset('images/cb/chip.png') }}"
+                                                                 alt="image-chip">
+                                                        </div>
+
+                                                        Numéro de carte :
+                                                        <div style="background: rgba(24,24,25,0.74); color: #cca223; border-radius: 20px"
+                                                             class="mx-auto px-3 mb-2">
+                                                            {% set arrayCBN = credit_card.cardNumber | split('', 4) %}
+                                                            **** - **** - **** - {{ arrayCBN[3] }}
+                                                        </div>
+
+                                                        <div class="row mb-2">
+                                                            <div class="col-6">Date d'expiration :
+                                                                <div style="background: rgba(24,24,25,0.74); color : #cca223; border-radius: 20px"
+                                                                     class="mx-auto px-3">
+                                                                    {{ credit_card.expirationDate|date("d/m/Y") }}
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-6">
+                                                                Code de vérifications:
+                                                                <div style="background: rgba(24,24,25,0.74); color: #cca223; border-radius: 20px"
+                                                                     class="mx-auto px-3">
+                                                                    {{ credit_card.verificationCode }}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        Propriétaire de la carte :
+                                                        <div style="color: #cca223" class="mx-auto px-3 mb-2">
+                                                            {{ credit_card.name }}
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+                                                <div class="container text-center">
+                                                    <a class="btn btn-light" href="{{ path('credit_card_edit', {'id' : credit_card.id}) }}">Modifier</a>
+                                                    <a class="btn btn-dark" href="{{ path('credit_card_delete', {'id' : credit_card.id}) }}">Supprimer</a>
+                                                </div>
 
                                                 <hr>
 
