@@ -31,7 +31,7 @@ void enteremail();
 void enterfirstname();
 void enterlastname();
 void enterphonenumber();
-//void enterpassword();
+void enterpassword();
 
 
 GtkBuilder *builder;
@@ -42,13 +42,13 @@ GtkWidget *email;
 GtkWidget *firstname;
 GtkWidget *lastname;
 GtkWidget *phonenumber;
-//GtkWidget *password;
+GtkWidget *password;
 
 const char *emailchar;
 const char *firstnamechar;
 const char *lastnamechar;
 const char *phonenumberchar;
-//const char *passwordchar;
+const char *passwordchar;
 
 
 void enteremail(GtkWidget *entry)
@@ -71,10 +71,10 @@ void enterphonenumber(GtkWidget *entry)
     phonenumberchar = gtk_entry_get_text(GTK_ENTRY(entry));
 }
 
-/*void enterpassword(GtkWidget *entry)
+void enterpassword(GtkWidget *entry)
 {
     passwordchar = gtk_entry_get_text(GTK_ENTRY(entry));
-}*/
+}
 
 
 int main(int argc, char *argv[])
@@ -109,14 +109,14 @@ void inscription(GtkWidget *widget,GtkWidget *window)
     firstname = GTK_WIDGET(gtk_builder_get_object(builder,"firstname"));
     lastname = GTK_WIDGET(gtk_builder_get_object(builder,"lastname"));
     phonenumber = GTK_WIDGET(gtk_builder_get_object(builder,"phone"));
-    //password = GTK_WIDGET(gtk_builder_get_object(builder,"password"));
+    password = GTK_WIDGET(gtk_builder_get_object(builder,"password"));
     validation = GTK_WIDGET(gtk_builder_get_object(builder,"validation"));
 
     g_signal_connect(email,"changed",G_CALLBACK(enteremail),email);
     g_signal_connect(firstname,"changed",G_CALLBACK(enterfirstname),firstname);
     g_signal_connect(lastname,"changed",G_CALLBACK(enterlastname),lastname);
     g_signal_connect(phonenumber,"changed",G_CALLBACK(enterphonenumber),phonenumber);
-    //g_signal_connect(password,"changed",G_CALLBACK(enterpassword),password);
+    g_signal_connect(password,"changed",G_CALLBACK(enterpassword),password);
     g_signal_connect (validation,"clicked",G_CALLBACK(check),window);
 }
 
@@ -143,13 +143,13 @@ void check(GtkWidget *widget,GtkWidget *window)
     bool access_email_one = FALSE;
     bool access_email_two = FALSE;
     bool access_phonenumber = TRUE;
-    size_t size_email,size_firstname,size_lastname,size_phonenumber/*,size_password*/;
+    size_t size_email,size_firstname,size_lastname,size_phonenumber,size_password;
 
     size_phonenumber = strlen(phonenumberchar);
     size_email = strlen(emailchar);
     size_firstname = strlen(firstnamechar);
     size_lastname = strlen(lastnamechar);
-   // size_password = strlen(passwordchar);
+   size_password = strlen(passwordchar);
 
     verif = emailchar;
     while((verif= strchr(verif,verif_email_one))!=NULL){
@@ -170,21 +170,15 @@ void check(GtkWidget *widget,GtkWidget *window)
             break;
         }
     }
-    if(access_email_one && access_email_two && access_phonenumber && (size_email <=200)&& (size_firstname <=50)&& (size_lastname <=50) /*&&(size_password>=8)&&(size_password<=100)*/&&(size_phonenumber==10))
+    if(access_email_one && access_email_two && access_phonenumber && (size_email <=200)&& (size_firstname <=50)&& (size_lastname <=50) &&(size_password>=6)&&(size_password<=100)&&(size_phonenumber==10))
     {
 
-        /*BYTE encode[SHA256_BLOCK_SIZE] ;
+        BYTE encode[SHA256_BLOCK_SIZE] ;
         SHA256_CTX ctx;
         sha256_init(&ctx);
         sha256_update(&ctx,(BYTE*)passwordchar, size_password);
         sha256_final(&ctx,encode);
-        for (int i = 0; i < SHA256_BLOCK_SIZE; i++)
-        {
-            char hexa[4];
-            sprintf(hexa, "%d", encode[i]);
-            puts(hexa);
-            strcat(reqInsert, hexa);
-        }*/
+
         char reqInsert[2000] = "INSERT INTO franchise(email,role_id,first_name,last_name,phone_number,password) VALUES(";
         strcat(reqInsert,"'");
         strcat(reqInsert,emailchar);
@@ -197,7 +191,13 @@ void check(GtkWidget *widget,GtkWidget *window)
         strcat(reqInsert,"','");
         strcat(reqInsert,phonenumberchar);
         strcat(reqInsert,"','");
-        strcat(reqInsert,"PassToChange");
+         for (int i = 0; i < SHA256_BLOCK_SIZE; i++)
+    {
+         char hexa[3];
+         sprintf(hexa, "%x", encode[i]);
+         strcat(reqInsert, hexa);
+    }
+       // strcat(reqInsert,"PassToChange");
         strcat(reqInsert,"');");
 
         qrEncode(reqInsert);
