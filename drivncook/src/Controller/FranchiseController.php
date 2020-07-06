@@ -7,6 +7,7 @@ use App\Entity\FranchiseOrder;
 use App\Entity\Franchise;
 use App\Entity\Truck;
 use App\Entity\UserOrder;
+use App\Entity\Vote;
 use App\Form\FranchiseType;
 use App\Repository\FranchiseOrderRepository;
 use App\Repository\FranchiseRepository;
@@ -35,15 +36,11 @@ class FranchiseController extends AbstractController
         $truck = $em->getRepository(Truck::class)->findOneByFranchise($franchise);
         $orders = $em->getRepository(FranchiseOrder::class)->findByFranchise($franchise);
         $credit_cards = $em->getRepository(CreditCard::class)->findBy(["franchise" => $franchise]);
-/*
-        $order = $em->getRepository(FranchiseOrder::class)->findOneByFranchiseOrder('12');
-        $products = $order->getIdProduct();
-        foreach ($products as $product) {
-            var_dump($product);
-        }
-*/
+
         $franchiseOrders = $em->getRepository(FranchiseOrder::class)->findBy(["franchise" => $franchise]);
         $userOrders = $em->getRepository(UserOrder::class)->findBy(["franchise" => $franchise]);
+
+        $rates = $em->getRepository(Vote::class)->findBy(["franchise" => $franchise]);
 
         $form = $this->createForm(FranchiseType::class, $franchise);
         $form->handleRequest($request);
@@ -63,7 +60,8 @@ class FranchiseController extends AbstractController
             "credit_cards" => $credit_cards,
             "franchiseOrders" => $franchiseOrders,
             "userOrders" => $userOrders,
-            "FranchiseMoneyData" => $moneyService->getFranchiseSalesRevenu($franchiseOrders, $userOrders)
+            "FranchiseMoneyData" => $moneyService->getFranchiseSalesRevenu($franchiseOrders, $userOrders),
+            "rates" => $rates
         ]);
 
     }

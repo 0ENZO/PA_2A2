@@ -59,7 +59,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="" id="nav_truck" data-target="#pane_credit_card"
+                                    <a class="nav-link" href="" id="nav_credit_card" data-target="#pane_credit_card"
                                        data-toggle="tab">
                                         <i class="mr-2 fas fa-credit-card"></i>Mes informations bancaires
                                     </a>
@@ -67,7 +67,13 @@
                                 <li class="nav-item">
                                     <a class="nav-link" href="" id="nav_sales_revenue" data-target="#pane_sales_revenue"
                                        data-toggle="tab">
-                                        <i class="mr-2 fas fa-money-bill-alt"></i></i>Mes Recettes
+                                        <i class="mr-2 fas fa-money-bill-alt"></i>Mes Recettes
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="" id="nav_sales_rates" data-target="#pane_rates"
+                                       data-toggle="tab">
+                                        <i class="mr-2 fas fa-star"></i>Mes avis
                                     </a>
                                 </li>
                             </ul>
@@ -336,8 +342,12 @@
 
                                         <h2 class="text-bold text-center mb-4">Mes informations bancaires</h2>
 
-                                        <a class="btn btn-primary" href="{{ path('credit_card_add') }}">Ajouter un moyen
-                                            de paiement</a>
+                                        <div class="text-center my-5">
+                                            <a class="btn btn-primary" href="{{ path('credit_card_add') }}">Ajouter un
+                                                moyen
+                                                de paiement</a>
+                                        </div>
+
 
                                         {% if credit_cards is defined and credit_cards is not null %}
                                             {% for credit_card in credit_cards %}
@@ -397,7 +407,7 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="container text-center">
+                                                <div class="container text-center my-3">
                                                     <a class="btn btn-light"
                                                        href="{{ path('credit_card_edit', {'id' : credit_card.id}) }}">Modifier</a>
                                                     <a class="btn btn-dark"
@@ -434,8 +444,8 @@
 
                                                         <tr>
                                                             <td>{{ franchiseOrder.date | date('j/m/y') }}</td>
-                                                            <td style="color: #a21316">- {{ franchiseOrder.totalPrice }}
-                                                                €
+                                                            <td style="color: #a21316">
+                                                                - {{ franchiseOrder.totalPrice | format_currency('EUR') }}
                                                             </td>
                                                         </tr>
                                                     {% endfor %}
@@ -465,13 +475,14 @@
                                                     {% for userOrder in userOrders %}
                                                         <tr>
                                                             <td>{{ userOrder.date | date('j/m/y') }}</td>
-                                                            <td>{{ userOrder.totalPrice }} €</td>
+                                                            <td>{{ userOrder.totalPrice  | format_currency('EUR') }}</td>
                                                             <td style="color: #a21316">
-                                                                - {{ userOrder.totalPrice * 0.04 }} €
+                                                                {% set royalties = userOrder.totalPrice * 0.04 %}
+                                                                - {{ royalties | format_currency('EUR') }}
                                                             </td>
+                                                            {% set gainReel = userOrder.totalPrice - (userOrder.totalPrice * 0.04) %}
                                                             <td style="color: #58a259">
-                                                                + {{ userOrder.totalPrice - (userOrder.totalPrice * 0.04) }}
-                                                                €
+                                                                + {{ gainReel | format_currency('EUR') }}
                                                             </td>
                                                         </tr>
                                                     {% endfor %}
@@ -501,7 +512,8 @@
                                                             <h6 class="my-0">Dépenses approvisionnements</h6>
                                                             <small class="text-muted">Commandes à Driv'n Cook</small>
                                                         </div>
-                                                        <span style="color: #a21316" class="text-muted">- {{ FranchiseMoneyData["total_franchise_orders"] }} €</span>
+                                                        <span style="color: #a21316"
+                                                              class="text-muted">- {{ FranchiseMoneyData["total_franchise_orders"] | format_currency('EUR') }}</span>
                                                     </li>
 
                                                     <li class="list-group-item d-flex justify-content-between lh-condensed">
@@ -509,7 +521,8 @@
                                                             <h6 class="my-0">Redevances royalties</h6>
                                                             <small class="text-muted">4% des commandes clients</small>
                                                         </div>
-                                                        <span style="color: #a21316" class="text-muted">- {{ FranchiseMoneyData["total_royalties_given"] }}€</span>
+                                                        <span style="color: #a21316"
+                                                              class="text-muted">- {{ FranchiseMoneyData["total_royalties_given"] | format_currency('EUR') }}</span>
                                                     </li>
 
                                                     <li class="list-group-item d-flex justify-content-between lh-condensed">
@@ -517,14 +530,15 @@
                                                             <h6 class="my-0">Gain commandes clients</h6>
                                                             <small class="text-muted">Gain net</small>
                                                         </div>
-                                                        <span style="color: #58a259" class="text-muted">+ {{ FranchiseMoneyData["total_gain"] }}€</span>
+                                                        <span style="color: #58a259"
+                                                              class="text-muted">+ {{ FranchiseMoneyData["total_gain"] | format_currency('EUR') }}</span>
                                                     </li>
 
                                                     <li class="list-group-item d-flex justify-content-between lh-condensed">
                                                         <div>
                                                             <h6 class="my-0">TOTAL</h6>
                                                         </div>
-                                                        <strong>{{ FranchiseMoneyData["total"] }}€</strong>
+                                                        <strong>{{ FranchiseMoneyData["total"] | format_currency('EUR') }}</strong>
                                                     </li>
 
                                                 </ul>
@@ -532,6 +546,53 @@
 
 
                                         </div>
+                                    </div>
+                                </div>
+
+                                <div class="tab-pane" id="pane_rates" role="tabpanel">
+                                    <div class="col-md-12 mt-3">
+                                        <h3 class="text-bold mt-3 mb-5">Mes avis</h3>
+
+                                        {% if rates is defined and rates is not empty %}
+
+                                            {% for rate in rates %}
+
+                                                <div class="card my-5">
+                                                    <div class="card-header">
+                                                        <h5 class="display-5">{{ rate.titleComment }}</h5>
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <blockquote class="blockquote mb-0">
+                                                            <p>{{ rate.comment }}</p>
+                                                            <small>
+                                                                Note :
+                                                                {% for i in 1..rate.rate %}
+                                                                    <i class="fas fa-star" style="color: #ffce31"></i>
+                                                                {% endfor %}
+                                                                {% set negative = 5 - rate.rate %}
+                                                                {% if rate.rate != 5 %}
+                                                                    {% for i in 0..negative-1 %}
+                                                                        <i class="far fa-star"
+                                                                           style="color: #ffce31"></i>
+                                                                    {% endfor %}
+                                                                {% endif %}
+                                                            </small>
+                                                            <footer class="blockquote-footer mt-3">{{ rate.user }} -
+                                                                <cite
+                                                                        title="Source Title">{{ rate.date | date('d/m/y') }}</cite>
+                                                            </footer>
+                                                        </blockquote>
+                                                    </div>
+                                                </div>
+
+                                            {% endfor %}
+
+                                        {% else %}
+                                            <div class="alert alert-warning" role="alert">
+                                                Aucun commentaire vous concernant n'a été rédigé pour le moment.
+                                            </div>
+                                        {% endif %}
+
                                     </div>
                                 </div>
 

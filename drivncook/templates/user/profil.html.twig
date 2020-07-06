@@ -64,7 +64,7 @@
                                 <li class="nav-item">
                                     <a class="nav-link" href="" id="nav_orders" data-target="#pane_votes"
                                        data-toggle="tab">
-                                        <i class="mr-2 far fa-comment-dots"></i>Mes commentaires
+                                        <i class="mr-2 fas fa-star"></i>Mes commentaires
                                     </a>
                                 </li>
 
@@ -157,7 +157,7 @@
                                     <div class="col-md-8 mx-auto mt-3">
                                         <h2 class="text-bold text-center">Mes informations bancaires</h2>
 
-                                        <div class="container text-center">
+                                        <div class="container text-center my-5">
                                             <a  class="btn btn-primary" href="{{ path('credit_card_add') }}">Ajouter un moyen de paiement</a>
                                         </div>
 
@@ -219,7 +219,7 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="container text-center">
+                                                <div class="container text-center my-3">
                                                     <a class="btn btn-light" href="{{ path('credit_card_edit', {'id' : credit_card.id}) }}">Modifier</a>
                                                     <a class="btn btn-dark" href="{{ path('credit_card_delete', {'id' : credit_card.id}) }}">Supprimer</a>
                                                 </div>
@@ -287,25 +287,48 @@
 
 
                                 <div class="tab-pane" id="pane_votes" role="tabpanel">
-                                    <div class="col-md-8 mx-auto mt-3">
+                                    <div class="col-md-12 mt-3">
                                         <h2 class="text-bold text-center mb-4">Mes avis</h2>
 
-                                        {% if votes is defined and votes is not null %}
+                                        {% if votes is defined and votes is not empty %}
+
                                             {% for vote in votes %}
-                                                <div class="">
-                                                    <h5>Commande du {{ vote.date|date("d/m/Y") }} </h5>
-                                                    <span>
-                                                        {% for i in 1.. vote.rate%}
-                                                            <i class="ml-2 fas fa-star"></i>
-                                                        {% endfor %}
-                                                        {% for i in 1..(5 - vote.rate) %}
-                                                            <i class="ml-2 far fa-star"></i>
-                                                        {% endfor %}
-                                                    </span>
-                                                    <p>{{ vote.comment }}</p>
+
+                                                <div class="card my-5">
+                                                    <div class="card-header">
+                                                        <h5 class="display-5">{{ vote.titleComment }}</h5>
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <blockquote class="blockquote mb-0">
+                                                            <p>{{ vote.comment }}</p>
+                                                            <small>
+                                                                Note :
+                                                                {% for i in 1..vote.rate %}
+                                                                    <i class="fas fa-star" style="color: #ffce31"></i>
+                                                                {% endfor %}
+                                                                {% set negative = 5 - vote.rate %}
+                                                                {% if vote.rate != 5 %}
+                                                                    {% for i in 0..negative-1 %}
+                                                                        <i class="far fa-star"
+                                                                           style="color: #ffce31"></i>
+                                                                    {% endfor %}
+                                                                {% endif %}
+                                                            </small>
+                                                            <footer class="blockquote-footer mt-3">de {{ vote.user }} -
+                                                                <cite
+                                                                        title="Source Title">{{ vote.date | date('d/m/y') }}</cite>
+                                                                - addressé à : {{ vote.franchise }}
+                                                            </footer>
+                                                        </blockquote>
+                                                    </div>
                                                 </div>
-                                                <hr class="my-2">
+
                                             {% endfor %}
+
+                                        {% else %}
+                                            <div class="alert alert-warning" role="alert">
+                                                Aucun commentaire vous concernant n'a été rédigé pour le moment.
+                                            </div>
                                         {% endif %}
                                         {# 
                                         

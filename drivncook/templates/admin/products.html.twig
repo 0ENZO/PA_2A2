@@ -65,9 +65,10 @@
                         </td>
                         <td>{{ product.subCategory }}</td>
                         <td>{{ product.imageName }}</td>
-                        <td>{{ product.price }} €</td>
-                        <td>{{ product.vat }} €</td>
-                        <td>{{ product.price + product.vat }} €</td>
+                        <td>{{ product.price | format_currency('EUR') }} </td>
+                        <td>{{ product.vat | format_currency('EUR') }}</td>
+                        {% set ttc = product.price + product.vat %}
+                        <td>{{ ttc | format_currency('EUR') }}</td>
                         <td>{{ product.quantity }} {{ product.type }}</td>
                         <td class="{% if product.status == 'Disponible' %}available-product{% elseif product.status == 'Indisponible' %}unvailable-product{% endif %}">{{ product.status }}</td>
                         <td>{{ product.expiryDate | date("d/m/Y") }}</td>
