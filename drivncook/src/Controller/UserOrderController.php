@@ -150,54 +150,52 @@ class UserOrderController extends AbstractController
                         // pour chaque article on recherche ses recettes
                         $recipes = $article->getRecipes();
 
-                        // pour chaque recette on cherche le produit et la quantité on les multiplie avec la quantité et on les soustrait au franchiseStock associé
+                        // pour chaque recette on cherche le produit et la quantité 
+                        // on multiplie la qté associé dans la recette par le type de mesure
+                        // on soustrait au franchiseStock associé selon la qté de menu précisée
                         foreach ($recipes as $recipe){
                             $product = $recipe->getProduct();
                             $recipeQty = $recipe->getQuantity();
                             $stock = $franchiseStockRepository->findByProductAndFranchise($product, $franchise);
                             $stockQty = $stock->getQuantity();
 
-                            if ($stockQty - $recipeQty < 0 ) {
+                            $recipeType = $recipe->getType();
+                            $productType = $product->getType();
+                            $type = $this->checkType($productType, $recipeType);
+
+                            $substractQty = $recipeQty * $type;
+
+                            if ($stockQty - $substractQty < 0 ) {
                                 $stock->setQuantity(0);
                             } else {
-                                $stock->setQuantity($stockQty - $recipeQty);
-
-                            /* Quantité concerne le nombre de menus, donc on boucle plus haut
-                            for ($i=0; $i < $quantity; $i++) { 
-                                $substractQty = $quantity * $recipeQty;
-                                if ($stockQty - $substractQty < 0 ) {
-                                    $stock->setQuantity(0);
-                                } else {
-                                    $stock->setQuantity($stockQty - $substractQty);
-                                }
+                                $stock->setQuantity($stockQty - $substractQty);
                             }
-                            */
                         }
                     }
-                }
-                // Ajout des produits dans la commande 
-                $content = new UserOrderContent();
-                $content->setUserOrder($order);
-                $content->setMenu($menu);
+                    // Ajout des produits dans la commande 
+                    $content = new UserOrderContent();
+                    $content->setUserOrder($order);
+                    $content->setMenu($menu);
 
-                for ($i=0; $i < $quantity; $i++) { 
-                    $contentQty = $content->getQuantity();
-                    $content->setQuantity($contentQty+1);         
+                    for ($i=0; $i < $quantity; $i++) { 
+                        $contentQty = $content->getQuantity();
+                        $content->setQuantity($contentQty+1);         
+                    }
+                    $em->persist($content);
                 }
-                $em->persist($content);
+
+                $em->persist($order);
+                $em->flush();
+
+                $session->remove('franchise');
+                $session->remove('cart');
+                $session->remove('cart_totalTTC');
+                $session->remove('cart_totalHT');
+
+                $session->set('order_id', $order->getId());
             }
-
-            $em->persist($order);
-            $em->flush();
-
-            $session->remove('franchise');
-            $session->remove('cart');
-            $session->remove('cart_totalTTC');
-            $session->remove('cart_totalHT');
-
-            $session->set('order_id', $order->getId());
+            return $this->redirectToRoute('payment_success');
         }
-        return $this->redirectToRoute('payment_success');
     }
 
     /**
@@ -281,4 +279,47 @@ class UserOrderController extends AbstractController
             'order' => $order
         ]);
     }
+
+    /**
+     * Get both type, and return the good relationship
+     *
+     * @param [type] $productType
+     * @param [type] $recipeType
+     * @return void
+     */
+    private function checkType($productType, $recipeType)
+    {
+        if ($recipeType == 'Unit' && $productType == 'Unit'){
+            $type = 1;
+        } elseif ($recipeType == 'Kg') {
+            if ($productType == 'Kg') {
+                $type = 1;
+            } elseif ($productType == 'g') {
+                $type = 0.001;
+            } else {
+                $type = 'error';
+            }
+        }  elseif ($recipeType == 'g') {
+            if ($productType == 'g') {
+                $type = 1;
+            } elseif ($productType == 'Kg') {
+                $type = 1000;
+            } else {
+                $type = 'error';
+            }
+        } elseif ($recipeType == 'L') {
+            if ($productType == 'L') {
+                $type = 1;
+            } elseif ($productType == 'cl') {
+                $type = 0.01;
+            } else {
+                $type = 'error';
+            }
+        } else {
+            $type = 'error';
+        }
+
+        return $type;
+    }
 }
+

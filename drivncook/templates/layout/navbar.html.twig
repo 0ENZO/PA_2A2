@@ -47,6 +47,17 @@
 								{{'Profil client'|trans}}
 							</a>
 						{% endif %}
+						{% if app.session.get('cart') is not null and app.session.get('cart_warehouse') %}
+							<a class="dropdown-item" href="{{ path('franchise_cart_show') }}">
+								<i class="mr-2 fas fa-shopping-cart"></i>
+								{{'Mon panier'|trans}}
+							</a>
+						{% elseif app.session.get('cart') is not null and app.session.get('cart_franchise')%}
+							<a class="dropdown-item" href="{{ path('user_cart_show') }}">
+								<i class="mr-2 fas fa-shopping-cart"></i>
+								{{'Mon panier'|trans}}
+							</a>
+						{% endif %}
 						<a class="dropdown-item" href="{{ path('app_logout') }}">
 							<i class="mr-2 fas fa-sign-out-alt"></i>
 							{{'Déconnexion'|trans}}
