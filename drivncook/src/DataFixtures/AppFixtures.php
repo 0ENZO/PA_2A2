@@ -266,10 +266,10 @@ class AppFixtures extends Fixture
         // camion
         $truck_capacity = new MaxCapacity();
         $truck_capacity
-            ->setMaxIngredients(1000)
-            ->setMaxDrinks(250)
-            ->setMaxDesserts(200)
-            ->setMaxMeals(200)
+            ->setMaxIngredients(3000)
+            ->setMaxDrinks(500)
+            ->setMaxDesserts(500)
+            ->setMaxMeals(150)
             ->setName("Capacité camion standard");
         $manager->persist($truck_capacity);
 
@@ -5514,9 +5514,9 @@ class AppFixtures extends Fixture
 
                 $franchise_stock->setProduct($product);
                 if ($product->getType() == "Kg" || $product->getType() == "L")
-                    $franchise_stock->setQuantity(2);
+                    $franchise_stock->setQuantity(3);
                 else
-                    $franchise_stock->setQuantity(25);
+                    $franchise_stock->setQuantity(50);
                 $franchise_stock->setFranchise($franchise);
 
                 $manager->persist($franchise_stock);

@@ -456,7 +456,7 @@
                                                         </tr>
                                                     {% endfor %}
                                                 {% else %}
-                                                    <div class="alert alert-warning" role="alert">
+                                                    <div class="alert alert-dark" role="alert">
                                                         Aucun approvisionnements effectués pour le moment.
                                                     </div>
                                                 {% endif %}
@@ -493,7 +493,7 @@
                                                         </tr>
                                                     {% endfor %}
                                                 {% else %}
-                                                    <div class="alert alert-warning" role="alert">
+                                                    <div class="alert alert-dark" role="alert">
                                                         Aucune commandes effectueés pour le moment.
                                                     </div>
                                                 {% endif %}
@@ -594,7 +594,7 @@
                                             {% endfor %}
 
                                         {% else %}
-                                            <div class="alert alert-warning" role="alert">
+                                            <div class="alert alert-dark" role="alert">
                                                 Aucun commentaire vous concernant n'a été rédigé pour le moment.
                                             </div>
                                         {% endif %}
@@ -606,15 +606,24 @@
                                     <div class="col-md-12 mt-3">
                                         <h3 class="text-bold mt-3 mb-5">Mes notifications</h3>
 
-                                        <div class="alert alert-primary" role="alert">
-                                            A simple primary alert—check it out!
-                                        </div>
-                                        <div class="alert alert-secondary" role="alert">
-                                            A simple secondary alert—check it out!
-                                        </div>
-                                        <div class="alert alert-success" role="alert">
-                                            A simple success alert—check it out!
-                                        </div>
+                                        {% if notices is defined and notices is not empty %}
+                                            {% for notice in notices %}
+
+                                                <div class="alert alert-{{ notice.bootstrapColor }}" role="alert">
+                                                    <h4 class="alert-heading">{{ notice.title }}</h4>
+                                                    <p>{{ notice.content }}</p>
+                                                    <hr>
+                                                    <small class="mb-0 text-muted">{{ notice.date }}</small>
+                                                </div>
+
+                                            {% endfor %}
+                                        {% else %}
+                                            <div class="alert alert-dark" role="alert">
+                                                <h4 class="alert-heading">Aucune notifications</h4>
+                                                <p>Aucun notifications vous concernant n'a été detecté pour le moment.</p>
+                                            </div>
+                                        {% endif %}
+
 
                                     </div>
                                 </div>
