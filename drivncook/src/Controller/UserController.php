@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace App\Controller;
 
@@ -15,7 +15,10 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
-
+/**
+ * @Route("/user")
+ * @IsGranted("ROLE_USER")
+ */
 class UserController extends AbstractController
 {
 
@@ -26,7 +29,7 @@ class UserController extends AbstractController
     {
         // On stocke la langue demandée dans la session
         $request->getSession()->set('_locale', $locale);
-        
+
         // On revient sur la page précédente
         return $this->redirect($request->headers->get('referer'));
     }

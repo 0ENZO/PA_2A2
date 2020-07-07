@@ -7,6 +7,7 @@ use App\Form\EventType;
 use App\Entity\Franchise;
 use App\Repository\EventRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -40,14 +41,14 @@ class EventController extends AbstractController
                 return $this->redirectToRoute("event_index");
             }
 
-            return $this->render('event/index.html.twig', [ 
+            return $this->render('event/index.html.twig', [
                 'events' => $events,
                 'form' => $form->createView(),
                 'isFranchise' => $isFranchise
             ]);
-        } 
+        }
 
-        return $this->render('event/index.html.twig', [ 
+        return $this->render('event/index.html.twig', [
             'events' => $events
         ]);
     }
@@ -60,13 +61,14 @@ class EventController extends AbstractController
         $em = $this->getDoctrine()->getManager();
         $event = $eventRepository->findOneById($id);
 
-        return $this->render('event/show.html.twig', [ 
+        return $this->render('event/show.html.twig', [
             'event' => $event
         ]);
     }
 
     /**
      * @Route("/create", name="create")
+     * @isGranted("ROLE_FRANCHISE")
      */
     public function create(Request $request)
     {

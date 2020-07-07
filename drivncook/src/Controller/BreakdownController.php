@@ -17,7 +17,8 @@ use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
 
 
 /**
- * @Route("/panne") 
+ * @Route("/panne")
+ * @IsGranted("ROLE_FRANCHISE")
  */
 class BreakdownController extends AbstractController
 {
@@ -31,10 +32,10 @@ class BreakdownController extends AbstractController
         $reportBreakdown = $reportBreakdownRepository->findOneById($id);
         $answerReportBreakdowns = $answerReportBreakdownRepository->findByReportBreakdown($reportBreakdown);
 
-        // || !$this->isGranted('ROLE_ADMIN') Vérif si user est un admin 
+        // || !$this->isGranted('ROLE_ADMIN') Vérif si user est un admin
         /*
         if (!($this->getUser() == $reportBreakdown->getTruck()->getFranchise())){
-            throw new AccessDeniedException("Vous n'avez pas accès à cette page");    
+            throw new AccessDeniedException("Vous n'avez pas accès à cette page");
         }
         */
 

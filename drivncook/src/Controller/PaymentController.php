@@ -16,6 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/payment")
+ * @Security("is_granted('ROLE_FRANCHISE') or is_granted('ROLE_USER')")
  */
 class PaymentController extends AbstractController
 {
@@ -73,7 +74,7 @@ class PaymentController extends AbstractController
 
         $totalTTC = $session->get('cart_totalTTC');
         $totalHT = $session->get('cart_totalHT');
-        
+
         if ($user instanceof Franchise) {
             $consignee = $warehouseRepository->findOneById($session->get('cart_warehouse'));
         } else {
@@ -97,7 +98,7 @@ class PaymentController extends AbstractController
             "consignee" => $consignee,
             "source" => $source,
             "user" => $user,
-            "selected_credit_card" => $selected_credit_card, 
+            "selected_credit_card" => $selected_credit_card,
         ]);
     }
 

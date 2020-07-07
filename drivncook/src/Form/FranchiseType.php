@@ -23,6 +23,7 @@ class FranchiseType extends AbstractType
             ->add('firstName', TextType::class)
             ->add('lastName', TextType::class)
             ->add('email', EmailType::class)
+            ->add('phoneNumber', TextType::class)
             ->add('Address', EntityType::class, [
                 'class' => Address::class,
                 'label' => 'Adresse :'

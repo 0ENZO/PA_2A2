@@ -12,12 +12,14 @@ use App\Service\NotifyService;
 use App\Service\TruckService;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ObjectManager;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/ma-franchise")
+ * @IsGranted("ROLE_FRANCHISE")
  */
 class FranchiseMenuController extends AbstractController
 {

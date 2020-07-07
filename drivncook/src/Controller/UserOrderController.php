@@ -24,7 +24,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Session\Session;
 
 /**
- * @Route("/client/commande") 
+ * @Route("/client/commande")
  * IsGranted("ROLE_USER")
  */
 class UserOrderController extends AbstractController
@@ -52,7 +52,7 @@ class UserOrderController extends AbstractController
             'id' => $franchise,
         ]);
     }
-    
+
     /**
      * @Route("/panier", name="user_cart_show")
      */
@@ -114,7 +114,7 @@ class UserOrderController extends AbstractController
 
         $session->set('cart', $cart);
 
-        return $this->redirectToRoute("user_cart_show"); 
+        return $this->redirectToRoute("user_cart_show");
     }
 
     /**
@@ -150,7 +150,7 @@ class UserOrderController extends AbstractController
                         // pour chaque article on recherche ses recettes
                         $recipes = $article->getRecipes();
 
-                        // pour chaque recette on cherche le produit et la quantité 
+                        // pour chaque recette on cherche le produit et la quantité
                         // on multiplie la qté associé dans la recette par le type de mesure
                         // on soustrait au franchiseStock associé selon la qté de menu précisée
                         foreach ($recipes as $recipe){
@@ -172,14 +172,14 @@ class UserOrderController extends AbstractController
                             }
                         }
                     }
-                    // Ajout des produits dans la commande 
+                    // Ajout des produits dans la commande
                     $content = new UserOrderContent();
                     $content->setUserOrder($order);
                     $content->setMenu($menu);
 
-                    for ($i=0; $i < $quantity; $i++) { 
+                    for ($i=0; $i < $quantity; $i++) {
                         $contentQty = $content->getQuantity();
-                        $content->setQuantity($contentQty+1);         
+                        $content->setQuantity($contentQty+1);
                     }
                     $em->persist($content);
                 }
@@ -211,7 +211,7 @@ class UserOrderController extends AbstractController
                 'order' => $order
             ]);
         } else {
-            throw new \Exception('Vous n\'êtes pas autorisé à accéder à  cette commande');    
+            throw new \Exception('Vous n\'êtes pas autorisé à accéder à  cette commande');
         }
     }
 
@@ -219,7 +219,7 @@ class UserOrderController extends AbstractController
      * @Route("/pdf/{id}", name="user_order_pdf", methods={"GET"}, requirements={"id"="\d+"})
      */
     public function pdf($id, \Knp\Snappy\Pdf $knpSnappy)
-    {  
+    {
         $em = $this->getDoctrine()->getManager();
         $order = $em->getRepository(UserOrder::class)->findOneById($id);
         if ($this->getUser() == $order->getUser() || $this->isGranted('ROLE_ADMIN')){
@@ -228,7 +228,7 @@ class UserOrderController extends AbstractController
             $html = $this->renderView('user/order/show.html.twig' , array(
                 'order' => $order,
             ));
-            
+
             return new Response(
                 $knpSnappy->getOutputFromHtml($html),
                 200,
@@ -238,7 +238,7 @@ class UserOrderController extends AbstractController
                 )
             );
         } else {
-            throw new \Exception('Vous n\'êtes pas autorisé à accéder à cette ressource.');    
+            throw new \Exception('Vous n\'êtes pas autorisé à accéder à cette ressource.');
         }
     }
     /**
@@ -267,7 +267,7 @@ class UserOrderController extends AbstractController
 
             $request->getSession()->getFlashBag()->add('info', 'Avis envoyé.');
             $session->remove('order_id');
-            
+
             $em->persist($vote);
             $em->flush();
 
@@ -322,4 +322,3 @@ class UserOrderController extends AbstractController
         return $type;
     }
 }
-
