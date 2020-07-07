@@ -129,7 +129,7 @@ class UserOrderController extends AbstractController
         $cart_franchise = $session->get('cart_franchise');
         $franchise = $franchiseRepository->findOneById($cart_franchise);
 
-        if (!empty($cart)){
+        if (!empty($cart)) {
 
             $order = new UserOrder();
             $order->setUser($user);
@@ -138,15 +138,15 @@ class UserOrderController extends AbstractController
             $order->setDate(new \DateTime());
             $order->setStatus(1);
             $order->setTotalPrice($total);
-            
-            foreach ($cart as $id => $quantity){
+
+            foreach ($cart as $id => $quantity) {
                 $menu = $menuRepository->find($id);
                 $articles = $menu->getArticle();
 
-                for ($i=0; $i < $quantity; $i++) { 
+                for ($i = 0; $i < $quantity; $i++) {
 
                     // Que 1 article pour le moment, méthode à changer
-                    foreach ($articles as $article){
+                    foreach ($articles as $article) {
                         // pour chaque article on recherche ses recettes
                         $recipes = $article->getRecipes();
 

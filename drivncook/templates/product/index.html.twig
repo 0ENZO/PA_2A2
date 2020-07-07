@@ -71,19 +71,24 @@
                                 {{ product.name }}
                             </h3>
                             <div class="text-center">
-                                <img class="img-fluid rounded" src="https://via.placeholder.com/150" alt="Image de {{ product.name }}">
+                                {% if product.imageName is defined and product.imageName is not empty %}
+                                <img src="{{ vich_uploader_asset(product) }}" alt="{{ product.name }}" title="{{ product.name }}" width="100" height="100" />
+                                {% else %}
+                                    <img src="https://via.placeholder.com/100" alt="Sans-image" title="sans-image" width="100" height="100" />
+                                {% endif %}
                             </div>
                             <hr>
                             <div class="d-flex justify-content-between align-items-center">
                                 <h5 class="ml-2">
-                                    {{ product.price + product.vat }} €
+                                    {% set ttc = product.price + product.vat %}
+                                    {{ ttc | format_currency('EUR') }}
                                 </h5>
 
                                 <div>
                                     <input type='button' name="btnMinus" data-id="{{ product.id }}" value='-' class='qtyminus' field='quantity' id="btnMinus{{product.id}}"/>
                                     {% for warehouseStock in product.warehouseStocks %}
                                         {% if warehouseStock.warehouse.id == warehouse.id %}
-                                            <input type='text' name='quantity' value='1' class='qty' id="cifri{{product.id}}" data-max="{{ warehouseStock.quantity }}" />
+                                            <input type='text' name='quantity' value='1' class='qty' id="cifri{{product.id}}" data-max="{{ warehouseStock.quantity }}" /> {{ product.type }}
                                         {% endif %}
                                     {% endfor %}
                                     <input type='button' name="btnPlus" data-id="{{ product.id }}" value='+' class='qtyplus' field='quantity' id="btnPlus{{product.id}}"/>

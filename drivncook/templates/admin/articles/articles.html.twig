@@ -218,7 +218,13 @@
                         <td>{{ article.vat | format_currency('EUR') }}</td>
                         {% set ttc = article.vat + article.price %}
                         <td>{{ ttc | format_currency('EUR') }}</td>
-                        <td>{{ article.imageName }}</td>
+                        <td>
+                            {% if article.imageName is defined and article.imageName is not empty %}
+                                <img src="{{ vich_uploader_asset(article) }}" alt="{{ article.name }}" title="{{ article.name }}" width="100" height="100" class="img-thumbnail" />
+                            {% else %}
+                                <img src="https://via.placeholder.com/100" alt="Sans-image" title="sans-image" width="100" height="100" class="img-thumbnail" />
+                            {% endif %}
+                        </td>
                         <td>
                             {% if article.status == 'Disponible' %}
                                 {% set badgeStatus = 'badge-success' %}

@@ -91,7 +91,7 @@ class MoneyService
             "total_franchise_orders" => $total_franchise_orders,
             "total_royalties_given" => $total_royalties_given,
             "total_gain" => $total_gain,
-            "total" => $total_gain - ($total_franchise_orders + $total_royalties_given)
+            "total" => $total_gain - $total_franchise_orders
         ];
 
         return $franchiseMoneyData;
