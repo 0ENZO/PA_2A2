@@ -1101,7 +1101,7 @@
       </trans-unit>
       <trans-unit id="feTG6BF" resname="Bientôt">
         <source>Bientôt</source>
-        <target>__Bientôt</target>
+        <target>Soon</target>
       </trans-unit>
       <trans-unit id="GqTLC8y" resname="Image">
         <source>Image</source>
@@ -1109,7 +1109,7 @@
       </trans-unit>
       <trans-unit id="Pldh_1d" resname="C'est ici que vous pouvez consulter votre stock actuel">
         <source>C'est ici que vous pouvez consulter votre stock actuel</source>
-        <target>__C'est ici que vous pouvez consulter votre stock actuel</target>
+        <target>This is where you can view your current stock</target>
       </trans-unit>
     </body>
   </file>
