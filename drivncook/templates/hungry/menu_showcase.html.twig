@@ -1,6 +1,6 @@
 {% extends "base.html.twig" %}
 
-{% block title %} Menu franchisé {% endblock %}
+{% block title %}{% trans %}Menu franchisé{% endtrans %} {% endblock %}
 
 {% block body %}
 
@@ -52,22 +52,22 @@
 
     <div class="d-flex justify-content-end my-3">
         <a href="{{ path('user_cart_show')}}" class="btn btn-primary{# rounded-circle link-fixed #}">
-            Passer à la caisse <i class="fas fa-shopping-cart ml-2"></i>
+           {% trans %}Passer à la caisse{% endtrans %}  <i class="fas fa-shopping-cart ml-2"></i>
         </a>
     </div>
 
     <div id="menu">
         <div class="wrapper">
 
-            <h2>Notre Menu</h2>
-          
+            <h2>{% trans %}Notre Menu{% endtrans %} </h2>
+
             <div class="buttons-container">
-                <a href="#" class="button button--is-active" data-target="menuMenu">Menus</a>
-                <a href="#" class="button" data-target="mealMenu">Plats</a>
-                <a href="#" class="button" data-target="drinkMenu">Boissons</a>
-                <a href="#" class="button" data-target="dessertMenu">Desserts</a>
+                <a href="#" class="button button--is-active" data-target="menuMenu">{% trans %}Menus{% endtrans %}</a>
+                <a href="#" class="button" data-target="mealMenu">{% trans %}Plats{% endtrans %}</a>
+                <a href="#" class="button" data-target="drinkMenu">{% trans %}Boissons{% endtrans %}</a>
+                <a href="#" class="button" data-target="dessertMenu">{% trans %}Dessets{% endtrans %}</a>
             </div>
-          
+
 
             <div class="menu menu--is-visible" id="menuMenu">
                 {% for menu in menus %}
@@ -79,11 +79,11 @@
                                 <span class="item__price">{{ menu.price + menu.vat }} €</span>
                             </div>
                             <p class="item__description">{{ menu.description|length > 50 ? menu.description|slice(0,50) ~ '..' : menu.description }}</p>
-                            <a href="{{ path('user_cart_add', {'id': menu.id , 'qty': 1}) }}">Commander</a>
+                            <a href="{{ path('user_cart_add', {'id': menu.id , 'qty': 1}) }}">{% trans %}Commander{% endtrans %}</a>
                         </div>
                     {% endif %}
                 {% endfor %}
-            </div> 
+            </div>
 
             <div class="menu menu" id="mealMenu">
                 {% for menu in menus %}
@@ -95,12 +95,12 @@
                                 <span class="item__price">{{ menu.price + menu.vat }} €</span>
                             </div>
                             <p class="item__description">{{ menu.description|length > 50 ? menu.description|slice(0,50) ~ '..' : menu.description }}</p>
-                            <a href="{{ path('user_cart_add', {'id': menu.id , 'qty': 1}) }}">Commander</a>
+                            <a href="{{ path('user_cart_add', {'id': menu.id , 'qty': 1}) }}">{% trans %}Commander{% endtrans %}</a>
                         </div>
                     {% endif %}
                 {% endfor %}
-            </div> 
-          
+            </div>
+
 
             <div class="menu" id="drinkMenu">
                 {% for menu in menus %}
@@ -116,7 +116,7 @@
                     {% endif %}
                 {% endfor %}
             </div>
-          
+
 
             <div class="menu" id="dessertMenu">
                 {% for menu in menus %}
@@ -132,7 +132,7 @@
                     {% endif %}
                 {% endfor %}
             </div>
-        </div> 
+        </div>
     </div>
 
 {% endblock %}
@@ -148,7 +148,7 @@
         document.body.appendChild(highlight);
         highlight.classList.add('highlight');
 
-        // Set initial dimensions and position of 'highlight' based on activeButton coords 
+        // Set initial dimensions and position of 'highlight' based on activeButton coords
         function initialHightlightLocation() {
         const activeButton = document.querySelector('.button--is-active');
         const activeButtonCoords = activeButton.getBoundingClientRect();
@@ -171,7 +171,7 @@
         buttons.forEach(button => button.classList.remove('button--is-active'));
         this.classList.add('button--is-active');
 
-        // Set current dimensions and position of 'highlight' based on the clicked button 
+        // Set current dimensions and position of 'highlight' based on the clicked button
         const buttonCoords = this.getBoundingClientRect();
         const coords = {
             width: buttonCoords.width,

@@ -5,14 +5,14 @@
 
 {% block body %}
 
-<div class="container mt-5 bg-white">
-    <div class="p-4 mb-4 ">
-        <h3 class="text-center mt-2">Veuillez choisir un entrepôt</h3>
-        <hr class="my-3">
+	<div class="container mt-5 bg-white">
+		<div class="p-4 mb-4 ">
+			<h3 class="text-center mt-2">{% trans %}Veuillez choisir un entrepôt{% endtrans %}</h3>
+			<hr class="my-3">
 
-        {#
+			{#
         <div class="box col-md-5 mx-auto">
-            
+
             <select name="" id="selectWarehouse">
                 {% for warehouse in warehouses %}
                     <option value="{{ warehouse.id }}">{{ warehouse.name }} - {{ warehouse.address }}</option>
@@ -24,82 +24,88 @@
         </div>
         #}
 
-        <div class="col-md-6 mx-auto">
-            
-            <table class="table my-4">
-                <thead class="thead-dark">
-                    <tr>
-                        <th>Nom</th>
-                        <th>Addresse</th>
-                        <th>Choisir</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for warehouse in warehouses %}
-                        {% if warehouse.id != app.session.get('cart_warehouse') %}
-                            <tr>
-                                <th>{{ warehouse.name }} </th>
-                                <th>{{ warehouse.address }}</th>
-                                <th>
-                                    <a class="pl-3" data-toggle="tooltip" data-placement="top" title="Choisir" href="{{ path('product_index', { 'id': warehouse.id}) }}">
-                                        <i class="fas fa-arrow-right"></i>
-                                    </a>
-                                </th>
-                            </tr>
-                        {% endif %}
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
+			<div class="col-md-6 mx-auto">
 
-    </div> 
-    
-    <hr class="mb-3">
+				<table class="table my-4">
+					<thead class="thead-dark">
+						<tr>
+							<th>{% trans %}Nom{% endtrans %}</th>
+							<th>{% trans %}Adresse{% endtrans %}</th>
+							<th>{% trans %}Choisir{% endtrans %}</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for warehouse in warehouses %}
+							{% if warehouse.id != app
+								.session
+								.get('cart_warehouse') %}
+								<tr>
+									<th>{{ warehouse.name }}
+									</th>
+									<th>{{ warehouse.address }}</th>
+									<th>
+										<a class="pl-3" data-toggle="tooltip" data-placement="top" title="Choisir" href="{{ path('product_index', { 'id': warehouse.id}) }}">
+											<i class="fas fa-arrow-right"></i>
+										</a>
+									</th>
+								</tr>
+							{% endif %}
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
 
-    <div class="mt-2">
-        {% if warehouse is defined and warehouse is not null %}
-            <h4 class="text-center">Reprendre votre commande auprès de l'entrepôt : </h4>
-            <h4 class="text-center">{{ warehouse.name }} - {{ warehouse.address}}</h4>
+		</div>
 
-            <div>
-                {% if filledCart is defined and filledCart is not null %}
-                    <div class="col-md-4 mx-auto">
-                        <table class="table my-4">
-                            <thead class="thead-dark">
-                                <tr>
-                                    <th>Nom</th>
-                                    <th>Quantité</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for item in filledCart %}
-                                    <tr>
-                                        <th>{{ item.product.name|capitalize }} </th>
-                                        <th>{{ item.quantity }}</th>
-                                    </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
+		<hr class="mb-3">
 
+		<div class="mt-2">
+			{% if warehouse is defined and warehouse is not null %}
+				<h4 class="text-center">{% trans %}Reprendre votre commande auprès de l'entrepôt{% endtrans %}:
+				</h4>
+				<h4 class="text-center">{{ warehouse.name }}
+					-
+					{{ warehouse.address}}</h4>
 
-                    <div class="d-flex justify-content-end mt-3 pb-3">
-                        <a class="btn btn-danger mr-2" href="{{ path('franchise_cart_empty') }}" >{% trans %} Annuler {% endtrans %}</a>
-                        <a class="btn btn-primary" href="{{ path('product_index', {'id' : app.session.get('cart_warehouse')}) }}" >{% trans %} Reprendre {% endtrans %}</a>
-                    </div>
-                {% endif %}
-            </div>
-        {% endif %}
-    </div>
+				<div>
+					{% if filledCart is defined and filledCart is not null %}
+						<div class="col-md-4 mx-auto">
+							<table class="table my-4">
+								<thead class="thead-dark">
+									<tr>
+										<th>{% trans %}Nom{% endtrans %}</th>
+										<th>{% trans %}Quantité{% endtrans %}</th>
+									</tr>
+								</thead>
+								<tbody>
+									{% for item in filledCart %}
+										<tr>
+											<th>{{ item.product.name|capitalize }}
+											</th>
+											<th>{{ item.quantity }}</th>
+										</tr>
+									{% endfor %}
+								</tbody>
+							</table>
+						</div>
 
-</div>
+						<div class="d-flex justify-content-end mt-3 pb-3">
+							<a class="btn btn-danger mr-2" href="{{ path('franchise_cart_empty') }}">{% trans %}Annuler{% endtrans %}</a>
+							<a class="btn btn-primary" href="{{ path('product_index', {'id' : app.session.get('cart_warehouse')}) }}">{% trans %}Reprendre{% endtrans %}</a>
+						</div>
+					{% endif %}
+				</div>
+			{% endif %}
+		</div>
+
+	</div>
 
 {% endblock %}
 {% block scripts %}
 
-{{ parent() }}
-<script>
-    /*
+	{{ parent() }}
+	<script>
+		/*
     const btn = document.getElementById('btnChooseWarehouse');
 
     if (btn){
@@ -111,7 +117,6 @@
         });
     }
     */
-</script>
-
+	</script>
 
 {% endblock %}

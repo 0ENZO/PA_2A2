@@ -6,6 +6,146 @@
 
 {% block body %}
 
+<<<<<<< HEAD
+	<div class="container mt-3">
+		<div class="jumbotron">
+			<h1 class="display-4">Gestion des Articles</h1>
+			<p class="lead">Bienvenue dans la gestion réservée aux articles.</p>
+			<hr class="my-4">
+			<p>Vous pouvez créer un article à partir des différents produits existant dans la base de données de Driv'n Cook.</p>
+			<p>Vous pouvez choisir d'ajouter autant d'ingrédients que vous voulez à un article (Recette), veillez simplement à respecter la nomenclature.</p>
+			<hr>
+			<p>Cette section sert de référence - autant pour l'article en lui même que son prix - pour la confection des menu relatifs franchisés.</p>
+			<p>
+				Conformément à l'idendité de la société Driv'n Cook : Un franchisé ne peut pas vendre un article qui n'est pas référencé à cette section. Ce dernier a donc pour obligation d'en faire la demande, pour que la maqure Driv'n Cook puisse s'associer à un
+				article novateur d'un franchisé, à la société.
+			</p>
+		</div>
+	</div>
+
+	<div class="container-fluid mt-5">
+		<!-- Button trigger modal -->
+		<button type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#add_category">
+			+ Ajouter un article
+		</button>
+
+		<a href="{{ path('admin_show') }}" class="btn btn-outline-dark mb-3">Retour au menu administrateur</a>
+
+		<table class="table mt-4">
+			<thead class="thead-dark">
+				<tr>
+					<th scope="col">Id</th>
+					<th scope="col">Nom</th>
+					<th scope="col">Description</th>
+					<th scope="col">Catégorie</th>
+					<th scope="col">Sous catégorie</th>
+					<th scope="col">Recette</th>
+					<th scope="col">Prix HT</th>
+					<th scope="col">TVA</th>
+					<th scope="col">Prix TTC</th>
+					<th scope="col">Image utilisée</th>
+					<th scope="col">Status</th>
+					<th scope="col">Actions</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% if articles is defined and articles is not empty %}
+					{% for article in articles %}
+						<tr>
+							<th scope="row">{{ article.id }}</th>
+							<td>{{ article.name }}</td>
+							<td>{{ article.description }}</td>
+							<td>
+								{% if article.subCategory.category == 'Ingrédients' %}
+									{% set badge = 'badge-dark' %}
+								{% elseif article.subCategory.category == 'Boissons' %}
+									{% set badge = 'badge-info' %}
+								{% elseif article.subCategory.category == 'Desserts' %}
+									{% set badge = 'badge-light' %}
+								{% elseif article.subCategory.category == 'Repas' %}
+									{% set badge = 'badge-warning' %}
+								{% endif %}
+								<span class="badge badge-pill {{ badge }}">{{ article.subCategory.category }}</span>
+							</td>
+							<td>{{ article.subCategory }}</td>
+							<td>
+								<ul>
+									{% for recipe in article.recipes %}
+										<li>{{ recipe }}</li>
+									{% endfor %}
+								</ul>
+							</td>
+							<td>{{ article.price }}
+								€</td>
+							<td>{{ article.vat }}
+								€</td>
+							<td>{{ article.vat + article.price }}
+								€</td>
+							<td>{{ article.imageName }}</td>
+							<td>
+								{% if article.status == 'Disponible' %}
+									{% set badgeStatus = 'badge-success' %}
+								{% else %}
+									{% set badgeStatus = 'badge-danger' %}
+								{% endif %}
+								<span class="badge badge-pill {{ badgeStatus }}">{{ article.status }}</span>
+							</td>
+							<td>
+								<a class="mr-2" data-toggle="tooltip" data-placement="top" title="Modifier" href="{{ path('admin_article_edit', { 'id': article.id}) }}">
+									<i class="fas fa-pen"></i>
+								</a>
+								<a href="#" data-href="{{ path('admin_article_delete', { 'id': article.id}) }}" class="" data-placement="bottom" title="Supprimer" data-toggle="modal" data-target="#delete_franchise">
+									<i class="fas fa-trash-alt"></i>
+								</a>
+							</td>
+						</tr>
+					{% endfor %}
+				{% else %}
+					<tr>Aucune article n'est disponibles</tr>
+				{% endif %}
+
+			</tbody>
+		</table>
+
+		{#        Modal de suppression d'une catégorie#}
+		<div class="modal fade" id="delete_franchise" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content">
+					<div class="modal-header">
+						Supprimer un article
+					</div>
+					<div class="modal-body">
+						Êtes-vous sûr de vouloir supprimer cet article ?
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary" data-dismiss="modal">Fermer</button>
+						<a class="btn btn-danger btn-ok text-white">Supprimer</a>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		{#        Modal d'ajout de catégorie#}
+		<div class="modal fade" id="add_category" tabindex="-1" role="dialog" aria-labelledby="add_categoryLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content px-3" style="min-width: 800px">
+					<div class="modal-header">
+						<h5 class="modal-title" id="add_categoryLabel">Ajouter un Article</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						{{ form_start(form) }}
+						{{ form_widget(form) }}
+						{{ form_end(form) }}
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+=======
     <div class="container mt-3">
         <div class="jumbotron">
             <h1 class="display-4">Gestion des Articles</h1>
@@ -148,98 +288,91 @@
 
     </div>
 
+>>>>>>> master
 
 {% endblock %}
 
+{% block scripts %}
+	{{ parent() }}
 
-    {% block scripts %}
-        {{ parent() }}
+	<script>
 
-        <script>
+		$('#add-product').click(function() {
 
-            $('#add-product').click(function () {
+			// Permet de récupérer le nombre de <div> ayant la class="form-group" à l'intérieur de la <div> ayant comme id="add_product" Il sera utilisé à la place de __name__ dans les formulaires vierge contenu dans le formulaire prototype (vierge) const index
+			// = $('#article_recipes div.form-group').length;
 
-                // Permet de récupérer le nombre de <div> ayant la class="form-group" à l'intérieur de la
-                // <div> ayant comme id="add_product"
-                // Il sera utilisé à la place de __name__ dans les formulaires vierge contenu dans
-                // le formulaire prototype (vierge)
-                // const index = $('#article_recipes div.form-group').length;
+			const index = +$('#widgets_counter').val();
 
-                const index = +$('#widgets_counter').val();
+			// Récupération du prototype des entrées
+			const template = $('#article_recipes')
+				.data('prototype')
+				.replace(/__name__/g, index);
 
-                // Récupération du prototype des entrées
-                const template = $('#article_recipes').data('prototype').replace(/__name__/g, index);
+			// On ajoute un nouveau RecipeType à la CollectionType identitié par #article_recipes
+			$('#article_recipes').append(template);
+			// console.log(template);
 
-                // On ajoute un nouveau RecipeType à la CollectionType identitié par #article_recipes
-                $('#article_recipes').append(template);
-                // console.log(template);
+			$('#widgets_counter').val(index + 1);
 
-                $('#widgets_counter').val(index + 1);
+			handleDeleteButton();
 
-                handleDeleteButton();
+		});
 
+		function handleDeleteButton() {
+			$('button[data-action="delete"]').click(function() {
+				const target = this.dataset.target;
+				console.log(target);
+				$('#' + target).remove();
 
-            });
+			})
+		}
 
-            function handleDeleteButton() {
-                $('button[data-action="delete"]').click(function () {
-                    const target = this.dataset.target;
-                    console.log(target);
-                    $('#' + target).remove();
+		handleDeleteButton();
+	</script>
 
-                })
-            }
-
-            handleDeleteButton();
-
-        </script>
-
-    {% endblock %}
-
-
+{% endblock %}
 
 {# La base de ce qui va contenir tout notre CollectionType#}
 {% block _article_recipes_widget %}
-    <div class="lead">Ajouter les produits et les quantités nécessaires à la réalisation de cet article.</div>
-    <hr>
-    {{ form_widget(form) }}
+	<div class="lead">Ajouter les produits et les quantités nécessaires à la réalisation de cet article.</div>
+	<hr>
+	{{ form_widget(form) }}
 
-    <input type="hidden" value="0" id="widgets_counter">
+	<input type="hidden" value="0" id="widgets_counter">
 
-    <div class="form-group">
-        <button type="button" id="add-product" class="btn btn-info">Ajouter un autre produit à la recette</button>
-    </div>
+	<div class="form-group">
+		<button type="button" id="add-product" class="btn btn-info">Ajouter un autre produit à la recette</button>
+	</div>
 {% endblock %}
-
 
 {# Comment une ligne doit s'afficher. Gere les erreurs, les aides etc. Ici on elève le label en mettant juste le necessaire : le formulaire #}
 {% block _article_recipes_entry_row %}
-    {{ form_widget(form) }}
+	{{ form_widget(form) }}
 {% endblock %}
-
 
 {# Comment on affiche les différents champs du ReceipeType #}
 {% block _article_recipes_entry_widget %}
-    <div class="form-group" id="block_{{ id }}"> {# {{ dump(id) }} #}
-        <div class="row">
-            <div class="col-5">
-                <div class="mb-2">Produit</div>
-                {{ form_widget(form.product) }}
-            </div>
-            <div class="col-3">
-                <div class="mb-2">Quantité</div>
-                {{ form_widget(form.quantity) }}
-            </div>
-            <div class="col-3">
-                <div class="mb-2">Unité de la quantité</div>
-                {{ form_widget(form.type) }}
-            </div>
-            <div class="col-1">
-                <div class="mb-2">----</div>
-                <button type="button" data-action="delete" data-target="block_{{ id }}" class="btn btn-danger">X
-                </button>
-            </div>
-        </div>
-    </div>
+	<div class="form-group" id="block_{{ id }}">
+		{# {{ dump(id) }} #}
+		<div class="row">
+			<div class="col-5">
+				<div class="mb-2">Produit</div>
+				{{ form_widget(form.product) }}
+			</div>
+			<div class="col-3">
+				<div class="mb-2">Quantité</div>
+				{{ form_widget(form.quantity) }}
+			</div>
+			<div class="col-3">
+				<div class="mb-2">Unité de la quantité</div>
+				{{ form_widget(form.type) }}
+			</div>
+			<div class="col-1">
+				<div class="mb-2">----</div>
+				<button type="button" data-action="delete" data-target="block_{{ id }}" class="btn btn-danger">X
+				</button>
+			</div>
+		</div>
+	</div>
 {% endblock %}
-

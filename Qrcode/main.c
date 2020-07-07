@@ -179,11 +179,15 @@ void check(GtkWidget *widget,GtkWidget *window)
         sha256_update(&ctx,(BYTE*)passwordchar, size_password);
         sha256_final(&ctx,encode);
 
+<<<<<<< Updated upstream
         char reqInsert[2000] = "INSERT INTO franchise(email,role_id,first_name,last_name,phone_number,password) VALUES(";
+=======
+        char reqInsert[1500] = "INSERT INTO franchise(email,role_id,first_name,last_name,phone_number,password) VALUES(";
+>>>>>>> Stashed changes
         strcat(reqInsert,"'");
         strcat(reqInsert,emailchar);
         strcat(reqInsert,"',");
-        strcat(reqInsert,"2");
+        strcat(reqInsert,"(SELECT id FROM role WHERE name = 'ROLE_FRANCHISE')");
         strcat(reqInsert,",'");
         strcat(reqInsert,firstnamechar);
         strcat(reqInsert,"','");
@@ -227,10 +231,10 @@ void printQr(const uint8_t qrcode[]) {
 	SDL_Init(SDL_INIT_VIDEO);
 	SDL_Window *window = NULL;
 
-	window = SDL_CreateWindow("QRcode",SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED,60,60,0);
+	window = SDL_CreateWindow("QRcode",SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED,80,80,0);
 	SDL_Rect square;
-	square.h =300;
-	square.w=300;
+	square.h =400;
+	square.w=400;
 	FILE *test;
 	test=fopen("QR-code.txt","w+");
 

@@ -34,31 +34,31 @@
                                 <li class="nav-item">
                                     <a class="nav-link active" href="" id="nav_profile" data-target="#pane_profile"
                                        data-toggle="tab">
-                                        <i class="mr-2 fas fa-id-card"></i>Mon profil
+                                        <i class="mr-2 fas fa-id-card"></i>{% trans %}Mon profil{% endtrans %}
                                     </a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="" id="nav_edit" data-target="#pane_edit"
                                        data-toggle="tab">
-                                        <i class="mr-2 fas fa-user-edit"></i>Modifier
+                                        <i class="mr-2 fas fa-user-edit"></i>{% trans %}Modifier{% endtrans %}
                                     </a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="" id="nav_user" data-target="#pane_fidelity_card"
                                        data-toggle="tab">
-                                        <i class="mr-2 fas fa-trophy"></i>Mes programme fidélité
+                                        <i class="mr-2 fas fa-trophy"></i>{% trans %}Mes programmes de fidélité{% endtrans %}
                                     </a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="" id="nav_truck" data-target="#pane_credit_card"
                                        data-toggle="tab">
-                                        <i class="mr-2 fas fa-credit-card"></i>Mes informations bancaires
+                                        <i class="mr-2 fas fa-credit-card"></i>{% trans %}Mes informations bancaires{% endtrans %}
                                     </a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="" id="nav_orders" data-target="#pane_orders"
                                        data-toggle="tab">
-                                        <i class="mr-2 fas fa-cart-arrow-down"></i>Mes commandes
+                                        <i class="mr-2 fas fa-cart-arrow-down"></i>{% trans %}Mes commandes{% endtrans %}
                                     </a>
                                 </li>
                                 <li class="nav-item">
@@ -80,40 +80,42 @@
 
                                 <div class="tab-pane active" id="pane_profile" role="tabpanel">
                                     <div class="col-md-8 mx-auto mt-3">
-                                        <h2 class="text-bold text-center">Mon profil</h2>
+                                        <h2 class="text-bold text-center">{% trans %}Mon profil{% endtrans %}</h2>
 
                                         <table class="table table-borderless my-5">
                                             <tbody>
                                             <tr>
-                                                <td>Pseudo</td>
+                                                <td>{% trans %}Pseudo{% endtrans %}</td>
                                                 <td>{{ user.pseudo }}</td>
                                             </tr>
                                             <tr>
-                                                <td>Prénom</td>
+                                                <td>{% trans %}Prénom{% endtrans %}</td>
                                                 {% if user.firstName is defined and user.firstName is not null %}
                                                     <td>{{ user.firstName }}</td>
                                                 {% endif %}
                                             </tr>
                                             <tr>
-                                                <td>Nom</td>
+                                                <td>{% trans %}Nom{% endtrans %}</td>
                                                 {% if user.lastName is defined and user.lastName is not null %}
                                                     <td>{{ user.lastName }}</td>
                                                 {% endif %}
                                             </tr>
                                             <tr>
-                                                <td>Email</td>
+                                                <td>{% trans %}Email{% endtrans %}</td>
                                                 <td>{{ user.email }}</td>
                                             </tr>
                                             <tr>
-                                                <td>Numéro de téléphone</td>
-                                                <td>Indisponible pour le moment</td>
+                                                <td>{% trans %}Numéro de téléphone{% endtrans %}</td>
+                                                {% if user.phoneNumber is defined and user.phoneNumber is not null %}
+                                                    <td>{{ user.phoneNumber }}</td>
+                                                {% endif %}
                                             </tr>
                                             <tr>
-                                                <td>Date d'anniversaire</td>
+                                                <td>{% trans %}Date d'anniversaire{% endtrans %}</td>
                                                 <td>{{ user.birthDate|date("d/m/Y") }}</td>
                                             </tr>
                                             <tr>
-                                                <td>Adresse</td>
+                                                <td>{% trans %}Adresse{% endtrans %}</td>
                                                 {% if user.completeAddress is defined and user.completeAddress is not null %}
                                                     <td>{{ user.completeAddress }}</td>
                                                 {% endif %}
@@ -127,7 +129,7 @@
 
                                 <div class="tab-pane" id="pane_edit" role="tabpanel">
                                     <div class="col-md-8 mx-auto mt-3">
-                                        <h2 class="text-bold text-center">Modification</h2>
+                                        <h2 class="text-bold text-center">{% trans %}Modification{% endtrans %}</h2>
 
 
                                         {% if form is defined %}
@@ -146,7 +148,7 @@
 
                                 <div class="tab-pane" id="pane_fidelity_card" role="tabpanel">
                                     <div class="col-md-8 mx-auto mt-3">
-                                        <h2 class="text-bold text-center">Mon programme de fidelité</h2>
+                                        <h2 class="text-bold text-center">{% trans %}Mon programme de fidelité{% endtrans %}</h2>
 
 
 
@@ -155,10 +157,11 @@
 
                                 <div class="tab-pane" id="pane_credit_card" role="tabpanel">
                                     <div class="col-md-8 mx-auto mt-3">
-                                        <h2 class="text-bold text-center">Mes informations bancaires</h2>
+                                        <h2 class="text-bold text-center">{% trans %}Mes informations bancaires{% endtrans %}</h2>
 
-                                        <div class="container text-center my-5">
+                                        <div class="container text-center">
                                             <a  class="btn btn-primary" href="{{ path('credit_card_add') }}">Ajouter un moyen de paiement</a>
+>>>>>>> master
                                         </div>
 
                                         {% if credit_cards is defined and credit_cards is not null %}
@@ -188,7 +191,7 @@
                                                                  alt="image-chip">
                                                         </div>
 
-                                                        Numéro de carte :
+                                                        {% trans %}Numéro de carte{% endtrans %}:
                                                         <div style="background: rgba(24,24,25,0.74); color: #cca223; border-radius: 20px"
                                                              class="mx-auto px-3 mb-2">
                                                             {% set arrayCBN = credit_card.cardNumber | split('', 4) %}
@@ -196,14 +199,14 @@
                                                         </div>
 
                                                         <div class="row mb-2">
-                                                            <div class="col-6">Date d'expiration :
+                                                            <div class="col-6">{% trans %}Date d'expiration{% endtrans %} :
                                                                 <div style="background: rgba(24,24,25,0.74); color : #cca223; border-radius: 20px"
                                                                      class="mx-auto px-3">
                                                                     {{ credit_card.expirationDate|date("d/m/Y") }}
                                                                 </div>
                                                             </div>
                                                             <div class="col-6">
-                                                                Code de vérifications:
+                                                                {% trans %}Code de vérification{% endtrans %}:
                                                                 <div style="background: rgba(24,24,25,0.74); color: #cca223; border-radius: 20px"
                                                                      class="mx-auto px-3">
                                                                     {{ credit_card.verificationCode }}
@@ -211,7 +214,7 @@
                                                             </div>
                                                         </div>
 
-                                                        Propriétaire de la carte :
+                                                        {% trans %}Propriétaire de la carte{% endtrans %} :
                                                         <div style="color: #cca223" class="mx-auto px-3 mb-2">
                                                             {{ credit_card.name }}
                                                         </div>
@@ -219,16 +222,17 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="container text-center my-3">
-                                                    <a class="btn btn-light" href="{{ path('credit_card_edit', {'id' : credit_card.id}) }}">Modifier</a>
-                                                    <a class="btn btn-dark" href="{{ path('credit_card_delete', {'id' : credit_card.id}) }}">Supprimer</a>
+                                                <div class="container text-center">
+                                                    <a class="btn btn-light" href="{{ path('credit_card_edit', {'id' : credit_card.id}) }}"> {% trans %}Modifier{% endtrans %}</a>
+                                                    <a class="btn btn-dark" href="{{ path('credit_card_delete', {'id' : credit_card.id}) }}"> {% trans %}Supprimer{% endtrans %}</a>
+>>>>>>> master
                                                 </div>
 
                                                 <hr>
 
                                             {% endfor %}
                                         {% else %}
-                                            <p>Vous ne posséder aucun moyens de paiment.</p>
+                                            <p>{% trans %}Vous ne posséder aucun moyens de paiment.{% endtrans %}</p>
                                         {% endif %}
 
 
@@ -238,10 +242,10 @@
 
                                 <div class="tab-pane" id="pane_orders" role="tabpanel">
                                     <div class="col-md-8 mx-auto mt-3">
-                                        <h3 class="text-bold text-center mt-3 mb-5">Mes commandes</h3>
+                                        <h3 class="text-bold text-center mt-3 mb-5">{% trans %}Mes commandes{% endtrans %}</h3>
                                         <div class="tab-content">
                                             <div class="tab-pane active" id="pane_last_orders">
-    
+
                                                 <div class="mt-4" id="accordion">
                                                     {% if orders is defined and orders is not empty%}
                                                         {% for order in orders %}
@@ -249,33 +253,33 @@
                                                                 <div class="card-header" id="headingOne">
                                                                   <h5 class="mb-0">
                                                                     <button class="btn btn-link" data-toggle="collapse" data-target="#collapse{{loop.index}}" aria-expanded="true" aria-controls="collapse{{loop.index}}">
-                                                                        Commande du {{order.date|date("d/m/Y") }} - {{ order.totalPrice }} €
-                                                                    </button>    
+                                                                        {% trans %}Commande du {% endtrans %}{{order.date|date("d/m/Y") }} - {{ order.totalPrice }} €
+                                                                    </button>
                                                                   </h5>
                                                                 </div>
-                                                            
+
                                                                 <div id="collapse{{loop.index}}" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
                                                                   <div class="card-body">
                                                                     {% for userOrderContent in order.userOrderContents %}
-                                                                        {{ userOrderContent.menu.name}}, 
+                                                                        {{ userOrderContent.menu.name}},
                                                                     {% endfor %}
                                                                     <br>
                                                                     <a class="btn btn-primary" href="{{ path('user_order_show', {id: order.id}) }}">
-                                                                        Voir ma facture <i class="fas fa-chevron-right ml-2"></i>
+                                                                        {% trans %}Voir ma facture{% endtrans %} <i class="fas fa-chevron-right ml-2"></i>
                                                                     </a>
                                                                     <a class="btn btn-success" href="{{ path('user_order_pdf', {id: order.id}) }}">
-                                                                        Export PDF <i class="fas fa-file-pdf ml-2"></i>
+                                                                         {% trans %}Export PDF{% endtrans %}<i class="fas fa-file-pdf ml-2"></i>
                                                                     </a>
-    
+
                                                                   </div>
                                                                 </div>
                                                             </div>
                                                         {% endfor %}
                                                     {% else %}
                                                         <div class="mt-5">
-                                                            Vous n'avez pas encore passé de commande. 
+                                                            {% trans %}Vous n'avez pas encore passé de commande.{% endtrans %}
                                                             <a href="{{ path('hungry_menu') }}" class="btn btn-primary">
-                                                                Passer commande<i class="fas fa-chevron-right ml-2"></i>
+                                                               {% trans %}Passer commande{% endtrans %}<i class="fas fa-chevron-right ml-2"></i>
                                                             </a>
                                                         </div>
                                                     {% endif %}
@@ -287,51 +291,35 @@
 
 
                                 <div class="tab-pane" id="pane_votes" role="tabpanel">
-                                    <div class="col-md-12 mt-3">
-                                        <h2 class="text-bold text-center mb-4">Mes avis</h2>
+                                    <div class="col-md-8 mx-auto mt-3">
+                                        <h2 class="text-bold text-center mb-4"> {% trans %}Mes avis{% endtrans %}</h2>
+>>>>>>> master
 
                                         {% if votes is defined and votes is not empty %}
 
                                             {% for vote in votes %}
-
-                                                <div class="card my-5">
-                                                    <div class="card-header">
-                                                        <h5 class="display-5">{{ vote.titleComment }}</h5>
-                                                    </div>
-                                                    <div class="card-body">
-                                                        <blockquote class="blockquote mb-0">
-                                                            <p>{{ vote.comment }}</p>
-                                                            <small>
-                                                                Note :
-                                                                {% for i in 1..vote.rate %}
-                                                                    <i class="fas fa-star" style="color: #ffce31"></i>
-                                                                {% endfor %}
-                                                                {% set negative = 5 - vote.rate %}
-                                                                {% if vote.rate != 5 %}
-                                                                    {% for i in 0..negative-1 %}
-                                                                        <i class="far fa-star"
-                                                                           style="color: #ffce31"></i>
-                                                                    {% endfor %}
-                                                                {% endif %}
-                                                            </small>
-                                                            <footer class="blockquote-footer mt-3">de {{ vote.user }} -
-                                                                <cite
-                                                                        title="Source Title">{{ vote.date | date('d/m/y') }}</cite>
-                                                                - addressé à : {{ vote.franchise }}
-                                                            </footer>
-                                                        </blockquote>
-                                                    </div>
+                                                <div class="">
+                                                    <h5> {% trans %}Commande du{% endtrans %} {{ vote.date|date("d/m/Y") }} </h5>
+                                                    <span>
+                                                        {% for i in 1.. vote.rate%}
+                                                            <i class="ml-2 fas fa-star"></i>
+                                                        {% endfor %}
+                                                        {% for i in 1..(5 - vote.rate) %}
+                                                            <i class="ml-2 far fa-star"></i>
+                                                        {% endfor %}
+                                                    </span>
+                                                    <p>{{ vote.comment }}</p>
                                                 </div>
 
                                             {% endfor %}
 
                                         {% else %}
                                             <div class="alert alert-warning" role="alert">
-                                                Aucun commentaire vous concernant n'a été rédigé pour le moment.
+                                                 {% trans %}Aucun commentaire vous concernant n'a été rédigé pour le moment.{% endtrans %}
                                             </div>
                                         {% endif %}
-                                        {# 
-                                        
+                                        {#
+
                                         <i class="ml-2 fas fa-star"></i>
                                         #}
 
@@ -353,4 +341,3 @@
     {% endif %}
 
 {% endblock %}
-

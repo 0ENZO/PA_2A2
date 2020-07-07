@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Une petite faim ?{% endblock %}
+{% block title %}{% trans %}Une petite faim ?{% endtrans %}{% endblock %}
 
 {% block body %}
 
@@ -18,26 +18,26 @@
     </div>
 
     <div class="container">
-        <a href="{{ path('franchise_menu', {"id" : id}) }}" class="btn btn-outline-dark">Retour à Ma Franchise</a>
+        <a href="{{ path('franchise_menu', {"id" : id}) }}" class="btn btn-outline-dark">{% trans %}Retour à ma franchise{% endtrans %}</a>
     </div>
 
 
     {% if franchiseStockData is not empty %}
         <div class="container mt-4">
 
-            <h5 class="display-5">Stockage</h5>
+            <h5 class="display-5"> </h5>
 
             <div class="card">
                 <div class="card-body">
-                    <p class="lead">Etat actuel du camion</p>
-                    <p class="">Espace occupé : {{ franchiseStockData.nb_products }}</p>
-                    <p class="">Espace maximum occupabe : {{ franchiseStockData.nb_max_products }}</p>
-                    <p class="">Espace restant : {{ franchiseStockData.nb_max_products - franchiseStockData.nb_products }}</p>
+                    <p class="lead">{% trans %}Etat actuel du camion{% endtrans %}</p>
+                    <p class="">{% trans %}Espace occupé{% endtrans %} : {{ franchiseStockData.nb_products }}</p>
+                    <p class="">{% trans %}Espace maximum occupable{% endtrans %} : {{ franchiseStockData.nb_max_products }}</p>
+                    <p class="">{% trans %}Espace restant{% endtrans %} : {{ franchiseStockData.nb_max_products - franchiseStockData.nb_products }}</p>
                 </div>
             </div>
             {% set proportion = (franchiseStockData.nb_products * 100) / franchiseStockData.nb_max_products %}
 
-            <h5 class="display-5 mt-3">Occupation en %</h5>
+            <h5 class="display-5 mt-3">{% trans %}Occupation en %{% endtrans %}</h5>
             <div class="progress mt-3">
                 <div class="progress-bar" role="progressbar" style="width: {{ proportion | round(2, 'floor') }}%;" aria-valuenow="25" aria-valuemin="0"
                      aria-valuemax="{{ franchiseStockData.nb_max_products }}">{{ proportion | round(2, 'floor') }}%
@@ -51,25 +51,25 @@
         <div class="container mt-5">
             <ul class="list-group">
                 <li class="list-group-item d-flex justify-content-between align-items-center">
-                    CONTENU DE L'ENTREPÔT
+                    {% trans %}Contenu de l'entrepot{% endtrans %}
                 </li>
                 <li class="list-group-item d-flex justify-content-between align-items-center">
-                    Nombre total d'ingrédients dans le camion
+                    {% trans %}Nombre total d'ingrédients dans le camion{% endtrans %}
                     <span class="badge badge-dark badge-pill">{{ franchiseStockData.nb_ingredients }}</span>
                     <span class="badge badge-secondary">{{ franchiseStockData.nb_max_ingredients }}</span>
                 </li>
                 <li class="list-group-item d-flex justify-content-between align-items-center">
-                    Nombre total de boissons dans le camion
+                    {% trans %}Nombre total de boissons dans le camion{% endtrans %}
                     <span class="badge badge-info badge-pill">{{ franchiseStockData.nb_drinks }}</span>
                     <span class="badge badge-secondary">{{ franchiseStockData.nb_max_drinks }}</span>
                 </li>
                 <li class="list-group-item d-flex justify-content-between align-items-center">
-                    Nombre total de desserts dans le camion
+                    {% trans %}Nombre total de desserts dans le camion{% endtrans %}
                     <span class="badge badge-light badge-pill">{{ franchiseStockData.nb_desserts }}</span>
                     <span class="badge badge-secondary">{{ franchiseStockData.nb_max_desserts }}</span>
                 </li>
                 <li class="list-group-item d-flex justify-content-between align-items-center">
-                    Nombre total de repas actuels dans le camion
+                    {% trans %}Nombre total de repas actuels dans le camion{% endtrans %}
                     <span class="badge badge-warning badge-pill">{{ franchiseStockData.nb_meals }}</span>
                     <span class="badge badge-secondary">{{ franchiseStockData.nb_max_meals }}</span>
                 </li>
@@ -83,7 +83,7 @@
         {% if stock is empty %}
             <div class="container mt-5">
                 <div class="alert alert-warning" role="alert">
-                    Vous ne possédez rien en stock
+                    {% trans %}Vous ne possédez rien en stock{% endtrans %}
                 </div>
             </div>
 
@@ -93,9 +93,9 @@
                 <thead>
                 <tr>
                     <th scope="col">Id</th>
-                    <th scope="col">Produit</th>
-                    <th scope="col">Quantité</th>
-                    <th scope="col">Categorie</th>
+                    <th scope="col">{% trans %}Produit{% endtrans %}</th>
+                    <th scope="col">{% trans %}Quantité{% endtrans %}</th>
+                    <th scope="col">{% trans %}Catégorie{% endtrans %}</th>
                 </tr>
                 </thead>
                 <tbody>

@@ -9,20 +9,20 @@
     <div class="contact-image">
         <img src="https://image.ibb.co/kUagtU/rocket_contact.png" alt="rocket_contact"/>
     </div>
-   
+
     <div style="padding: 14%;">
-        <h3>Ecrivez nous un message !</h3>
+        <h3>{% trans %}Ecrivez nous un message !{% endtrans %}</h3>
        <div class="row" style="margin-bottom: -7%;">
             <div class="col-md-6">
                 {{ form_start(form) }}
                 <div class="form-group">
-                    {{ form_widget(form.firstName, { 'attr': {'class': 'form-control', 'placeholder': 'Prénom'} }) }}
+                    {{ form_widget(form.firstName, { 'attr': {'class': 'form-control', 'placeholder': '{% trans %}Prénom{% endtrans %}'} }) }}
                 </div>
                 <div class="form-group">
-                    {{ form_widget(form.email, { 'attr': {'class': 'form-control', 'placeholder': 'Email'} }) }}
+                    {{ form_widget(form.email, { 'attr': {'class': 'form-control', 'placeholder': '{% trans %}Emai{% endtrans %}'} }) }}
                 </div>
                 <div class="form-group">
-                    {{ form_widget(form.phone, { 'attr': {'class': 'form-control', 'placeholder': 'Téléphone'} }) }}
+                    {{ form_widget(form.phone, { 'attr': {'class': 'form-control', 'placeholder': '{% trans %}Téléphone{% endtrans %}'} }) }}
                 </div>
                 <div class="form-group">
                     <button class="btnContact" type="submit">
@@ -32,13 +32,13 @@
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                    {{ form_widget(form.message, { 'attr': {'class': 'form-control', 'style': 'width:100%; height:150px;', 'placeholder': 'Votre message..'} }) }}
+                    {{ form_widget(form.message, { 'attr': {'class': 'form-control', 'style': 'width:100%; height:150px;', 'placeholder': '{% trans %}Votre message..{% endtrans %}'} }) }}
                 </div>
                 {{ form_end(form) }}
             </div>
         </div>
     </div>
-    
+
 </div>
 
 

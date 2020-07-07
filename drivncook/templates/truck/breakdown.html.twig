@@ -1,23 +1,23 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Gestion des camions{% endblock %}
+{% block title %} {% trans %}Gestion des camions{% endtrans %}{% endblock %}
 
 {% block body %}
     <div class="container mt-5">
         {% if reportBreakdown is defined and reportBreakdown is not null %}
 
             {% if reportBreakdown.status == '0' %}
-                <span class="badge badge-warning mb-3">En cours</span>
+                <span class="badge badge-warning mb-3">{% trans %}En cours{% endtrans %}</span>
             {% elseif reportBreakdown.status == '1' %}
-                <span class="badge badge-success mb-3">Résolu</span>
+                <span class="badge badge-success mb-3">{% trans %}Résolu{% endtrans %}</span>
             {% elseif reportBreakdown.status == '2' %}
-                <span class="badge badge-danger mb-3">Clôturé</span>
+                <span class="badge badge-danger mb-3">{% trans %}Clôturé{% endtrans %}</span>
             {% endif %}
-            
+
             <div class="row mt-2">
                 <div class="row col-md-4">
                     <div class="col">
-                        <span class="font-weight-bold">Camion</span> 
+                        <span class="font-weight-bold">{% trans %}Camion{% endtrans %}</span>
                     </div>
                     <div class="col bg-white">
                         <p>{{ reportBreakdown.truck }}</p>
@@ -25,7 +25,7 @@
                 </div>
                 <div class="row col-md-4 mt-2">
                     <div class="col">
-                        <span class="font-weight-bold">Franchisé</span> 
+                        <span class="font-weight-bold">{% trans %}Franchisé{% endtrans %}</span>
                     </div>
                     <div class="col bg-white">
                         <p>{{ reportBreakdown.truck.franchise }}</p>
@@ -33,7 +33,7 @@
                 </div>
                 <div class="row col-md-4">
                     <div class="col">
-                        <span class="font-weight-bold">Date</span> 
+                        <span class="font-weight-bold">{% trans %}Date{% endtrans %}</span>
                     </div>
                     <div class="col bg-white">
                         <p>{{ reportBreakdown.date|date("d/m/Y")}}</p>
@@ -44,7 +44,7 @@
             <div class="row mt-2">
                 <div class="row col-md-7">
                     <div class="col">
-                        <span class="font-weight-bold">Sujet de la panne</span> 
+                        <span class="font-weight-bold">{% trans %}Sujet de la panne{% endtrans %}</span>
                     </div>
                     <div class="col bg-white">
                         <p>{{ reportBreakdown.breakdown.statement }}</p>
@@ -52,7 +52,7 @@
                 </div>
                 <div class="row col-md-4">
                     <div class="col">
-                        <span class="font-weight-bold">Type de panne</span> 
+                        <span class="font-weight-bold">{% trans %}Type de panne{% endtrans %}</span>
                     </div>
                     <div class="col bg-white">
                         <p>{{ reportBreakdown.breakdown.breakdownType.name }}</p>
@@ -62,7 +62,7 @@
 
             <div class="row mt-2">
                 <div class="col-md-2">
-                    <span class="font-weight-bold">Description</span> 
+                    <span class="font-weight-bold">Description</span>
                 </div>
                 <div class="col bg-white" style="height: 200px;">
                     <p>{{ reportBreakdown.description}}</p>
@@ -72,13 +72,13 @@
             <div class="d-flex justify-content-end mt-2">
                 <div class="row">
                     <div class="col">
-                        <span class="font-weight-bold">Téléphone</span> 
+                        <span class="font-weight-bold">{% trans %}Téléphone{% endtrans %}</span>
                     </div>
                     <div class="col bg-white">
                         <p>{{ reportBreakdown.phoneNumber }}</p>
                     </div>
-                </div>      
-            </div>  
+                </div>
+            </div>
 
             {% if answerReportBreakdowns is defined and answerReportBreakdowns is not null %}
                 {% for answerReportBreakdown in answerReportBreakdowns %}
@@ -88,7 +88,7 @@
                         <div class="row mt-2">
                             <div class="row col">
                                 <div class="col">
-                                    <span class="font-weight-bold">Technicien</span> 
+                                    <span class="font-weight-bold">{% trans %}Technicien{% endtrans %}</span>
                                 </div>
                                 <div class="col bg-white">
                                     <p>{{ answerReportBreakdown.user }}</p>
@@ -96,23 +96,23 @@
                             </div>
                             <div class="row col">
                                 <div class="col">
-                                    <span class="font-weight-bold">Date</span> 
+                                    <span class="font-weight-bold">{% trans %}Date{% endtrans %}</span>
                                 </div>
                                 <div class="col bg-white">
                                     <p>{{ answerReportBreakdown.date|date("d/m/Y")}}</p>
                                 </div>
                             </div>
-                        </div>    
+                        </div>
 
                         <div class="row mt-4">
                             <div class="col-md-2">
-                                <span class="font-weight-bold">Compte rendu</span> 
+                                <span class="font-weight-bold">{% trans %}Compte rendu{% endtrans %}</span>
                             </div>
                             <div class="col bg-white" style="height: 200px;">
-                                <p>{{ answerReportBreakdown.content}}</p> 
+                                <p>{{ answerReportBreakdown.content}}</p>
                             </div>
                         </div>
-                    </div>   
+                    </div>
                 {% endfor %}
             {% endif %}
 
@@ -122,7 +122,7 @@
                 {{ form_start(form) }}
                     {{ form_widget(form) }}
                 {{ form_end(form) }}
-                
+
             {% endif %}
         {% endif %}
     </div>
@@ -131,4 +131,3 @@
 {% block scripts %}
     {{ parent() }}
 {% endblock %}
-
