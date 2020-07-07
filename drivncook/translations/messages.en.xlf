@@ -516,7 +516,7 @@
       </trans-unit>
       <trans-unit id="Js6ixl4" resname="Nombre total de boissons dans le camion">
         <source>Nombre total de boissons dans le camion</source>
-        <target>Total number of drinks in the trucktarget>
+        <target>Total number of drinks in the trucktarget</target>
       </trans-unit>
       <trans-unit id="oDsRvqC" resname="Nombre total de desserts dans le camion">
         <source>Nombre total de desserts dans le camion</source>
