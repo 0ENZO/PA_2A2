@@ -89,5 +89,30 @@ class NotifyService
 
     }
 
+    /**
+     * @param $franchise
+     * Description : Supprimes toutes les notifications d'un franchisé
+     */
+    public function clearAllNotices($franchise) {
+        $notices = $this->manager->getRepository(Notify::class)->findBy(["franchise" => $franchise]);
+
+        foreach ($notices as $notice) {
+            $this->manager->remove($notice);
+        }
+        $this->manager->flush();
+    }
+
+
+    /**
+     * @param $franchise
+     * @param $id
+     * Description : Supprime une notification en particulier d'un franchisé
+     */
+    public function clearNotice($franchise, $id) {
+        $notice = $this->manager->getRepository(Notify::class)->findOneBy(["id" => $id]);
+        $this->manager->remove($notice);
+        $this->manager->flush();
+    }
+
 
 }

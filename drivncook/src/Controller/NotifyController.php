@@ -22,4 +22,24 @@ class NotifyController extends AbstractController
         return $this->redirectToRoute("franchise_profil");
     }
 
+
+    /**
+     * @Route("/suppresion-totale", name="clear_all_notices")
+     */
+    public function clear_all_notices(EntityManagerInterface $manager , NotifyService $notifyService) {
+        $franchise = $this->getUser();
+        $notifyService->clearAllNotices($franchise);
+        return $this->redirectToRoute("franchise_profil");
+    }
+
+
+    /**
+     * @Route("/suppression-unique/{id}", name="clear_notice")
+     */
+    public function clear_notice($id ,EntityManagerInterface $manager, NotifyService $notifyService) {
+        $franchise = $this->getUser();
+        $notifyService->clearNotice($franchise, $id);
+        return $this->redirectToRoute("franchise_profil");
+    }
+
 }
