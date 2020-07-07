@@ -129,7 +129,7 @@ class UserOrderController extends AbstractController
         $cart_franchise = $session->get('cart_franchise');
         $franchise = $franchiseRepository->findOneById($cart_franchise);
 
-        if (!empty($cart)){
+        if (!empty($cart)) {
 
             $order = new UserOrder();
             $order->setUser($user);
@@ -138,66 +138,67 @@ class UserOrderController extends AbstractController
             $order->setDate(new \DateTime());
             $order->setStatus(1);
             $order->setTotalPrice($total);
-            
-            foreach ($cart as $id => $quantity){
+
+            foreach ($cart as $id => $quantity) {
                 $menu = $menuRepository->find($id);
                 $articles = $menu->getArticle();
 
-                for ($i=0; $i < $quantity; $i++) { 
+                for ($i = 0; $i < $quantity; $i++) {
 
                     // Que 1 article pour le moment, méthode à changer
-                    foreach ($articles as $article){
+                    foreach ($articles as $article) {
                         // pour chaque article on recherche ses recettes
                         $recipes = $article->getRecipes();
 
                         // pour chaque recette on cherche le produit et la quantité on les multiplie avec la quantité et on les soustrait au franchiseStock associé
-                        foreach ($recipes as $recipe){
+                        foreach ($recipes as $recipe) {
                             $product = $recipe->getProduct();
                             $recipeQty = $recipe->getQuantity();
                             $stock = $franchiseStockRepository->findByProductAndFranchise($product, $franchise);
                             $stockQty = $stock->getQuantity();
 
-                            if ($stockQty - $recipeQty < 0 ) {
+                            if ($stockQty - $recipeQty < 0) {
                                 $stock->setQuantity(0);
                             } else {
                                 $stock->setQuantity($stockQty - $recipeQty);
 
-                            /* Quantité concerne le nombre de menus, donc on boucle plus haut
-                            for ($i=0; $i < $quantity; $i++) { 
-                                $substractQty = $quantity * $recipeQty;
-                                if ($stockQty - $substractQty < 0 ) {
-                                    $stock->setQuantity(0);
-                                } else {
-                                    $stock->setQuantity($stockQty - $substractQty);
+                                /* Quantité concerne le nombre de menus, donc on boucle plus haut
+                                for ($i=0; $i < $quantity; $i++) {
+                                    $substractQty = $quantity * $recipeQty;
+                                    if ($stockQty - $substractQty < 0 ) {
+                                        $stock->setQuantity(0);
+                                    } else {
+                                        $stock->setQuantity($stockQty - $substractQty);
+                                    }
                                 }
+                                */
                             }
-                            */
                         }
                     }
-                }
-                // Ajout des produits dans la commande 
-                $content = new UserOrderContent();
-                $content->setUserOrder($order);
-                $content->setMenu($menu);
+                    // Ajout des produits dans la commande
+                    $content = new UserOrderContent();
+                    $content->setUserOrder($order);
+                    $content->setMenu($menu);
 
-                for ($i=0; $i < $quantity; $i++) { 
-                    $contentQty = $content->getQuantity();
-                    $content->setQuantity($contentQty+1);         
+                    for ($i = 0; $i < $quantity; $i++) {
+                        $contentQty = $content->getQuantity();
+                        $content->setQuantity($contentQty + 1);
+                    }
+                    $em->persist($content);
                 }
-                $em->persist($content);
+
+                $em->persist($order);
+                $em->flush();
+
+                $session->remove('franchise');
+                $session->remove('cart');
+                $session->remove('cart_totalTTC');
+                $session->remove('cart_totalHT');
+
+                $session->set('order_id', $order->getId());
             }
-
-            $em->persist($order);
-            $em->flush();
-
-            $session->remove('franchise');
-            $session->remove('cart');
-            $session->remove('cart_totalTTC');
-            $session->remove('cart_totalHT');
-
-            $session->set('order_id', $order->getId());
+            return $this->redirectToRoute('payment_success');
         }
-        return $this->redirectToRoute('payment_success');
     }
 
     /**

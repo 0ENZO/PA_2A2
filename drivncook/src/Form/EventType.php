@@ -45,7 +45,11 @@ class EventType extends AbstractType
                 'download_label' => false,
                 'delete_label' => false,
                 "allow_delete" => false,
-            ]);
+            ])
+//            ->add('save', SubmitType::class, [
+//                "label" => 'Enregistrer'
+//            ])
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver)

@@ -54,7 +54,13 @@
                             <span class="badge badge-pill {{ badge }}">{{ categorie.name }}</span>
                         </td>
                         <td>{{ categorie.description }}</td>
-                        <td>{{ categorie.imageName }}</td>
+                        <td>
+                            {% if categorie.imageName is defined and categorie.imageName is not empty %}
+                                <img src="{{ vich_uploader_asset(categorie) }}" alt="{{ categorie.name }}" title="{{ categorie.name }}" width="100" height="100" class="img-thumbnail" />
+                            {% else %}
+                                <img src="https://via.placeholder.com/100" alt="Sans-image" title="sans-image" width="100" height="100" class="img-thumbnail" />
+                            {% endif %}
+                        </td>
                         <td>
                             <a class="mr-2" data-toggle="tooltip" data-placement="top" title="Modifier" href="{{ path('admin_category_edit', { 'id': categorie.id}) }}"><i class="fas fa-pen"></i></a>
                             <a href="#" data-href="{{ path('admin_category_delete', { 'id': categorie.id}) }}" class="" data-placement="bottom"
