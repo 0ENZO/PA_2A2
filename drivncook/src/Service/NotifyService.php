@@ -57,4 +57,37 @@ class NotifyService
     }
 
 
+    /**
+     * @param $franchise
+     * @param $isActivated
+     * Description : Permet de notifier le franchisé lors son activation / désactivation de vente sur le marché
+     */
+    public function hasSwitchState($franchise, $isActivated) {
+
+        if ($isActivated == 0 ) {
+            $title = "Status sur le marché : Désactivé";
+            $content = "Vous avez réinitialisé votre menu proposé aux clients.
+             Par conséquent, vous n'apparaissez plus dans le marché jusqu'à que vous ne refassiez
+             à nouveau votre menu, en acceptant la charte de vente";
+            $bootstrap = "danger";
+        } else {
+            $title = "Status sur le marché : Activé";
+            $content = "Vous avez accepté la charte de vente et initialisé votre menu : 
+            Vous apparaissez désormais sur le marché !";
+            $bootstrap = "success";
+        }
+
+        $notice = new Notify();
+        $notice
+            ->setFranchise($franchise)
+            ->setDate(new \DateTime())
+            ->setTitle($title)
+            ->setContent($content)
+            ->setBootstrapColor($bootstrap);
+        $this->manager->persist($notice);
+        $this->manager->flush();
+
+    }
+
+
 }

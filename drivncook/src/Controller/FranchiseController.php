@@ -44,7 +44,6 @@ class FranchiseController extends AbstractController
 
         $rates = $em->getRepository(Vote::class)->findBy(["franchise" => $franchise]);
 
-        $notifyService->hasLowFranchiseStock($franchise);
         $notices = $em->getRepository(Notify::class)->findBy(["franchise" => $franchise]);
 
         $form = $this->createForm(FranchiseType::class, $franchise);
