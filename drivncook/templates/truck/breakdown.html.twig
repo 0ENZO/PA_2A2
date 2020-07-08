@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %} {% trans %}Gestion des camions{% endtrans %}{% endblock %}
+{% block title %}{{ parent() }} -  {% trans %}Gestion des camions{% endtrans %}{% endblock %}
 
 {% block body %}
     <div class="container mt-5">

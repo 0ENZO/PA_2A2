@@ -12,6 +12,7 @@ use App\Repository\MenuRepository;
 use App\Repository\FranchiseRepository;
 use App\Repository\FranchiseStockRepository;
 use App\Repository\UserOrderRepository;
+use App\Repository\UserRepository;
 use App\Repository\VoteRepository;
 use Knp\Bundle\SnappyBundle\KnpSnappyBundle;
 use Symfony\Component\HttpFoundation\Request;
@@ -206,6 +207,7 @@ class UserOrderController extends AbstractController
             }
             return $this->redirectToRoute('payment_success');
         }
+        return $this->redirectToRoute('home');
     }
 
     /**
@@ -330,5 +332,22 @@ class UserOrderController extends AbstractController
         }
 
         return $type;
+    }
+
+    /**
+     * @Route("/fidelite", name="user_reward")
+     */
+    public function reward(UserRepository $userRepository)
+    {
+
+        $euroPoints = $this->getUser()->getEuropoints();
+        $formulePoints = $this->getUser()->getFormulePoints();
+        dump($euroPoints);
+        dump($formulePoints);
+
+        return $this->render('user/reward.html.twig', [
+            'euroPoints' => $euroPoints,
+            'formulePoints' => $formulePoints
+        ]);
     }
 }

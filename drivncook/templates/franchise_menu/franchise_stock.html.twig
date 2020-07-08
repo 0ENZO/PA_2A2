@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{% trans %}Une petite faim ?{% endtrans %}{% endblock %}
+{% block title %}{{ parent() }} - {% trans %}Une petite faim ?{% endtrans %}{% endblock %}
 
 {% block body %}
 
