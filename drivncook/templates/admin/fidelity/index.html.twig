@@ -1,0 +1,92 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion des catégories{% endblock %}
+
+{% block body %}
+
+    {#    {% if categories is defined %}#}
+    {#        {{ dump(categories) }}#}
+    {#    {% endif %}#}
+
+    <div class="container mt-3">
+        <div class="jumbotron">
+            <h1 class="display-4">{% trans %}Gestion programme de fidélité{% endtrans %}</h1>
+            <div class="card-body">
+                <p class="lead">{% trans %}Bienvenue dans la gestion du programme de fidélité.{% endtrans %}</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid mt-5">
+
+        <a href="{{ path('admin_show') }}" class="btn btn-outline-dark mb-3">Retour au menu administrateur</a>
+
+        <table class="table mt-4">
+            <thead class="thead-dark">
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Nom</th>
+                <th scope="col">Points euro</th>
+                <th scope="col">Points formule</th>
+                <th scope="col">Sous Catégorie</th>
+                <th scope="col">Image utilisée</th>
+                <th scope="col">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% if articles is defined and articles is not empty %}
+                {% for article in articles %}
+                    <tr>
+                        <th scope="row">{{ article.id }}</th>
+                        <td>{{ article.name }}</td>
+                        {% if article.euroPointsGap %}
+                            <td>
+                                <span class="text-center">{{ article.euroPointsGap }}</span>
+                            </td>
+                        {% else %}
+                            <td>
+                                <span class="badge badge-danger">Non disponible</span>
+                            </td>
+                        {% endif %}
+                        {% if article.FormulePointsGap %}
+                            <td>
+                                <span class="badge badge-success">Activé</span>
+                            </td>
+                        {% else %}
+                            <td>
+                                <span class="badge badge-danger">Non Activité</span>
+                            </td>
+                        {% endif %}
+                        <td>
+                            {% if article.subCategory == 'Brunchs' %}
+                                {% set badge = 'badge-warning' %}
+                            {% else %}
+                                {% set badge = 'badge-dark' %}
+                            {% endif %}
+                            <span class="badge badge-pill {{ badge }}">{{ article.subCategory }}</span>
+                        </td>
+                        <td>
+                            {% if article.imageName is defined and article.imageName is not empty %}
+                                <img src="{{ vich_uploader_asset(article) }}" alt="{{ article.name }}"
+                                     title="{{ article.name }}" width="100" height="100" class="img-thumbnail"/>
+                            {% else %}
+                                <img src="https://via.placeholder.com/100" alt="Sans-image" title="sans-image"
+                                     width="100" height="100" class="img-thumbnail"/>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <a href="{{ path('admin_fidelity_edit', {'id' : article.id}) }}"><i class="far fa-edit"></i></a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% else %}
+                <tr>Aucun système de fidélisation n'a été prévu pour le moment</tr>
+            {% endif %}
+
+
+            </tbody>
+        </table>
+
+    </div>
+
+{% endblock %}

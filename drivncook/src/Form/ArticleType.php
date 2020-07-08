@@ -43,6 +43,8 @@ class ArticleType extends AbstractType
                     "En cours de vérifications" => "Vérification"
                 ]
             ])
+            ->add('euroPointsGap')
+            ->add('formulePointsGap')
             ->add('save', SubmitType::class, [
                 "label" => "Enregistrer"
             ])
