@@ -57,6 +57,16 @@ class Menu
     private $isLocked;
 
     /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $euroPointsGap;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $formulePointsGap;
+
+    /**
      * @ORM\OneToMany(targetEntity=RewardContent::class, mappedBy="menu")
      */
     private $rewardContents;
@@ -285,5 +295,42 @@ class Menu
 
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getEuroPointsGap()
+    {
+        return $this->euroPointsGap;
+    }
+
+    /**
+     * @param mixed $euroPointsGap
+     */
+    public function setEuroPointsGap($euroPointsGap): self
+    {
+        $this->euroPointsGap = $euroPointsGap;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFormulePointsGap()
+    {
+        return $this->formulePointsGap;
+    }
+
+    /**
+     * @param mixed $formulePointsGap
+     */
+    public function setFormulePointsGap($formulePointsGap): self
+    {
+        $this->formulePointsGap = $formulePointsGap;
+        return $this;
+    }
+
+
+
 
 }

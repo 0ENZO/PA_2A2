@@ -2,9 +2,11 @@
 
 namespace App\Entity;
 
+use Doctrine\DBAL\Types\Type;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\ArticleRepository;
 use Doctrine\Common\Collections\Collection;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\HttpFoundation\File\File;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -103,6 +105,17 @@ class Article
      * @ORM\ManyToMany(targetEntity=Menu::class, mappedBy="article")
      */
     private $menus;
+
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $euroPointsGap;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $formulePointsGap;
 
     public function __construct()
     {
@@ -293,4 +306,42 @@ class Article
     {
         return $this->name;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getEuroPointsGap()
+    {
+        return $this->euroPointsGap;
+    }
+
+    /**
+     * @param mixed $euroPointsGap
+     */
+    public function setEuroPointsGap($euroPointsGap): self
+    {
+        $this->euroPointsGap = $euroPointsGap;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFormulePointsGap()
+    {
+        return $this->formulePointsGap;
+    }
+
+    /**
+     * @param mixed $formulePointsGap
+     */
+    public function setFormulePointsGap($formulePointsGap): self
+    {
+        $this->formulePointsGap = $formulePointsGap;
+
+        return $this;
+    }
+
+
 }
