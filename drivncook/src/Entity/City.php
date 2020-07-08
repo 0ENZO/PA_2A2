@@ -6,9 +6,13 @@ use App\Repository\CityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=CityRepository::class)
+ * @UniqueEntity(fields={"name"}, message="Ce nom existe déjà.")
+ * @UniqueEntity(fields={"postal_code"}, message="Ce code postal existe déjà.")
  */
 class City
 {
@@ -21,11 +25,37 @@ class City
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Type(type="string")
+     * @Assert\NotNull
+     * @Assert\Length(
+     *     min="0",
+     *     minMessage="Vous devez mettre un nom  à 0 caractère minimum",
+     *     max="255",
+     *     maxMessage="Vous devez mettre un nom  à 255 caractères maximum"
+     * )
+     * @Assert\Regex(
+     *     pattern="/^[0-9]*$/",
+     *     match=false,
+     *     message="Vous ne pouvez pas mettre de chiffres dans ce champs"
+     * )
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=5)
+     * @Assert\NotNull
+     * @Assert\Type(type="string")
+     * @Assert\Length(
+     *     min="5",
+     *     minMessage="Vous devez mettre un code postal  à 5 chiffres minimum",
+     *     max="5",
+     *     maxMessage="Vous devez mettre un code postal  à 5 caractères maximum"
+     * )
+     * @Assert\Regex(
+     *     pattern="/^[0-9]*$/",
+     *     match=true,
+     *     message="Vous ne pouvez mettre que des chiffres dans ce champs"
+     * )
      */
     private $postal_code;
 

@@ -4,9 +4,13 @@ namespace App\Entity;
 
 use App\Repository\FranchiseOrderContentRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=FranchiseOrderContentRepository::class)
+ * @UniqueEntity(fields={"franchiseOrder", "product"}, message="Vous avez déjà les stock pour ce produit.")
  */
 class FranchiseOrderContent
 {
@@ -31,6 +35,9 @@ class FranchiseOrderContent
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\Type(type="integer")
+     * @Assert\NotNull
+     * @Assert\PositiveOrZero
      */
     private $quantity;
 

@@ -9,10 +9,12 @@ use App\Repository\EventRepository;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=EventRepository::class)
  * @Vich\Uploadable
+ * @UniqueEntity(fields={"franchise", "name"}, message="Vous avez un nom d'event pour le franchisé.")
  */
 class Event
 {
@@ -25,31 +27,62 @@ class Event
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     *  @Assert\Type(type="string")
+     * @Assert\Length(
+     *     min="0",
+     *     minMessage="Vous devez mettre une adressse  à 0 caractère minimum",
+     *     max="255",
+     *     maxMessage="Vous devez mettre une adresse  à 255 caractères maximum"
+     * )
      */
     private $completeAddress;
 
     /**
      * @ORM\Column(type="string", length=100)
+     * @Assert\Type(type="string")
+     * @Assert\NotNull
+     * @Assert\Length(
+     *     min="0",
+     *     minMessage="Vous devez mettre un nom d'event  à 0 caractère minimum",
+     *     max="100",
+     *     maxMessage="Vous devez mettre un nom d'event  à 100 caractères maximum"
+     * )
      */
     private $name;
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Assert\Type(type="string")
      */
     private $description;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Assert\DateTime()
+     * @Assert\NotNull
+     * @Assert\GreaterThanOrEqual(
+     *     "today UTC",
+     *     message="La date de début d'event ne peut pas être avant aujourd'hui"
+     * )
      */
     private $dateBegin;
 
     /**
      * @ORM\Column(type="datetime")
+     *  @Assert\DateTime()
+     * @Assert\NotNull
+     * @Assert\GreaterThanOrEqual(
+     *     propertyPath="dateBegin",
+     *     message="La date de fin d'event ne peut pas être avant la date de début"
+     * )
      */
     private $dateEnd;
 
     /**
      * @ORM\Column(type="float")
+     * @Assert\Type(type="float")
+     * @Assert\NotNull
+     * @Assert\PositiveOrZero
      */
     private $price;
 

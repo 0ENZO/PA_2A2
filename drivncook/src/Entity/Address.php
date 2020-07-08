@@ -6,6 +6,8 @@ use App\Repository\AddressRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=AddressRepository::class)
@@ -21,11 +23,22 @@ class Address
 
     /**
      * @ORM\Column(type="string", length=100)
+     * @Assert\Type(type="string")
+     * @Assert\NotNull
+     * @Assert\Length(
+     *     min="5",
+     *     minMessage="Vous devez mettre une adresse  à 5 caractère minimum",
+     *     max="100",
+     *     maxMessage="Vous devez mettre une adresse  à 100 caractères maximum"
+     * )
      */
     private $street;
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\Type(type="int")
+     * @Assert\Positive
+     * @Assert\NotNull
      */
     private $number;
 
@@ -249,5 +262,5 @@ class Address
     {
         return $this->number.' '.$this->street.', '.$this->getCity()->getPostalCode().' '.$this->getCity()->getName();
     }
-    
+
 }

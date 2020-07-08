@@ -6,9 +6,13 @@ use App\Repository\DepartmentRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=DepartmentRepository::class)
+ * @UniqueEntity(fields={"name"}, message="Ce département existe déjà.")
  */
 class Department
 {
@@ -21,6 +25,19 @@ class Department
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Type(type="string")
+     * @Assert\NotNull
+     * @Assert\Length(
+     *     min="0",
+     *     minMessage="Vous devez mettre un département  à 0 caractère minimum",
+     *     max="255",
+     *     maxMessage="Vous devez mettre un département  à 255 caractères maximum"
+     * )
+     * @Assert\Regex(
+     *     pattern="/^[0-9]*$/",
+     *     match=false,
+     *     message="Vous ne pouvez pas mettre de chiffres dans ce champs"
+     * )
      */
     private $name;
 

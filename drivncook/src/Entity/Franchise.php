@@ -16,6 +16,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @ORM\Entity(repositoryClass=FranchiseRepository::class)
  * @Vich\Uploadable
  * @UniqueEntity(fields={"email"}, message="Cette adresse email est déjà utilisée")
+ * @UniqueEntity(fields={"phoneNumber"}, message="Ce numéro est déjà utilisé")
  */
 class Franchise implements UserInterface
 {
@@ -28,31 +29,85 @@ class Franchise implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\Type(type="string")
+     * @Assert\Length(
+     *     min="0",
+     *     minMessage="Vous devez mettre une adresse à 0 caractère minimum",
+     *     max="255",
+     *     maxMessage="Vous devez mettre une adresse  à 255 caractères maximum"
+     * )
      */
     private $completeAddress;
 
     /**
      * @ORM\Column(type="string", length=50)
+     * @Assert\Type(type="string")
+     * @Assert\NotNull
+     * @Assert\Length(
+     *     min="0",
+     *     minMessage="Vous devez mettre un prénom  à 0 caractère minimum",
+     *     max="50",
+     *     maxMessage="Vous devez mettre un prénom  à 50 caractères maximum"
+     * )
      */
     private $firstName;
 
     /**
      * @ORM\Column(type="string", length=50)
+     * @Assert\Type(type="string")
+     * @Assert\NotNull
+     * @Assert\Length(
+     *     min="0",
+     *     minMessage="Vous devez mettre un nom  à 0 caractère minimum",
+     *     max="50",
+     *     maxMessage="Vous devez mettre un nom  à 50 caractères maximum"
+     * )
      */
     private $lastName;
 
     /**
      * @ORM\Column(type="string", length=200)
+     * @Assert\Email(
+     *     message = "The email is not a valid email."
+     * )
+     * @Assert\Type(type="string")
+     * @Assert\NotNull
+     * @Assert\Length(
+     *     min="0",
+     *     minMessage="Vous devez mettre un email  à 0 caractère minimum",
+     *     max="200",
+     *     maxMessage="Vous devez mettre un email  à 200 caractères maximum"
+     * )
      */
     private $email;
 
     /**
      * @ORM\Column(type="string", length=10, nullable=true)
+     * @Assert\Type(type="string")
+     * @Assert\Length(
+     *     min="10",
+     *     minMessage="Vous devez mettre un numéro  à 10 chiffres minimum",
+     *     max="10",
+     *     maxMessage="Vous devez mettre un numéro  à 10 caractères maximum"
+     * )
+     * @Assert\Regex(
+     *     pattern="/^[0-9]*$/",
+     *     match=true,
+     *     message="Vous ne pouvez mettre que des chiffres dans ce champs"
+     * )
      */
     private $phoneNumber;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Type(type="string")
+     * @Assert\NotNull
+     * @Assert\Length(
+     *     min="0",
+     *     minMessage="Vous devez mettre un motde passe  à 0 caractère minimum",
+     *     max="255",
+     *     maxMessage="Vous devez mettre un mot de passe  à 255 caractères maximum"
+     * )
      */
     private $password;
 
@@ -94,6 +149,8 @@ class Franchise implements UserInterface
 
     /**
      * @ORM\Column(type="boolean", options={"default"=0})
+     * @Assert\Type(type="int")
+     * @Assert\NotNull
      */
     private $isActivated;
 
@@ -504,7 +561,7 @@ class Franchise implements UserInterface
         * the plain-text password is stored on this object.
         */
     public function eraseCredentials(){
-        
+
     }
 
     /**

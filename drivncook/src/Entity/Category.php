@@ -9,10 +9,14 @@ use Symfony\Component\HttpFoundation\File\File;
 use Doctrine\Common\Collections\ArrayCollection;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
 
 /**
  * @ORM\Entity(repositoryClass=CategoryRepository::class)
  * @Vich\Uploadable
+ * @UniqueEntity(fields={"name"}, message="Ce nom existe déjà.")
+ * @UniqueEntity(fields={"description"}, message="Cette description existe déjà.")
  */
 class Category
 {
@@ -25,11 +29,25 @@ class Category
 
     /**
      * @ORM\Column(type="string", length=50)
+     * @Assert\Type(type="string")
+     * @Assert\NotNull
+     * @Assert\Length(
+     *     min="0",
+     *     minMessage="Vous devez mettre un nom  à 0 caractère minimum",
+     *     max="50",
+     *     maxMessage="Vous devez mettre un nom  à 50 caractères maximum"
+     * )
+     *  @Assert\Regex(
+     *     pattern="/^[0-9]*$/",
+     *     match=false,
+     *     message="Vous ne pouvez pas mettre de chiffres dans ce champs"
+     * )
      */
     private $name;
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Assert\Type(type="string")
      */
     private $description;
 
