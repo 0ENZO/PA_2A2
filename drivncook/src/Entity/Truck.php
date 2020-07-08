@@ -7,8 +7,12 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * @ORM\Entity(repositoryClass=TruckRepository::class)
+ *  @UniqueEntity(fields={"franchise"}, message="Vous avez déjà une franchise relié.")
  */
 class Truck
 {
@@ -21,26 +25,62 @@ class Truck
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     *  @Assert\Type(type="string")
+     * @Assert\Length(
+     *     min="0",
+     *     minMessage="Vous devez mettre un nom  à 0 caractère minimum",
+     *     max="255",
+     *     maxMessage="Vous devez mettre un nom  à 255 caractères maximum"
+     * )
      */
     private $completeAddress;
 
     /**
      * @ORM\Column(type="string", length=50)
+     *  @Assert\Type(type="string")
+     * @Assert\NotNull
+     * @Assert\Length(
+     *     min="0",
+     *     minMessage="Vous devez mettre un modèle  à 0 caractère minimum",
+     *     max="50",
+     *     maxMessage="Vous devez mettre un modèle  à 50 caractères maximum"
+     * )
      */
     private $brand;
 
     /**
      * @ORM\Column(type="string", length=50)
+     *  @Assert\Type(type="string")
+     * @Assert\NotNull
+     * @Assert\Length(
+     *     min="0",
+     *     minMessage="Vous devez mettre une immatriculation  à 0 caractère minimum",
+     *     max="50",
+     *     maxMessage="Vous devez mettre une immatriculation  à 50 caractères maximum"
+     * )
      */
     private $model;
 
     /**
      * @ORM\Column(type="string", length=50, nullable=true)
+     * @Assert\Type(type="string")
+     * @Assert\Length(
+     *     min="0",
+     *     minMessage="Vous devez mettre un statut  à 0 caractère minimum",
+     *     max="50",
+     *     maxMessage="Vous devez mettre une statut  à 50 caractères maximum"
+     * )
      */
     private $status;
 
     /**
      * @ORM\Column(type="date")
+     *  @Assert\Date()
+     * @Assert\NotNull
+     * @Assert\GreaterThanOrEqual(
+     *     "today UTC",
+     *     message="La date ne peut pas être avant aujourd'hui"
+     * )
      */
     private $factoryDate;
 
@@ -233,7 +273,7 @@ class Truck
 
         return $this;
     }
-    
+
     public function __toString()
     {
         return $this->brand . $this->model;

@@ -7,6 +7,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=MenuRepository::class)
@@ -28,26 +30,49 @@ class Menu
 
     /**
      * @ORM\Column(type="string", length=50)
+     * @Assert\Type(type="string")
+     * @Assert\NotNull
+     * @Assert\Length(
+     *     min="0",
+     *     minMessage="Vous devez mettre un nom  à 0 caractère minimum",
+     *     max="50",
+     *     maxMessage="Vous devez mettre un nom  à 50 caractères maximum"
+     * )
      */
     private $name;
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Assert\Type(type="string")
      */
     private $description;
 
     /**
      * @ORM\Column(type="float")
+     * Assert\Type(type="float")
+     * @Assert\NotNull
+     * @Assert\PositiveOrZero
      */
     private $price;
 
     /**
      * @ORM\Column(type="float")
+     * Assert\Type(type="float")
+     * @Assert\NotNull
+     * @Assert\PositiveOrZero
      */
     private $vat;
 
     /**
      * @ORM\Column(type="string")
+     * @Assert\Type(type="string")
+     * @Assert\NotNull
+     * @Assert\Length(
+     *     min="0",
+     *     minMessage="Vous devez mettre un statut  à 0 caractère minimum",
+     *     max="255",
+     *     maxMessage="Vous devez mettre un statut à 255 caractères maximum"
+     * )
      */
     private $status;
 
@@ -55,16 +80,6 @@ class Menu
      * @ORM\Column(type="boolean")
      */
     private $isLocked;
-
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $euroPointsGap;
-
-    /**
-     * @ORM\Column(type="boolean", nullable=true)
-     */
-    private $formulePointsGap;
 
     /**
      * @ORM\OneToMany(targetEntity=RewardContent::class, mappedBy="menu")
@@ -295,42 +310,5 @@ class Menu
 
         return $this;
     }
-
-    /**
-     * @return mixed
-     */
-    public function getEuroPointsGap()
-    {
-        return $this->euroPointsGap;
-    }
-
-    /**
-     * @param mixed $euroPointsGap
-     */
-    public function setEuroPointsGap($euroPointsGap): self
-    {
-        $this->euroPointsGap = $euroPointsGap;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getFormulePointsGap()
-    {
-        return $this->formulePointsGap;
-    }
-
-    /**
-     * @param mixed $formulePointsGap
-     */
-    public function setFormulePointsGap($formulePointsGap): self
-    {
-        $this->formulePointsGap = $formulePointsGap;
-        return $this;
-    }
-
-
-
 
 }

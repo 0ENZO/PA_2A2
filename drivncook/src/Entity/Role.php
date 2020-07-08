@@ -6,9 +6,13 @@ use App\Repository\RoleRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=RoleRepository::class)
+ * @UniqueEntity(fields={"name"}, message="Un rôle ayant ce nom est déjà pris. Veuillez en sélectionner une autre")
  */
 class Role
 {
@@ -21,6 +25,14 @@ class Role
 
     /**
      * @ORM\Column(type="string", length=50)
+     * @Assert\Type(type="string")
+     * @Assert\NotNull
+     * @Assert\Length(
+     *     min="0",
+     *     minMessage="Vous devez mettre un nom  à 0 caractère minimum",
+     *     max="50",
+     *     maxMessage="Vous devez mettre un nom  à 50 caractères maximum"
+     * )
      */
     private $name;
 

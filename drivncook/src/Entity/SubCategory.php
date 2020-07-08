@@ -9,10 +9,11 @@ use Symfony\Component\HttpFoundation\File\File;
 use Doctrine\Common\Collections\ArrayCollection;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\Validator\Constraints as Assert;
-
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * @ORM\Entity(repositoryClass=SubCategoryRepository::class)
  * @Vich\Uploadable
+ *  @UniqueEntity(fields={"name"}, message="Une sous catégorie ayant ce nom est déjà pris. Veuillez en sélectionner une autre")
  */
 class SubCategory
 {
@@ -25,11 +26,20 @@ class SubCategory
 
     /**
      * @ORM\Column(type="string", length=50)
+     *  @Assert\Type(type="string")
+     * @Assert\NotNull
+     * @Assert\Length(
+     *     min="0",
+     *     minMessage="Vous devez mettre un nom  à 0 caractère minimum",
+     *     max="50",
+     *     maxMessage="Vous devez mettre un nom  à 50 caractères maximum"
+     * )
      */
     private $name;
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Assert\Type(type="string")
      */
     private $description;
 
@@ -70,6 +80,11 @@ class SubCategory
      * @ORM\Column(name="UploadDate" ,type="datetime", nullable=true)
      *
      * @var \DateTimeInterface|null
+     * @Assert\DateTime()
+     * @Assert\GreaterThanOrEqual(
+     *     "today UTC",
+     *     message="La date ne peut pas être avant aujourd'hui"
+     * )
      */
     private $updatedAt;
 

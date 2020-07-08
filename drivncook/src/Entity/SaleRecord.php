@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use App\Repository\SaleRecordRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=SaleRecordRepository::class)
@@ -19,26 +21,40 @@ class SaleRecord
 
     /**
      * @ORM\Column(type="date", nullable=true)
+     * @Assert\Date()
+     * @Assert\NotNull
+     * @Assert\GreaterThanOrEqual(
+     *     "today UTC",
+     *     message="La date ne peut pas être avant aujourd'hui"
+     * )
      */
     private $date;
 
     /**
      * @ORM\Column(type="float", nullable=true)
+     * @Assert\Type(type="float")
+     * @Assert\PositiveOrZero
      */
     private $totalExpenses;
 
     /**
      * @ORM\Column(type="float", nullable=true)
+     * @Assert\Type(type="float")
+     * @Assert\PositiveOrZero
      */
     private $totalRevenues;
 
     /**
      * @ORM\Column(type="float", nullable=true)
+     * @Assert\Type(type="float")
+     * @Assert\PositiveOrZero
      */
     private $totalProfits;
 
     /**
      * @ORM\Column(type="float", nullable=true)
+     * @Assert\Type(type="float")
+     * @Assert\PositiveOrZero
      */
     private $totalVat;
 

@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use App\Repository\NotifyRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=NotifyRepository::class)
@@ -19,16 +21,31 @@ class Notify
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\Type(type="string")
+     * @Assert\Length(
+     *     min="0",
+     *     minMessage="Vous devez mettre un titre  à 0 caractère minimum",
+     *     max="255",
+     *     maxMessage="Vous devez mettre un titre à 255 caractères maximum"
+     * )
      */
     private $title;
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Assert\Type(type="string")
      */
     private $content;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\Type(type="string")
+     * @Assert\Length(
+     *     min="0",
+     *     minMessage="Vous devez mettre un bootstrapColor  à 0 caractère minimum",
+     *     max="255",
+     *     maxMessage="Vous devez mettre un bootstrapColor à 255 caractères maximum"
+     * )
      */
     private $bootstrapColor;
 
@@ -39,6 +56,11 @@ class Notify
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * @Assert\DateTime()
+     * @Assert\GreaterThanOrEqual(
+     *     propertyPath="dateBegin",
+     *     message="La date de fin d'event ne peut pas être avant la date de début"
+     * )
      */
     private $date;
 

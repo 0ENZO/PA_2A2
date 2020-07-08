@@ -37,6 +37,9 @@ class WarehouseStock
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\Type(type="int")
+     * @Assert\NotNull
+     * @Assert\PositiveOrZero
      * @Assert\Regex(
      *     pattern="/^[0-9]*$/",
      *     match=true,
