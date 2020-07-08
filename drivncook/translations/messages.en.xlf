@@ -581,7 +581,7 @@
         <source>Découvrez Driv'n Cook</source>
         <target>Discover Driv'n Cook</target>
       </trans-unit>
-      <trans-unit id="rsBmPom" resname="Insccription">
+      <trans-unit id="rsBmPom" resname="Inscription">
         <source>Inscription</source>
         <target>Register</target>
       </trans-unit>
@@ -657,8 +657,8 @@
         <source>Retour à l'accueil</source>
         <target>Back to Home</target>
       </trans-unit>
-      <trans-unit id="0adNkkd" resname="Evenements">
-        <source>Evenements</source>
+      <trans-unit id="0adNkkd" resname="Évenements">
+        <source>Évenements</source>
         <target>Evens</target>
       </trans-unit>
       <trans-unit id="QyBtDxz" resname="Profil client">
