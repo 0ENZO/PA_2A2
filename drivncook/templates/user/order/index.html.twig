@@ -73,6 +73,9 @@
 				{% if app.session.get('cart_franchise') is not null %}
 					<a href="{{ path('menu_showcase', {'id': app.session.get('cart_franchise')}) }}" class="btn btn-primary mr-auto">{% trans %}Retour{% endtrans %}</a>
 				{% endif %}
+
+				<a href="{{ path('hungry_menu') }}" class="btn btn-primary mr-auto">{% trans %}Passer commande{% endtrans %}</a>
+
 			</div>
 		{% endif %}
 	</div>

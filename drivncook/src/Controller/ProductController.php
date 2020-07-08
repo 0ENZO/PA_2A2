@@ -11,6 +11,7 @@ use App\Repository\ProductRepository;
 use App\Repository\WarehouseRepository;
 use App\Repository\WarehouseStockRepository;
 use Knp\Component\Pager\PaginatorInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;

@@ -4481,8 +4481,8 @@ class AppFixtures extends Fixture
         $recipe
             ->setProduct($product_tomate)
             ->setArticle($article)
-            ->setQuantity(50)
-            ->setType("g");
+            ->setQuantity(2)
+            ->setType("Unit");
         $manager->persist($recipe);
 
         $recipe = new Recipe();

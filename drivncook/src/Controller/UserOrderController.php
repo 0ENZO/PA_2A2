@@ -72,6 +72,7 @@ class UserOrderController extends AbstractController
         $totalHT = 0;
 
         foreach ($filledCart as $item){
+            dump($item);
             $vatProduct = $item['product']->getVat() * $item['quantity'];
             $priceProduct = $item['product']->getPrice() * $item['quantity'];
             $totalVAT += $vatProduct;
@@ -162,14 +163,23 @@ class UserOrderController extends AbstractController
                             $recipeType = $recipe->getType();
                             $productType = $product->getType();
                             $type = $this->checkType($productType, $recipeType);
+                            dump($product);
+                            dump($recipe);
+                            dump($type);
 
                             $substractQty = $recipeQty * $type;
+                            $finalQty = $stockQty-$substractQty;
+                            dump($stock);
+                            dump($stockQty);
+                            dump($substractQty);
+                            dump($finalQty);
 
                             if ($stockQty - $substractQty < 0 ) {
                                 $stock->setQuantity(0);
                             } else {
                                 $stock->setQuantity($stockQty - $substractQty);
                             }
+                            dump($stock->getQuantity());
                         }
                     }
                     // Ajout des produits dans la commande
@@ -295,7 +305,7 @@ class UserOrderController extends AbstractController
             if ($productType == 'Kg') {
                 $type = 1;
             } elseif ($productType == 'g') {
-                $type = 0.001;
+                $type = 1000;
             } else {
                 $type = 'error';
             }
@@ -303,7 +313,7 @@ class UserOrderController extends AbstractController
             if ($productType == 'g') {
                 $type = 1;
             } elseif ($productType == 'Kg') {
-                $type = 1000;
+                $type = 0.001;
             } else {
                 $type = 'error';
             }
@@ -311,7 +321,7 @@ class UserOrderController extends AbstractController
             if ($productType == 'L') {
                 $type = 1;
             } elseif ($productType == 'cl') {
-                $type = 0.01;
+                $type = 100;
             } else {
                 $type = 'error';
             }

@@ -9,6 +9,7 @@ use App\Entity\Warehouse;
 use App\Form\CreditCardType;
 use App\Repository\FranchiseRepository;
 use App\Repository\WarehouseRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
