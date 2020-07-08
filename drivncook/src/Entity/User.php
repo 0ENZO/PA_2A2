@@ -202,6 +202,11 @@ class User implements UserInterface
      */
     private $answerReportBreakdowns;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Message::class, mappedBy="editor")
+     */
+    private $messages;
+
     public function __construct()
     {
         $this->creditCards = new ArrayCollection();
@@ -209,6 +214,7 @@ class User implements UserInterface
         $this->votes = new ArrayCollection();
         $this->rewards = new ArrayCollection();
         $this->answerReportBreakdowns = new ArrayCollection();
+        $this->messages = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -621,6 +627,37 @@ class User implements UserInterface
             // set the owning side to null (unless already changed)
             if ($answerReportBreakdown->getUser() === $this) {
                 $answerReportBreakdown->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Message[]
+     */
+    public function getMessages(): Collection
+    {
+        return $this->messages;
+    }
+
+    public function addMessage(Message $message): self
+    {
+        if (!$this->messages->contains($message)) {
+            $this->messages[] = $message;
+            $message->setEditor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMessage(Message $message): self
+    {
+        if ($this->messages->contains($message)) {
+            $this->messages->removeElement($message);
+            // set the owning side to null (unless already changed)
+            if ($message->getEditor() === $this) {
+                $message->setEditor(null);
             }
         }
 
