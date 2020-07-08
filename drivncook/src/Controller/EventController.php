@@ -26,15 +26,16 @@ class EventController extends AbstractController
         $em = $this->getDoctrine()->getManager();
         $events = $em->getRepository(Event::class)->findAll();
 
-        if ($this->getUser() instanceof Franchise) {
-            $isFranchise = 1;
+        if ($this->isGranted('ROLE_FRANCHISE') || $this->isGranted('ROLE_EDITOR')) {
             $event = new Event();
             $form = $this->createForm(EventType::class, $event);
-            $form->remove('franchise');
+            if ($this->isGranted('ROLE_FRANCHISE'))
+                $form->remove('franchise');
             $form->handleRequest($request);
 
             if ($form->isSubmitted() and $form->isValid()) {
-                $event->addFranchise($this->getUser());
+                if ($this->isGranted('ROLE_FRANCHISE'))
+                    $event->addFranchise($this->getUser());
                 $em->persist($event);
                 $em->flush();
                 $this->addFlash("success", "Votre évenement a été publié");
@@ -44,7 +45,6 @@ class EventController extends AbstractController
             return $this->render('event/index.html.twig', [
                 'events' => $events,
                 'form' => $form->createView(),
-                'isFranchise' => $isFranchise
             ]);
         }
 

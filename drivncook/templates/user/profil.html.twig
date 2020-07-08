@@ -40,7 +40,7 @@
                                 <li class="nav-item">
                                     <a class="nav-link" href="" id="nav_edit" data-target="#pane_edit"
                                        data-toggle="tab">
-                                        <i class="mr-2 fas fa-user-edit"></i>{% trans %}Modifier{% endtrans %}
+                                        <i class="mr-2 fas fa-user-edit"></i>{% trans %}Modifier mes informations{% endtrans %}
                                     </a>
                                 </li>
                                 <li class="nav-item">
@@ -136,11 +136,17 @@
 
                                             {{ form_start(form) }}
                                                 {{ form_widget(form) }}
+
+                                                <div class="d-flex justify-content-between">
+
+                                                <button class="btn btn-primary" type="submit">
+                                                    {% trans %}Enregister{% endtrans %}
+                                                    <i class="fas fa-save"></i>
+                                                </button>
                                             {{ form_end(form) }}
-
+                                                <a class="btn btn-primary" href="{{ path('app_password_change') }}">Modifier le mot de passe<i class="fas fa-key ml-2"></i></a>
+                                            </div>
                                         {% endif %}
-
-
                                     </div>
                                 </div>
 
