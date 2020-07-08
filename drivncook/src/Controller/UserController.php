@@ -43,7 +43,9 @@ class UserController extends AbstractController
         $votes = $em->getRepository(Vote::class)->findByUser($user);
 
         $form = $this->createForm(UserType::class, $user);
-        $form->remove("Role");
+        $form
+            ->remove("Role")
+            ->remove('password');
 
         $form->handleRequest($request);
 

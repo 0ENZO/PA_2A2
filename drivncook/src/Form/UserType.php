@@ -34,9 +34,6 @@ class UserType extends AbstractType
             ->add('phoneNumber')
             ->add('birthDate', BirthdayType::class)
             ->add('completeAddress',TextType::class)
-            ->add('save', SubmitType::class, [
-                'label' => 'Enregistrer'
-            ])
             ;
     }
 
