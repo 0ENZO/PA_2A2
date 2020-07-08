@@ -41,7 +41,6 @@ class AppFixtures extends Fixture
     {
 
 
-
         // RÔLES
 
         $role_client = new Role();
@@ -59,9 +58,6 @@ class AppFixtures extends Fixture
         $role_editor = new Role();
         $role_editor->setName('ROLE_EDITOR');
         $manager->persist($role_editor);
-
-
-
 
         // ADRESSES
 
@@ -82,7 +78,6 @@ class AppFixtures extends Fixture
         $isere = new Department();
         $isere->setName('Isère');
         $manager->persist($isere);
-
 
 
         // Villes
@@ -122,7 +117,6 @@ class AppFixtures extends Fixture
         $manager->persist($grenoble);
 
 
-
         // Addresse finale (ville + département + rue)
 
         $address = new Address();
@@ -138,7 +132,7 @@ class AppFixtures extends Fixture
             ->setCity($city2);
         $manager->persist($address_warehouse_paris);
 
-        $address_warehouse_orleans= new Address();
+        $address_warehouse_orleans = new Address();
         $address_warehouse_orleans
             ->setStreet("Boulevards, droits des Hommes")
             ->setNumber("13")
@@ -158,11 +152,6 @@ class AppFixtures extends Fixture
             ->setNumber('23')
             ->setCity($grenoble);
         $manager->persist($address_warehouse_grenoble);
-
-
-
-
-
 
 
         // UTILISATEURS
@@ -252,19 +241,14 @@ class AppFixtures extends Fixture
         $manager->persist($alex);
 
 
-
-
-
-
-
         // FRANCHISÉS
 
-        for($i = 0 ; $i < 10 ; $i++){
+        for ($i = 0; $i < 10; $i++) {
             $franchise = new Franchise();
             $franchise->setRole($role_franchise);
-            $franchise->setFirstName('Franchise'. $i);
+            $franchise->setFirstName('Franchise' . $i);
             $franchise->setLastName('Default');
-            $franchise->setEmail('franchise'. $i .'@drivncook.fr');
+            $franchise->setEmail('franchise' . $i . '@drivncook.fr');
             $franchise->setAddress($address);
             $franchise->setIsActivated(0);
             $franchise->setPassword($this->passwordEncoder->encodePassword(
@@ -274,7 +258,6 @@ class AppFixtures extends Fixture
             // $franchise->setBirthDate(new \DateTime());
             $manager->persist($franchise);
         }
-
 
 
         // CAPACITÉS MAX
@@ -310,19 +293,13 @@ class AppFixtures extends Fixture
         $manager->persist($second_warehouse_capacity);
 
 
-
-
-
-
-
-
         // ENTREPOTS
 
         $warehouse_alpha = new Warehouse();
         $name = "Alpha";
         $warehouse_alpha
             ->setName($name)
-            ->setEmail($name."@drivncook.fr")
+            ->setEmail($name . "@drivncook.fr")
             ->setAddress($address_warehouse_paris)
             ->setPhoneNumber("0645733429")
             ->setMaxCapacity($main_warehouse_capacity);
@@ -332,7 +309,7 @@ class AppFixtures extends Fixture
         $name = "Beta";
         $warehouse_beta
             ->setName($name)
-            ->setEmail($name."@drivncook.fr")
+            ->setEmail($name . "@drivncook.fr")
             ->setAddress($address_warehouse_orleans)
             ->setPhoneNumber("0645733429")
             ->setMaxCapacity($second_warehouse_capacity);
@@ -342,7 +319,7 @@ class AppFixtures extends Fixture
         $name = "Omega";
         $warehouse_omega
             ->setName($name)
-            ->setEmail($name."@drivncook.fr")
+            ->setEmail($name . "@drivncook.fr")
             ->setAddress($address_warehouse_rennes)
             ->setPhoneNumber("0645733429")
             ->setMaxCapacity($second_warehouse_capacity);
@@ -352,16 +329,11 @@ class AppFixtures extends Fixture
         $name = "Zeta";
         $warehouse_zeta
             ->setName($name)
-            ->setEmail($name."@drivncook.fr")
+            ->setEmail($name . "@drivncook.fr")
             ->setAddress($address_warehouse_grenoble)
             ->setPhoneNumber("0645733429")
             ->setMaxCapacity($second_warehouse_capacity);
         $manager->persist($warehouse_zeta);
-
-
-
-
-
 
 
         // TYPES DE PANNES
@@ -385,13 +357,6 @@ class AppFixtures extends Fixture
             ->setDescription("Sont répertoriées ici les pannes compromettant gravement l'activité économique du franchisé.
             Mais aussi lorsque ces mêmes pannes compromettent la sécurité et / ou la santé du franchisé / client ");
         $manager->persist($breakdown_type_3);
-
-
-
-
-
-
-
 
 
         // PANNES
@@ -489,13 +454,6 @@ class AppFixtures extends Fixture
         $manager->persist($breakdown);
 
 
-
-
-
-
-
-
-
         // CAMIONS
 
         // Appartient à personne
@@ -531,52 +489,37 @@ class AppFixtures extends Fixture
         $manager->persist($indisponible_truck);
 
 
-
-
-
-
-
-
         // CATEGORIES
 
         $category_ingredient = new Category();
         $category_ingredient
             ->setName('Ingrédients')
-            ->setDescription("Tout ce qui est relatif aux ".$category_ingredient->getName().".");
+            ->setDescription("Tout ce qui est relatif aux " . $category_ingredient->getName() . ".");
         $manager->persist($category_ingredient);
 
         $category_boisson = new Category();
         $category_boisson
             ->setName('Boissons')
-            ->setDescription("Tout ce qui est relatif aux ".$category_boisson->getName().".");
+            ->setDescription("Tout ce qui est relatif aux " . $category_boisson->getName() . ".");
         $manager->persist($category_boisson);
 
         $category_dessert = new Category();
         $category_dessert
             ->setName('Desserts')
-            ->setDescription("Tout ce qui est relatif aux ".$category_dessert->getName().".");
+            ->setDescription("Tout ce qui est relatif aux " . $category_dessert->getName() . ".");
         $manager->persist($category_dessert);
 
         $category_repas = new Category();
         $category_repas
             ->setName('Repas')
-            ->setDescription("Tout ce qui est relatif aux ".$category_repas->getName().".");
+            ->setDescription("Tout ce qui est relatif aux " . $category_repas->getName() . ".");
         $manager->persist($category_repas);
 
         $category_menu = new Category();
         $category_menu
             ->setName('Menus')
-            ->setDescription("Tout ce qui est relatif aux ".$category_menu->getName().".");
+            ->setDescription("Tout ce qui est relatif aux " . $category_menu->getName() . ".");
         $manager->persist($category_menu);
-
-
-
-
-
-
-
-
-
 
 
         // SOUS CATEGORIES
@@ -758,18 +701,6 @@ class AppFixtures extends Fixture
         $manager->persist($sub_category_toast);
 
 
-
-
-
-
-
-
-
-
-
-
-
-
         // PRODUITS
 
         //... produits standars parmis les ingrédients
@@ -777,7 +708,7 @@ class AppFixtures extends Fixture
         $product_oeuf = new Product();
         $product_oeuf
             ->setName("Oeufs")
-            ->setDescription("Description ".$product_oeuf->getName())
+            ->setDescription("Description " . $product_oeuf->getName())
             ->setPrice(1.00)
             ->setVat($product_oeuf->getPrice() * 0.20)
             ->setStatus("Disponible")
@@ -789,7 +720,7 @@ class AppFixtures extends Fixture
         $product_pain = new Product();
         $product_pain
             ->setName("Pains")
-            ->setDescription("Une baguette de pain ".$product_pain->getName())
+            ->setDescription("Une baguette de pain " . $product_pain->getName())
             ->setPrice(0.70)
             ->setVat($product_pain->getPrice() * 0.20)
             ->setStatus("Disponible")
@@ -801,7 +732,7 @@ class AppFixtures extends Fixture
         $product_mouillette = new Product();
         $product_mouillette
             ->setName("Mouillettes")
-            ->setDescription("Description ".$product_mouillette->getName())
+            ->setDescription("Description " . $product_mouillette->getName())
             ->setPrice(5.00)
             ->setVat($product_mouillette->getPrice() * 0.20)
             ->setStatus("Disponible")
@@ -813,7 +744,7 @@ class AppFixtures extends Fixture
         $product_tranche_pain = new Product();
         $product_tranche_pain
             ->setName("Tranches de pains")
-            ->setDescription("Description ".$product_tranche_pain->getName())
+            ->setDescription("Description " . $product_tranche_pain->getName())
             ->setPrice(6.00)
             ->setVat($product_tranche_pain->getPrice() * 0.20)
             ->setStatus("Disponible")
@@ -825,7 +756,7 @@ class AppFixtures extends Fixture
         $product_farine = new Product();
         $product_farine
             ->setName("Farine")
-            ->setDescription("Description ".$product_farine->getName())
+            ->setDescription("Description " . $product_farine->getName())
             ->setPrice(2.00)
             ->setVat($product_farine->getPrice() * 0.20)
             ->setStatus("Disponible")
@@ -837,7 +768,7 @@ class AppFixtures extends Fixture
         $product_sel = new Product();
         $product_sel
             ->setName("Sel")
-            ->setDescription("Description ".$product_sel->getName())
+            ->setDescription("Description " . $product_sel->getName())
             ->setPrice(2.00)
             ->setVat($product_sel->getPrice() * 0.20)
             ->setStatus("Disponible")
@@ -849,7 +780,7 @@ class AppFixtures extends Fixture
         $product_gros_sel = new Product();
         $product_gros_sel
             ->setName("Gros sel")
-            ->setDescription("Description ".$product_gros_sel->getName())
+            ->setDescription("Description " . $product_gros_sel->getName())
             ->setPrice(2.50)
             ->setVat($product_gros_sel->getPrice() * 0.20)
             ->setStatus("Disponible")
@@ -861,7 +792,7 @@ class AppFixtures extends Fixture
         $product_grains_cafe = new Product();
         $product_grains_cafe
             ->setName("Grain de café")
-            ->setDescription("Description ".$product_grains_cafe->getName())
+            ->setDescription("Description " . $product_grains_cafe->getName())
             ->setPrice(9.50)
             ->setVat($product_grains_cafe->getPrice() * 0.20)
             ->setStatus("Disponible")
@@ -873,7 +804,7 @@ class AppFixtures extends Fixture
         $product_the_vert = new Product();
         $product_the_vert
             ->setName("Sachet de thé vert")
-            ->setDescription("Description ".$product_the_vert->getName())
+            ->setDescription("Description " . $product_the_vert->getName())
             ->setPrice(0.20)
             ->setVat($product_the_vert->getPrice() * 0.20)
             ->setStatus("Disponible")
@@ -885,7 +816,7 @@ class AppFixtures extends Fixture
         $product_the_menthe = new Product();
         $product_the_menthe
             ->setName("Sachet de thé à la menthe")
-            ->setDescription("Description ".$product_the_menthe->getName())
+            ->setDescription("Description " . $product_the_menthe->getName())
             ->setPrice(0.20)
             ->setVat($product_the_menthe->getPrice() * 0.20)
             ->setStatus("Disponible")
@@ -897,7 +828,7 @@ class AppFixtures extends Fixture
         $product_lait = new Product();
         $product_lait
             ->setName("Lait")
-            ->setDescription("Description ".$product_lait->getName())
+            ->setDescription("Description " . $product_lait->getName())
             ->setPrice(1.70)
             ->setVat($product_lait->getPrice() * 0.20)
             ->setStatus("Disponible")
@@ -909,7 +840,7 @@ class AppFixtures extends Fixture
         $product_beurre = new Product();
         $product_beurre
             ->setName("Beurre")
-            ->setDescription("Description ".$product_beurre->getName())
+            ->setDescription("Description " . $product_beurre->getName())
             ->setPrice(3)
             ->setVat($product_beurre->getPrice() * 0.20)
             ->setStatus("Disponible")
@@ -921,7 +852,7 @@ class AppFixtures extends Fixture
         $product_huile_olive = new Product();
         $product_huile_olive
             ->setName("Huile d'olive")
-            ->setDescription("Description ".$product_huile_olive->getName())
+            ->setDescription("Description " . $product_huile_olive->getName())
             ->setPrice(3.50)
             ->setVat($product_huile_olive->getPrice() * 0.20)
             ->setStatus("Disponible")
@@ -933,7 +864,7 @@ class AppFixtures extends Fixture
         $product_sucre = new Product();
         $product_sucre
             ->setName("Sucre")
-            ->setDescription("Description ".$product_sucre->getName())
+            ->setDescription("Description " . $product_sucre->getName())
             ->setPrice(1.50)
             ->setVat($product_sucre->getPrice() * 0.20)
             ->setStatus("Disponible")
@@ -945,7 +876,7 @@ class AppFixtures extends Fixture
         $product_fromage_rais = new Product();
         $product_fromage_rais
             ->setName("Fromage frais")
-            ->setDescription("Description ".$product_fromage_rais->getName())
+            ->setDescription("Description " . $product_fromage_rais->getName())
             ->setPrice(4.80)
             ->setVat($product_fromage_rais->getPrice() * 0.20)
             ->setStatus("Disponible")
@@ -957,7 +888,7 @@ class AppFixtures extends Fixture
         $product_mozarella = new Product();
         $product_mozarella
             ->setName("Mozarella")
-            ->setDescription("Description ".$product_mozarella->getName())
+            ->setDescription("Description " . $product_mozarella->getName())
             ->setPrice(14.90)
             ->setVat($product_mozarella->getPrice() * 0.20)
             ->setStatus("Disponible")
@@ -969,7 +900,7 @@ class AppFixtures extends Fixture
         $product_gruyere = new Product();
         $product_gruyere
             ->setName("Gruyère")
-            ->setDescription("Description ".$product_gruyere->getName())
+            ->setDescription("Description " . $product_gruyere->getName())
             ->setPrice(3.20)
             ->setVat($product_gruyere->getPrice() * 0.20)
             ->setStatus("Disponible")
@@ -981,7 +912,7 @@ class AppFixtures extends Fixture
         $product_fromage_local = new Product();
         $product_fromage_local
             ->setName("Fromage local")
-            ->setDescription("Description ".$product_fromage_local->getName())
+            ->setDescription("Description " . $product_fromage_local->getName())
             ->setPrice(15.20)
             ->setVat($product_fromage_local->getPrice() * 0.20)
             ->setStatus("Disponible")
@@ -993,7 +924,7 @@ class AppFixtures extends Fixture
         $product_pourdre_coco = new Product();
         $product_pourdre_coco
             ->setName("Poudre Coco")
-            ->setDescription("Description ".$product_pourdre_coco->getName())
+            ->setDescription("Description " . $product_pourdre_coco->getName())
             ->setPrice(4.80)
             ->setVat($product_pourdre_coco->getPrice() * 0.20)
             ->setStatus("Disponible")
@@ -1005,7 +936,7 @@ class AppFixtures extends Fixture
         $product_pourdre_chocolat = new Product();
         $product_pourdre_chocolat
             ->setName("Poudre Chocolat")
-            ->setDescription("Description ".$product_pourdre_chocolat->getName())
+            ->setDescription("Description " . $product_pourdre_chocolat->getName())
             ->setPrice(5.30)
             ->setVat($product_pourdre_chocolat->getPrice() * 0.20)
             ->setStatus("Disponible")
@@ -1017,7 +948,7 @@ class AppFixtures extends Fixture
         $product_canelle = new Product();
         $product_canelle
             ->setName("Canelle")
-            ->setDescription("Description ".$product_canelle->getName())
+            ->setDescription("Description " . $product_canelle->getName())
             ->setPrice(6.30)
             ->setVat($product_canelle->getPrice() * 0.20)
             ->setStatus("Disponible")
@@ -1031,7 +962,7 @@ class AppFixtures extends Fixture
         $product_haricot_vert = new Product();
         $product_haricot_vert
             ->setName("Haricots verts")
-            ->setDescription("Description ".$product_haricot_vert->getName())
+            ->setDescription("Description " . $product_haricot_vert->getName())
             ->setPrice(4.10)
             ->setVat($product_haricot_vert->getPrice() * 0.20)
             ->setStatus("Disponible")
@@ -1043,7 +974,7 @@ class AppFixtures extends Fixture
         $product_haricot_beurre = new Product();
         $product_haricot_beurre
             ->setName("Haricots beurre")
-            ->setDescription("Description ".$product_haricot_beurre->getName())
+            ->setDescription("Description " . $product_haricot_beurre->getName())
             ->setPrice(4.60)
             ->setVat($product_haricot_beurre->getPrice() * 0.20)
             ->setStatus("Disponible")
@@ -1055,7 +986,7 @@ class AppFixtures extends Fixture
         $product_salade = new Product();
         $product_salade
             ->setName("Salades")
-            ->setDescription("Description ".$product_salade->getName())
+            ->setDescription("Description " . $product_salade->getName())
             ->setPrice(2.30)
             ->setVat($product_salade->getPrice() * 0.20)
             ->setStatus("Disponible")
@@ -1067,7 +998,7 @@ class AppFixtures extends Fixture
         $product_haricot = new Product();
         $product_haricot
             ->setName("Haricots")
-            ->setDescription("Description ".$product_haricot->getName())
+            ->setDescription("Description " . $product_haricot->getName())
             ->setPrice(3.70)
             ->setVat($product_haricot->getPrice() * 0.20)
             ->setStatus("Disponible")
@@ -1079,7 +1010,7 @@ class AppFixtures extends Fixture
         $product_champignon = new Product();
         $product_champignon
             ->setName("Champignon")
-            ->setDescription("Description ".$product_champignon->getName())
+            ->setDescription("Description " . $product_champignon->getName())
             ->setPrice(5.30)
             ->setVat($product_champignon->getPrice() * 0.20)
             ->setStatus("Disponible")
@@ -1091,7 +1022,7 @@ class AppFixtures extends Fixture
         $product_patate = new Product();
         $product_patate
             ->setName("Pommes de terres")
-            ->setDescription("Description ".$product_patate->getName())
+            ->setDescription("Description " . $product_patate->getName())
             ->setPrice(2.80)
             ->setVat($product_patate->getPrice() * 0.20)
             ->setStatus("Disponible")
@@ -1103,7 +1034,7 @@ class AppFixtures extends Fixture
         $product_pousse_epinard = new Product();
         $product_pousse_epinard
             ->setName("Pousse d'épinards")
-            ->setDescription("Description ".$product_pousse_epinard->getName())
+            ->setDescription("Description " . $product_pousse_epinard->getName())
             ->setPrice(4.98)
             ->setVat($product_pousse_epinard->getPrice() * 0.20)
             ->setStatus("Disponible")
@@ -1117,7 +1048,7 @@ class AppFixtures extends Fixture
         $product_tomate = new Product();
         $product_tomate
             ->setName("Tomates")
-            ->setDescription("Description ".$product_tomate->getName())
+            ->setDescription("Description " . $product_tomate->getName())
             ->setPrice(1.10)
             ->setVat($product_tomate->getPrice() * 0.20)
             ->setStatus("Disponible")
@@ -1129,7 +1060,7 @@ class AppFixtures extends Fixture
         $product_avocat = new Product();
         $product_avocat
             ->setName("Avocats")
-            ->setDescription("Description ".$product_avocat->getName())
+            ->setDescription("Description " . $product_avocat->getName())
             ->setPrice(1.50)
             ->setVat($product_avocat->getPrice() * 0.20)
             ->setStatus("Disponible")
@@ -1141,7 +1072,7 @@ class AppFixtures extends Fixture
         $product_concombre = new Product();
         $product_concombre
             ->setName("Concombre")
-            ->setDescription("Description ".$product_concombre->getName())
+            ->setDescription("Description " . $product_concombre->getName())
             ->setPrice(1.80)
             ->setVat($product_concombre->getPrice() * 0.20)
             ->setStatus("Disponible")
@@ -1153,7 +1084,7 @@ class AppFixtures extends Fixture
         $product_courgette = new Product();
         $product_courgette
             ->setName("Courgette")
-            ->setDescription("Description ".$product_courgette->getName())
+            ->setDescription("Description " . $product_courgette->getName())
             ->setPrice(1.70)
             ->setVat($product_courgette->getPrice() * 0.20)
             ->setStatus("Disponible")
@@ -1165,7 +1096,7 @@ class AppFixtures extends Fixture
         $product_banane = new Product();
         $product_banane
             ->setName("Bananes")
-            ->setDescription("Description ".$product_banane->getName())
+            ->setDescription("Description " . $product_banane->getName())
             ->setPrice(1.00)
             ->setVat($product_banane->getPrice() * 0.20)
             ->setStatus("Disponible")
@@ -1177,7 +1108,7 @@ class AppFixtures extends Fixture
         $product_ananas = new Product();
         $product_ananas
             ->setName("Ananas")
-            ->setDescription("Description ".$product_ananas->getName())
+            ->setDescription("Description " . $product_ananas->getName())
             ->setPrice(1.50)
             ->setVat($product_ananas->getPrice() * 0.20)
             ->setStatus("Disponible")
@@ -1189,7 +1120,7 @@ class AppFixtures extends Fixture
         $product_mangue = new Product();
         $product_mangue
             ->setName("Mangue")
-            ->setDescription("Description ".$product_mangue->getName())
+            ->setDescription("Description " . $product_mangue->getName())
             ->setPrice(1.30)
             ->setVat($product_mangue->getPrice() * 0.20)
             ->setStatus("Disponible")
@@ -1201,7 +1132,7 @@ class AppFixtures extends Fixture
         $product_citron = new Product();
         $product_citron
             ->setName("Citron")
-            ->setDescription("Description ".$product_citron->getName())
+            ->setDescription("Description " . $product_citron->getName())
             ->setPrice(1.20)
             ->setVat($product_citron->getPrice() * 0.20)
             ->setStatus("Disponible")
@@ -1213,7 +1144,7 @@ class AppFixtures extends Fixture
         $product_citron_vert = new Product();
         $product_citron_vert
             ->setName("Citron vert")
-            ->setDescription("Description ".$product_citron_vert->getName())
+            ->setDescription("Description " . $product_citron_vert->getName())
             ->setPrice(1.14)
             ->setVat($product_citron_vert->getPrice() * 0.20)
             ->setStatus("Disponible")
@@ -1225,7 +1156,7 @@ class AppFixtures extends Fixture
         $product_fraises = new Product();
         $product_fraises
             ->setName("Fraises")
-            ->setDescription("Description ".$product_fraises->getName())
+            ->setDescription("Description " . $product_fraises->getName())
             ->setPrice(12.00)
             ->setVat($product_fraises->getPrice() * 0.20)
             ->setStatus("Disponible")
@@ -1237,7 +1168,7 @@ class AppFixtures extends Fixture
         $product_kiwi = new Product();
         $product_kiwi
             ->setName("Kiwi")
-            ->setDescription("Description ".$product_kiwi->getName())
+            ->setDescription("Description " . $product_kiwi->getName())
             ->setPrice(1.00)
             ->setVat($product_kiwi->getPrice() * 0.20)
             ->setStatus("Disponible")
@@ -1249,7 +1180,7 @@ class AppFixtures extends Fixture
         $product_pomme = new Product();
         $product_pomme
             ->setName("Pomme")
-            ->setDescription("Description ".$product_pomme->getName())
+            ->setDescription("Description " . $product_pomme->getName())
             ->setPrice(1.00)
             ->setVat($product_pomme->getPrice() * 0.20)
             ->setStatus("Disponible")
@@ -1261,7 +1192,7 @@ class AppFixtures extends Fixture
         $product_orange = new Product();
         $product_orange
             ->setName("Orange")
-            ->setDescription("Description ".$product_orange->getName())
+            ->setDescription("Description " . $product_orange->getName())
             ->setPrice(1.00)
             ->setVat($product_orange->getPrice() * 0.20)
             ->setStatus("Disponible")
@@ -1273,7 +1204,7 @@ class AppFixtures extends Fixture
         $product_framboise = new Product();
         $product_framboise
             ->setName("Framboises")
-            ->setDescription("Description ".$product_framboise->getName())
+            ->setDescription("Description " . $product_framboise->getName())
             ->setPrice(6.00)
             ->setVat($product_framboise->getPrice() * 0.20)
             ->setStatus("Disponible")
@@ -1285,7 +1216,7 @@ class AppFixtures extends Fixture
         $product_myrtille = new Product();
         $product_myrtille
             ->setName("Myrtilles")
-            ->setDescription("Description ".$product_myrtille->getName())
+            ->setDescription("Description " . $product_myrtille->getName())
             ->setPrice(5.80)
             ->setVat($product_myrtille->getPrice() * 0.20)
             ->setStatus("Disponible")
@@ -1299,7 +1230,7 @@ class AppFixtures extends Fixture
         $product_sardine = new Product();
         $product_sardine
             ->setName("Sardines")
-            ->setDescription("Description ".$product_sardine->getName())
+            ->setDescription("Description " . $product_sardine->getName())
             ->setPrice(28.20)
             ->setVat($product_sardine->getPrice() * 0.20)
             ->setStatus("Disponible")
@@ -1311,7 +1242,7 @@ class AppFixtures extends Fixture
         $product_saumon = new Product();
         $product_saumon
             ->setName("Saumons")
-            ->setDescription("Description ".$product_saumon->getName())
+            ->setDescription("Description " . $product_saumon->getName())
             ->setPrice(30.20)
             ->setVat($product_saumon->getPrice() * 0.20)
             ->setStatus("Disponible")
@@ -1325,7 +1256,7 @@ class AppFixtures extends Fixture
         $product_bacon = new Product();
         $product_bacon
             ->setName("Bacon")
-            ->setDescription("Description ".$product_bacon->getName())
+            ->setDescription("Description " . $product_bacon->getName())
             ->setPrice(18.20)
             ->setVat($product_bacon->getPrice() * 0.20)
             ->setStatus("Disponible")
@@ -1337,7 +1268,7 @@ class AppFixtures extends Fixture
         $product_salami = new Product();
         $product_salami
             ->setName("Salami")
-            ->setDescription("Description ".$product_salami->getName())
+            ->setDescription("Description " . $product_salami->getName())
             ->setPrice(15.00)
             ->setVat($product_salami->getPrice() * 0.20)
             ->setStatus("Disponible")
@@ -1349,7 +1280,7 @@ class AppFixtures extends Fixture
         $product_saucisse_allemande = new Product();
         $product_saucisse_allemande
             ->setName("Saucisse allemande")
-            ->setDescription("Description ".$product_saucisse_allemande->getName())
+            ->setDescription("Description " . $product_saucisse_allemande->getName())
             ->setPrice(28.10)
             ->setVat($product_saucisse_allemande->getPrice() * 0.20)
             ->setStatus("Disponible")
@@ -1361,7 +1292,7 @@ class AppFixtures extends Fixture
         $product_saucisse = new Product();
         $product_saucisse
             ->setName("Saucisses")
-            ->setDescription("Description ".$product_saucisse->getName())
+            ->setDescription("Description " . $product_saucisse->getName())
             ->setPrice(16.80)
             ->setVat($product_saucisse->getPrice() * 0.20)
             ->setStatus("Disponible")
@@ -1373,7 +1304,7 @@ class AppFixtures extends Fixture
         $product_jambon_blanc = new Product();
         $product_jambon_blanc
             ->setName("Jambon blanc")
-            ->setDescription("Description ".$product_jambon_blanc->getName())
+            ->setDescription("Description " . $product_jambon_blanc->getName())
             ->setPrice(20.00)
             ->setVat($product_jambon_blanc->getPrice() * 0.20)
             ->setStatus("Disponible")
@@ -1385,7 +1316,7 @@ class AppFixtures extends Fixture
         $product_jambon_pays = new Product();
         $product_jambon_pays
             ->setName("Jambon de Pays")
-            ->setDescription("Description ".$product_jambon_pays->getName())
+            ->setDescription("Description " . $product_jambon_pays->getName())
             ->setPrice(25.00)
             ->setVat($product_jambon_pays->getPrice() * 0.20)
             ->setStatus("Disponible")
@@ -1397,7 +1328,7 @@ class AppFixtures extends Fixture
         $product_blanc_poulet = new Product();
         $product_blanc_poulet
             ->setName("Blanc de poulet")
-            ->setDescription("Description ".$product_blanc_poulet->getName())
+            ->setDescription("Description " . $product_blanc_poulet->getName())
             ->setPrice(18.70)
             ->setVat($product_blanc_poulet->getPrice() * 0.20)
             ->setStatus("Disponible")
@@ -1411,7 +1342,7 @@ class AppFixtures extends Fixture
         $product_flocon_avoine = new Product();
         $product_flocon_avoine
             ->setName("Flocons d'avoines")
-            ->setDescription("Description ".$product_flocon_avoine->getName())
+            ->setDescription("Description " . $product_flocon_avoine->getName())
             ->setPrice(3.50)
             ->setVat($product_flocon_avoine->getPrice() * 0.20)
             ->setStatus("Disponible")
@@ -1423,7 +1354,7 @@ class AppFixtures extends Fixture
         $product_flocon_soja = new Product();
         $product_flocon_soja
             ->setName("Flocons de soja")
-            ->setDescription("Description ".$product_flocon_soja->getName())
+            ->setDescription("Description " . $product_flocon_soja->getName())
             ->setPrice(3.80)
             ->setVat($product_flocon_soja->getPrice() * 0.20)
             ->setStatus("Disponible")
@@ -1435,7 +1366,7 @@ class AppFixtures extends Fixture
         $product_flocon_ble = new Product();
         $product_flocon_ble
             ->setName("Flocons de Blé")
-            ->setDescription("Description ".$product_flocon_ble->getName())
+            ->setDescription("Description " . $product_flocon_ble->getName())
             ->setPrice(3.20)
             ->setVat($product_flocon_ble->getPrice() * 0.20)
             ->setStatus("Disponible")
@@ -1447,7 +1378,7 @@ class AppFixtures extends Fixture
         $product_flocon_mais = new Product();
         $product_flocon_mais
             ->setName("Flocons de Maïs")
-            ->setDescription("Description ".$product_flocon_mais->getName())
+            ->setDescription("Description " . $product_flocon_mais->getName())
             ->setPrice(3.40)
             ->setVat($product_flocon_mais->getPrice() * 0.20)
             ->setStatus("Disponible")
@@ -1461,7 +1392,7 @@ class AppFixtures extends Fixture
         $product_amande = new Product();
         $product_amande
             ->setName("Amandes")
-            ->setDescription("Description ".$product_amande->getName())
+            ->setDescription("Description " . $product_amande->getName())
             ->setPrice(7.20)
             ->setVat($product_amande->getPrice() * 0.20)
             ->setStatus("Disponible")
@@ -1473,7 +1404,7 @@ class AppFixtures extends Fixture
         $product_noisette = new Product();
         $product_noisette
             ->setName("Noisettes")
-            ->setDescription("Description ".$product_noisette->getName())
+            ->setDescription("Description " . $product_noisette->getName())
             ->setPrice(6.50)
             ->setVat($product_noisette->getPrice() * 0.20)
             ->setStatus("Disponible")
@@ -1482,10 +1413,10 @@ class AppFixtures extends Fixture
             ->setType("Kg");
         $manager->persist($product_noisette);
 
-        $product_noix= new Product();
+        $product_noix = new Product();
         $product_noix
             ->setName("Noix")
-            ->setDescription("Description ".$product_noix->getName())
+            ->setDescription("Description " . $product_noix->getName())
             ->setPrice(6.20)
             ->setVat($product_noix->getPrice() * 0.20)
             ->setStatus("Disponible")
@@ -1494,10 +1425,10 @@ class AppFixtures extends Fixture
             ->setType("Kg");
         $manager->persist($product_noix);
 
-        $product_noix_bresil= new Product();
+        $product_noix_bresil = new Product();
         $product_noix_bresil
             ->setName("Noix du Brésil")
-            ->setDescription("Description ".$product_noix_bresil->getName())
+            ->setDescription("Description " . $product_noix_bresil->getName())
             ->setPrice(8.40)
             ->setVat($product_noix_bresil->getPrice() * 0.20)
             ->setStatus("Disponible")
@@ -1506,10 +1437,10 @@ class AppFixtures extends Fixture
             ->setType("Kg");
         $manager->persist($product_noix_bresil);
 
-        $product_noix_pecan= new Product();
+        $product_noix_pecan = new Product();
         $product_noix_pecan
             ->setName("Noix de Pecan")
-            ->setDescription("Description ".$product_noix_pecan->getName())
+            ->setDescription("Description " . $product_noix_pecan->getName())
             ->setPrice(8.20)
             ->setVat($product_noix_pecan->getPrice() * 0.20)
             ->setStatus("Disponible")
@@ -1523,7 +1454,7 @@ class AppFixtures extends Fixture
         $product_graine_tournesol = new Product();
         $product_graine_tournesol
             ->setName("Graines de Trounesol")
-            ->setDescription("Description ".$product_graine_tournesol->getName())
+            ->setDescription("Description " . $product_graine_tournesol->getName())
             ->setPrice(2.00)
             ->setVat($product_graine_tournesol->getPrice() * 0.20)
             ->setStatus("Disponible")
@@ -1535,7 +1466,7 @@ class AppFixtures extends Fixture
         $product_graine_courge = new Product();
         $product_graine_courge
             ->setName("Graines de Courges")
-            ->setDescription("Description ".$product_graine_courge->getName())
+            ->setDescription("Description " . $product_graine_courge->getName())
             ->setPrice(2.50)
             ->setVat($product_graine_courge->getPrice() * 0.20)
             ->setStatus("Disponible")
@@ -1547,7 +1478,7 @@ class AppFixtures extends Fixture
         $product_graine_chia = new Product();
         $product_graine_chia
             ->setName("Graines de Chia")
-            ->setDescription("Description ".$product_graine_chia->getName())
+            ->setDescription("Description " . $product_graine_chia->getName())
             ->setPrice(4.70)
             ->setVat($product_graine_chia->getPrice() * 0.20)
             ->setStatus("Disponible")
@@ -1559,7 +1490,7 @@ class AppFixtures extends Fixture
         $product_graine_pavot = new Product();
         $product_graine_pavot
             ->setName("Graines de Pavot")
-            ->setDescription("Description ".$product_graine_pavot->getName())
+            ->setDescription("Description " . $product_graine_pavot->getName())
             ->setPrice(3.60)
             ->setVat($product_graine_pavot->getPrice() * 0.20)
             ->setStatus("Disponible")
@@ -1573,7 +1504,7 @@ class AppFixtures extends Fixture
         $product_nutella = new Product();
         $product_nutella
             ->setName("Nutella")
-            ->setDescription("Description ".$product_nutella->getName())
+            ->setDescription("Description " . $product_nutella->getName())
             ->setPrice(6.00)
             ->setVat($product_nutella->getPrice() * 0.20)
             ->setStatus("Disponible")
@@ -1585,7 +1516,7 @@ class AppFixtures extends Fixture
         $product_chantilly = new Product();
         $product_chantilly
             ->setName("Chantilly")
-            ->setDescription("Description ".$product_chantilly->getName())
+            ->setDescription("Description " . $product_chantilly->getName())
             ->setPrice(1.00)
             ->setVat($product_chantilly->getPrice() * 0.20)
             ->setStatus("Disponible")
@@ -1599,7 +1530,7 @@ class AppFixtures extends Fixture
         $product_glace_vanille = new Product();
         $product_glace_vanille
             ->setName("Glace vanille")
-            ->setDescription("Description ".$product_glace_vanille->getName())
+            ->setDescription("Description " . $product_glace_vanille->getName())
             ->setPrice(4.00)
             ->setVat($product_glace_vanille->getPrice() * 0.20)
             ->setStatus("Disponible")
@@ -1611,7 +1542,7 @@ class AppFixtures extends Fixture
         $product_glace_fraise = new Product();
         $product_glace_fraise
             ->setName("Glace fraise")
-            ->setDescription("Description ".$product_glace_fraise->getName())
+            ->setDescription("Description " . $product_glace_fraise->getName())
             ->setPrice(4.00)
             ->setVat($product_glace_fraise->getPrice() * 0.20)
             ->setStatus("Disponible")
@@ -1623,7 +1554,7 @@ class AppFixtures extends Fixture
         $product_glace_coco = new Product();
         $product_glace_coco
             ->setName("Glace coco")
-            ->setDescription("Description ".$product_glace_coco->getName())
+            ->setDescription("Description " . $product_glace_coco->getName())
             ->setPrice(4.00)
             ->setVat($product_glace_coco->getPrice() * 0.20)
             ->setStatus("Disponible")
@@ -1635,7 +1566,7 @@ class AppFixtures extends Fixture
         $product_glace_chocolat = new Product();
         $product_glace_chocolat
             ->setName("Glace chocolat")
-            ->setDescription("Description ".$product_glace_chocolat->getName())
+            ->setDescription("Description " . $product_glace_chocolat->getName())
             ->setPrice(4.00)
             ->setVat($product_glace_chocolat->getPrice() * 0.20)
             ->setStatus("Disponible")
@@ -1649,7 +1580,7 @@ class AppFixtures extends Fixture
         $product_canette_coca = new Product();
         $product_canette_coca
             ->setName("Canette de Coca")
-            ->setDescription("Canette de 33cl de ".$product_canette_coca->getName())
+            ->setDescription("Canette de 33cl de " . $product_canette_coca->getName())
             ->setPrice(1.10)
             ->setVat($product_canette_coca->getPrice() * 0.20)
             ->setStatus("Disponible")
@@ -1661,7 +1592,7 @@ class AppFixtures extends Fixture
         $product_canette_fanta = new Product();
         $product_canette_fanta
             ->setName("Canette de Fanta")
-            ->setDescription("Canette de 33cl de ".$product_canette_fanta->getName())
+            ->setDescription("Canette de 33cl de " . $product_canette_fanta->getName())
             ->setPrice(1.10)
             ->setVat($product_canette_fanta->getPrice() * 0.20)
             ->setStatus("Disponible")
@@ -1673,7 +1604,7 @@ class AppFixtures extends Fixture
         $product_canette_orangina = new Product();
         $product_canette_orangina
             ->setName("Canette d'Orangina")
-            ->setDescription("Canette de 33cl de ".$product_canette_orangina->getName())
+            ->setDescription("Canette de 33cl de " . $product_canette_orangina->getName())
             ->setPrice(1.10)
             ->setVat($product_canette_orangina->getPrice() * 0.20)
             ->setStatus("Disponible")
@@ -1687,7 +1618,7 @@ class AppFixtures extends Fixture
         $product_bouteille_coca = new Product();
         $product_bouteille_coca
             ->setName("Bouteille de coca")
-            ->setDescription("Bouteille de 50cl de".$product_bouteille_coca->getName())
+            ->setDescription("Bouteille de 50cl de" . $product_bouteille_coca->getName())
             ->setPrice(2.10)
             ->setVat($product_bouteille_coca->getPrice() * 0.20)
             ->setStatus("Disponible")
@@ -1699,7 +1630,7 @@ class AppFixtures extends Fixture
         $product_bouteille_orangina = new Product();
         $product_bouteille_orangina
             ->setName("Bouteille d'orangina")
-            ->setDescription("Bouteille de 50cl de".$product_bouteille_orangina->getName())
+            ->setDescription("Bouteille de 50cl de" . $product_bouteille_orangina->getName())
             ->setPrice(2.10)
             ->setVat($product_bouteille_orangina->getPrice() * 0.20)
             ->setStatus("Disponible")
@@ -1713,7 +1644,7 @@ class AppFixtures extends Fixture
         $product_cookie = new Product();
         $product_cookie
             ->setName("Cookie")
-            ->setDescription("Description ".$product_cookie->getName())
+            ->setDescription("Description " . $product_cookie->getName())
             ->setPrice(2.00)
             ->setVat($product_cookie->getPrice() * 0.20)
             ->setStatus("Disponible")
@@ -1725,7 +1656,7 @@ class AppFixtures extends Fixture
         $product_croissant = new Product();
         $product_croissant
             ->setName("Croissant")
-            ->setDescription("Description ".$product_croissant->getName())
+            ->setDescription("Description " . $product_croissant->getName())
             ->setPrice(1.00)
             ->setVat($product_croissant->getPrice() * 0.20)
             ->setStatus("Disponible")
@@ -1737,7 +1668,7 @@ class AppFixtures extends Fixture
         $product_sucrerie = new Product();
         $product_sucrerie
             ->setName("Sucrerie")
-            ->setDescription("Description ".$product_sucrerie->getName())
+            ->setDescription("Description " . $product_sucrerie->getName())
             ->setPrice(1.20)
             ->setVat($product_sucrerie->getPrice() * 0.20)
             ->setStatus("Disponible")
@@ -1749,7 +1680,7 @@ class AppFixtures extends Fixture
         $product_brownie = new Product();
         $product_brownie
             ->setName("Brownie")
-            ->setDescription("Description ".$product_brownie->getName())
+            ->setDescription("Description " . $product_brownie->getName())
             ->setPrice(3.20)
             ->setVat($product_brownie->getPrice() * 0.20)
             ->setStatus("Disponible")
@@ -1761,7 +1692,7 @@ class AppFixtures extends Fixture
         $product_muffin = new Product();
         $product_muffin
             ->setName("Muffin")
-            ->setDescription("Description ".$product_muffin->getName())
+            ->setDescription("Description " . $product_muffin->getName())
             ->setPrice(2.70)
             ->setVat($product_muffin->getPrice() * 0.20)
             ->setStatus("Disponible")
@@ -1775,7 +1706,7 @@ class AppFixtures extends Fixture
         $product_salade_complete = new Product();
         $product_salade_complete
             ->setName("Salade complète")
-            ->setDescription("Description ".$product_salade_complete->getName())
+            ->setDescription("Description " . $product_salade_complete->getName())
             ->setPrice(4.50)
             ->setVat($product_salade_complete->getPrice() * 0.20)
             ->setStatus("Disponible")
@@ -1783,11 +1714,6 @@ class AppFixtures extends Fixture
             ->setSubCategory($sub_category_plat_industriel)
             ->setType("Unit");
         $manager->persist($product_salade_complete);
-
-
-
-
-
 
 
         // REMPLISSAGES DES ENTREPÔTS
@@ -2369,12 +2295,6 @@ class AppFixtures extends Fixture
         $manager->persist($warehouse_stock);
 
 
-
-
-
-
-
-
         // Entrepot Beta
 
         $warehouse_stock = new WarehouseStock();
@@ -2950,18 +2870,6 @@ class AppFixtures extends Fixture
             ->setProduct($product_salade_complete)
             ->setQuantity(100);
         $manager->persist($warehouse_stock);
-
-
-
-
-
-
-
-
-
-
-
-
 
 
         // Entrepot Omega
@@ -3541,9 +3449,6 @@ class AppFixtures extends Fixture
         $manager->persist($warehouse_stock);
 
 
-
-
-
         // Entrepot Zeta
 
         $warehouse_stock = new WarehouseStock();
@@ -4121,15 +4026,12 @@ class AppFixtures extends Fixture
         $manager->persist($warehouse_stock);
 
 
-
-
-
         // ARTICLE
 
         $article = new Article();
         $article
             ->setName("Galette jambon oeufs")
-            ->setDescription("Description d'une ".$article->getName())
+            ->setDescription("Description d'une " . $article->getName())
             ->setSubCategory($sub_category_galette)
             ->setPrice(12.00)
             ->setVat($article->getPrice() * 0.20)
@@ -4177,11 +4079,10 @@ class AppFixtures extends Fixture
         $manager->persist($article);
 
 
-
         $article = new Article();
         $article
             ->setName("Galette complète")
-            ->setDescription("Description d'une ".$article->getName())
+            ->setDescription("Description d'une " . $article->getName())
             ->setSubCategory($sub_category_galette)
             ->setPrice(13.20)
             ->setVat($article->getPrice() * 0.20)
@@ -4237,12 +4138,10 @@ class AppFixtures extends Fixture
         $manager->persist($article);
 
 
-
-
         $article = new Article();
         $article
             ->setName("Galette à l'américaine")
-            ->setDescription("Description d'une ".$article->getName())
+            ->setDescription("Description d'une " . $article->getName())
             ->setSubCategory($sub_category_galette)
             ->setPrice(14.00)
             ->setVat($article->getPrice() * 0.20)
@@ -4298,14 +4197,10 @@ class AppFixtures extends Fixture
         $manager->persist($article);
 
 
-
-
-
-
         $article = new Article();
         $article
             ->setName("Brunch anglais")
-            ->setDescription("Description d'une ".$article->getName())
+            ->setDescription("Description d'une " . $article->getName())
             ->setSubCategory($sub_category_brunch)
             ->setPrice(11.30)
             ->setVat($article->getPrice() * 0.20)
@@ -4369,14 +4264,10 @@ class AppFixtures extends Fixture
         $manager->persist($article);
 
 
-
-
-
-
         $article = new Article();
         $article
             ->setName("Brunch français")
-            ->setDescription("Description d'une ".$article->getName())
+            ->setDescription("Description d'une " . $article->getName())
             ->setSubCategory($sub_category_brunch)
             ->setPrice(13.30)
             ->setVat($article->getPrice() * 0.20)
@@ -4440,14 +4331,10 @@ class AppFixtures extends Fixture
         $manager->persist($article);
 
 
-
-
-
-
         $article = new Article();
         $article
             ->setName("Brunch allemand")
-            ->setDescription("Description d'une ".$article->getName())
+            ->setDescription("Description d'une " . $article->getName())
             ->setSubCategory($sub_category_brunch)
             ->setPrice(14.30)
             ->setVat($article->getPrice() * 0.20)
@@ -4519,15 +4406,10 @@ class AppFixtures extends Fixture
         $manager->persist($article);
 
 
-
-
-
-
-
         $article = new Article();
         $article
             ->setName("Crêpe Nutella")
-            ->setDescription("Description d'une ".$article->getName())
+            ->setDescription("Description d'une " . $article->getName())
             ->setSubCategory($sub_category_crepe)
             ->setPrice(9.00)
             ->setVat($article->getPrice() * 0.20)
@@ -4583,12 +4465,10 @@ class AppFixtures extends Fixture
         $manager->persist($article);
 
 
-
-
         $article = new Article();
         $article
             ->setName("Crêpe Gourmande")
-            ->setDescription("Description d'une ".$article->getName())
+            ->setDescription("Description d'une " . $article->getName())
             ->setSubCategory($sub_category_crepe)
             ->setPrice(12.50)
             ->setVat($article->getPrice() * 0.20)
@@ -4668,16 +4548,10 @@ class AppFixtures extends Fixture
         $manager->persist($article);
 
 
-
-
-
-
-
-
         $article = new Article();
         $article
             ->setName("Crêpe sucre-canelle")
-            ->setDescription("Description d'une ".$article->getName())
+            ->setDescription("Description d'une " . $article->getName())
             ->setSubCategory($sub_category_crepe)
             ->setPrice(8.00)
             ->setVat($article->getPrice() * 0.20)
@@ -4733,12 +4607,10 @@ class AppFixtures extends Fixture
         $manager->persist($article);
 
 
-
-
         $article = new Article();
         $article
             ->setName("Salade royale")
-            ->setDescription("Description d'une ".$article->getName())
+            ->setDescription("Description d'une " . $article->getName())
             ->setSubCategory($sub_category_salade)
             ->setPrice(9.70)
             ->setVat($article->getPrice() * 0.20)
@@ -4786,8 +4658,6 @@ class AppFixtures extends Fixture
         $manager->persist($article);
 
 
-
-
         $article = new Article();
         $article
             ->setName("Canette de Coca")
@@ -4805,7 +4675,6 @@ class AppFixtures extends Fixture
             ->setType("Unit");
         $manager->persist($recipe);
         $manager->persist($article);
-
 
 
         $article = new Article();
@@ -4827,8 +4696,6 @@ class AppFixtures extends Fixture
         $manager->persist($article);
 
 
-
-
         $article = new Article();
         $article
             ->setName("Canette d'Orangina")
@@ -4846,9 +4713,6 @@ class AppFixtures extends Fixture
             ->setType("Unit");
         $manager->persist($recipe);
         $manager->persist($article);
-
-
-
 
 
         $article = new Article();
@@ -4870,10 +4734,6 @@ class AppFixtures extends Fixture
         $manager->persist($article);
 
 
-
-
-
-
         $article = new Article();
         $article
             ->setName("Bouteille d'Orangina")
@@ -4893,11 +4753,10 @@ class AppFixtures extends Fixture
         $manager->persist($article);
 
 
-
         $article = new Article();
         $article
             ->setName("Chocolat chaud")
-            ->setDescription("Description d'une ".$article->getName())
+            ->setDescription("Description d'une " . $article->getName())
             ->setSubCategory($sub_category_boisson_chaude)
             ->setPrice(4.00)
             ->setVat($article->getPrice() * 0.20)
@@ -4923,13 +4782,10 @@ class AppFixtures extends Fixture
         $manager->persist($article);
 
 
-
-
-
         $article = new Article();
         $article
             ->setName("Chocolat chaud gourmand")
-            ->setDescription("Description d'une ".$article->getName())
+            ->setDescription("Description d'une " . $article->getName())
             ->setSubCategory($sub_category_boisson_chaude)
             ->setPrice(5.00)
             ->setVat($article->getPrice() * 0.20)
@@ -4970,12 +4826,10 @@ class AppFixtures extends Fixture
         $manager->persist($article);
 
 
-
-
         $article = new Article();
         $article
             ->setName("Jus d'oranges pressées")
-            ->setDescription("Description d'une ".$article->getName())
+            ->setDescription("Description d'une " . $article->getName())
             ->setSubCategory($sub_category_jus)
             ->setPrice(3.70)
             ->setVat($article->getPrice() * 0.20)
@@ -4995,7 +4849,7 @@ class AppFixtures extends Fixture
         $article = new Article();
         $article
             ->setName("Jus de pommes pressées")
-            ->setDescription("Description d'une ".$article->getName())
+            ->setDescription("Description d'une " . $article->getName())
             ->setSubCategory($sub_category_jus)
             ->setPrice(3.70)
             ->setVat($article->getPrice() * 0.20)
@@ -5012,11 +4866,10 @@ class AppFixtures extends Fixture
         $manager->persist($article);
 
 
-
         $article = new Article();
         $article
             ->setName("Café court")
-            ->setDescription("Description d'un ".$article->getName())
+            ->setDescription("Description d'un " . $article->getName())
             ->setSubCategory($sub_category_boisson_chaude)
             ->setPrice(2.30)
             ->setVat($article->getPrice() * 0.20)
@@ -5031,14 +4884,12 @@ class AppFixtures extends Fixture
         $manager->persist($recipe);
 
         $manager->persist($article);
-
-
 
 
         $article = new Article();
         $article
             ->setName("Café long")
-            ->setDescription("Description d'un ".$article->getName())
+            ->setDescription("Description d'un " . $article->getName())
             ->setSubCategory($sub_category_boisson_chaude)
             ->setPrice(2.30)
             ->setVat($article->getPrice() * 0.20)
@@ -5055,11 +4906,10 @@ class AppFixtures extends Fixture
         $manager->persist($article);
 
 
-
         $article = new Article();
         $article
             ->setName("Café au lait")
-            ->setDescription("Description d'un ".$article->getName())
+            ->setDescription("Description d'un " . $article->getName())
             ->setSubCategory($sub_category_boisson_chaude)
             ->setPrice(2.70)
             ->setVat($article->getPrice() * 0.20)
@@ -5087,7 +4937,7 @@ class AppFixtures extends Fixture
         $article = new Article();
         $article
             ->setName("Thé vert")
-            ->setDescription("Description d'un ".$article->getName())
+            ->setDescription("Description d'un " . $article->getName())
             ->setSubCategory($sub_category_boisson_chaude)
             ->setPrice(2.00)
             ->setVat($article->getPrice() * 0.20)
@@ -5104,11 +4954,10 @@ class AppFixtures extends Fixture
         $manager->persist($article);
 
 
-
         $article = new Article();
         $article
             ->setName("Thé menthe")
-            ->setDescription("Description d'un ".$article->getName())
+            ->setDescription("Description d'un " . $article->getName())
             ->setSubCategory($sub_category_boisson_chaude)
             ->setPrice(2.00)
             ->setVat($article->getPrice() * 0.20)
@@ -5125,13 +4974,10 @@ class AppFixtures extends Fixture
         $manager->persist($article);
 
 
-
-
-
         $article = new Article();
         $article
             ->setName("Smoothie pomme-banane-kiwi")
-            ->setDescription("Description d'un ".$article->getName())
+            ->setDescription("Description d'un " . $article->getName())
             ->setSubCategory($sub_category_smoothie)
             ->setPrice(5.50)
             ->setVat($article->getPrice() * 0.20)
@@ -5172,12 +5018,10 @@ class AppFixtures extends Fixture
         $manager->persist($article);
 
 
-
-
         $article = new Article();
         $article
             ->setName("Smoothie pomme-banane-fraise")
-            ->setDescription("Description d'un ".$article->getName())
+            ->setDescription("Description d'un " . $article->getName())
             ->setSubCategory($sub_category_smoothie)
             ->setPrice(5.50)
             ->setVat($article->getPrice() * 0.20)
@@ -5221,7 +5065,7 @@ class AppFixtures extends Fixture
         $article = new Article();
         $article
             ->setName("Smoothie ananas-mangue-pomme-Citron vert")
-            ->setDescription("Description d'un ".$article->getName())
+            ->setDescription("Description d'un " . $article->getName())
             ->setSubCategory($sub_category_smoothie)
             ->setPrice(5.50)
             ->setVat($article->getPrice() * 0.20)
@@ -5270,11 +5114,10 @@ class AppFixtures extends Fixture
         $manager->persist($article);
 
 
-
         $article = new Article();
         $article
             ->setName("Smoothie pomme-banane-kiwi")
-            ->setDescription("Description d'un ".$article->getName())
+            ->setDescription("Description d'un " . $article->getName())
             ->setSubCategory($sub_category_smoothie)
             ->setPrice(5.50)
             ->setVat($article->getPrice() * 0.20)
@@ -5307,15 +5150,10 @@ class AppFixtures extends Fixture
         $manager->persist($article);
 
 
-
-
-
-
-
         $article = new Article();
         $article
             ->setName("Cookie")
-            ->setDescription("Description d'un ".$article->getName())
+            ->setDescription("Description d'un " . $article->getName())
             ->setSubCategory($sub_category_dessert_industriel)
             ->setPrice(2.50)
             ->setVat($article->getPrice() * 0.20)
@@ -5332,11 +5170,10 @@ class AppFixtures extends Fixture
         $manager->persist($article);
 
 
-
         $article = new Article();
         $article
             ->setName("Muffin")
-            ->setDescription("Description d'un ".$article->getName())
+            ->setDescription("Description d'un " . $article->getName())
             ->setSubCategory($sub_category_dessert_industriel)
             ->setPrice(2.20)
             ->setVat($article->getPrice() * 0.20)
@@ -5353,11 +5190,10 @@ class AppFixtures extends Fixture
         $manager->persist($article);
 
 
-
         $article = new Article();
         $article
             ->setName("Brownie")
-            ->setDescription("Description d'un ".$article->getName())
+            ->setDescription("Description d'un " . $article->getName())
             ->setSubCategory($sub_category_dessert_industriel)
             ->setPrice(3.50)
             ->setVat($article->getPrice() * 0.20)
@@ -5374,11 +5210,10 @@ class AppFixtures extends Fixture
         $manager->persist($article);
 
 
-
         $article = new Article();
         $article
             ->setName("Croissant")
-            ->setDescription("Description d'un ".$article->getName())
+            ->setDescription("Description d'un " . $article->getName())
             ->setSubCategory($sub_category_dessert_industriel)
             ->setPrice(1.30)
             ->setVat($article->getPrice() * 0.20)
@@ -5395,13 +5230,10 @@ class AppFixtures extends Fixture
         $manager->persist($article);
 
 
-
-
-
         $article = new Article();
         $article
             ->setName("Sucrerie")
-            ->setDescription("Description d'un ".$article->getName())
+            ->setDescription("Description d'un " . $article->getName())
             ->setSubCategory($sub_category_dessert_industriel)
             ->setPrice(2.30)
             ->setVat($article->getPrice() * 0.20)
@@ -5418,14 +5250,10 @@ class AppFixtures extends Fixture
         $manager->persist($article);
 
 
-
-
-
-
         $article = new Article();
         $article
             ->setName("Oeufs à la coque")
-            ->setDescription("Description d'un ".$article->getName())
+            ->setDescription("Description d'un " . $article->getName())
             ->setSubCategory($sub_category_plat_normal)
             ->setPrice(4.30)
             ->setVat($article->getPrice() * 0.20)
@@ -5450,12 +5278,10 @@ class AppFixtures extends Fixture
         $manager->persist($article);
 
 
-
-
         $article = new Article();
         $article
             ->setName("Toast au saumon et fromage frais")
-            ->setDescription("Description d'un ".$article->getName())
+            ->setDescription("Description d'un " . $article->getName())
             ->setSubCategory($sub_category_toast)
             ->setPrice(5.60)
             ->setVat($article->getPrice() * 0.20)
@@ -5488,11 +5314,10 @@ class AppFixtures extends Fixture
         $manager->persist($article);
 
 
-
         $article = new Article();
         $article
             ->setName("Toast à l'avocat")
-            ->setDescription("Description d'un ".$article->getName())
+            ->setDescription("Description d'un " . $article->getName())
             ->setSubCategory($sub_category_toast)
             ->setPrice(5.60)
             ->setVat($article->getPrice() * 0.20)
@@ -5519,7 +5344,6 @@ class AppFixtures extends Fixture
         $manager->flush();
 
 
-
         $franchises = $manager->getRepository(Franchise::class)->findAll();
         $products = $manager->getRepository(Product::class)->findAll();
 
@@ -5540,5 +5364,46 @@ class AppFixtures extends Fixture
         }
 
         $manager->flush();
+
+
+        $articles = $manager->getRepository(Article::class)->findAll();
+
+        foreach ($articles as $article) {
+
+            $subCategory = $article->getSubCategory()->getName();
+
+            $article->setFormulePointsGap(false);
+
+            if ($subCategory == "Galettes")
+                $article->setEuroPointsGap(75);
+            elseif ($subCategory == "Crêpes")
+                $article->setEuroPointsGap(55);
+            elseif ($subCategory == "Salades")
+                $article->setEuroPointsGap(50);
+            elseif ($subCategory == "Bouteilles en verres")
+                $article->setEuroPointsGap(45);
+            elseif ($subCategory == "Boissons chaudes")
+                $article->setEuroPointsGap(40);
+            elseif ($subCategory == "Jus")
+                $article->setEuroPointsGap(50);
+            elseif ($subCategory == "Smoothies")
+                $article->setEuroPointsGap(50);
+            elseif ($subCategory == "Desserts pré-fait")
+                $article->setEuroPointsGap(40);
+            elseif ($subCategory == "Plat normal")
+                $article->setEuroPointsGap(55);
+            elseif ($subCategory == "Toast")
+                $article->setEuroPointsGap(55);
+            elseif ($subCategory == "Brunchs") {
+                $article
+                    ->setFormulePointsGap(true)
+                    ->setEuroPointsGap(null);
+            } else
+                $article->setEuroPointsGap(null);
+            $manager->persist($article);
+        }
+        $manager->flush();
+
+
     }
 }
