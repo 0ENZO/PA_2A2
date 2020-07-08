@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 {% block title %}
-	{{event.name ~'{% trans %}du{% endtrans %}'~ event.dateBegin|date('d/m/Y') }}
+	{{event.name ~' du '~ event.dateBegin|date('d/m/Y') }}
 {% endblock %}
 {% block body %}
 	<div class="container mt-5">
@@ -19,7 +19,7 @@
 						<span class="badge badge-warning mb-3">{% trans %}Bientôt{% endtrans %}</span>
 					{% endif %}
 
-					<h2 class="lp__gridItemText-lg">{{event.name ~' {% trans %}du{% endtrans %} '~ event.dateBegin|date('d/m/Y') }}</h2>
+					<h2 class="lp__gridItemText-lg">{{event.name ~ ' du ' ~ event.dateBegin|date('d/m/Y') }}</h2>
 					<p class="lp__gridItemText-md">{{ event.description }}</p>
 					<p class="lp__gridItemText-sm lp__gridItemText-sm-bw">
 						<strong>{{ event.dateBegin|date("d/m/Y") }}

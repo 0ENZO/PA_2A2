@@ -4,11 +4,11 @@
 {% block body %}
 	<div class="container mt-5">
 
-		<h2 class="text-center mt-2">{% trans %}Evénements{% endtrans %}
-		</h2>
-		<hr class="my-3">
-
-		{% if isFranchise is defined and isFranchise is not null %}
+		{% if is_granted('ROLE_FRANCHISE') or is_granted('ROLE_EDITOR') %}
+			
+			<h2 class="text-center mt-2">{% trans %}Evénements{% endtrans %}</h2>
+			
+			<hr class="my-3">
 			<h6 class="text-center mt-2">{% trans %}Ajouter un événement{% endtrans %}
 			</h6>
 			{{ form_start(form) }}
@@ -19,6 +19,15 @@
 					</div>
 					<div class="col-md-9">{{ form_widget(form.name) }}</div>
 				</div>
+
+				{% if form.franchise is defined %}
+					<div class="row d-flex align-items-center align-self-center mb-3 mx-auto">
+						<div class="col-md-3">
+							<strong>{% trans %}Franchisé(s) présent(s){% endtrans %}</strong>
+						</div>
+						<div class="col-md-9">{{ form_widget(form.franchise) }}</div>
+					</div>
+				{% endif %}
 
 				<div class="row d-flex align-items-center mb-3 mx-auto">
 					<div class="col-md-2">

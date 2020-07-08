@@ -36,15 +36,22 @@
 								<i class="mr-2 fas fa-shopping-basket"></i>
 								{{'Passer commande'|trans}}
 							</a>
-						{% elseif is_granted('ROLE_ADMIN') %}
+						{% endif %}
+						{% if is_granted('ROLE_ADMIN') %}
 							<a class="dropdown-item" href="{{ path('admin_show') }}">
 								<i class="mr-2 fas fa-user-cog"></i>
 								{{'Administration'|trans}}
 							</a>
-						{% else %}
+						{% elseif is_granted('ROLE_USER') %}
 							<a class="dropdown-item" href="{{ path('user_profil') }}">
 								<i class="mr-2 far fa-id-card"></i>
 								{{'Profil client'|trans}}
+							</a>
+						{% endif %}
+						{% if is_granted('ROLE_EDITOR') %}
+							<a class="dropdown-item" href="{{ path('newsletter') }}">
+								<i class="mr-2 fas fa-envelope-open-text"></i>
+								{{'Newsletter'|trans}}
 							</a>
 						{% endif %}
 						{% if app.session.get('cart') is not null and app.session.get('cart_warehouse') %}

@@ -56,7 +56,9 @@ class AppFixtures extends Fixture
         $role_admin->setName('ROLE_ADMIN');
         $manager->persist($role_admin);
 
-
+        $role_editor = new Role();
+        $role_editor->setName('ROLE_EDITOR');
+        $manager->persist($role_editor);
 
 
 
@@ -178,6 +180,20 @@ class AppFixtures extends Fixture
         ));
         $client->setIsActivated(true);
         $manager->persist($client);
+
+        $editor = new User();
+        $editor->setRole($role_editor);
+        $editor->setPseudo('Editeur');
+        $editor->setFirstName('Mr.');
+        $editor->setLastName('Journaliste');
+        $editor->setEmail('editor@drivncook.fr');
+        $editor->setBirthDate(new \DateTime());
+        $editor->setPassword($this->passwordEncoder->encodePassword(
+            $editor,
+            'azerty'
+        ));
+        $editor->setIsActivated(true);
+        $manager->persist($editor);
 
         $admin = new User();
         $admin->setRole($role_admin);
