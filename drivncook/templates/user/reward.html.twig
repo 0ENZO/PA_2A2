@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+{% block title %}{{ parent() }} - {{'Profiter de mes points'|trans}}
+{% endblock %}
+{% block body %}
+	<div class="container mt-5">
+
+		<h2 class="text-center mt-2">{{ 'Profiter de mes points fidélités'|trans }} </h2>
+		<hr class="my-4">
+
+        {% if euroPoints is defined and euroPoints is null %}
+            <h4>{% trans %}Vous avez 0 point{% endtrans %}</h4>
+        {% endif %}
+
+	</div>
+{% endblock %}

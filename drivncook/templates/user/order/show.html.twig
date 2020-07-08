@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{'Facture'|trans}}
+{% block title %}{{ parent() }} - {{'Facture'|trans}}
 {% endblock %}
 {% block stylesheets %}
 	{% for path in encore_entry_css_files('app') %}

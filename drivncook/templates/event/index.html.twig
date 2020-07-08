@@ -1,5 +1,5 @@
 {% extends 'base.html.twig' %}
-{% block title %}{% trans %}Les événements{% endtrans %}
+{% block title %}{{ parent() }} - {% trans %}Les événements{% endtrans %}
 {% endblock %}
 {% block body %}
 	<div class="container mt-5">

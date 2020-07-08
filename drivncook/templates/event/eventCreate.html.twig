@@ -1,5 +1,5 @@
 {% extends 'base.html.twig' %}
-{% block title %}{% trans %}Créer un événement{% endtrans %}
+{% block title %}{{ parent() }} - {% trans %}Créer un événement{% endtrans %}
 {% endblock %}
 {% block body %}
 	<h1>{% trans %}Créer un événement{% endtrans %}</h1>

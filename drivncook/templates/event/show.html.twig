@@ -1,6 +1,5 @@
 {% extends 'base.html.twig' %}
-{% block title %}
-	{{event.name ~' du '~ event.dateBegin|date('d/m/Y') }}
+{% block title %}{{ parent() }} - {{event.name ~' du '~ event.dateBegin|date('d/m/Y') }}
 {% endblock %}
 {% block body %}
 	<div class="container mt-5">

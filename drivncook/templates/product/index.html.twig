@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{% trans %}Commande{% endtrans %}
+{% block title %}{{ parent() }} - {% trans %}Commande{% endtrans %}
 {% endblock %}
 
 {% block body %}
