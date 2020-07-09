@@ -81,13 +81,6 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=10, nullable=true)
-     * @Assert\Type(type="string")
-     * @Assert\Length(
-     *     min="10",
-     *     minMessage="Vous devez mettre un numéro  à 10 chiffres minimum",
-     *     max="10",
-     *     maxMessage="Vous devez mettre un numéro  à 10 caractères maximum"
-     * )
      * @Assert\Regex(
      *     pattern="/^[0-9]*$/",
      *     match=true,
@@ -118,7 +111,6 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\Type(type="string")
-     * @Assert\NotNull
      * @Assert\Length(
      *     min="0",
      *     minMessage="Vous devez mettre un password  à 0 caractère minimum",
@@ -130,7 +122,6 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     *  @Assert\Type(type="string")
      * @Assert\Length(
      *     min="0",
      *     minMessage="Vous devez mettre un password  à 0 caractère minimum",
@@ -142,7 +133,6 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="date")
-     * @Assert\Date()
      * @Assert\LessThan(
      *     "today UTC",
      *     message="La date n'est pas valide"

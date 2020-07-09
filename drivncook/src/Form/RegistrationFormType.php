@@ -50,15 +50,6 @@ class RegistrationFormType extends AbstractType
                 ],
             ])
             ->add('birthDate', BirthdayType::class)
-            ->add('imageFile', VichImageType::class, [
-                'required' => false,
-                'download_uri' => true,
-                'image_uri' => true,
-                'asset_helper' => true,
-                'download_label' => false,
-                'delete_label' => false,
-                "allow_delete" => false,
-            ])
             ->add('completeAddress',TextType::class)
             ->add('plainPassword', PasswordType::class, [
                 // instead of being set onto the object directly,

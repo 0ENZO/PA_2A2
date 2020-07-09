@@ -15,11 +15,7 @@
                     <div class="profile-sidebar px-1">
 
                         <div class="profile-userpic text-center">
-                             {% if user.imageName is defined and user.imageName is not empty %}
-                               <img src="{{ vich_uploader_asset(user) }}" alt="{{ user.pseudo }}" title="{{ user.pseudo }}" width="100" height="100" class="img-thumbnail" />
-                            {% else %}
                                <img src="https://via.placeholder.com/150" alt="Sans-image" title="sans-image" width="100" height="100" class="img-thumbnail"/>
-                            {% endif %}
                         </div>
 
                         <div class="profile-usertitle">

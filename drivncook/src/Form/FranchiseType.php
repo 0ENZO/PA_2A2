@@ -30,15 +30,6 @@ class FranchiseType extends AbstractType
                 'label' => 'Adresse :'
             ])
             ->add('password')
-            ->add('imageFile', VichImageType::class, [
-                'required' => false,
-                'download_uri' => true,
-                'image_uri' => true,
-                'asset_helper' => true,
-                'download_label' => false,
-                'delete_label' => false,
-                "allow_delete" => false,
-           ])
             // ->add('birthDate', DateType::class)
             ->add('save', SubmitType::class, [
                 'label' => 'Enregistrer'

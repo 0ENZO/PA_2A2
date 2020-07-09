@@ -33,16 +33,8 @@ class UserType extends AbstractType
             ->add('completeAddress',TextType::class)
             ->add('password')
             ->add('phoneNumber')
-            ->add('birthDate', BirthdayType::class)
-            ->add('imageFile', VichImageType::class, [
-                'required' => false,
-                'download_uri' => true,
-                'image_uri' => true,
-                'asset_helper' => true,
-                'download_label' => false,
-                'delete_label' => false,
-                "allow_delete" => false,
-           ]);
+            ->add('birthDate', BirthdayType::class);
+
     }
 
     public function configureOptions(OptionsResolver $resolver)
