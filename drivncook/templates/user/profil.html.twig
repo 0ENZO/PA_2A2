@@ -71,7 +71,12 @@
                                         <i class="mr-2 fas fa-star"></i>Mes commentaires
                                     </a>
                                 </li>
-
+                                <li class="nav-item">
+                                    <a class="nav-link" href="" id="nav_notices" data-target="#pane_notices"
+                                       data-toggle="tab">
+                                        <i class="mr-2 fas fa-exclamation-circle"></i>Mes notifications
+                                    </a>
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -130,7 +135,6 @@
                                     </div>
                                 </div>
 
-
                                 <div class="tab-pane" id="pane_edit" role="tabpanel">
                                     <div class="col-md-8 mx-auto mt-3">
                                         <h2 class="text-bold text-center">{% trans %}Modification{% endtrans %}</h2>
@@ -139,28 +143,29 @@
                                         {% if form is defined %}
 
                                             {{ form_start(form) }}
-                                                {{ form_widget(form) }}
+                                            {{ form_widget(form) }}
 
-                                                <div class="d-flex justify-content-between">
+                                            <div class="d-flex justify-content-between">
 
                                                 <button class="btn btn-primary" type="submit">
                                                     {% trans %}Enregister{% endtrans %}
                                                     <i class="fas fa-save"></i>
                                                 </button>
-                                            {{ form_end(form) }}
-                                                <a class="btn btn-primary" href="{{ path('app_password_change') }}">Modifier le mot de passe<i class="fas fa-key ml-2"></i></a>
+                                                {{ form_end(form) }}
+                                                <a class="btn btn-primary" href="{{ path('app_password_change') }}">Modifier
+                                                    le mot de passe<i class="fas fa-key ml-2"></i></a>
                                             </div>
                                         {% endif %}
                                     </div>
                                 </div>
-
 
                                 <div class="tab-pane" id="pane_fidelity_card" role="tabpanel">
                                     <div class="col-md-8 mx-auto mt-3">
                                         <h2 class="text-bold text-center">{% trans %}Mes bonus de fidelité{% endtrans %}</h2>
 
 
-                                        <div class="card-body my-5" style="border-radius: 15px; background-color: orange">
+                                        <div class="card-body my-5"
+                                             style="border-radius: 15px; background-color: orange">
                                             <h5 class="display-5">Points formules</h5>
                                             <span>
                                                         {% if user.formulePoints == 0 %}
@@ -338,38 +343,77 @@
                                     </div>
                                 </div>
 
-
                                 <div class="tab-pane" id="pane_votes" role="tabpanel">
-                                    <div class="col-md-8 mx-auto mt-3">
+                                    <div class="col-md-12 mt-3">
                                         <h2 class="text-bold text-center mb-4"> {% trans %}Mes avis{% endtrans %}</h2>
 
-                                        {% if votes is defined and votes is not empty %}
+                                        {% for vote in votes %}
 
-                                            {% for vote in votes %}
-                                                <div class="">
-                                                    <h5> {% trans %}Commande du{% endtrans %} {{ vote.date|date("d/m/Y") }} </h5>
-                                                    <span>
-                                                        {% for i in 1.. vote.rate %}
-                                                            <i class="ml-2 fas fa-star"></i>
-                                                        {% endfor %}
-                                                        {% for i in 1..(5 - vote.rate) %}
-                                                            <i class="ml-2 far fa-star"></i>
-                                                        {% endfor %}
-                                                    </span>
-                                                    <p>{{ vote.comment }}</p>
+                                            <div class="card my-5">
+                                                <div class="card-header">
+                                                    <h5 class="display-5">{{ vote.titleComment }}</h5>
+                                                </div>
+                                                <div class="card-body">
+                                                    <blockquote class="blockquote mb-0">
+                                                        <p>{{ vote.comment }}</p>
+                                                        <small>
+                                                            Note :
+                                                            {% for i in 1..vote.rate %}
+                                                                <i class="fas fa-star" style="color: #ffce31"></i>
+                                                            {% endfor %}
+                                                            {% set negative = 5 - vote.rate %}
+                                                            {% if vote.rate != 5 %}
+                                                                {% for i in 0..negative-1 %}
+                                                                    <i class="far fa-star"
+                                                                       style="color: #ffce31"></i>
+                                                                {% endfor %}
+                                                            {% endif %}
+                                                        </small>
+                                                        <footer class="blockquote-footer mt-3"> de vous le
+                                                            <cite
+                                                                    title="Source Title">{{ vote.date | date('d/m/y') }}
+                                                                pour {{ vote.franchise }}
+                                                            </cite>
+                                                        </footer>
+                                                    </blockquote>
+                                                </div>
+                                            </div>
+
+                                        {% endfor %}
+
+
+                                    </div>
+                                </div>
+
+                                <div class="tab-pane" id="pane_notices" role="tabpanel">
+                                    <div class="col-md-12 mt-3">
+                                        <h3 class="text-bold mt-3 mb-5">Mes notifications</h3>
+
+                                        {% if notices is defined and notices is not empty %}
+                                            {% for notice in notices %}
+
+                                                <div class="row">
+                                                    <div class="col-md-11">
+                                                        <div class="alert alert-{{ notice.bootstrapColor }}" role="alert">
+                                                            <h4 class="alert-heading">{{ notice.title }}</h4>
+                                                            <p>{{ notice.content }}</p>
+                                                            <hr>
+                                                            <small class="mb-0 text-muted">{{ notice.date | format_datetime('full', 'none', locale='fr') }}</small>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-1 text-center">
+                                                        <a class="mt-5 btn btn-outline-danger" href="{{ path('clear_notice', {"id" : notice.id}) }}">X</a>
+                                                    </div>
                                                 </div>
 
-                                            {% endfor %}
 
+                                            {% endfor %}
                                         {% else %}
-                                            <div class="alert alert-warning" role="alert">
-                                                {% trans %}Aucun commentaire vous concernant n'a été rédigé pour le moment.{% endtrans %}
+                                            <div class="alert alert-dark" role="alert">
+                                                <h4 class="alert-heading">Aucune notifications</h4>
+                                                <p>Aucun notifications vous concernant n'a été detecté pour le moment.</p>
                                             </div>
                                         {% endif %}
-                                        {#
-
-                                        <i class="ml-2 fas fa-star"></i>
-                                        #}
 
 
                                     </div>
