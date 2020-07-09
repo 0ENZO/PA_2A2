@@ -87,6 +87,16 @@
             </div>
 
             <div class="row d-flex align-items-center align-self-center mb-3 mx-auto">
+                <div class="col-md-2"><strong>{% trans %}Image de profil {% endtrans %}</strong></div>
+                <div class="col-md-4">{{ form_widget(registrationForm.imageFile) }}</div>
+                {% if form_errors(registrationForm.imageFile) %}
+                    <div class="ml-3">
+                        {{ form_errors(registrationForm.imageFile) }}
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="row d-flex align-items-center align-self-center mb-3 mx-auto">
                 <div class="col-md-2"><strong>{% trans %}Mot de passe {% endtrans %}</strong></div>
                 <div class="col-md-4">{{ form_widget(registrationForm.plainPassword) }}</div>
                 {% if form_errors(registrationForm.plainPassword) %}

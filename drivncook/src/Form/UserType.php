@@ -15,7 +15,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
-
+use Vich\UploaderBundle\Form\Type\VichImageType;
 class UserType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -34,7 +34,15 @@ class UserType extends AbstractType
             ->add('password')
             ->add('phoneNumber')
             ->add('birthDate', BirthdayType::class)
-            ;
+            ->add('imageFile', VichImageType::class, [
+                'required' => false,
+                'download_uri' => true,
+                'image_uri' => true,
+                'asset_helper' => true,
+                'download_label' => false,
+                'delete_label' => false,
+                "allow_delete" => false,
+           ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

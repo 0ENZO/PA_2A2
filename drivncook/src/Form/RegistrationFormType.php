@@ -14,6 +14,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class RegistrationFormType extends AbstractType
 {
@@ -49,6 +50,15 @@ class RegistrationFormType extends AbstractType
                 ],
             ])
             ->add('birthDate', BirthdayType::class)
+            ->add('imageFile', VichImageType::class, [
+                'required' => false,
+                'download_uri' => true,
+                'image_uri' => true,
+                'asset_helper' => true,
+                'download_label' => false,
+                'delete_label' => false,
+                "allow_delete" => false,
+            ])
             ->add('completeAddress',TextType::class)
             ->add('plainPassword', PasswordType::class, [
                 // instead of being set onto the object directly,
