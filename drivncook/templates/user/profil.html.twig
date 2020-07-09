@@ -67,7 +67,12 @@
                                         <i class="mr-2 fas fa-star"></i>Mes commentaires
                                     </a>
                                 </li>
-
+                                <li class="nav-item">
+                                    <a class="nav-link" href="" id="nav_notices" data-target="#pane_notices"
+                                       data-toggle="tab">
+                                        <i class="mr-2 fas fa-exclamation-circle"></i>Mes notifications
+                                    </a>
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -126,7 +131,6 @@
                                     </div>
                                 </div>
 
-
                                 <div class="tab-pane" id="pane_edit" role="tabpanel">
                                     <div class="col-md-8 mx-auto mt-3">
                                         <h2 class="text-bold text-center">{% trans %}Modification{% endtrans %}</h2>
@@ -150,7 +154,6 @@
                                         {% endif %}
                                     </div>
                                 </div>
-
 
                                 <div class="tab-pane" id="pane_fidelity_card" role="tabpanel">
                                     <div class="col-md-8 mx-auto mt-3">
@@ -336,7 +339,6 @@
                                     </div>
                                 </div>
 
-
                                 <div class="tab-pane" id="pane_votes" role="tabpanel">
                                     <div class="col-md-12 mt-3">
                                         <h2 class="text-bold text-center mb-4"> {% trans %}Mes avis{% endtrans %}</h2>
@@ -374,6 +376,40 @@
                                             </div>
 
                                         {% endfor %}
+
+
+                                    </div>
+                                </div>
+
+                                <div class="tab-pane" id="pane_notices" role="tabpanel">
+                                    <div class="col-md-12 mt-3">
+                                        <h3 class="text-bold mt-3 mb-5">Mes notifications</h3>
+
+                                        {% if notices is defined and notices is not empty %}
+                                            {% for notice in notices %}
+
+                                                <div class="row">
+                                                    <div class="col-md-11">
+                                                        <div class="alert alert-{{ notice.bootstrapColor }}" role="alert">
+                                                            <h4 class="alert-heading">{{ notice.title }}</h4>
+                                                            <p>{{ notice.content }}</p>
+                                                            <hr>
+                                                            <small class="mb-0 text-muted">{{ notice.date | format_datetime('full', 'none', locale='fr') }}</small>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-1 text-center">
+                                                        <a class="mt-5 btn btn-outline-danger" href="{{ path('clear_notice', {"id" : notice.id}) }}">X</a>
+                                                    </div>
+                                                </div>
+
+
+                                            {% endfor %}
+                                        {% else %}
+                                            <div class="alert alert-dark" role="alert">
+                                                <h4 class="alert-heading">Aucune notifications</h4>
+                                                <p>Aucun notifications vous concernant n'a été detecté pour le moment.</p>
+                                            </div>
+                                        {% endif %}
 
 
                                     </div>

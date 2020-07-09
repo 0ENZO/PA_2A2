@@ -27,17 +27,20 @@ class NotifyController extends AbstractController
     /**
      * @Route("/nouvelle-commande/{$idUserOrder}", name="notify_new_order")
      */
-    public function notify_new_order($idUserOrder, NotifyService $notifyService) {
-        $notifyService->hasNewOrder($idUserOrder);
+    public function notify_new_order($idUserOrder, NotifyService $notifyService, EntityManagerInterface $manager) {
+        $userOrder = $manager->getRepository(UserOrder::class)->findOneBy(["id" => $idUserOrder]);
+        $notifyService->hasNewOrder($$userOrder);
         return $this->redirectToRoute("payment_success");
     }
 
     /**
      * @Route("/commande-terminee/{idUserOrder}", name="user_order_is_ready")
      */
-    public function user_order_is_ready($idUserOrder, EntityManagerInterface $manager, UserOrderService $orderService) {
+    public function user_order_is_ready($idUserOrder, EntityManagerInterface $manager, UserOrderService $orderService, NotifyService $notifyService) {
         $userOrder = $manager->getRepository(UserOrder::class)->findOneBy(["id" => $idUserOrder]);
         $orderService->order_finished($userOrder);
+        if ($userOrder->getUser() != null)
+            $notifyService->userOrderReady($userOrder);
         return $this->redirectToRoute("franchise_profil");
     }
 
