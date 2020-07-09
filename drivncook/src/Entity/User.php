@@ -207,16 +207,6 @@ class User implements UserInterface
      */
     private $messages;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Notify::class, mappedBy="user")
-     */
-    private $notifies;
-
-    /**
-     * @ORM\ManyToMany(targetEntity=Event::class, mappedBy="users")
-     */
-    private $events;
-
     public function __construct()
     {
         $this->creditCards = new ArrayCollection();
@@ -225,8 +215,6 @@ class User implements UserInterface
         $this->rewards = new ArrayCollection();
         $this->answerReportBreakdowns = new ArrayCollection();
         $this->messages = new ArrayCollection();
-        $this->notifies = new ArrayCollection();
-        $this->events = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -671,65 +659,6 @@ class User implements UserInterface
             if ($message->getEditor() === $this) {
                 $message->setEditor(null);
             }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Notify[]
-     */
-    public function getNotifies(): Collection
-    {
-        return $this->notifies;
-    }
-
-    public function addNotify(Notify $notify): self
-    {
-        if (!$this->notifies->contains($notify)) {
-            $this->notifies[] = $notify;
-            $notify->setUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeNotify(Notify $notify): self
-    {
-        if ($this->notifies->contains($notify)) {
-            $this->notifies->removeElement($notify);
-            // set the owning side to null (unless already changed)
-            if ($notify->getUser() === $this) {
-                $notify->setUser(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Event[]
-     */
-    public function getEvents(): Collection
-    {
-        return $this->events;
-    }
-
-    public function addEvent(Event $event): self
-    {
-        if (!$this->events->contains($event)) {
-            $this->events[] = $event;
-            $event->addUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeEvent(Event $event): self
-    {
-        if ($this->events->contains($event)) {
-            $this->events->removeElement($event);
-            $event->removeUser($this);
         }
 
         return $this;

@@ -91,41 +91,17 @@ class NotifyService
     }
 
 
-    /**
-     * @param UserOrder $userOrder
-     * Description : Informe un franchisé d'un nouvelle commande
-     */
-    public function hasNewOrder(UserOrder $userOrder) {
+    public function hasNewOrder(UserOrder $idUserOrder) {
         $notice = new Notify();
         $notice
-            ->setFranchise($userOrder->getFranchise())
+            ->setFranchise($idUserOrder->getFranchise())
             ->setDate(new \DateTime())
             ->setTitle("Nouvelle commande à effectuer : Commande n°".$notice->getId())
-            ->setContent("Nouvelle commande pour ".$userOrder->getUser().".")
+            ->setContent("Nouvelle commande pour ".$idUserOrder->getUser().".")
             ->setBootstrapColor("success");
         $this->manager->persist($notice);
         $this->manager->flush();
     }
-
-    /**
-     * @param UserOrder $userOrder
-     * Description : Informe l'utilisateur que sa commande est prête
-     */
-    public function userOrderReady(UserOrder $userOrder) {
-        $notice = new Notify();
-        $notice
-            ->setUser($userOrder->getUser())
-            ->setDate(new \DateTime())
-            ->setTitle("Votre commande est prête !")
-            ->setContent(
-                $userOrder->getFranchise()->getFirstName()." ".
-                $userOrder->getFranchise()->getLastName()." A finit de préparer votre commande !"
-            )
-            ->setBootstrapColor("success");
-        $this->manager->persist($notice);
-        $this->manager->flush();
-    }
-
 
     /**
      * @param $franchise

@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 
-use App\Entity\Notify;
 use App\Entity\Role;
 use App\Entity\User;
 use App\Entity\Vote;
@@ -45,7 +44,6 @@ class UserController extends AbstractController
         $orders = $em->getRepository(UserOrder::class)->findByUser($user);
         $credit_cards = $em->getRepository(CreditCard::class)->findBy(["user" => $user]);
         $votes = $em->getRepository(Vote::class)->findByUser($user);
-        $notices = $em->getRepository(Notify::class)->findBy(["user" => $user]);
 
         $form = $this->createForm(UserType::class, $user);
         $form
@@ -65,8 +63,7 @@ class UserController extends AbstractController
             'form' => $form->createView(),
             'credit_cards' =>$credit_cards,
             'orders' => array_reverse($orders),
-            'votes' => $votes,
-            'notices' => $notices
+            'votes' => $votes
         ]);
     }
 }

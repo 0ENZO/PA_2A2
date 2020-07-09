@@ -38,7 +38,7 @@ class FranchiseType extends AbstractType
                 'download_label' => false,
                 'delete_label' => false,
                 "allow_delete" => false,
-           ])
+           ]);
             // ->add('birthDate', DateType::class)
             ->add('save', SubmitType::class, [
                 'label' => 'Enregistrer'

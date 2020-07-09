@@ -15,6 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/une-petite-faim")
+ * @Security("is_granted('ROLE_FRANCHISE') or is_granted('ROLE_USER')")
  */
 class HungryController extends AbstractController
 {

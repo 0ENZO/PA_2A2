@@ -114,15 +114,9 @@ class Event
      */
     private $franchise;
 
-    /**
-     * @ORM\ManyToMany(targetEntity=User::class, inversedBy="events")
-     */
-    private $users;
-
     public function __construct()
     {
         $this->franchise = new ArrayCollection();
-        $this->users = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -275,32 +269,6 @@ class Event
     {
         if ($this->franchise->contains($franchise)) {
             $this->franchise->removeElement($franchise);
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|User[]
-     */
-    public function getUsers(): Collection
-    {
-        return $this->users;
-    }
-
-    public function addUser(User $user): self
-    {
-        if (!$this->users->contains($user)) {
-            $this->users[] = $user;
-        }
-
-        return $this;
-    }
-
-    public function removeUser(User $user): self
-    {
-        if ($this->users->contains($user)) {
-            $this->users->removeElement($user);
         }
 
         return $this;
