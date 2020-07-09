@@ -6,6 +6,7 @@ use App\Entity\Article;
 use App\Entity\Franchise;
 use App\Entity\FranchiseStock;
 use App\Entity\Menu;
+use App\Entity\UserOrder;
 use App\Service\FranchiseMenuService;
 use App\Service\IdentificationService;
 use App\Service\NotifyService;
@@ -148,6 +149,27 @@ class FranchiseMenuController extends AbstractController
             "id" => $id
         ]);
 
+    }
+
+    /**
+     * @Route("/{id}/commandes-a-realiser/", name="my_orders")
+     */
+    public function my_orders($id, IdentificationService $identificationService, EntityManagerInterface $manager) {
+
+        if (!$identificationService->isTheRightFranchise($id)) {
+            $this->addFlash("danger", "Erreur d'authentification détectée.");
+            return $this->redirectToRoute("about");
+        }
+
+        $userOrders = $manager->getRepository(UserOrder::class)->findBy([
+            "franchise" => $id,
+            "status" => "1"
+        ]);
+
+        return $this->render("franchise_menu/my_orders.html.twig", [
+            "userOrders" => $userOrders,
+            "id" => $id
+        ]);
     }
 
 

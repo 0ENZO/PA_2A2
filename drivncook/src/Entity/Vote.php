@@ -49,7 +49,6 @@ class Vote
     /**
      * @ORM\Column(type="datetime")
      *   @Assert\DateTime()
-     * @Assert\NotNull
      * @Assert\GreaterThanOrEqual(
      *     "today UTC",
      *     message="La date ne peut pas être avant aujourd'hui"
