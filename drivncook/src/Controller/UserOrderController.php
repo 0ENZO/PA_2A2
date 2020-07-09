@@ -23,10 +23,8 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Session\Session;
-
 /**
  * @Route("/client/commande")
- * IsGranted("ROLE_USER")
  */
 class UserOrderController extends AbstractController
 {

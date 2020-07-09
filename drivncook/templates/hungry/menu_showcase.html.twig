@@ -112,6 +112,7 @@
                                 <span class="item__price">{{ menu.price + menu.vat }} €</span>
                             </div>
                             <p class="item__description">{{ menu.description|length > 50 ? menu.description|slice(0,50) ~ '..' : menu.description }}</p>
+                            <a href="{{ path('user_cart_add', {'id': menu.id , 'qty': 1}) }}">{% trans %}Commander{% endtrans %}</a>
                         </div>
                     {% endif %}
                 {% endfor %}
@@ -128,6 +129,7 @@
                                 <span class="item__price">{{ menu.price + menu.vat }} €</span>
                             </div>
                             <p class="item__description">{{ menu.description|length > 50 ? menu.description|slice(0,50) ~ '..' : menu.description }}</p>
+                            <a href="{{ path('user_cart_add', {'id': menu.id , 'qty': 1}) }}">{% trans %}Commander{% endtrans %}</a>
                         </div>
                     {% endif %}
                 {% endfor %}
