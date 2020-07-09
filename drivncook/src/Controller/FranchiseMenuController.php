@@ -163,7 +163,6 @@ class FranchiseMenuController extends AbstractController
 
         $userOrders = $manager->getRepository(UserOrder::class)->findBy([
             "franchise" => $id,
-            "status" => "1"
         ]);
 
         return $this->render("franchise_menu/my_orders.html.twig", [
