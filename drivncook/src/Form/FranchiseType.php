@@ -14,6 +14,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 // use Symfony\Component\Mime\Address;
+use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class FranchiseType extends AbstractType
 {
@@ -29,6 +30,15 @@ class FranchiseType extends AbstractType
                 'label' => 'Adresse :'
             ])
             ->add('password')
+            ->add('imageFile', VichImageType::class, [
+                'required' => false,
+                'download_uri' => true,
+                'image_uri' => true,
+                'asset_helper' => true,
+                'download_label' => false,
+                'delete_label' => false,
+                "allow_delete" => false,
+           ]);
             // ->add('birthDate', DateType::class)
             ->add('save', SubmitType::class, [
                 'label' => 'Enregistrer'
