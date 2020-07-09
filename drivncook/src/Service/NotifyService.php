@@ -6,6 +6,7 @@ namespace App\Service;
 
 use App\Entity\FranchiseStock;
 use App\Entity\Notify;
+use App\Entity\UserOrder;
 use Doctrine\ORM\EntityManagerInterface;
 
 class NotifyService
@@ -87,6 +88,19 @@ class NotifyService
         $this->manager->persist($notice);
         $this->manager->flush();
 
+    }
+
+
+    public function hasNewOrder(UserOrder $idUserOrder) {
+        $notice = new Notify();
+        $notice
+            ->setFranchise($idUserOrder->getFranchise())
+            ->setDate(new \DateTime())
+            ->setTitle("Nouvelle commande à effectuer : Commande n°".$notice->getId())
+            ->setContent("Nouvelle commande pour ".$idUserOrder->getUser().".")
+            ->setBootstrapColor("success");
+        $this->manager->persist($notice);
+        $this->manager->flush();
     }
 
     /**
