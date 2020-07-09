@@ -11,6 +11,7 @@ use App\Repository\ProductRepository;
 use App\Repository\WarehouseRepository;
 use App\Repository\WarehouseStockRepository;
 use Knp\Component\Pager\PaginatorInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -18,7 +19,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 /**
- * @Route("/product") 
+ * @Route("/product")
+ * @Security("is_granted('ROLE_FRANCHISE') or is_granted('ROLE_USER')")
  */
 class ProductController extends AbstractController
 {
@@ -27,7 +29,7 @@ class ProductController extends AbstractController
      * @Route("/{id}", name="product_index",  requirements={"id"="\d+"})
      */
     public function index(ProductRepository $productRepository,  WarehouseRepository $warehouseRepository, $id, Request $request, SessionInterface $session)
-    { 
+    {
 
         $data = new SearchData();
         $data->page = $request->get('page', 1);
@@ -45,7 +47,7 @@ class ProductController extends AbstractController
             }
         } else {
             $session->set('cart_warehouse', $id);
-        } 
+        }
 
         $warehouse = $warehouseRepository->findOneById($id);
         $products = $productRepository->findSearch($data, $warehouse);
@@ -55,7 +57,7 @@ class ProductController extends AbstractController
             'warehouse' => $warehouse,
             'form' => $form->createView()
         ]);
-    
+
     }
 
 }

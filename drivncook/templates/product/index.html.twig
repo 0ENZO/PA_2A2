@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{% trans %}Commande{% endtrans %}
+{% block title %}{{ parent() }} - {% trans %}Commande{% endtrans %}
 {% endblock %}
 
 {% block body %}
@@ -9,7 +9,7 @@
 
         <div class="py-3">
             <h4 class="text-center pt-3">
-                Entrepôt : {{ warehouse.name }}
+                {% trans %}entrepôt {% endtrans %} : {{ warehouse.name }}
             </h4>
         </div>
         <div class="p-4 mb-4 ">
@@ -18,24 +18,24 @@
                 <div class="spinner-border js-loading" role="status" aria-hidden="true" style="display: none">
                     <span class="sr-only">Loading...</span>
                 </div>
-            
+
                 <div class="row">
                     <div class="col-md-9">
                         {{ form_row(form.q) }}
                     </div>
                     <div class="col-md-3">
-                        <button type="submit" class="btn btn-primary w-100">Filtrer</button>
+                        <button type="submit" class="btn btn-primary w-100">{% trans %}Filtrer {% endtrans %} </button>
                     </div>
                 </div>
-                    
+
                 <div class="row">
                     <div class="col">
-                        <h4>Sous-catégories</h4>
+                        <h4>{% trans %}Sous-catégories {% endtrans %} </h4>
                         {{ form_row(form.subCategories) }}
                     </div>
 
                     <div class="col">
-                        <h4>Prix</h4>
+                        <h4>{% trans %}Prix {% endtrans %} </h4>
                         <div class="col-md-6">
                             {{ form_row(form.max) }}
                         </div>
@@ -53,13 +53,13 @@
             {{ form_end(form) }}
 
             <hr>
-        
+
         </div>
-        
+
         <div class="tab-content my-3">
             {#}
             <div class="d-flex justify-content-end">
-                {{ knp_pagination_sortable(products, 'Prix', 'p.price ') }} 
+                {{ knp_pagination_sortable(products, 'Prix', 'p.price ') }}
             </div>
             #}
             <div class="row d-flex align-items-stretch">
@@ -71,19 +71,24 @@
                                 {{ product.name }}
                             </h3>
                             <div class="text-center">
-                                <img class="img-fluid rounded" src="https://via.placeholder.com/150" alt="Image de {{ product.name }}">
+                                {% if product.imageName is defined and product.imageName is not empty %}
+                                <img src="{{ vich_uploader_asset(product) }}" alt="{{ product.name }}" title="{{ product.name }}" width="100" height="100" />
+                                {% else %}
+                                    <img src="https://via.placeholder.com/100" alt="Sans-image" title="sans-image" width="100" height="100" />
+                                {% endif %}
                             </div>
                             <hr>
                             <div class="d-flex justify-content-between align-items-center">
                                 <h5 class="ml-2">
-                                    {{ product.price + product.vat }} €
+                                    {% set ttc = product.price + product.vat %}
+                                    {{ ttc | format_currency('EUR') }}
                                 </h5>
 
                                 <div>
                                     <input type='button' name="btnMinus" data-id="{{ product.id }}" value='-' class='qtyminus' field='quantity' id="btnMinus{{product.id}}"/>
                                     {% for warehouseStock in product.warehouseStocks %}
                                         {% if warehouseStock.warehouse.id == warehouse.id %}
-                                            <input type='text' name='quantity' value='1' class='qty' id="cifri{{product.id}}" data-max="{{ warehouseStock.quantity }}" /> 
+                                            <input type='text' name='quantity' value='1' class='qty' id="cifri{{product.id}}" data-max="{{ warehouseStock.quantity }}" /> {{ product.type }}
                                         {% endif %}
                                     {% endfor %}
                                     <input type='button' name="btnPlus" data-id="{{ product.id }}" value='+' class='qtyplus' field='quantity' id="btnPlus{{product.id}}"/>
@@ -98,7 +103,7 @@
             </div>
 
             <div class="navigation mt-2 py-4">
-                {{ knp_pagination_render(products) }} 
+                {{ knp_pagination_render(products) }}
             </div>
             <a class="btn btn-primary position-fixed " href="{{ path('franchise_cart_show') }}" style="bottom: 7.5vh; right: 5vh;">
                 {% trans %}Voir mon panier{% endtrans %}<i class="fas fa-chevron-right ml-2"></i>
@@ -156,7 +161,7 @@
                     console.log('qty ' + qty);
                     fetch(`/franchise/commande/panier/add/${id}/${qty}`, {
                     method: 'POST'
-                    }).then(res => window.location.reload()); // On renvoit sur la page active 
+                    }).then(res => window.location.reload()); // On renvoit sur la page active
                 }
             });
         }

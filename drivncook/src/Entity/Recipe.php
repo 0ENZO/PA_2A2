@@ -4,9 +4,13 @@ namespace App\Entity;
 
 use App\Repository\RecipeRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=RecipeRepository::class)
+ * @UniqueEntity(fields={"article", "product"}, message="Vous avez déjà créée un menu de ce genre, veuillez en faire un autre.")
  */
 class Recipe
 {
@@ -31,11 +35,22 @@ class Recipe
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\Type(type="integer")
+     * @Assert\NotNull
+     * @Assert\PositiveOrZero
      */
     private $quantity;
 
     /**
      * @ORM\Column(type="string")
+     * @Assert\Type(type="string")
+     * @Assert\NotNull
+     * @Assert\Length(
+     *     min="0",
+     *     minMessage="Vous devez mettre un type  à 0 caractère minimum",
+     *     max="255",
+     *     maxMessage="Vous devez mettre un type  à 255 caractères maximum"
+     * )
      */
     private $type;
 

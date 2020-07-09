@@ -27,7 +27,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
- * @Route("/franchise/commande") 
+ * @Route("/franchise/commande")
  * @IsGranted("ROLE_FRANCHISE")
  */
 class FranchiseOrderController extends AbstractController
@@ -105,7 +105,7 @@ class FranchiseOrderController extends AbstractController
 
         $session->set('cart', $cart);
 
-        return $this->redirectToRoute("franchise_cart_show"); 
+        return $this->redirectToRoute("franchise_cart_show");
     }
 
     /**
@@ -119,7 +119,7 @@ class FranchiseOrderController extends AbstractController
         $total = $session->get('cart_totalTTC');
         $cart_warehouse = $session->get('cart_warehouse');
         $warehouse = $warehouseRepository->findOneById($cart_warehouse);
-        
+
         if (!empty($cart)){
 
             $order = new FranchiseOrder();
@@ -128,18 +128,20 @@ class FranchiseOrderController extends AbstractController
             $order->setDate(new \DateTime());
             $order->setStatus(1);
             $order->setTotalPrice($total);
-            
+
             foreach ($cart as $id => $quantity){
                 $product = $productRepository->find($id);
 
-                // Ajout des produits dans la commande 
+                // Ajout des produits dans la commande
                 $content = new FranchiseOrderContent();
                 $content->setFranchiseOrder($order);
                 $content->setProduct($product);
 
                 // Ajout des produits dans le stock franchisé
                 // Modifier pour récup le stock correspondant
-                $franchiseStock = $franchiseStockRepository->findOneByProduct($product);
+                // $franchiseStock = $franchiseStockRepository->findOneByProduct($product);
+                $franchiseStock = $franchiseStockRepository->findByProductAndFranchise($product, $this->getUser());
+                dump($franchiseStock);
 
                 if (!$franchiseStock){
                     $franchiseStock = new FranchiseStock();
@@ -149,10 +151,10 @@ class FranchiseOrderController extends AbstractController
 
                 // Soustraction des produits dans l'entrepot
                 $warehouseStocks = $product->getWarehouseStocks();
-                for ($i=0; $i < $quantity; $i++) { 
+                for ($i=0; $i < $quantity; $i++) {
                     $contentQty = $content->getQuantity();
                     $content->setQuantity($contentQty+1);
-                    
+
                     $franchiseStockQty = $franchiseStock->getQuantity();
                     $franchiseStock->setQuantity($franchiseStockQty+1);
 
@@ -160,7 +162,7 @@ class FranchiseOrderController extends AbstractController
                         $warehouseStockQty = $warehouseStock->getQuantity();
                         $warehouseStock->setQuantity($warehouseStockQty-1);
                         $em->persist($warehouseStock);
-                        /* A décommenté si on veut supprimer le stock de la base 
+                        /* A décommenté si on veut supprimer le stock de la base
                         if ($warehouseStock->getQuantity() == 0){
                             $em->remove($warehouseStock);
                             $em->flush();
@@ -225,7 +227,7 @@ class FranchiseOrderController extends AbstractController
         $order = $franchiseOrderRepository->find($id);
 
         $newOrder = new FranchiseOrder();
-        
+
         $newOrder->setFranchise($this->getUser());
         $newOrder->setWarehouse($order->getWarehouse());
         $newOrder->setDate(new \DateTime());
@@ -248,15 +250,15 @@ class FranchiseOrderController extends AbstractController
         return $this->redirectToRoute('franchise_profil');
     }
 
-    
+
 
     /**
      * @Route("/{id}", name="franchise_order_show", requirements={"id"="\d+"})
      */
     public function show($id){
 
-        //Vérif si cette commande appartient bien au franchisé connecté sinon exception 
-        
+        //Vérif si cette commande appartient bien au franchisé connecté sinon exception
+
         $em = $this->getDoctrine()->getManager();
         $order = $em->getRepository(FranchiseOrder::class)->findOneById($id);
 
@@ -265,7 +267,7 @@ class FranchiseOrderController extends AbstractController
                 'order' => $order
             ]);
         } else {
-            throw new \Exception('Vous n\'êtes pas autorisé à accéder à  cette commande');    
+            throw new \Exception('Vous n\'êtes pas autorisé à accéder à  cette commande');
         }
     }
 
@@ -273,19 +275,19 @@ class FranchiseOrderController extends AbstractController
      * @Route("/pdf/{id}", name="franchise_order_pdf", methods={"GET"}, requirements={"id"="\d+"})
      */
     public function pdf($id, \Knp\Snappy\Pdf $knpSnappy)
-    {  
+    {
 
         $em = $this->getDoctrine()->getManager();
         $order = $em->getRepository(FranchiseOrder::class)->findOneById($id);
 
         if ($this->getUser() == $order->getFranchise() || $this->isGranted('ROLE_ADMIN')){
-        
+
             $knpSnappy->setOption("encoding","UTF-8");
             $filename = "mypdf";
             $html = $this->renderView('franchise/order/show.html.twig' , array(
                 'order' => $order,
             ));
-            
+
             return new Response(
                 $knpSnappy->getOutputFromHtml($html),
                 200,
@@ -295,7 +297,7 @@ class FranchiseOrderController extends AbstractController
                 )
             );
         } else {
-            throw new \Exception('Vous n\'êtes pas autorisé à accéder à cette ressource.');    
+            throw new \Exception('Vous n\'êtes pas autorisé à accéder à cette ressource.');
         }
     }
 
@@ -311,7 +313,7 @@ class FranchiseOrderController extends AbstractController
             $warehouse = $warehouseRepository->findOneById($cart_warehouse);
             $cart = $session->get('cart', []);
             $filledCart = [];
-    
+
             foreach($cart as $id => $quantity){
                 $filledCart[] = [
                     'product' => $productRepository->find($id),
@@ -326,7 +328,7 @@ class FranchiseOrderController extends AbstractController
 
         return $this->render('franchise/order/warehouse.html.twig', [
             'warehouse' => $warehouse,
-            'warehouses' => $warehouses, 
+            'warehouses' => $warehouses,
             'cart_warehouse' =>$cart_warehouse,
             'filledCart' => $filledCart
         ]);

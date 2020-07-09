@@ -1,5 +1,5 @@
 {% extends 'base.html.twig' %}
-{% block title %}{{'Noter une commande'|trans}}
+{% block title %}{{ parent() }} - {{'Noter une commande'|trans}}
 {% endblock %}
 {% block body %}
 	<div class="container mt-5">
@@ -10,24 +10,24 @@
         {{ form_start(form) }}
             <div class="pt-3 col-md-9 mx-auto px-auto">
                 <div class="row d-flex align-items-center align-self-center mb-3 mx-auto">
-                    <div class="col-md-3"><strong>Titre du commentaire</strong></div>
+                    <div class="col-md-3"><strong>{% trans %}Titre du commentaire{% endtrans %}</strong></div>
                     <div class="col-md-9">{{ form_widget(form.titleComment) }}</div>
                 </div>
 
                 <div class="row d-flex align-items-center align-self-center mb-3 mx-auto">
-                    <div class="col-md-2"><strong>Note / 5</strong></div>
+                    <div class="col-md-2"><strong>{% trans %}note /5{% endtrans %}</strong></div>
                     <div class="col-md-10">{{ form_widget(form.rate) }}</div>
                 </div>
 
                 <div class="row d-flex align-items-center align-self-center mb-3 mx-auto">
-                    <div class="col-md-2"><strong>Commentaire</strong></div>
+                    <div class="col-md-2"><strong>{% trans %}Commentaire{% endtrans %}</strong></div>
                     <div class="col-md-10">{{ form_widget(form.comment) }}</div>
                 </div>
 
                 <div class="row d-flex align-items-center align-self-center mb-3 mx-auto">
                     <div class="offset-md-3 col-md-3">
                         <button class="btn btn-primary" type="submit">
-                            Enregistrer<i class="far fa-paper-plane ml-2"></i>
+                            {% trans %}Enregister{% endtrans %}<i class="far fa-paper-plane ml-2"></i>
                         </button>
                     </div>
                 </div>

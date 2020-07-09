@@ -25,21 +25,38 @@ class FranchiseOrder
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     *  @Assert\Type(type="string")
      */
     private $comment;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Assert\DateTime()
+     * @Assert\NotNull
+     * @Assert\GreaterThanOrEqual(
+     *     "today UTC",
+     *     message="La date de début d'event ne peut pas être avant aujourd'hui"
+     * )
      */
     private $date;
 
     /**
      * @ORM\Column(type="string", length=50, nullable=true)
+     * @Assert\Type(type="string")
+     * @Assert\Length(
+     *     min="0",
+     *     minMessage="Vous devez mettre un statut  à 0 caractère minimum",
+     *     max="50",
+     *     maxMessage="Vous devez mettre un statut  à 50 caractères maximum"
+     * )
      */
     private $status;
 
     /**
      * @ORM\Column(type="float")
+     * @Assert\Type(type="float")
+     * @Assert\NotNull
+     * @Assert\PositiveOrZero
      */
     private $totalPrice;
 

@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{'Mon panier'|trans}}
+{% block title %}{{ parent() }} - {{'Mon panier'|trans}}
 {% endblock %}
 
 {% block body %}
@@ -60,10 +60,15 @@
 				</a>
 
 				{% set selected_credit_card = null %}
-				<a class="btn btn-success" href="{{ path('payment_process', {'selected_credit_card': selected_credit_card}) }}">
+				<a class="btn btn-success mr-2" href="{{ path('payment_process', {'selected_credit_card': selected_credit_card}) }}">
 					{{'Valider mon panier'|trans}}
 					<i class="fas fa-check ml-2"></i>
 				</a>
+
+				<a class="btn btn-warning" href="{{ path('user_reward') }}">
+					{{'Fidélité (en dév)'|trans}}
+				</a>
+
 			</div>
 
 		{% else %}
@@ -73,6 +78,9 @@
 				{% if app.session.get('cart_franchise') is not null %}
 					<a href="{{ path('menu_showcase', {'id': app.session.get('cart_franchise')}) }}" class="btn btn-primary mr-auto">{% trans %}Retour{% endtrans %}</a>
 				{% endif %}
+
+				<a href="{{ path('hungry_menu') }}" class="btn btn-primary mr-auto">{% trans %}Passer commande{% endtrans %}</a>
+
 			</div>
 		{% endif %}
 	</div>

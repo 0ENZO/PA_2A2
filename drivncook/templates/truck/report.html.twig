@@ -1,13 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Gestion des camions{% endblock %}
+{% block title %}{{ parent() }} - {% trans %}Gestion des camions{% endtrans %}{% endblock %}
 
 {% block body %}
 
     <div class="container mt-5">
 
         <div class="d-flex mt-4 justify-content-start">
-            <a href="{{ path('show_truck', { 'id': truck.id}) }}" class="btn btn-primary">Retour</a>
+            <a href="{{ path('show_truck', { 'id': truck.id}) }}" class="btn btn-primary">{% trans %}Retour{% endtrans %}</a>
         </div>
 
         <div class="mt-5">
@@ -16,10 +16,9 @@
             {{ form_end(form) }}
         </div>
     </div>
-    
+
 {% endblock %}
 
 {% block scripts %}
     {{ parent() }}
 {% endblock %}
-

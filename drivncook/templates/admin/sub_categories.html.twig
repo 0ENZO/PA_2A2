@@ -2,7 +2,7 @@
 
 {% extends 'base.html.twig' %}
 
-{% block title %}Gestion des sous catégories{% endblock %}
+{% block title %}{{ parent() }} - Gestion des sous catégories{% endblock %}
 
 {% block body %}
 
@@ -60,7 +60,12 @@
                             <span class="badge badge-pill {{ badge }}">{{ sub_category.category }}</span>
                         </td>
                         <td>{{ sub_category.description }}</td>
-                        <td>{{ sub_category.imageName }}</td>
+                        <td>
+                            {% if sub_category.imageName is defined and sub_category.imageName is not empty %}
+                                <img src="{{ vich_uploader_asset(sub_category) }}" alt="{{ sub_category.name }}" title="{{ sub_category.name }}" width="100" height="100" class="img-thumbnail"/>
+                            {% else %}
+                                <img src="https://via.placeholder.com/100" alt="Sans-image" title="sans-image" width="100" height="100" class="img-thumbnail"/>
+                            {% endif %}</td>
                         <td>
                             <a class="mr-2" data-toggle="tooltip" data-placement="top" title="Modifier" href="{{ path('admin_sub_category_edit', { 'id': sub_category.id}) }}"><i class="fas fa-pen"></i></a>
                             <a href="#" data-href="{{ path('admin_sub_category_delete', { 'id': sub_category.id}) }}" class="" data-placement="bottom"

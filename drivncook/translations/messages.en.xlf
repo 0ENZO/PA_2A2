@@ -67,255 +67,1049 @@
       </trans-unit>
       <trans-unit id="qMD7oaF" resname="Bienvenue !">
         <source>Bienvenue !</source>
-        <target>__Bienvenue !</target>
+        <target>Welcome !</target>
       </trans-unit>
       <trans-unit id="xI5JSDe" resname="Informations Bancaires">
         <source>Informations Bancaires</source>
-        <target>__Informations Bancaires</target>
+        <target>Bank Information</target>
       </trans-unit>
       <trans-unit id="CB.JgW4" resname="C'est l'endroit ou vous pouvez gérer toutes vos données bancaires.">
         <source>C'est l'endroit ou vous pouvez gérer toutes vos données bancaires.</source>
-        <target>__C'est l'endroit ou vous pouvez gérer toutes vos données bancaires.</target>
+        <target>This is the place where you can manage all your bank details.</target>
       </trans-unit>
       <trans-unit id="oZdyInC" resname="Si vous n'en disposez pas encore, vous pouvez ajouter votre carte bancaire.">
         <source>Si vous n'en disposez pas encore, vous pouvez ajouter votre carte bancaire.</source>
-        <target>__Si vous n'en disposez pas encore, vous pouvez ajouter votre carte bancaire.</target>
+        <target>If you don't have one yet, you can add your bank card.</target>
       </trans-unit>
       <trans-unit id="APDRJ6a" resname="Il est bien sûr possible de modifier, voire supprimer un moyen que vous nous avez mis à disposition pour les paiements.">
         <source>Il est bien sûr possible de modifier, voire supprimer un moyen que vous nous avez mis à disposition pour les paiements.</source>
-        <target>__Il est bien sûr possible de modifier, voire supprimer un moyen que vous nous avez mis à disposition pour les paiements.</target>
+        <target>It is of course possible to modify or even delete a means that you have made available to us for payments.</target>
       </trans-unit>
       <trans-unit id="ZyFT62v" resname="A propos">
         <source>A propos</source>
-        <target>__A propos</target>
+        <target>About</target>
       </trans-unit>
       <trans-unit id="OQ70IlU" resname="Liens">
         <source>Liens</source>
-        <target>__Liens</target>
+        <target>Link</target>
       </trans-unit>
       <trans-unit id="RPN1Xei" resname="A propos de nous">
         <source>A propos de nous</source>
-        <target>__A propos de nous</target>
+        <target>About us</target>
       </trans-unit>
       <trans-unit id="if4SNu6" resname="Politique RGPD">
         <source>Politique RGPD</source>
-        <target>__Politique RGPD</target>
+        <target>GDPR policy</target>
       </trans-unit>
       <trans-unit id="ZSzZYDr" resname="Notre histoire">
         <source>Notre histoire</source>
-        <target>__Notre histoire</target>
+        <target>Our history</target>
       </trans-unit>
       <trans-unit id="rlPLh6R" resname="Nos clients">
         <source>Nos clients</source>
-        <target>__Nos clients</target>
+        <target>Our clients</target>
       </trans-unit>
       <trans-unit id="Eetmw3." resname="Nos franchisés">
         <source>Nos franchisés</source>
-        <target>__Nos franchisés</target>
+        <target>Our franchisees</target>
       </trans-unit>
       <trans-unit id="KqwcQMS" resname="Notre fidélité">
         <source>Notre fidélité</source>
-        <target>__Notre fidélité</target>
+        <target>Our loyalty</target>
       </trans-unit>
       <trans-unit id="b.1JhwV" resname="Mon panier">
         <source>Mon panier</source>
-        <target>__Mon panier</target>
+        <target>My basket</target>
       </trans-unit>
       <trans-unit id="lKWm078" resname="Votre panier">
         <source>Votre panier</source>
-        <target>__Votre panier</target>
+        <target>Your basket</target>
       </trans-unit>
       <trans-unit id="oNPbLwg" resname="Produit">
         <source>Produit</source>
-        <target>__Produit</target>
+        <target>Product</target>
       </trans-unit>
       <trans-unit id="VMMk9sE" resname="Prix">
         <source>Prix</source>
-        <target>__Prix</target>
+        <target>Price</target>
       </trans-unit>
       <trans-unit id="olio7wM" resname="Quantité">
         <source>Quantité</source>
-        <target>__Quantité</target>
+        <target>Quantity</target>
       </trans-unit>
       <trans-unit id="ybPDgkf" resname="Total">
         <source>Total</source>
-        <target>__Total</target>
+        <target>Total</target>
       </trans-unit>
       <trans-unit id="IV4wjk0" resname="Valider mon panier">
         <source>Valider mon panier</source>
-        <target>__Valider mon panier</target>
+        <target>Validate my basket</target>
       </trans-unit>
       <trans-unit id="tS_HvRp" resname="Votre panier est vide">
         <source>Votre panier est vide</source>
-        <target>__Votre panier est vide</target>
+        <target>Your basket is empty</target>
       </trans-unit>
       <trans-unit id="e6lvCKC" resname="Facture">
         <source>Facture</source>
-        <target>__Facture</target>
+        <target>Bill</target>
       </trans-unit>
       <trans-unit id="4uymS9c" resname="De">
         <source>De</source>
-        <target>__De</target>
+        <target>From</target>
       </trans-unit>
       <trans-unit id="V3ZmD6Y" resname="Pour">
         <source>Pour</source>
-        <target>__Pour</target>
+        <target>For</target>
       </trans-unit>
       <trans-unit id="dD0HBVc" resname="Facture n°">
         <source>Facture n°</source>
-        <target>__Facture n°</target>
+        <target>Bill n°</target>
       </trans-unit>
       <trans-unit id="jxKaZ9e" resname="Emise le">
         <source>Emise le</source>
-        <target>__Emise le</target>
+        <target>Issue it</target>
       </trans-unit>
       <trans-unit id="fYBHyNQ" resname="Sous-total">
         <source>Sous-total</source>
-        <target>__Sous-total</target>
+        <target>Subtotal</target>
       </trans-unit>
       <trans-unit id="tfk908P" resname="Taxe">
         <source>Taxe</source>
-        <target>__Taxe</target>
+        <target>Tax</target>
       </trans-unit>
       <trans-unit id="P.vD2nH" resname="Commande validée">
         <source>Commande validée</source>
-        <target>__Commande validée</target>
+        <target>Confirmed order</target>
       </trans-unit>
       <trans-unit id="xYGi5Ug" resname="Votre commande a été validée">
         <source>Votre commande a été validée</source>
-        <target>__Votre commande a été validée</target>
+        <target>Your order has been confirmed</target>
       </trans-unit>
       <trans-unit id="4mfTQ4I" resname="Profil">
         <source>Profil</source>
-        <target>__Profil</target>
+        <target>Profile</target>
       </trans-unit>
       <trans-unit id="q0Uca0i" resname="Mon profil">
         <source>Mon profil</source>
-        <target>__Mon profil</target>
+        <target>My profile</target>
       </trans-unit>
       <trans-unit id="QuN2BLY" resname="Modifier">
         <source>Modifier</source>
-        <target>__Modifier</target>
+        <target>Edit</target>
       </trans-unit>
       <trans-unit id="ai2sE9b" resname="Ma franchise">
         <source>Ma franchise</source>
-        <target>__Ma franchise</target>
+        <target>My franchise</target>
       </trans-unit>
       <trans-unit id="8jA9xdf" resname="Mon camion">
         <source>Mon camion</source>
-        <target>__Mon camion</target>
+        <target>My truck</target>
       </trans-unit>
       <trans-unit id="fvJoLZ." resname="Mes commandes">
         <source>Mes commandes</source>
-        <target>__Mes commandes</target>
+        <target>My orders</target>
       </trans-unit>
       <trans-unit id="mQhqg3D" resname="Mes informations bancaires">
         <source>Mes informations bancaires</source>
-        <target>__Mes informations bancaires</target>
+        <target>My bank information</target>
       </trans-unit>
       <trans-unit id="4yW.j5A" resname="Prénom">
         <source>Prénom</source>
-        <target>__Prénom</target>
+        <target>First name</target>
       </trans-unit>
       <trans-unit id="ssEkU20" resname="Nom">
         <source>Nom</source>
-        <target>__Nom</target>
+        <target>Last name</target>
       </trans-unit>
       <trans-unit id="fk.2.xT" resname="Numéro de tééphone">
         <source>Numéro de tééphone</source>
-        <target>__Numéro de tééphone</target>
+        <target>Phone number</target>
       </trans-unit>
       <trans-unit id="lSg0K24" resname="Modifier mes informations">
         <source>Modifier mes informations</source>
-        <target>__Modifier mes informations</target>
+        <target>Edit my informations</target>
       </trans-unit>
       <trans-unit id="yugzEfW" resname="Franchise">
         <source>Franchise</source>
-        <target>__Franchise</target>
+        <target>Franchise</target>
       </trans-unit>
       <trans-unit id="7ldFVIs" resname="Marque">
         <source>Marque</source>
-        <target>__Marque</target>
+        <target>Mark</target>
       </trans-unit>
       <trans-unit id="5hu7g57" resname="Modèle">
         <source>Modèle</source>
-        <target>__Modèle</target>
+        <target>Model</target>
       </trans-unit>
       <trans-unit id="YIwawLA" resname="Capaité max">
         <source>Capaité max</source>
-        <target>__Capaité max</target>
+        <target>Max capacity</target>
       </trans-unit>
       <trans-unit id="HcneR3L" resname="Date de sortie d'usine">
         <source>Date de sortie d'usine</source>
-        <target>__Date de sortie d'usine</target>
+        <target>Factory date</target>
       </trans-unit>
       <trans-unit id="LHucrUO" resname="Vous ne possédez pas de camion">
         <source>Vous ne possédez pas de camion</source>
-        <target>__Vous ne possédez pas de camion</target>
+        <target>You do not have a truck</target>
       </trans-unit>
       <trans-unit id="3x5Xsog" resname="Voir plus">
         <source>Voir plus</source>
-        <target>__Voir plus</target>
+        <target>See more</target>
       </trans-unit>
       <trans-unit id="s75xmZV" resname="Mes dernières commandes">
         <source>Mes dernières commandes</source>
-        <target>__Mes dernières commandes</target>
+        <target>My last orders</target>
       </trans-unit>
       <trans-unit id="DQJ8Wom" resname="Mes commandes typess">
         <source>Mes commandes typess</source>
-        <target>__Mes commandes typess</target>
+        <target> My standard orders</target>
       </trans-unit>
       <trans-unit id="pbS.5ye" resname="Commande du">
         <source>Commande du</source>
-        <target>__Commande du</target>
+        <target>Order from</target>
       </trans-unit>
       <trans-unit id="Jrc91aG" resname="Voir ma facture">
         <source>Voir ma facture</source>
-        <target>__Voir ma facture</target>
+        <target>View my bill</target>
       </trans-unit>
       <trans-unit id="FXJ.eLv" resname="Vous n'avez pas passé de commande">
         <source>Vous n'avez pas passé de commande</source>
-        <target>__Vous n'avez pas passé de commande</target>
+        <target>You have not make an order</target>
       </trans-unit>
       <trans-unit id="ekKDYrS" resname="Vous n'avez pas commande types.">
         <source>Vous n'avez pas commande types.</source>
-        <target>__Vous n'avez pas commande types.</target>
+        <target>You do not have order types.</target>
       </trans-unit>
       <trans-unit id="KA1KS0u" resname="Ajouter un moyen de paiement">
         <source>Ajouter un moyen de paiement</source>
-        <target>__Ajouter un moyen de paiement</target>
+        <target>Add a payment method</target>
       </trans-unit>
       <trans-unit id="U6jgQj1" resname="Numéro de carte">
         <source>Numéro de carte</source>
-        <target>__Numéro de carte</target>
+        <target>Card number</target>
       </trans-unit>
       <trans-unit id="SXQeoyI" resname="Date d'expiration">
         <source>Date d'expiration</source>
-        <target>__Date d'expiration</target>
+        <target>Expiration date</target>
       </trans-unit>
       <trans-unit id="OfShXph" resname="Code de vérification">
         <source>Code de vérification</source>
-        <target>__Code de vérification</target>
+        <target>Verification code</target>
       </trans-unit>
       <trans-unit id="f11Z7ln" resname="Prénom et nom">
         <source>Prénom et nom</source>
-        <target>__Prénom et nom</target>
+        <target>First and last name</target>
       </trans-unit>
       <trans-unit id="Xl0CFs4" resname="Supprimer">
         <source>Supprimer</source>
-        <target>__Supprimer</target>
+        <target>Delete</target>
       </trans-unit>
       <trans-unit id="RTxtZmi" resname="Vous ne possédez aucun moyen de paiement">
         <source>Vous ne possédez aucun moyen de paiement</source>
-        <target>__Vous ne possédez aucun moyen de paiement</target>
+        <target>You have no means of payment</target>
       </trans-unit>
       <trans-unit id="l0wzpDG" resname="Créer un event">
         <source>Créer un event</source>
-        <target>__Créer un event</target>
+        <target>Create an event</target>
       </trans-unit>
       <trans-unit id="7YkeZXa" resname="Les events">
         <source>Les events</source>
-        <target>__Les events</target>
+        <target>Events</target>
+      </trans-unit>
+      <trans-unit id="TUpf2ar" resname="Création du menu terminé">
+        <source>Création du menu terminé</source>
+        <target>Menu creation confirmed</target>
+      </trans-unit>
+      <trans-unit id="YDw_LPK" resname="Tous vos menus ont été créé avec succès.">
+        <source>Tous vos menus ont été créé avec succès.</source>
+        <target>All your menus have been successfully created.</target>
+      </trans-unit>
+      <trans-unit id="sSTIBCz" resname="Vous êtes également en activité à partir de maintenant.">
+        <source>Vous êtes également en activité à partir de maintenant.</source>
+        <target>You are also active from now on.</target>
+      </trans-unit>
+      <trans-unit id="hDsyzrd" resname="Driv'n Cook vous souhaite de faire bon voyage : La route risque d'être longue !">
+        <source>Driv'n Cook vous souhaite de faire bon voyage : La route risque d'être longue !</source>
+        <target>Driv'n Cook wishes you a good trip: The road may be long !</target>
+      </trans-unit>
+      <trans-unit id="mpXVg6u" resname="Revenir à mon profile">
+        <source>Revenir à mon profile</source>
+        <target>Return to my profile</target>
+      </trans-unit>
+      <trans-unit id="lq6cg1W" resname="Ma Franchise !">
+        <source>Ma Franchise !</source>
+        <target>My Franchise !</target>
+      </trans-unit>
+      <trans-unit id="Fkypdnp" resname="Voici un menu qui concerne ce que va afficher en ligne votre activité">
+        <source>Voici un menu qui concerne ce que va afficher en ligne votre activité</source>
+        <target>Here is a menu concerning what your activity will display online</target>
+      </trans-unit>
+      <trans-unit id="OdyVGFQ" resname="Si vous n'avez pas encore commencé votre activité, vous devez créer un menu&#10;                    basé sur l'ensemble des article de Driv'n Cook. Ce faisant, il vous suffit alors de&#10;                    cliquer sur le bouton correspondant afin de créer votre menu généré de façons automatique&#10;                    et ainsi pouvoir lancer (enfin) votre activité !">
+        <source>Si vous n'avez pas encore commencé votre activité, vous devez créer un menu
+                    basé sur l'ensemble des article de Driv'n Cook. Ce faisant, il vous suffit alors de
+                    cliquer sur le bouton correspondant afin de créer votre menu généré de façons automatique
+                    et ainsi pouvoir lancer (enfin) votre activité !</source>
+        <target>If you have not yet started your activity, you must create a menu
+                     based on all of Driv'n Cook's articles. In doing so, you just need to
+                     click on the corresponding button to create your automatically generated menu
+                     and thus be able to (finally) launch your activity! !</target>
+      </trans-unit>
+      <trans-unit id="2CfykLP" resname="Il est aussi possible de voir et consulter vos commandes à réaliser, ainsi que le stock de vos produits afin de les faire.">
+        <source>Il est aussi possible de voir et consulter vos commandes à réaliser, ainsi que le stock de vos produits afin de les faire.</source>
+        <target>It is also possible to see and consult your orders to be carried out, as well as the stock of your products in order to make them.</target>
+      </trans-unit>
+      <trans-unit id="MZcUIIP" resname="Mise&#10;                    en place de mon menu et débuter mon activité">
+        <source>Mise
+                    en place de mon menu et débuter mon activité</source>
+        <target>Stake
+                     in place of my menu and start my activity</target>
+      </trans-unit>
+      <trans-unit id="1EMSK6c" resname="Suppression&#10;                de mon menu et mettre fin à mon activité">
+        <source>Suppression
+                de mon menu et mettre fin à mon activité</source>
+        <target>Removal
+                 from my menu and end my activity</target>
+      </trans-unit>
+      <trans-unit id="fbOoWkF" resname="Affichage de mes stocks">
+        <source>Affichage de mes stocks</source>
+        <target>Display of my stocks</target>
+      </trans-unit>
+      <trans-unit id="RT_8Ci3" resname="Mes prochaines commandes à réaliser">
+        <source>Mes prochaines commandes à réaliser</source>
+        <target>My next orders</target>
+      </trans-unit>
+      <trans-unit id="buRaGPk" resname="Nom du menu">
+        <source>Nom du menu</source>
+        <target>Menu name</target>
+      </trans-unit>
+      <trans-unit id=".dtP2j4" resname="Articles associés">
+        <source>Articles associés</source>
+        <target>Related articles</target>
+      </trans-unit>
+      <trans-unit id="YrJnwK3" resname="Ingrédients des articles">
+        <source>Ingrédients des articles</source>
+        <target>Ingredients of the articles</target>
+      </trans-unit>
+      <trans-unit id="Zkamdn2" resname="Menu de base">
+        <source>Menu de base</source>
+        <target>Basic menu</target>
+      </trans-unit>
+      <trans-unit id="EmPKqoN" resname="C'est ici que l'on génère le menu de base, commun à tous les franchisés... et que commence votre aventure !">
+        <source>C'est ici que l'on génère le menu de base, commun à tous les franchisés... et que commence votre aventure !</source>
+        <target>This is where we generate the basic menu, common to all franchisees ... and where your adventure begins !</target>
+      </trans-unit>
+      <trans-unit id="bp8h_ex" resname="Promis, on ne va pas vous embêter longtemps avec ça !">
+        <source>Promis, on ne va pas vous embêter longtemps avec ça !</source>
+        <target>We promise, we're not going to bother you long with this !</target>
+      </trans-unit>
+      <trans-unit id="QSvguc1" resname="Informations">
+        <source>Informations</source>
+        <target>Informations</target>
+      </trans-unit>
+      <trans-unit id="CSoneXN" resname="Règles de vente des menus">
+        <source>Règles de vente des menus</source>
+        <target> Rules for selling menus</target>
+      </trans-unit>
+      <trans-unit id="tBQkmaD" resname="Driv'n Cook vous souhaite la bienvenue parmis nous. Nous sommes heureux de pouvoir vous compter comme étant des nôtres.">
+        <source>Driv'n Cook vous souhaite la bienvenue parmis nous. Nous sommes heureux de pouvoir vous compter comme étant des nôtres.</source>
+        <target>Driv'n Cook welcomes you to us. We are happy to count you as one of us.</target>
+      </trans-unit>
+      <trans-unit id="GqZSiEM" resname="Si vous vous retrouvez sur cette page, c'est que votre aventure au sein de notre famille est le point de commencer...pour &lt;strong&gt;vous&lt;/strong&gt;.">
+        <source>Si vous vous retrouvez sur cette page, c'est que votre aventure au sein de notre famille est le point de commencer...pour &lt;strong&gt;vous&lt;/strong&gt;.</source>
+        <target><![CDATA[If you find yourself on this page, it is that your adventure within our family is about to begin ... for <strong>you</strong>.]]></target>
+      </trans-unit>
+      <trans-unit id="38EvEqs" resname="Ainsi, il en va de notre rôle de guide, et de franchise de vous expliquer comment va se passer le processus de mise en vente des articles que vous&#10;                    allez exposer dans votre vitrine.">
+        <source>Ainsi, il en va de notre rôle de guide, et de franchise de vous expliquer comment va se passer le processus de mise en vente des articles que vous
+                    allez exposer dans votre vitrine.</source>
+        <target>So, it is our role as a guide, and frank to explain to you how will go the process of selling the items that you
+                     go exhibit in your showcase.</target>
+      </trans-unit>
+      <trans-unit id="YWpSVn2" resname="Vous avez choisis de devenir un de nos franchisés, vous allez donc représenter notre franchise Driv'n Cook,&#10;                    ainsi que l'ensemble des collaborateur au sein de Driv'n Cook.">
+        <source>Vous avez choisis de devenir un de nos franchisés, vous allez donc représenter notre franchise Driv'n Cook,
+                    ainsi que l'ensemble des collaborateur au sein de Driv'n Cook.</source>
+        <target>You have chosen to become one of our franchisees, so you will represent our Driv'n Cook franchise,
+                     as well as all of the collaborators within Driv'n Cook.</target>
+      </trans-unit>
+      <trans-unit id="_BfoXk3" resname="Ce faisant, il est aussi de notre devoir de vous rappellez les règles concernant la vente relative à Driv'n Cook :">
+        <source>Ce faisant, il est aussi de notre devoir de vous rappellez les règles concernant la vente relative à Driv'n Cook :</source>
+        <target>In doing so, it is also our duty to remind you of the rules regarding the sale relating to Driv'n Cook :</target>
+      </trans-unit>
+      <trans-unit id="Ygw_n9_" resname="Il est important que notre image Driv'n Cook soit identifiable, et identiée lorsque l'on regarde un des menus exposés par les franchisé.">
+        <source>Il est important que notre image Driv'n Cook soit identifiable, et identiée lorsque l'on regarde un des menus exposés par les franchisé.</source>
+        <target>It is important that our Driv'n Cook image is identifiable, and identified when looking at one of the menus displayed by the franchisees.</target>
+      </trans-unit>
+      <trans-unit id="FQqDQQM" resname="Ainsi, vous allez donc devoir respecter un menu de base, commun à tous les collaborateurs. Notre image pourra alors être reconnu de part plusieurs endroits&#10;                    et c'est aussi ce que nous recherchons : Nous étendre au maximum dans la France, afin de toucher le plus de monde possibe (Et c'est pour cela qu'on a besoin de vous !)">
+        <source>Ainsi, vous allez donc devoir respecter un menu de base, commun à tous les collaborateurs. Notre image pourra alors être reconnu de part plusieurs endroits
+                    et c'est aussi ce que nous recherchons : Nous étendre au maximum dans la France, afin de toucher le plus de monde possibe (Et c'est pour cela qu'on a besoin de vous !)</source>
+        <target>Thus, you will therefore have to respect a basic menu, common to all employees. Our image can then be recognized from several places
+                     and this is also what we are looking for: We are expanding as much as possible in France, in order to reach as many people as possible (And that's why we need you!)</target>
+      </trans-unit>
+      <trans-unit id="JXJ_kI0" resname="Il sera donc obligatoire de de garder en vente ce menu auto généré. Vous ne pouvez pas les supprimez du menu, puisqu'ils font partie de l'indentité de la Franchise">
+        <source>Il sera donc obligatoire de de garder en vente ce menu auto généré. Vous ne pouvez pas les supprimez du menu, puisqu'ils font partie de l'indentité de la Franchise</source>
+        <target>It will therefore be mandatory to keep this auto generated menu on sale. You cannot delete them from the menu, since they are part of the Franchise identity</target>
+      </trans-unit>
+      <trans-unit id="A6t5ARN" resname="Le prix sera basé en fonction du prix de l'article dans notre base de données, il ne sera donc pas possible de les modifier.">
+        <source>Le prix sera basé en fonction du prix de l'article dans notre base de données, il ne sera donc pas possible de les modifier.</source>
+        <target>The price will be based on the price of the item in our database, so it will not be possible to modify them.</target>
+      </trans-unit>
+      <trans-unit id="kUh7pmU" resname="En revanche, vous être libre de faire des propositions concernant les menus, vous être libre de nous envoyer un mail, et nous étudierons la demande">
+        <source>En revanche, vous être libre de faire des propositions concernant les menus, vous être libre de nous envoyer un mail, et nous étudierons la demande</source>
+        <target>On the other hand, you are free to make proposals concerning the menus, you are free to send us an email, and we will study the request.</target>
+      </trans-unit>
+      <trans-unit id="pXLs9ro" resname="Maintenant que tout est clarifié, nous pouvons vous laissez débuter votre longue route (on l'espère !)">
+        <source>Maintenant que tout est clarifié, nous pouvons vous laissez débuter votre longue route (on l'espère !)</source>
+        <target>Now that everything is clear, we can let you start your long journey (we hope!)</target>
+      </trans-unit>
+      <trans-unit id="xbfo7JG" resname="En cliquant sur le bouton ci-dessous, vous acceptez le fait qu'un menu commun sera généré, et vous pourrez donc en disposer des droits à la vente, et que vous acceptiez le faits ennoncés ci-dessus.">
+        <source>En cliquant sur le bouton ci-dessous, vous acceptez le fait qu'un menu commun sera généré, et vous pourrez donc en disposer des droits à la vente, et que vous acceptiez le faits ennoncés ci-dessus.</source>
+        <target>By clicking on the button below, you accept the fact that a common menu will be generated, and you will therefore have the rights to sell it, and that you accept the facts stated above.</target>
+      </trans-unit>
+      <trans-unit id="HKRCBQy" resname="J'accepte la création de mon menu ainsi que les conditions évoquées ci-dessus">
+        <source>J'accepte la création de mon menu ainsi que les conditions évoquées ci-dessus</source>
+        <target>I accept the creation of my menu as well as the conditions mentioned above</target>
+      </trans-unit>
+      <trans-unit id="gaqKB7I" resname="Stockage">
+        <source>Stockage</source>
+        <target>Storage</target>
+      </trans-unit>
+      <trans-unit id="LRiWfdB" resname="Vous avez besoin d'un ou plusieurs produits pour réaliser l'un des éléments de votre menu">
+        <source>Vous avez besoin d'un ou plusieurs produits pour réaliser l'un des éléments de votre menu</source>
+        <target>You need one or more products to make one of the items on your menu</target>
+      </trans-unit>
+      <trans-unit id="e8DQcmN" resname="Si l'un des produits nécessaire à la réalistion d'un menu venait à manquer, alors vous devrez passer par une autre commande,&#10;                sans quoi, vous ne pourrez vendre le menu en question.">
+        <source>Si l'un des produits nécessaire à la réalistion d'un menu venait à manquer, alors vous devrez passer par une autre commande,
+                sans quoi, vous ne pourrez vendre le menu en question.</source>
+        <target>If one of the products necessary for the realization of a menu is missing, then you will have to go through another order, otherwise, you will not be able to sell the menu in question.</target>
+      </trans-unit>
+      <trans-unit id="Im_zFA." resname="Retour à ma franchise">
+        <source>Retour à ma franchise</source>
+        <target>Back to my franchise</target>
+      </trans-unit>
+      <trans-unit id="PE0eVgB" resname="Etat actuel du camion">
+        <source>Etat actuel du camion</source>
+        <target>Current condition of the truck</target>
+      </trans-unit>
+      <trans-unit id="1MegRrv" resname="Espace occupé">
+        <source>Espace occupé</source>
+        <target>Occupied space</target>
+      </trans-unit>
+      <trans-unit id="6.ZCeaR" resname="Espace maximum occupable">
+        <source>Espace maximum occupable</source>
+        <target>Maximum occupable space</target>
+      </trans-unit>
+      <trans-unit id="WRYGY9p" resname="Espace restant">
+        <source>Espace restant</source>
+        <target>Remaining space</target>
+      </trans-unit>
+      <trans-unit id="6bt7ty3" resname="Occupation en %">
+        <source>Occupation en %</source>
+        <target>Occupation in %</target>
+      </trans-unit>
+      <trans-unit id="4EPuQUk" resname="Contenu de l'entrepot">
+        <source>Contenu de l'entrepot</source>
+        <target>Warehouse content</target>
+      </trans-unit>
+      <trans-unit id="oPiW1Jf" resname="Nombre total d'ingrédients dans le camion">
+        <source>Nombre total d'ingrédients dans le camion</source>
+        <target>Total number of ingredients in the truck</target>
+      </trans-unit>
+      <trans-unit id="Js6ixl4" resname="Nombre total de boissons dans le camion">
+        <source>Nombre total de boissons dans le camion</source>
+        <target>Total number of drinks in the trucktarget</target>
+      </trans-unit>
+      <trans-unit id="oDsRvqC" resname="Nombre total de desserts dans le camion">
+        <source>Nombre total de desserts dans le camion</source>
+        <target>Total number of desserts in the truck</target>
+      </trans-unit>
+      <trans-unit id="RBqpnfu" resname="Nombre total de repas actuels dans le camion">
+        <source>Nombre total de repas actuels dans le camion</source>
+        <target>Total number of meals currently on the truck</target>
+      </trans-unit>
+      <trans-unit id="FLDtEG5" resname="Vous ne possédez rien en stock">
+        <source>Vous ne possédez rien en stock</source>
+        <target>You have nothing in stock</target>
+      </trans-unit>
+      <trans-unit id="aKU0H8a" resname="Catégorie">
+        <source>Catégorie</source>
+        <target>Category</target>
+      </trans-unit>
+      <trans-unit id="uQ8eMq." resname="Carte supprimé - Hors activité">
+        <source>Carte supprimé - Hors activité</source>
+        <target>Card deleted - Out of activity</target>
+      </trans-unit>
+      <trans-unit id="je.MHVu" resname="Tous vos menus ont été supprimés avec succès.">
+        <source>Tous vos menus ont été supprimés avec succès.</source>
+        <target>All of your menus have been successfully deleted.</target>
+      </trans-unit>
+      <trans-unit id="G6cE0Bu" resname="Vous êtes également hors activité pour le moment.">
+        <source>Vous êtes également hors activité pour le moment.</source>
+        <target>You are also out of activity for the moment.</target>
+      </trans-unit>
+      <trans-unit id="yDdLuiX" resname="Si vous n'avez pas d'autres problèmes en dehors du manque de manu,&#10;                        il vous suffit d'en recréer un automatiquement selon notre base de donées afin de vous&#10;                        remettre en activité.">
+        <source>Si vous n'avez pas d'autres problèmes en dehors du manque de manu,
+                        il vous suffit d'en recréer un automatiquement selon notre base de donées afin de vous
+                        remettre en activité.</source>
+        <target>If you have no other problems apart from lack of manu,
+                         you just have to recreate one automatically according to our database in order to
+                         put back into activity.</target>
+      </trans-unit>
+      <trans-unit id="rTe4UnM" resname="Noter une commande">
+        <source>Noter une commande</source>
+        <target>Rate an order</target>
+      </trans-unit>
+      <trans-unit id="ZjIU.z6" resname="Ajouter un avis">
+        <source>Ajouter un avis</source>
+        <target>Add a review</target>
+      </trans-unit>
+      <trans-unit id="1cXQYG8" resname="Titre du commentaire">
+        <source>Titre du commentaire</source>
+      </trans-unit>
+      <trans-unit id="xCm.kbE" resname="note /5">
+        <source>rate /5</source>
+        <target>rate /5</target>
+      </trans-unit>
+      <trans-unit id="SNPoFla" resname="Commentaire">
+        <source>Commentaire</source>
+        <target>Comment</target>
+      </trans-unit>
+      <trans-unit id="AlIo2_e" resname="Enregister">
+        <source>Enregister</source>
+        <target>Save</target>
+      </trans-unit>
+      <trans-unit id="g6kbrxr" resname="Découvrez Driv'n Cook">
+        <source>Découvrez Driv'n Cook</source>
+        <target>Discover Driv'n Cook</target>
+      </trans-unit>
+      <trans-unit id="rsBmPom" resname="Inscription">
+        <source>Inscription</source>
+        <target>Register</target>
+      </trans-unit>
+      <trans-unit id="lpzL089" resname="Email">
+        <source>Email</source>
+        <target>Email</target>
+      </trans-unit>
+      <trans-unit id="BH9Ys5T" resname="Pseudo">
+        <source>Pseudo</source>
+        <target>Pseudo</target>
+      </trans-unit>
+      <trans-unit id="zExCS1c" resname="Téléphone">
+        <source>Téléphone</source>
+        <target>Phone</target>
+      </trans-unit>
+      <trans-unit id="eeXPIN4" resname="Adresse">
+        <source>Adresse</source>
+        <target>Address</target>
+      </trans-unit>
+      <trans-unit id="mcQKtAW" resname="Date">
+        <source>Date</source>
+        <target>Date</target>
+      </trans-unit>
+      <trans-unit id=".5yLjAZ" resname="Mot de passe">
+        <source>Mot de passe</source>
+        <target>Password</target>
+      </trans-unit>
+      <trans-unit id="twvYU37" resname="J'accepte les termes &amp; conditions">
+        <source>J'accepte les termes &amp; conditions</source>
+        <target><![CDATA[I accept the terms & conditions]]></target>
+      </trans-unit>
+      <trans-unit id="nziugJj" resname="Nous contacter">
+        <source>Nous contacter</source>
+        <target>Contact us</target>
+      </trans-unit>
+      <trans-unit id="UtX0ASw" resname="Ecrivez nous un message !">
+        <source>Ecrivez nous un message !</source>
+        <target>Write us a message !</target>
+      </trans-unit>
+      <trans-unit id="CsPSyzA" resname="Se connecter">
+        <source>Se connecter</source>
+        <target>Log out</target>
+      </trans-unit>
+      <trans-unit id="xk2Xg9_" resname="Pas encore inscrit ?">
+        <source>Pas encore inscrit ?</source>
+        <target>Not registered ?</target>
+      </trans-unit>
+      <trans-unit id="bc8IS53" resname="Ajouter une carte bancaire">
+        <source>Ajouter une carte bancaire</source>
+        <target>Add a bank card</target>
+      </trans-unit>
+      <trans-unit id="maidVed" resname="Paiement réussi">
+        <source>Paiement réussi</source>
+        <target>Payment successful</target>
+      </trans-unit>
+      <trans-unit id="A4BesYF" resname="PAIEMENT VALIDÉ">
+        <source>PAIEMENT VALIDÉ</source>
+        <target>VALIDATED PAYMENT</target>
+      </trans-unit>
+      <trans-unit id="wnYWq8d" resname="Merci de nous avoir fait confiance.">
+        <source>Merci de nous avoir fait confiance.</source>
+        <target>Thank you for trusting us.</target>
+      </trans-unit>
+      <trans-unit id="PRHD.If" resname="Et surtout régalez-vous !">
+        <source>Et surtout régalez-vous !</source>
+        <target>And above all enjoy !</target>
+      </trans-unit>
+      <trans-unit id="T1OhWaC" resname="Rédiger un avis">
+        <source>Rédiger un avis</source>
+        <target>Write a review</target>
+      </trans-unit>
+      <trans-unit id="j5_bCOw" resname="Retour à l'accueil">
+        <source>Retour à l'accueil</source>
+        <target>Back to Home</target>
+      </trans-unit>
+      <trans-unit id="0adNkkd" resname="Évenements">
+        <source>Évenements</source>
+        <target>Evens</target>
+      </trans-unit>
+      <trans-unit id="QyBtDxz" resname="Profil client">
+        <source>Profil client</source>
+        <target>Customer profile</target>
+      </trans-unit>
+      <trans-unit id="Be52E5l" resname="Here you can use rows and columns to organize your footer content.">
+        <source>Here you can use rows and columns to organize your footer content.</source>
+        <target>__Here you can use rows and columns to organize your footer content.</target>
+      </trans-unit>
+      <trans-unit id="ydOYmfd" resname="Gestion des Camions">
+        <source>Gestion des Camions</source>
+        <target>Truck Management</target>
+      </trans-unit>
+      <trans-unit id="F3vE6Z." resname="Bienvenue dans la gestion des camions.">
+        <source>Bienvenue dans la gestion des camions.</source>
+        <target>Welcome to truck management.</target>
+      </trans-unit>
+      <trans-unit id="puKwf0j" resname="Regroupe l'ensemble des camions de drivn'cook, qu'ils soient fonctionnel, occupé ou disponible.">
+        <source>Regroupe l'ensemble des camions de drivn'cook, qu'ils soient fonctionnel, occupé ou disponible.</source>
+        <target>Groups all drivn'cook trucks, whether they are functional, occupied or available.</target>
+      </trans-unit>
+      <trans-unit id="_HD8RHI" resname="Il est aussi possible d'assigner un camion à un franchisé depuis ce menu.">
+        <source>Il est aussi possible d'assigner un camion à un franchisé depuis ce menu.</source>
+        <target>It is also possible to assign a truck to a franchisee from this menu.</target>
+      </trans-unit>
+      <trans-unit id="8ipyXFV" resname="Contenu de commande franchisé">
+        <source>Contenu de commande franchisé</source>
+        <target>Franchised order content</target>
+      </trans-unit>
+      <trans-unit id="PGZhuaX" resname="Contient ici toutes les données relatives au contenu d'une commande franchisé">
+        <source>Contient ici toutes les données relatives au contenu d'une commande franchisé</source>
+        <target>Contains here all the data relating to the content of a franchisee order</target>
+      </trans-unit>
+      <trans-unit id="CSJiSwo" resname="Gestion des références de pannes">
+        <source>Gestion des références de pannes</source>
+        <target>Management of fault references</target>
+      </trans-unit>
+      <trans-unit id="pTwwJqI" resname="C'est ici que l'on détermine les types de pannes et les pannes qui leur sont attribuées.">
+        <source>C'est ici que l'on détermine les types de pannes et les pannes qui leur sont attribuées.</source>
+        <target>this is where we determine the types of breakdowns and the breakdowns attributed to them.</target>
+      </trans-unit>
+      <trans-unit id="Jmf0n32" resname="Les types de pannes réprésentent le niveau de gravité global d'un panne.">
+        <source>Les types de pannes réprésentent le niveau de gravité global d'un panne.</source>
+        <target>Failure types represent the overall severity level of a failure.</target>
+      </trans-unit>
+      <trans-unit id="2GY2xBk" resname="Et les pannes en question sont les différentes pannes qu'il est possible de déclarer et répertorier en fonction de son typé précédemment déclaré.">
+        <source>Et les pannes en question sont les différentes pannes qu'il est possible de déclarer et répertorier en fonction de son typé précédemment déclaré.</source>
+        <target>And the breakdowns in question are the various breakdowns that it is possible to declare and list according to its type previously declared.</target>
+      </trans-unit>
+      <trans-unit id="rAhbbyn" resname="Note : Les pannes de type 2 et 3 entrainent une suspenssion de l'activité du franchisé jusqu'à qu'elle soit résolue.">
+        <source>Note : Les pannes de type 2 et 3 entrainent une suspenssion de l'activité du franchisé jusqu'à qu'elle soit résolue.</source>
+        <target>Note: Breakdowns of type 2 and 3 cause the activity of the franchisee to be suspended until it is resolved.</target>
+      </trans-unit>
+      <trans-unit id="c0drxOn" resname="Gestion des Pannes.">
+        <source>Gestion des Pannes.</source>
+        <target>Outage Management.</target>
+      </trans-unit>
+      <trans-unit id="VRmePWH" resname="Bienvenue dans la gestion des pannes">
+        <source>Bienvenue dans la gestion des pannes</source>
+        <target>Welcome to fault management</target>
+      </trans-unit>
+      <trans-unit id="ZIhNjlf" resname="Cette section est réservée à la consultation et la résolution des pannes de camions que les franchisés&#10;                    pauvent déclarer.">
+        <source>Cette section est réservée à la consultation et la résolution des pannes de camions que les franchisés
+                    pauvent déclarer.</source>
+        <target>This section is reserved for consultation and resolution of truck breakdowns that franchisees
+                     can declare.</target>
+      </trans-unit>
+      <trans-unit id="pMH0o5q" resname="Pour rappel, dans le cas d'une panne de Type 2 ou 3, et si le status est &quot;en cours&quot; (0). Cela entrainerai une&#10;                    suspenssion de l'activité du franchisé.">
+        <source>Pour rappel, dans le cas d'une panne de Type 2 ou 3, et si le status est "en cours" (0). Cela entrainerai une
+                    suspenssion de l'activité du franchisé.</source>
+        <target>As a reminder, in the event of a Type 2 or 3 failure, and if the status is "in progress" (0). This will result in a
+                     suspension of franchisee activity</target>
+      </trans-unit>
+      <trans-unit id="j8hqWnD" resname="Un suivis par message du technicien est disponible pour suivre les échanges à propos de l'anvancé de résolutions de problèmes">
+        <source>Un suivis par message du technicien est disponible pour suivre les échanges à propos de l'anvancé de résolutions de problèmes</source>
+        <target>A follow-up by message from the technician is available to follow the exchanges about the advanced problem solving</target>
+      </trans-unit>
+      <trans-unit id="b68_iN1" resname="Editer un article">
+        <source>Editer un article</source>
+        <target>Edit an article</target>
+      </trans-unit>
+      <trans-unit id="76QhC3I" resname="Ajouter les produits et les quantités nécessaires à la réalisation de cet article">
+        <source>Ajouter les produits et les quantités nécessaires à la réalisation de cet article</source>
+        <target>Add the products and quantities needed to make this item</target>
+      </trans-unit>
+      <trans-unit id="kP1dFA2" resname="Ajouter un autre produit à la recette">
+        <source>Ajouter un autre produit à la recette</source>
+        <target>Add another product to the recipe</target>
+      </trans-unit>
+      <trans-unit id="Ogm6irX" resname="Unité de la quantité">
+        <source>Unité de la quantité</source>
+        <target>Quantity unit</target>
+      </trans-unit>
+      <trans-unit id="PoKqjye" resname="Gestion des Capacités Maximales">
+        <source>Gestion des Capacités Maximales</source>
+        <target>Management of Maximum Capacities</target>
+      </trans-unit>
+      <trans-unit id="ffj1mcZ" resname="Bienvenue dans la gestion des capacités maximales en vigueur concernant les entités de Driv'n Cook.">
+        <source>Bienvenue dans la gestion des capacités maximales en vigueur concernant les entités de Driv'n Cook.</source>
+        <target>Welcome to the management of maximum capacities in force for Driv'n Cook entities.</target>
+      </trans-unit>
+      <trans-unit id="ArxNotj" resname="Ces capacités servent de références aux aux camions, mais aussi aux entrepôts existant.">
+        <source>Ces capacités servent de références aux aux camions, mais aussi aux entrepôts existant.</source>
+        <target>These capacities serve as references for trucks, but also for existing warehouses.</target>
+      </trans-unit>
+      <trans-unit id="kHSpygH" resname="Selon les différents potentiels changements au cours du temps de ces entités, en cas&#10;                    de travaux par exemple, il est impératif de mofiier et d'éditer l'entité concerné, afin de mettre à jour la quantité de produit nécessaire&#10;                    lors des prochaines apports de stock dans les entrepôts.">
+        <source>Selon les différents potentiels changements au cours du temps de ces entités, en cas
+                    de travaux par exemple, il est impératif de mofiier et d'éditer l'entité concerné, afin de mettre à jour la quantité de produit nécessaire
+                    lors des prochaines apports de stock dans les entrepôts.</source>
+        <target>According to the different potential changes over time of these entities, in case
+                     for example, it is imperative to mofiier and edit the entity concerned, in order to update the quantity of product required
+                     during the next stock additions to warehouses.</target>
+      </trans-unit>
+      <trans-unit id="8T5nBbo" resname="Gestion des Sous-Catégories">
+        <source>Gestion des Sous-Catégories</source>
+        <target>Sub-Category Management</target>
+      </trans-unit>
+      <trans-unit id="qtuRn6o" resname="Bienvenue dans la gestion sous-catégories.">
+        <source>Bienvenue dans la gestion sous-catégories.</source>
+        <target>Welcome to the management of subcategories.</target>
+      </trans-unit>
+      <trans-unit id="pZulfH2" resname="Regroupe l'ensemble des sous-catégories de drivn'cook">
+        <source>Regroupe l'ensemble des sous-catégories de drivn'cook</source>
+        <target>Groups all of the drivn'cook subcategories</target>
+      </trans-unit>
+      <trans-unit id="HCsVl_x" resname="Ce sont grâces à elles que seront identités les articles et produits, auquel ils sont directement relatés.">
+        <source>Ce sont grâces à elles que seront identités les articles et produits, auquel ils sont directement relatés.</source>
+        <target>It is thanks to them that the articles and products will be identified, to which they are directly related.</target>
+      </trans-unit>
+      <trans-unit id="bx9zGb_" resname="Gestion des Catégories">
+        <source>Gestion des Catégories</source>
+        <target>Categories Management</target>
+      </trans-unit>
+      <trans-unit id="YkznuAa" resname="Bienvenue dans la gestion catégories.">
+        <source>Bienvenue dans la gestion catégories.</source>
+        <target>Welcome to category management.</target>
+      </trans-unit>
+      <trans-unit id="pgXEKuO" resname="Regroupe l'ensemble des catégories de drivn'cook">
+        <source>Regroupe l'ensemble des catégories de drivn'cook</source>
+        <target>Groups all of the drivn'cook categories</target>
+      </trans-unit>
+      <trans-unit id="btk9GoJ" resname="Gestion des Utilisateurs">
+        <source>Gestion des Utilisateurs</source>
+        <target>User Management</target>
+      </trans-unit>
+      <trans-unit id="vYUmh0w" resname="Bienvenue dans la gestion des utilisateurs">
+        <source>Bienvenue dans la gestion des utilisateurs</source>
+        <target>Welcome to user management</target>
+      </trans-unit>
+      <trans-unit id="0y80Du2" resname="Regroupe l'ensemble des utilisateurs de drivn'cook, que ce soient les clients ou l'équipe de Drivn'Cook">
+        <source>Regroupe l'ensemble des utilisateurs de drivn'cook, que ce soient les clients ou l'équipe de Drivn'Cook</source>
+        <target>Groups all drivn'cook users, whether customers or the Drivn'Cook team</target>
+      </trans-unit>
+      <trans-unit id="A0Rgc78" resname="Note : les franchisés sont considérés comme des utilisateurs à part. Un menu leurs est par conséquent dédié.">
+        <source>Note : les franchisés sont considérés comme des utilisateurs à part. Un menu leurs est par conséquent dédié.</source>
+        <target>Note: franchisees are considered separate users. Their menu is therefore dedicated.</target>
+      </trans-unit>
+      <trans-unit id="UT1PFvC" resname="Contenu de commande client">
+        <source>Contenu de commande client</source>
+        <target>Customer order content</target>
+      </trans-unit>
+      <trans-unit id="sdkFbaT" resname="Contient ici toutes les données relatives au contenu d'une commande client">
+        <source>Contient ici toutes les données relatives au contenu d'une commande client</source>
+        <target>Contains here all the data relating to the content of a customer order</target>
+      </trans-unit>
+      <trans-unit id="Sj.5oO4" resname="Gestion des Évenements.">
+        <source>Gestion des Évenements.</source>
+        <target>Events Management.</target>
+      </trans-unit>
+      <trans-unit id="CGAi._5" resname="Bienvenue dans la gestion des évenements">
+        <source>Bienvenue dans la gestion des évenements</source>
+        <target>Welcome to event management</target>
+      </trans-unit>
+      <trans-unit id="TIaymh5" resname="Cette section est réservée à la consultation des évenements de Driv'n Cook">
+        <source>Cette section est réservée à la consultation des évenements de Driv'n Cook</source>
+        <target>This section is reserved for viewing Driv'n Cook events</target>
+      </trans-unit>
+      <trans-unit id="Sdzmc9j" resname="Il est possible de voir qui y participe et à quel endroit.">
+        <source>Il est possible de voir qui y participe et à quel endroit.</source>
+        <target>You can see who is participating and where.</target>
+      </trans-unit>
+      <trans-unit id="lEySfWw" resname="Gestion des Franchiés">
+        <source>Gestion des Franchisés</source>
+        <target>Franchises management</target>
+      </trans-unit>
+      <trans-unit id="7Gs.TXk" resname="Bienvenue dans la gestion des franchisés.">
+        <source>Bienvenue dans la gestion des franchisés.</source>
+        <target>Welcome to franchise management.</target>
+      </trans-unit>
+      <trans-unit id="JLkNYzi" resname="Regroupe l'ensemble des franchisés de drivn'cook, qu'ils soient en activité ou non.">
+        <source>Regroupe l'ensemble des franchisés de drivn'cook, qu'ils soient en activité ou non.</source>
+        <target>Includes all of drivn'cook's franchisees, whether they are active or not.</target>
+      </trans-unit>
+      <trans-unit id="L1DCfk_" resname="Note : les autres utilisateurs non-franchisés sont considérés comme des utilisateurs à part. Un menu leurs est par conséquent dédié.">
+        <source>Note : les autres utilisateurs non-franchisés sont considérés comme des utilisateurs à part. Un menu leurs est par conséquent dédié.</source>
+        <target>Note: other non-franchised users are considered to be separate users. Their menu is therefore dedicated.</target>
+      </trans-unit>
+      <trans-unit id="OP70pRy" resname="Prix TTC">
+        <source>Prix TTC</source>
+        <target>All taxes included price</target>
+      </trans-unit>
+      <trans-unit id="cyTGVxC" resname="Total TTC">
+        <source>Total TTC</source>
+        <target>Total Price</target>
+      </trans-unit>
+      <trans-unit id="7yOllAJ" resname="Retour">
+        <source>Retour</source>
+        <target>Back</target>
+      </trans-unit>
+      <trans-unit id="cyxPJAJ" resname="Vider mon panier">
+        <source>Vider mon panier</source>
+        <target>Empty my basket</target>
+      </trans-unit>
+      <trans-unit id="igmzKj_" resname="Taxe (20.00%)">
+        <source>Taxe (20.00%)</source>
+        <target>Tax (20.00%)</target>
+      </trans-unit>
+      <trans-unit id="7AECoYW" resname="Mes programmes de fidélité">
+        <source>Mes programmes de fidélité</source>
+        <target>My loyalties programs</target>
+      </trans-unit>
+      <trans-unit id="NvDqjbl" resname="Numéro de téléphone">
+        <source>Numéro de téléphone</source>
+        <target>Phone number</target>
+      </trans-unit>
+      <trans-unit id="T3j31cQ" resname="Date d'anniversaire">
+        <source>Date d'anniversaire</source>
+        <target>Birthday</target>
+      </trans-unit>
+      <trans-unit id="RoibQ7y" resname="Modification">
+        <source>Modification</source>
+        <target>Modification</target>
+      </trans-unit>
+      <trans-unit id="LuKcrTb" resname="Mon programme de fidelité">
+        <source>Mon programme de fidelité</source>
+        <target>My loyalty program</target>
+      </trans-unit>
+      <trans-unit id="OG9D.K7" resname="Propriétaire de la carte">
+        <source>Propriétaire de la carte</source>
+        <target>Card owner</target>
+      </trans-unit>
+      <trans-unit id="eZBLAh4" resname="Vous ne posséder aucun moyens de paiment.">
+        <source>Vous ne posséder aucun moyens de paiment.</source>
+        <target>You have no means of payment.</target>
+      </trans-unit>
+      <trans-unit id="eq2dSQN" resname="Export PDF">
+        <source>Export PDF</source>
+        <target>PDF export</target>
+      </trans-unit>
+      <trans-unit id="oqoagNK" resname="Vous n'avez pas encore passé de commande.">
+        <source>Vous n'avez pas encore passé de commande.</source>
+        <target>You have not yet placed an order.</target>
+      </trans-unit>
+      <trans-unit id="tM4b6Lt" resname="Mes avis">
+        <source>Mes avis</source>
+        <target>My reviews</target>
+      </trans-unit>
+      <trans-unit id="ep29UEJ" resname="Aucun commentaire vous concernant n'a été rédigé pour le moment.">
+        <source>Aucun commentaire vous concernant n'a été rédigé pour le moment.</source>
+        <target>No comments about you have been written yet.</target>
+      </trans-unit>
+      <trans-unit id="YWQkA2Q" resname="Choisir l‘entrepôt">
+        <source>Choisir l‘entrepôt</source>
+        <target>Choose warehouse</target>
+      </trans-unit>
+      <trans-unit id="Qv1ut4v" resname="Veuillez choisir un entrepôt">
+        <source>Veuillez choisir un entrepôt</source>
+        <target>Please choose a warehouse</target>
+      </trans-unit>
+      <trans-unit id="Pyqq4gF" resname="Choisir">
+        <source>Choisir</source>
+        <target>choose</target>
+      </trans-unit>
+      <trans-unit id="IZQU_j1" resname="Reprendre votre commande auprès de l'entrepôt">
+        <source>Reprendre votre commande auprès de l'entrepôt</source>
+        <target>Take your order from the warehouse</target>
+      </trans-unit>
+      <trans-unit id="Rq05Fva" resname="Annuler">
+        <source>Annuler</source>
+        <target>Cancel</target>
+      </trans-unit>
+      <trans-unit id="3dkTID." resname="Reprendre">
+        <source>Reprendre</source>
+        <target>Resume</target>
+      </trans-unit>
+      <trans-unit id="WhvNB3g" resname="Prix HT">
+        <source>Prix HT</source>
+        <target>Ht price</target>
+      </trans-unit>
+      <trans-unit id="M_hgFjZ" resname="entrepôt">
+        <source>entrepôt</source>
+        <target>Warehouse</target>
+      </trans-unit>
+      <trans-unit id="7BZxDg5" resname="Filtrer">
+        <source>Filtrer</source>
+        <target>Filter</target>
+      </trans-unit>
+      <trans-unit id="1NtVyjQ" resname="Sous-catégories">
+        <source>Sous-catégories</source>
+        <target>Sub-categories</target>
+      </trans-unit>
+      <trans-unit id="18SGMLq" resname="Gestion des camions">
+        <source>Gestion des camions</source>
+        <target>Truck management</target>
+      </trans-unit>
+      <trans-unit id="eX9dzQI" resname="En cours">
+        <source>En cours</source>
+        <target>In progress</target>
+      </trans-unit>
+      <trans-unit id="xoArgjS" resname="Résolu">
+        <source>Résolu</source>
+        <target>Resolved</target>
+      </trans-unit>
+      <trans-unit id="yzDskg9" resname="Clôturé">
+        <source>Clôturé</source>
+        <target>Fencing</target>
+      </trans-unit>
+      <trans-unit id="zbzWcP4" resname="Camion">
+        <source>Camion</source>
+        <target>Truck</target>
+      </trans-unit>
+      <trans-unit id="U3ScLYR" resname="Franchisé">
+        <source>Franchisé</source>
+        <target>Franchise</target>
+      </trans-unit>
+      <trans-unit id="haIZE2E" resname="Sujet de la panne">
+        <source>Sujet de la panne</source>
+        <target>Failure subject</target>
+      </trans-unit>
+      <trans-unit id="zt0BwYR" resname="Type de panne">
+        <source>Type de panne</source>
+        <target>Failure type</target>
+      </trans-unit>
+      <trans-unit id="xaaLt5H" resname="Technicien">
+        <source>Technicien</source>
+        <target>Technician</target>
+      </trans-unit>
+      <trans-unit id="QeYfiXH" resname="Compte rendu">
+        <source>Compte rendu</source>
+        <target>Report</target>
+      </trans-unit>
+      <trans-unit id="F8z6W2g" resname="Maintenance">
+        <source>Maintenance</source>
+        <target>Maintenance</target>
+      </trans-unit>
+      <trans-unit id="scDdVKU" resname="Capacité max">
+        <source>Capacité max</source>
+        <target>Max capacity</target>
+      </trans-unit>
+      <trans-unit id="6reYY5r" resname="Déclarer un problème">
+        <source>Déclarer un problème</source>
+        <target>Max capacity</target>
+      </trans-unit>
+      <trans-unit id="7dibZQf" resname="Urgence">
+        <source>Urgence</source>
+        <target>Urgence</target>
+      </trans-unit>
+      <trans-unit id="cXHm4JI" resname="Panne">
+        <source>Panne</source>
+        <target>Breakdown</target>
+      </trans-unit>
+      <trans-unit id="YS9DE.N" resname="Aucune panne n'a encore été déclarée">
+        <source>Aucune panne n'a encore été déclarée</source>
+        <target>No breakdown has yet been declared</target>
+      </trans-unit>
+      <trans-unit id="DroMch1" resname="Menu franchisé">
+        <source>Menu franchisé</source>
+        <target>Franchisee menu</target>
+      </trans-unit>
+      <trans-unit id="5ujIjDP" resname="Passer à la caisse">
+        <source>Passer à la caisse</source>
+        <target>Proceed to checkout</target>
+      </trans-unit>
+      <trans-unit id="7qFAx0a" resname="Notre Menu">
+        <source>Notre Menu</source>
+        <target>Our Menu</target>
+      </trans-unit>
+      <trans-unit id="k1NOPoq" resname="Menus">
+        <source>Menus</source>
+        <target>Menus</target>
+      </trans-unit>
+      <trans-unit id="KAVr1tj" resname="Plats">
+        <source>Plats</source>
+        <target>Dishes</target>
+      </trans-unit>
+      <trans-unit id="i0lC5Nc" resname="Boissons">
+        <source>Boissons</source>
+        <target>Drinks</target>
+      </trans-unit>
+      <trans-unit id="CsbZ815" resname="Dessets">
+        <source>Dessets</source>
+        <target>Desserts</target>
+      </trans-unit>
+      <trans-unit id="Fq974xL" resname="Commander">
+        <source>Commander</source>
+        <target>Order</target>
+      </trans-unit>
+      <trans-unit id="NhtCDpm" resname="On se commande quelque chose ?">
+        <source>On se commande quelque chose ?</source>
+        <target>On se commande quelque chose ?</target>
+      </trans-unit>
+      <trans-unit id="NGtU.6s" resname="C'est ici que vous pouvez choisir chez qui vous aller manger">
+        <source>C'est ici que vous pouvez choisir chez qui vous aller manger</source>
+        <target>This is where you can choose where to eat</target>
+      </trans-unit>
+      <trans-unit id="i.PVZAp" resname="Nous sommes maintenant placés un peu partout en France,&#10;                ainsi, peut importe l'endroit ou vous vous trouvez : Vous trouverez forcément un camion près de chez vous !">
+        <source>Nous sommes maintenant placés un peu partout en France,
+                ainsi, peut importe l'endroit ou vous vous trouvez : Vous trouverez forcément un camion près de chez vous !</source>
+        <target>We are now located all over France,
+                 so, no matter where you are: You will inevitably find a truck near you !</target>
+      </trans-unit>
+      <trans-unit id="S1oN8Dz" resname="De plus, chez drivn'Cook, nous réconpensons la créativité des franchisés, c'est pour cela que chaque camion est unique&#10;            en son genre et possède ainsi sa propre ambiance et atmosphère pour que vous vous sentez le mieux possible&#10;            et le plus à l'aise également.">
+        <source>De plus, chez drivn'Cook, nous réconpensons la créativité des franchisés, c'est pour cela que chaque camion est unique
+            en son genre et possède ainsi sa propre ambiance et atmosphère pour que vous vous sentez le mieux possible
+            et le plus à l'aise également.</source>
+        <target>In addition, at drivn'Cook, we recognize the creativity of franchisees, that's why each truck is unique.
+             of its kind and thus has its own ambience and atmosphere to make you feel your best
+             and also the most comfortable.</target>
+      </trans-unit>
+      <trans-unit id="siss9tm" resname="Aucun franchisés n'est disponible pour le moment. Veuillez repasser plus tard désolé.">
+        <source>Aucun franchisés n'est disponible pour le moment. Veuillez repasser plus tard désolé.</source>
+        <target>No franchisees are available at the moment. Please come back later sorry.</target>
+      </trans-unit>
+      <trans-unit id="K1w9JnI" resname="Contact">
+        <source>Contact</source>
+        <target>Contact</target>
+      </trans-unit>
+      <trans-unit id="vrBVHB9" resname="Voir menu">
+        <source>Voir menu</source>
+        <target>Show menu</target>
+      </trans-unit>
+      <trans-unit id=".Lawv2c" resname="Créer un événement">
+        <source>Créer un événement</source>
+        <target>Create an event</target>
+      </trans-unit>
+      <trans-unit id="8orMhb." resname="Terminé">
+        <source>Terminé</source>
+        <target>Finish</target>
+      </trans-unit>
+      <trans-unit id="feTG6BF" resname="Bientôt">
+        <source>Bientôt</source>
+        <target>Soon</target>
+      </trans-unit>
+      <trans-unit id="GqTLC8y" resname="Image">
+        <source>Image</source>
+        <target>image</target>
+      </trans-unit>
+      <trans-unit id="Pldh_1d" resname="C'est ici que vous pouvez consulter votre stock actuel">
+        <source>C'est ici que vous pouvez consulter votre stock actuel</source>
+        <target>This is where you can view your current stock</target>
       </trans-unit>
     </body>
   </file>

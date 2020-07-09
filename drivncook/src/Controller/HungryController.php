@@ -7,12 +7,15 @@ use App\Entity\Menu;
 use App\Service\FranchiseMenuService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
 
 
 /**
  * @Route("/une-petite-faim")
+ * @Security("is_granted('ROLE_FRANCHISE') or is_granted('ROLE_USER')")
  */
 class HungryController extends AbstractController
 {

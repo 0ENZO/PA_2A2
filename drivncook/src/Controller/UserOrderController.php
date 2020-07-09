@@ -12,6 +12,7 @@ use App\Repository\MenuRepository;
 use App\Repository\FranchiseRepository;
 use App\Repository\FranchiseStockRepository;
 use App\Repository\UserOrderRepository;
+use App\Repository\UserRepository;
 use App\Repository\VoteRepository;
 use Knp\Bundle\SnappyBundle\KnpSnappyBundle;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,7 +25,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Session\Session;
 
 /**
- * @Route("/client/commande") 
+ * @Route("/client/commande")
  * IsGranted("ROLE_USER")
  */
 class UserOrderController extends AbstractController
@@ -52,7 +53,7 @@ class UserOrderController extends AbstractController
             'id' => $franchise,
         ]);
     }
-    
+
     /**
      * @Route("/panier", name="user_cart_show")
      */
@@ -72,6 +73,7 @@ class UserOrderController extends AbstractController
         $totalHT = 0;
 
         foreach ($filledCart as $item){
+            dump($item);
             $vatProduct = $item['product']->getVat() * $item['quantity'];
             $priceProduct = $item['product']->getPrice() * $item['quantity'];
             $totalVAT += $vatProduct;
@@ -114,7 +116,7 @@ class UserOrderController extends AbstractController
 
         $session->set('cart', $cart);
 
-        return $this->redirectToRoute("user_cart_show"); 
+        return $this->redirectToRoute("user_cart_show");
     }
 
     /**
@@ -129,7 +131,7 @@ class UserOrderController extends AbstractController
         $cart_franchise = $session->get('cart_franchise');
         $franchise = $franchiseRepository->findOneById($cart_franchise);
 
-        if (!empty($cart)){
+        if (!empty($cart)) {
 
             $order = new UserOrder();
             $order->setUser($user);
@@ -138,45 +140,74 @@ class UserOrderController extends AbstractController
             $order->setDate(new \DateTime());
             $order->setStatus(1);
             $order->setTotalPrice($total);
-            
-            foreach ($cart as $id => $quantity){
+
+            foreach ($cart as $id => $quantity) {
                 $menu = $menuRepository->find($id);
-                /* 
                 $articles = $menu->getArticle();
 
-                // Que 1 article pour le moment, méthode à changer
-                foreach ($articles as $article){
-                    $product = $article->getRecipe()->getProduct();
-                    $recipeQty = $article->getRecipe()->getQuantity();
-                    // $stock = $franchiseStockRepository->findOneByProduct($product);
-                    $stockQty = $stock->getQuantity();
-                    $franchiseStocks = $franchiseStockRepository->findByFranchise($franchise);
-                    $stock = $
-                }
-                */
-                // Ajout des produits dans la commande 
-                $content = new UserOrderContent();
-                $content->setUserOrder($order);
-                $content->setMenu($menu);
+                for ($i = 0; $i < $quantity; $i++) {
 
-                for ($i=0; $i < $quantity; $i++) { 
-                    $contentQty = $content->getQuantity();
-                    $content->setQuantity($contentQty+1);         
+                    // Que 1 article pour le moment, méthode à changer
+                    foreach ($articles as $article) {
+                        // pour chaque article on recherche ses recettes
+                        $recipes = $article->getRecipes();
+
+                        // pour chaque recette on cherche le produit et la quantité
+                        // on multiplie la qté associé dans la recette par le type de mesure
+                        // on soustrait au franchiseStock associé selon la qté de menu précisée
+                        foreach ($recipes as $recipe){
+                            $product = $recipe->getProduct();
+                            $recipeQty = $recipe->getQuantity();
+                            $stock = $franchiseStockRepository->findByProductAndFranchise($product, $franchise);
+                            $stockQty = $stock->getQuantity();
+
+                            $recipeType = $recipe->getType();
+                            $productType = $product->getType();
+                            $type = $this->checkType($productType, $recipeType);
+                            dump($product);
+                            dump($recipe);
+                            dump($type);
+
+                            $substractQty = $recipeQty * $type;
+                            $finalQty = $stockQty-$substractQty;
+                            dump($stock);
+                            dump($stockQty);
+                            dump($substractQty);
+                            dump($finalQty);
+
+                            if ($stockQty - $substractQty < 0 ) {
+                                $stock->setQuantity(0);
+                            } else {
+                                $stock->setQuantity($stockQty - $substractQty);
+                            }
+                            dump($stock->getQuantity());
+                        }
+                    }
+                    // Ajout des produits dans la commande
+                    $content = new UserOrderContent();
+                    $content->setUserOrder($order);
+                    $content->setMenu($menu);
+
+                    for ($i=0; $i < $quantity; $i++) {
+                        $contentQty = $content->getQuantity();
+                        $content->setQuantity($contentQty+1);
+                    }
+                    $em->persist($content);
                 }
-                $em->persist($content);
+
+                $em->persist($order);
+                $em->flush();
+
+                $session->remove('franchise');
+                $session->remove('cart');
+                $session->remove('cart_totalTTC');
+                $session->remove('cart_totalHT');
+
+                $session->set('order_id', $order->getId());
             }
-
-            $em->persist($order);
-            $em->flush();
-
-            $session->remove('franchise');
-            $session->remove('cart');
-            $session->remove('cart_totalTTC');
-            $session->remove('cart_totalHT');
-
-            $session->set('order_id', $order->getId());
+            return $this->redirectToRoute('payment_success');
         }
-        return $this->redirectToRoute('payment_success');
+        return $this->redirectToRoute('home');
     }
 
     /**
@@ -192,7 +223,7 @@ class UserOrderController extends AbstractController
                 'order' => $order
             ]);
         } else {
-            throw new \Exception('Vous n\'êtes pas autorisé à accéder à  cette commande');    
+            throw new \Exception('Vous n\'êtes pas autorisé à accéder à  cette commande');
         }
     }
 
@@ -200,7 +231,7 @@ class UserOrderController extends AbstractController
      * @Route("/pdf/{id}", name="user_order_pdf", methods={"GET"}, requirements={"id"="\d+"})
      */
     public function pdf($id, \Knp\Snappy\Pdf $knpSnappy)
-    {  
+    {
         $em = $this->getDoctrine()->getManager();
         $order = $em->getRepository(UserOrder::class)->findOneById($id);
         if ($this->getUser() == $order->getUser() || $this->isGranted('ROLE_ADMIN')){
@@ -209,7 +240,7 @@ class UserOrderController extends AbstractController
             $html = $this->renderView('user/order/show.html.twig' , array(
                 'order' => $order,
             ));
-            
+
             return new Response(
                 $knpSnappy->getOutputFromHtml($html),
                 200,
@@ -219,7 +250,7 @@ class UserOrderController extends AbstractController
                 )
             );
         } else {
-            throw new \Exception('Vous n\'êtes pas autorisé à accéder à cette ressource.');    
+            throw new \Exception('Vous n\'êtes pas autorisé à accéder à cette ressource.');
         }
     }
     /**
@@ -248,7 +279,7 @@ class UserOrderController extends AbstractController
 
             $request->getSession()->getFlashBag()->add('info', 'Avis envoyé.');
             $session->remove('order_id');
-            
+
             $em->persist($vote);
             $em->flush();
 
@@ -258,6 +289,65 @@ class UserOrderController extends AbstractController
         return $this->render('vote/new.html.twig', [
             'form' => $form->createView(),
             'order' => $order
+        ]);
+    }
+
+    /**
+     * Get both type, and return the good relationship
+     *
+     * @param [type] $productType
+     * @param [type] $recipeType
+     * @return void
+     */
+    private function checkType($productType, $recipeType)
+    {
+        if ($recipeType == 'Unit' && $productType == 'Unit'){
+            $type = 1;
+        } elseif ($recipeType == 'Kg') {
+            if ($productType == 'Kg') {
+                $type = 1;
+            } elseif ($productType == 'g') {
+                $type = 1000;
+            } else {
+                $type = 'error';
+            }
+        }  elseif ($recipeType == 'g') {
+            if ($productType == 'g') {
+                $type = 1;
+            } elseif ($productType == 'Kg') {
+                $type = 0.001;
+            } else {
+                $type = 'error';
+            }
+        } elseif ($recipeType == 'L') {
+            if ($productType == 'L') {
+                $type = 1;
+            } elseif ($productType == 'cl') {
+                $type = 100;
+            } else {
+                $type = 'error';
+            }
+        } else {
+            $type = 'error';
+        }
+
+        return $type;
+    }
+
+    /**
+     * @Route("/fidelite", name="user_reward")
+     */
+    public function reward(UserRepository $userRepository)
+    {
+
+        $euroPoints = $this->getUser()->getEuropoints();
+        $formulePoints = $this->getUser()->getFormulePoints();
+        dump($euroPoints);
+        dump($formulePoints);
+
+        return $this->render('user/reward.html.twig', [
+            'euroPoints' => $euroPoints,
+            'formulePoints' => $formulePoints
         ]);
     }
 }

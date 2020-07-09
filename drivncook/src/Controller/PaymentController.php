@@ -9,6 +9,7 @@ use App\Entity\Warehouse;
 use App\Form\CreditCardType;
 use App\Repository\FranchiseRepository;
 use App\Repository\WarehouseRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -16,6 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/payment")
+ * @Security("is_granted('ROLE_FRANCHISE') or is_granted('ROLE_USER')")
  */
 class PaymentController extends AbstractController
 {
@@ -44,6 +46,8 @@ class PaymentController extends AbstractController
 
         } elseif ( $this->getUser() instanceof Franchise) {
             $credit_cards = $manager->getRepository(CreditCard::class)->findBy(["franchise" => $user]);
+        } else {
+            $credit_cards = null;
         }
 
         if (!empty($selected_credit_card) || $selected_credit_card != null) {
@@ -71,7 +75,7 @@ class PaymentController extends AbstractController
 
         $totalTTC = $session->get('cart_totalTTC');
         $totalHT = $session->get('cart_totalHT');
-        
+
         if ($user instanceof Franchise) {
             $consignee = $warehouseRepository->findOneById($session->get('cart_warehouse'));
         } else {
@@ -95,7 +99,7 @@ class PaymentController extends AbstractController
             "consignee" => $consignee,
             "source" => $source,
             "user" => $user,
-            "selected_credit_card" => $selected_credit_card, 
+            "selected_credit_card" => $selected_credit_card,
         ]);
     }
 

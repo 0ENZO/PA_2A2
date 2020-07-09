@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace App\Controller;
 
@@ -23,6 +23,7 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
  * @Route("/camion")
+ * @isGranted("ROLE_FRANCHISE")
  */
 class TruckController extends AbstractController
 {
@@ -36,7 +37,7 @@ class TruckController extends AbstractController
 
         $em = $this->getDoctrine()->getManager();
         $truck = $truckRepository->findOneById($idTruck);
-        
+
         if(!$truck->getFranchise()){
 
             $choices = $franchiseRepository->findAll();
@@ -53,20 +54,20 @@ class TruckController extends AbstractController
                 },
             ))
             ->getForm();
-    
+
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()){
-    
+
                 $selected = $form->get('franchise')->getData();
                 $truck->setFranchise($selected);
                 $truck->setStatus('Occupé');
                 $em->persist($truck);
                 $em->flush();
-    
+
                 $this->addFlash('info', "Camion assigné.");
                 return $this->redirectToRoute('admin_truck_show');
             }
-            
+
             return $this->render('admin/truck/assign.html.twig', [
                 'form' => $form->createView()
             ]);
@@ -86,10 +87,10 @@ class TruckController extends AbstractController
     public function show($id, TruckRepository $truckRepository, ReportBreakdownRepository $reportBreakdownRepository)
     {
         $truck = $truckRepository->findOneById($id);
-        // EA : Lié au franchisé et pas au camion 
+        // EA : Lié au franchisé et pas au camion
         $reportBreakdowns = $reportBreakdownRepository->findAll($truck);
         return $this->render('truck/show.html.twig',[
-            'truck' => $truck, 
+            'truck' => $truck,
             'reportBreakdowns' => $reportBreakdowns
         ]);
     }

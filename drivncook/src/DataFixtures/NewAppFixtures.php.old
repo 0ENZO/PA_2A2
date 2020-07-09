@@ -1,0 +1,59 @@
+<?php
+
+
+namespace App\DataFixtures;
+
+
+use App\Entity\Article;
+use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Persistence\ObjectManager;
+
+class NewAppFixtures extends Fixture
+{
+
+    public function load(ObjectManager $manager) {
+
+
+        $articles = $manager->getRepository(Article::class)->findAll();
+
+        foreach ($articles as $article) {
+
+            $subCategory = $article->getSubCategory()->getName();
+
+            $article->setFormulePointsGap(false);
+
+            if ($subCategory == "Galettes")
+                $article->setEuroPointsGap(75);
+            elseif ($subCategory == "Crêpes")
+                $article->setEuroPointsGap(55);
+            elseif ($subCategory == "Salades")
+                $article->setEuroPointsGap(50);
+            elseif ($subCategory == "Bouteilles en verres")
+                $article->setEuroPointsGap(45);
+            elseif ($subCategory == "Boissons chaudes")
+                $article->setEuroPointsGap(40);
+            elseif ($subCategory == "Jus")
+                $article->setEuroPointsGap(50);
+            elseif ($subCategory == "Smoothies")
+                $article->setEuroPointsGap(50);
+            elseif ($subCategory == "Desserts pré-fait")
+                $article->setEuroPointsGap(40);
+            elseif ($subCategory == "Plat normal")
+                $article->setEuroPointsGap(55);
+            elseif ($subCategory == "Toast")
+                $article->setEuroPointsGap(55);
+            elseif ($subCategory == "Brunchs") {
+                $article
+                    ->setFormulePointsGap(true)
+                    ->setEuroPointsGap(null);
+            }
+            else
+                $article->setEuroPointsGap(null);
+            $manager->persist($article);
+        }
+        $manager->flush();
+
+    }
+
+
+}

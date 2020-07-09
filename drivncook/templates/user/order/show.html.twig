@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{'Facture'|trans}}
+{% block title %}{{ parent() }} - {{'Facture'|trans}}
 {% endblock %}
 {% block stylesheets %}
 	{% for path in encore_entry_css_files('app') %}
@@ -15,7 +15,7 @@
 		<h1 class="h1_pdf">{{'Facture'|trans}}</h1>
 
         <div class="address address-from">
-            <div class="address_label">De</div>
+            <div class="address_label">{% trans %}De{% endtrans %}</div>
             <div class="address_content">
                 <strong>{{ order.franchise.firstName }} {{ order.franchise.lastName }}</strong><br>
                 {{ order.franchise.address.number }} {{ order.franchise.address.street }}<br>
@@ -24,7 +24,7 @@
         </div>
 
         <div class="address address-to">
-            <div class="address_label">Pour</div>
+            <div class="address_label">{% trans %}Pour{% endtrans %}</div>
             <div class="address_content">
                 <strong>{{ order.user.firstName }} {{ order.user.lastName }}</strong><br>
                 {{ order.completeAddress }}<br>
@@ -34,7 +34,7 @@
         <div class="infos">
             <div class="infos_label">Facture n°</div>
             <div class="infos_content"><strong>{{ order.id }}</strong></div>
-            <div class="infos_label">Émise le </div>
+            <div class="infos_label">{% trans %}Emise le{% endtrans %} </div>
             <div class="infos_content">{{ order.date|date("d/m/Y")}}</div>
         </div>
 
@@ -54,45 +54,40 @@
             {% for userOrderContent in order.userOrderContents %}
                 <tr>
                     <td>{{ userOrderContent.menu.name }}</td>
-                    <td>{{ userOrderContent.quantity }}</td> 
+                    <td>{{ userOrderContent.quantity }}</td>
                     <td>{{ userOrderContent.menu.price }}</td>
                     <td>{{ userOrderContent.menu.price + userOrderContent.menu.vat }}</td>
                 </tr>
             {% endfor %}
 
             <tr class="total total-first">
-                <td colspan="2" class="total_label">Sous-total</td>
+                <td colspan="2" class="total_label">{% trans %}Sous-total{% endtrans %}</td>
                 <td><strong>
                     {% set sousTotal = 0 %}
                     {% for userOrderContent in order.userOrderContents %}
-                        {% set sousTotal = sousTotal + userOrderContent.menu.price * userOrderContent.quantity %}    
+                        {% set sousTotal = sousTotal + userOrderContent.menu.price * userOrderContent.quantity %}
                     {% endfor %}
                     {{ sousTotal }}€
                 </strong></td>
             </tr>
             <tr class="total">
-                <td colspan="2" class="total_label">Taxe (20.00%)</td>
+                <td colspan="2" class="total_label">{% trans %}Taxe (20.00%){% endtrans %}</td>
                 <td><strong>
                     {% set vat = 0 %}
                     {% for userOrderContent in order.userOrderContents %}
-                        {% set vat = vat + userOrderContent.menu.vat * userOrderContent.quantity %}    
+                        {% set vat = vat + userOrderContent.menu.vat * userOrderContent.quantity %}
                     {% endfor %}
                     {{ vat }}€
                 </strong></td>
             </tr>
             <tr class="total total-big">
-                <td colspan="2" class="total_label">Total</td>
+                <td colspan="2" class="total_label">{% trans %}Total{% endtrans %}</td>
                 <td><strong>
                     {{ order.totalPrice}}€
                 </strong></td>
             </tr>
             </tbody>
         </table>
-
-		<footer class="footer_pdf">
-			Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
-		</footer>
-
 	</body>
 
 {% endblock %}

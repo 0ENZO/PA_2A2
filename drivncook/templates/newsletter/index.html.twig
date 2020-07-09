@@ -1,0 +1,207 @@
+{% extends 'base.html.twig' %}
+{% block title %}{{ parent() }} - {% trans %}Newsletter{% endtrans %}
+{% endblock %}
+{% block body %}
+	<div class="container mt-5">
+
+		{% if is_granted('ROLE_EDITOR') %}
+			
+			<h2 class="text-center mt-2">{% trans %}Newsletter{% endtrans %}</h2>
+			
+			<hr class="my-4">
+			<h3 class="text-center mt-3">{% trans %}Ecrire un mail{% endtrans %}</h3>
+			{{ form_start(form) }}
+			<div class="pt-3 col-md-9 mx-auto px-auto">
+				<div class="row d-flex align-items-center align-self-center mb-3 mx-auto">
+					<div class="col-md-3">
+						<strong>{% trans %}Nom du message{% endtrans %}</strong>
+					</div>
+					<div class="col-md-9">{{ form_widget(form.title) }}</div>
+				</div>
+
+				<div class="row d-flex align-items-center align-self-center mb-3 mx-auto">
+					<div class="col-md-3">
+						<strong>{% trans %}Date d'envoi{% endtrans %}</strong>
+					</div>
+					<div class="col-md-9">{{ form_widget(form.plannedFor) }}</div>
+				</div>
+
+				<div class="row d-flex align-items-center align-self-center mb-3 mx-auto">
+					<div class="col-md-3">
+						<strong>{% trans %}Contenu{% endtrans %}</strong>
+					</div>
+					<div class="col-md-9">{{ form_widget(form.content) }}</div>
+				</div>
+
+				<div class="row d-flex align-items-center align-self-center mb-3 mx-auto">
+					<div class="col-md-3">
+						<strong>{% trans %}Concernés{% endtrans %}</strong>
+					</div>
+					<div class="col-md-9">{{ form_widget(form.target) }}</div>
+				</div>
+
+                <div class="row d-flex align-items-center align-self-center mb-3 offset-md-3">
+                   {% if form.isSent %} 
+
+                        <div class="d-none">
+                            {{ form_widget(form.isSent) }}
+                        </div>
+                
+                        <a class="btn btn-primary ml-3" href="#" id="send_message">
+                            {% trans %}Envoyer{% endtrans %}
+                            <i class="far fa-paper-plane ml-2"></i>
+                        </a>
+                    {% endif %}
+
+                    <button class="btn btn-primary ml-3" type="submit" id="submit_form">
+                        {% trans %}Enregister{% endtrans %}
+                        <i class="fas fa-save ml-2"></i>
+                    </button>
+                </div>
+			</div>
+			{{ form_end(form) }}
+        {% endif %}
+        
+
+        <div class="d-flex justify-content-end my-5">
+            <ul class="nav nav-tabs mb-4 filters">
+                <li class="nav-item">
+                    <a class="nav-link active mx-2" id="nav_planned" data-target="#pane_planned" data-toggle="tab" href="" >Planifiés</a>
+                </li>   
+                <li class="nav-item">
+                    <a class="nav-link mx-2" href="" id="nav_sent" data-target="#pane_sent" data-toggle="tab" >Envoyés</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link mx-2" href="" id="nav_expired" data-target="#pane_expired" data-toggle="tab" >Expirés</a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="tab-content">
+            <div class="tab-pane active" id="pane_planned">
+                <div class="table-container">
+                    <table class="table table-filter">
+                        <tbody>
+                            {% if plannedMessages is defined and plannedMessages is not null %}
+                                {% for message in plannedMessages %}
+                                <tr name="row_message" data-id="{{ message.id }}">
+                                    <td style="padding-right: 0px;">
+                                        <a class="mr-2 no_style" data-toggle="tooltip" data-placement="bottom" title="Supprimer" href="{{ path('message_delete', { 'id': message.id}) }}" ><i class="fas fa-trash-alt delete-message" data-id="{{message.id}}"></i></a>
+                                        <a target="_blank" class="mr-2 no_style" data-toggle="tooltip" data-placement="bottom" title="Voir" {#href="{{ path('message_show', { 'id': message.id}) }}"#}><i class="fas fa-eye"></i></a>
+                                        <a target="_blank" class="mr-2 no_style" data-toggle="tooltip" data-placement="bottom" title="Modifier" href="{{ path('message_edit', { 'id': message.id}) }}"><i class="fas fa-pen"></i></a>
+                                    </td>
+                                    <td>
+                                        <div class="">
+                                            <span class="float-right">{{ message.createdAt|date("d/m/Y") }}</span>
+                                            {% if message.editor.firstname and message.editor.lastName %}
+                                                <h2 class="font_size_1250">{{ message.editor.firstname }} {{ message.editor.lastname }}</h2>   
+                                            {% elseif message.editor.email %}
+                                                <h2 class="font_size_1250">{{ message.editor.email }}</h2>
+                                            {% endif %}
+                                            <p class="mb-0">{{ message.content|length > 90 ? message.content|slice(0, 90) ~ '…' : message.content  }}</p>   
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="tab-pane" id="pane_sent">
+                <div class="table-container">
+                    <table class="table table-filter">
+                        <tbody>
+                            {% if sentMessages is defined and sentMessages is not null %}
+                                {% for message in sentMessages %}
+                                <tr name="row_message" data-id="{{ message.id }}">
+                                    <td style="padding-right: 0px;">
+                                        <a target="_blank" class="mr-2 no_style" data-toggle="tooltip" data-placement="bottom" title="Voir" href=""><i class="fas fa-eye"></i></a>
+                                    </td>
+                                    <td>
+                                        <div class="">
+                                            <span class="float-right">{{ message.createdAt|date("d/m/Y") }}</span>
+                                            {% if message.editor.firstname and message.editor.lastName %}
+                                                <h2 class="font_size_1250">{{ message.editor.firstname }} {{ message.editor.lastname }}</h2>   
+                                            {% elseif message.editor.email %}
+                                                <h2 class="font_size_1250">{{ message.editor.email }}</h2>
+                                            {% endif %}
+                                            <p class="mb-0">{{ message.content|length > 90 ? message.content|slice(0, 90) ~ '…' : message.content  }}</p>   
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="tab-pane" id="pane_expired">
+                <div class="table-container">
+                    <table class="table table-filter">
+                        <tbody>
+                            {% if expiredMessages is defined and expiredMessages is not null %}
+                                {% for message in expiredMessages %}
+                                <tr name="row_message" data-id="{{ message.id }}">
+                                    <td style="padding-right: 0px;">
+                                        <a class="mr-2 no_style" data-toggle="tooltip" data-placement="bottom" title="Supprimer" href="{{ path('message_delete', { 'id': message.id}) }}" ><i class="fas fa-trash-alt delete-message" data-id="{{message.id}}"></i></a>
+                                        <a target="_blank" class="mr-2 no_style" data-toggle="tooltip" data-placement="bottom" title="Voir" {#href="{{ path('message_show', { 'id': message.id}) }}"#}><i class="fas fa-eye"></i></a>
+                                        <a target="_blank" class="mr-2 no_style" data-toggle="tooltip" data-placement="bottom" title="Recycler" href="{{ path('message_edit', { 'id': message.id}) }}" ><i class="fas fa-recycle"></i></a>
+                                    </td>
+                                    <td>
+                                        <div class="">
+                                            <span class="float-right">{{ message.createdAt|date("d/m/Y") }}</span>
+                                            {% if message.editor.firstname and message.editor.lastName %}
+                                                <h2 class="font_size_1250">{{ message.editor.firstname }} {{ message.editor.lastname }}</h2>   
+                                            {% elseif message.editor.email %}
+                                                <h2 class="font_size_1250">{{ message.editor.email }}</h2>
+                                            {% endif %}
+                                            <p class="mb-0">{{ message.content|length > 90 ? message.content|slice(0, 90) ~ '…' : message.content  }}</p>   
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+	</div>
+
+{% endblock %}
+
+{% block scripts %}
+    {{ parent() }}
+
+<script id="message_delete">
+    const messages = document.getElementsByName("row_message");
+    for (let message of messages){
+        message.addEventListener ('click', e => {
+        if (e.target.className == 'fas fa-trash-alt message-message') {
+        
+            const id = e.target.getAttribute('data-id');
+
+            fetch(`/message/supprimer/${id}`, {
+            method: 'DELETE'
+            }).then(res => window.location.reload());
+        }
+    });
+    }
+</script>
+
+<script>
+    const check = document.getElementById('message_isSent');
+    const sent = document.getElementById('send_message');
+    const submit = document.getElementById('submit_form');
+
+    sent.addEventListener ('click', e => {
+        if (e.target.className == 'btn btn-primary ml-3') {
+            check.checked = true;
+            submit.click();
+        }
+    });
+
+</script>
+
+{% endblock %}

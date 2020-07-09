@@ -8,10 +8,14 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @ORM\Entity(repositoryClass=WarehouseRepository::class)
+ *  @UniqueEntity(fields={"address", "maxCapacity"}, message="L'adresse esrt déjà relié.")
  * @UniqueEntity(fields={"name"}, message="Un entrepôt existant porte déjà ce nom.")
+ *  @UniqueEntity(fields={"email"}, message="Un entrepôt existant utilise déjà cet email.")
+ *  @UniqueEntity(fields={"phoneNumber"}, message="Un entrepôt existant existant utilise déjà ce numéro.")
  */
 class Warehouse
 {
@@ -35,11 +39,34 @@ class Warehouse
 
     /**
      * @ORM\Column(type="string", length=200)
+     * @Assert\NotNull
+     *  @Assert\Length(
+     *     min="0",
+     *     minMessage="Vous devez mettre un email  à 0 caractère minimum",
+     *     max="200",
+     *     maxMessage="Vous devez mettre un email  à 200 caractères maximum"
+     * )
+     * @Assert\Email(
+     *     message="L'addresse mail que vous venez de saisir n'est pas une addresse valide.",
+     *     normalizer="trim"
+     * )
      */
     private $email;
 
     /**
      * @ORM\Column(type="string", length=10)
+     * @Assert\Type(type="string")
+     * @Assert\Length(
+     *     min="10",
+     *     minMessage="Vous devez mettre un numéro  à 10 chiffres minimum",
+     *     max="10",
+     *     maxMessage="Vous devez mettre un numéro  à 10 caractères maximum"
+     * )
+     * @Assert\Regex(
+     *     pattern="/^[0-9]*$/",
+     *     match=true,
+     *     message="Vous ne pouvez mettre que des chiffres dans ce champs"
+     * )
      */
     private $phoneNumber;
 

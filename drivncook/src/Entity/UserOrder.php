@@ -6,6 +6,9 @@ use App\Repository\UserOrderRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=UserOrderRepository::class)
@@ -21,22 +24,36 @@ class UserOrder
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="userOrders")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $user;
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     *  @Assert\Type(type="string")
      */
     private $comment;
 
     /**
      * @ORM\Column(type="datetime")
+     *  @Assert\DateTime()
+     * @Assert\NotNull
+     * @Assert\GreaterThanOrEqual(
+     *     "today UTC",
+     *     message="La date ne peut pas être avant aujourd'hui"
+     * )
      */
     private $date;
 
     /**
      * @ORM\Column(type="string", length=50, nullable=true)
+     * @Assert\Type(type="string")
+     * @Assert\Length(
+     *     min="0",
+     *     minMessage="Vous devez mettre un statut  à 0 caractère minimum",
+     *     max="50",
+     *     maxMessage="Vous devez mettre un statut  à 50 caractères maximum"
+     * )
      */
     private $status;
 
@@ -53,11 +70,21 @@ class UserOrder
 
     /**
      * @ORM\Column(type="float")
+     * @Assert\Type(type="float")
+     * @Assert\NotNull
+     * @Assert\PositiveOrZero
      */
     private $totalPrice;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=false)
+     * @Assert\Type(type="string")
+     * @Assert\Length(
+     *     min="0",
+     *     minMessage="Vous devez mettre une adresse  à 0 caractère minimum",
+     *     max="255",
+     *     maxMessage="Vous devez mettre une adresse  à 255 caractères maximum"
+     * )
      */
     private $completeAddress;
 

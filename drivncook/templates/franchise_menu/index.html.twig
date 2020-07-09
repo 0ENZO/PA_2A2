@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Gerer ma franchise{% endblock %}
+{% block title %}{{ parent() }} - Gerer ma franchise{% endblock %}
 
 {% block body %}
 
@@ -27,18 +27,18 @@
 
         <div class="row">
             <div class="col-6">
-                <a href="{{ path('menu_auto_filled', {"id" : franchise.id}) }}" class="btn btn-primary col-12 my-2">Mise
-                    en place de mon menu et débuter mon activité</a>
+                <a href="{{ path('menu_auto_filled', {"id" : franchise.id}) }}" class="btn btn-primary col-12 my-2">{% trans %}Mise
+                    en place de mon menu et débuter mon activité{% endtrans %}</a>
             </div>
             <div class="col-6">
-                <a href="{{ path('menu_reset', {'id' : franchise.id}) }}" class="btn btn-danger col-12 my-2">Suppression
-                    de mon menu et mettre fin à mon activité</a>
+                <a href="{{ path('menu_reset', {'id' : franchise.id}) }}" class="btn btn-danger col-12 my-2">{% trans %}Suppression
+                de mon menu et mettre fin à mon activité{% endtrans %}</a>
             </div>
             <div class="col-6">
-                <a href="{{ path('franchise_stock', {"id" : franchise.id}) }}" class="btn btn-primary col-12 my-2">Affichage de mes stocks</a>{#TODO : Affichage de mes stocks#}
+                <a href="{{ path('franchise_stock', {"id" : franchise.id}) }}" class="btn btn-primary col-12 my-2">{% trans %}Affichage de mes stocks{% endtrans %}</a>{#TODO : Affichage de mes stocks#}
             </div>
             <div class="col-6">
-                <a href="#" class="btn btn-dark col-12 my-2">Mes prochaines commandes à réaliser</a>{#TODO : Mes prochaines commandes à réaliser#}
+                <a href="#" class="btn btn-dark col-12 my-2">{% trans %}Mes prochaines commandes à réaliser{% endtrans %}</a>{#TODO : Mes prochaines commandes à réaliser#}
             </div>
         </div>
 
@@ -51,11 +51,11 @@
             <thead>
             <tr>
                 <th scope="col">Id</th>
-                <th scope="col">Nom du menu</th>
-                <th scope="col">Articles associé.s</th>
-                <th scope="col">Ingrédient article.s</th>
-                <th scope="col">Image</th>
-                <th scope="col">Action</th>
+                <th scope="col">{% trans %}Nom du menu{% endtrans %}</th>
+                <th scope="col">{% trans %}Articles associés{% endtrans %}</th>
+                <th scope="col">{% trans %}Ingrédients des articles{% endtrans %}</th>
+                <th scope="col">{% trans %}Image{% endtrans %}</th>
+                <th scope="col">Actions</th>
             </tr>
             </thead>
             <tbody>

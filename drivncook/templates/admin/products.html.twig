@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Gestion des produits{% endblock %}
+{% block title %}{{ parent() }} - Gestion des produits{% endblock %}
 
 {% block body %}
 
@@ -64,10 +64,17 @@
                             <span class="badge badge-pill {{ badge }}">{{ product.subCategory.category }}</span>
                         </td>
                         <td>{{ product.subCategory }}</td>
-                        <td>{{ product.imageName }}</td>
-                        <td>{{ product.price }} €</td>
-                        <td>{{ product.vat }} €</td>
-                        <td>{{ product.price + product.vat }} €</td>
+                        <td>
+                            {% if product.imageName is defined and product.imageName is not empty %}
+                                <img src="{{ vich_uploader_asset(product) }}" alt="{{ product.name }}" title="{{ product.name }}" width="100" height="100" class="img-thumbnail" />
+                            {% else %}
+                                <img src="https://via.placeholder.com/100" alt="Sans-image" title="sans-image" width="100" height="100" class="img-thumbnail"/>
+                            {% endif %}
+                        </td>
+                        <td>{{ product.price | format_currency('EUR') }} </td>
+                        <td>{{ product.vat | format_currency('EUR') }}</td>
+                        {% set ttc = product.price + product.vat %}
+                        <td>{{ ttc | format_currency('EUR') }}</td>
                         <td>{{ product.quantity }} {{ product.type }}</td>
                         <td class="{% if product.status == 'Disponible' %}available-product{% elseif product.status == 'Indisponible' %}unvailable-product{% endif %}">{{ product.status }}</td>
                         <td>{{ product.expiryDate | date("d/m/Y") }}</td>

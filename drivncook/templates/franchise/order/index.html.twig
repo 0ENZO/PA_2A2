@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{'Mon panier'|trans}}
+{% block title %}{{ parent() }} - {{'Mon panier'|trans}}
 {% endblock %}
 
 {% block body %}
@@ -24,14 +24,16 @@
 				<tbody>
 					{% for item in items %}
 						{% for warehouseStock in item.product.warehouseStocks %}
-							{% if warehouseStock.warehouse.id == app.session.get('cart_warehouse') %}
+							{% if warehouseStock.warehouse.id == app
+								.session
+								.get('cart_warehouse') %}
 								{% if item.quantity > warehouseStock.quantity %}
 									<tr class="table-danger">
-										<td>{{item.product.name}}</td> 
+										<td>{{item.product.name}}</td>
 										<td>{{ item.product.vat + item.product.price }}
 											€</td>
 										<td>{{item.quantity}}</td>
-										<td>{{  (item.product.vat + item.product.price) * item.quantity }} 
+										<td>{{  (item.product.vat + item.product.price) * item.quantity }}
 											€</td>
 										<td>
 											<a href="{{ path('franchise_cart_delete', {id: item.product.id}) }}" class="btn btn-danger btn-sm mr-2">
@@ -41,63 +43,64 @@
 												<i class="fas fa-balance-scale"></i>
 											</a>
 										</td>
-								{% else %}
-									<tr>
-										<td>{{item.product.name}}</td> 
-										<td>{{ item.product.vat + item.product.price }} 
-											€</td>
-										<td>{{item.quantity}}</td>
-										<td>{{  (item.product.vat + item.product.price) * item.quantity }} 
-											€</td>
-										<td>
-											<a href="{{ path('franchise_cart_delete', {id: item.product.id}) }}" class="btn btn-danger btn-sm">
-												<i class="fas fa-trash"></i>
-											</a>
-										</td>
-								{% endif %}
-							{% endif %}
+									{% else %}
+										<tr>
+											<td>{{item.product.name}}</td>
+											<td>{{ item.product.vat + item.product.price }}
+												€</td>
+											<td>{{item.quantity}}</td>
+											<td>{{  (item.product.vat + item.product.price) * item.quantity }}
+												€</td>
+											<td>
+												<a href="{{ path('franchise_cart_delete', {id: item.product.id}) }}" class="btn btn-danger btn-sm">
+													<i class="fas fa-trash"></i>
+												</a>
+											</td>
+										{% endif %}
+									{% endif %}
+								{% endfor %}
+
+							</tr>
 						{% endfor %}
-
-
+					</tbody>
+					<tfoot>
+						<tr>
+							<td class="text-right" colspan="3">{{'Total TTC'|trans}}
+								:
+							</td>
+							<td>{{ app.session.get('cart_totalTTC') }}
+								€</td>
+							<td></td>
 						</tr>
-					{% endfor %}
-				</tbody>
-				<tfoot>
-					<tr>
-						<td class="text-right" colspan="3">{{'Total TTC'|trans}}
-							:
-						</td>
-						<td>{{ app.session.get('cart_totalTTC') }}
-							€</td>
-						<td></td>
-					</tr>
-				</tfoot>
-			</table>
+					</tfoot>
+				</table>
 
-			<div class="d-flex justify-content-end mt-5">
+				<div class="d-flex justify-content-end mt-5">
 
-				<a href="{{ path('product_index', {'id': app.session.get('cart_warehouse')}) }}" class="btn btn-primary mr-auto">{% trans %}Retour{% endtrans %}</a>
-				<a class="btn btn-danger mr-2" href="{{ path('franchise_cart_empty') }}">
-					{{'Vider mon panier'|trans}}
-					<i class="fas fa-trash ml-2"></i>
-				</a>
-
-				{% set selected_credit_card = null %}
-				<a class="btn btn-success" href="{{ path('payment_process', {'selected_credit_card': selected_credit_card}) }}">
-					{{'Valider mon panier'|trans}}
-					<i class="fas fa-check ml-2"></i>
-				</a>
-			</div>
-
-		{% else %}
-			<h3>{{'Votre panier est vide'|trans}}</h3>
-
-			<div class="d-flex justify-content-end mt-5">
-				{% if app.session.get('cart_warehouse') is not null %}
 					<a href="{{ path('product_index', {'id': app.session.get('cart_warehouse')}) }}" class="btn btn-primary mr-auto">{% trans %}Retour{% endtrans %}</a>
-				{% endif %}
-			</div>
-		{% endif %}
-	</div>
+					<a class="btn btn-danger mr-2" href="{{ path('franchise_cart_empty') }}">
+						{{'Vider mon panier'|trans}}
+						<i class="fas fa-trash ml-2"></i>
+					</a>
 
-{% endblock %}
+					{% set selected_credit_card = null %}
+					<a class="btn btn-success" href="{{ path('payment_process', {'selected_credit_card': selected_credit_card}) }}">
+						{{'Valider mon panier'|trans}}
+						<i class="fas fa-check ml-2"></i>
+					</a>
+				</div>
+
+			{% else %}
+				<h3>{{'Votre panier est vide'|trans}}</h3>
+
+				<div class="d-flex justify-content-end mt-5">
+					{% if app
+						.session
+						.get('cart_warehouse')is not null %}
+						<a href="{{ path('product_index', {'id': app.session.get('cart_warehouse')}) }}" class="btn btn-primary mr-auto">{% trans %}Retour{% endtrans %}</a>
+					{% endif %}
+				</div>
+			{% endif %}
+		</div>
+
+	{% endblock %}

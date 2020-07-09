@@ -1,8 +1,8 @@
 {% extends 'base.html.twig' %}
-{% block title %}{{'Créer un event'|trans}}
+{% block title %}{{ parent() }} - {% trans %}Créer un événement{% endtrans %}
 {% endblock %}
 {% block body %}
-	<h1>{{'Créer un event'|trans}}</h1>
+	<h1>{% trans %}Créer un événement{% endtrans %}</h1>
 	<div class="container mt-5">
 		{{ form_start(form) }}
 		{{ form_widget(form) }}

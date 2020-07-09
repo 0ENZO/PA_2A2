@@ -5,17 +5,18 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\Collection;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\HttpFoundation\File\File;
 use Doctrine\Common\Collections\ArrayCollection;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
-
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @Vich\Uploadable
  * @UniqueEntity(fields={"email"}, message="Cette adresse email est déjà utilisée")
+ *  @UniqueEntity(fields={"pseudo"}, message="Ce pseudo est déjà utilisé")
+ *  @UniqueEntity(fields={"phoneNumber"}, message="Ce numéro est déjà utilisé")
  */
 class User implements UserInterface
 {
@@ -28,21 +29,49 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=30)
+     *  @Assert\Type(type="string")
+     *  @Assert\NotNull
+     * @Assert\Length(
+     *     min="0",
+     *     minMessage="Vous devez mettre un pseudo  à 0 caractère minimum",
+     *     max="255",
+     *     maxMessage="Vous devez mettre un pseudo  à 30 caractères maximum"
+     * )
      */
     private $pseudo;
 
     /**
      * @ORM\Column(type="string", length=50, nullable=true)
+     *  @Assert\Type(type="string")
+     * @Assert\Length(
+     *     min="0",
+     *     minMessage="Vous devez mettre un prénom  à 0 caractère minimum",
+     *     max="50",
+     *     maxMessage="Vous devez mettre un prénom  à 50 caractères maximum"
+     * )
      */
     private $firstName;
 
     /**
      * @ORM\Column(type="string", length=50, nullable=true)
+     * @Assert\Type(type="string")
+     * @Assert\Length(
+     *     min="0",
+     *     minMessage="Vous devez mettre un nom  à 0 caractère minimum",
+     *     max="50",
+     *     maxMessage="Vous devez mettre un nom  à 50 caractères maximum"
+     * )
      */
     private $lastName;
 
     /**
      * @ORM\Column(type="string", length=200)
+     * @Assert\Length(
+     *     min="0",
+     *     minMessage="Vous devez mettre un email  à 0 caractère minimum",
+     *     max="200",
+     *     maxMessage="Vous devez mettre un email  à 200 caractères maximum"
+     * )
      * @Assert\Email(
      *     message="L'addresse mail que vous venez de saisir n'est pas une addresse valide.",
      *     normalizer="trim"
@@ -52,16 +81,32 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=10, nullable=true)
+     * @Assert\Type(type="string")
+     * @Assert\Length(
+     *     min="10",
+     *     minMessage="Vous devez mettre un numéro  à 10 chiffres minimum",
+     *     max="10",
+     *     maxMessage="Vous devez mettre un numéro  à 10 caractères maximum"
+     * )
+     * @Assert\Regex(
+     *     pattern="/^[0-9]*$/",
+     *     match=true,
+     *     message="Vous ne pouvez mettre que des chiffres dans ce champs"
+     * )
      */
     private $phoneNumber;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     *  @Assert\Type(type="int")
+     * @Assert\PositiveOrZero
      */
     private $euroPoints;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * @Assert\Type(type="int")
+     * @Assert\PositiveOrZero
      */
     private $formulePoints;
 
@@ -72,16 +117,36 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Type(type="string")
+     * @Assert\NotNull
+     * @Assert\Length(
+     *     min="0",
+     *     minMessage="Vous devez mettre un password  à 0 caractère minimum",
+     *     max="255",
+     *     maxMessage="Vous devez mettre un password  à 255 caractères maximum"
+     * )
      */
     private $password;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     *  @Assert\Type(type="string")
+     * @Assert\Length(
+     *     min="0",
+     *     minMessage="Vous devez mettre un password  à 0 caractère minimum",
+     *     max="255",
+     *     maxMessage="Vous devez mettre un password  à 255 caractères maximum"
+     * )
      */
     private $completeAddress;
 
     /**
      * @ORM\Column(type="date")
+     * @Assert\Date()
+     * @Assert\LessThan(
+     *     "today UTC",
+     *     message="La date n'est pas valide"
+     * )
      */
     private $birthDate;
 
@@ -137,6 +202,11 @@ class User implements UserInterface
      */
     private $answerReportBreakdowns;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Message::class, mappedBy="editor")
+     */
+    private $messages;
+
     public function __construct()
     {
         $this->creditCards = new ArrayCollection();
@@ -144,6 +214,7 @@ class User implements UserInterface
         $this->votes = new ArrayCollection();
         $this->rewards = new ArrayCollection();
         $this->answerReportBreakdowns = new ArrayCollection();
+        $this->messages = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -556,6 +627,37 @@ class User implements UserInterface
             // set the owning side to null (unless already changed)
             if ($answerReportBreakdown->getUser() === $this) {
                 $answerReportBreakdown->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Message[]
+     */
+    public function getMessages(): Collection
+    {
+        return $this->messages;
+    }
+
+    public function addMessage(Message $message): self
+    {
+        if (!$this->messages->contains($message)) {
+            $this->messages[] = $message;
+            $message->setEditor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMessage(Message $message): self
+    {
+        if ($this->messages->contains($message)) {
+            $this->messages->removeElement($message);
+            // set the owning side to null (unless already changed)
+            if ($message->getEditor() === $this) {
+                $message->setEditor(null);
             }
         }
 

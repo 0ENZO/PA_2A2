@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use App\Repository\TechnicalControlRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=TechnicalControlRepository::class)
@@ -25,11 +27,18 @@ class TechnicalControl
 
     /**
      * @ORM\Column(type="date")
+     *  @Assert\Date()
+     * @Assert\NotNull
+     * @Assert\GreaterThanOrEqual(
+     *     "today UTC",
+     *     message="La date ne peut pas être avant aujourd'hui"
+     * )
      */
     private $date;
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Assert\Type(type="string")
      */
     private $comment;
 

@@ -67,6 +67,7 @@ class FranchiseMenuService
 
 
         foreach ($articles as $article) {
+
             $menu = new Menu();
             $menu
                 ->setFranchise($franchise)
@@ -77,6 +78,8 @@ class FranchiseMenuService
                 ->setVat($menu->getPrice() * 0.20)
                 ->setDescription($article->getDescription())
                 ->setStatus($avaiblable)
+                ->setEuroPointsGap($article->getEuroPointsGap())
+                ->setFormulePointsGap($article->getFormulePointsGap())
                 ->setIsLocked(1);
 
             $this->manager->persist($menu);

@@ -12,32 +12,32 @@ vich_uploader:
             uri_prefix: /images/categories
             upload_destination: '%kernel.project_dir%/public/images/categories'
             inject_on_load:     true
-            delete_on_update:   false
-            delete_on_remove:   false
+            delete_on_update:   true
+            delete_on_remove:   true
             namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
 
         sub_categorie_images:
             uri_prefix: /images/sub-categories
             upload_destination: '%kernel.project_dir%/public/images/sub-categories'
             inject_on_load:     true
-            delete_on_update:  false
-            delete_on_remove:   false
+            delete_on_update:  true
+            delete_on_remove:   true
             namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
 
         product_images:
             uri_prefix: /images/products
             upload_destination: '%kernel.project_dir%/public/images/products'
             inject_on_load:     true
-            delete_on_update:   false
-            delete_on_remove:   false
+            delete_on_update:   true
+            delete_on_remove:   true
             namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
 
         article_images:
             uri_prefix: /images/articles
             upload_destination: '%kernel.project_dir%/public/images/articles'
             inject_on_load:     true
-            delete_on_update:   false
-            delete_on_remove:   false
+            delete_on_update:   true
+            delete_on_remove:   true
             namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
 
         event_images:
@@ -52,16 +52,16 @@ vich_uploader:
             uri_prefix: /images/profile
             upload_destination: '%kernel.project_dir%/public/images/profile'
             inject_on_load:     true
-            delete_on_update:   false
-            delete_on_remove:   false
+            delete_on_update:   true
+            delete_on_remove:   true
             namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
 
         maintenance_images:
             uri_prefix: /images/maintenance
             upload_destination: '%kernel.project_dir%/public/images/maintenance'
             inject_on_load:     true
-            delete_on_update:   false
-            delete_on_remove:   false
+            delete_on_update:   true
+            delete_on_remove:   true
             namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
 
 

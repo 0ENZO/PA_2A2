@@ -5,22 +5,27 @@ namespace App\Controller;
 use App\Entity\CreditCard;
 use App\Entity\FranchiseOrder;
 use App\Entity\Franchise;
+use App\Entity\Notify;
 use App\Entity\Truck;
 use App\Entity\UserOrder;
+use App\Entity\Vote;
 use App\Form\FranchiseType;
 use App\Repository\FranchiseOrderRepository;
 use App\Repository\FranchiseRepository;
 use App\Repository\TruckRepository;
 
 use App\Service\MoneyService;
+use App\Service\NotifyService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 
 /**
- * @Route("/franchise") 
+ * @Route("/franchise")
+ * @IsGranted("ROLE_FRANCHISE")
  */
 class FranchiseController extends AbstractController
 {
@@ -28,22 +33,20 @@ class FranchiseController extends AbstractController
     /**
      * @Route("/profil", name="franchise_profil")
      */
-    public function profil(Request $request, MoneyService $moneyService){
+    public function profil(Request $request, MoneyService $moneyService, NotifyService $notifyService){
 
         $em = $this->getDoctrine()->getManager();
         $franchise = $this->getUser();
         $truck = $em->getRepository(Truck::class)->findOneByFranchise($franchise);
         $orders = $em->getRepository(FranchiseOrder::class)->findByFranchise($franchise);
         $credit_cards = $em->getRepository(CreditCard::class)->findBy(["franchise" => $franchise]);
-/*
-        $order = $em->getRepository(FranchiseOrder::class)->findOneByFranchiseOrder('12');
-        $products = $order->getIdProduct();
-        foreach ($products as $product) {
-            var_dump($product);
-        }
-*/
+
         $franchiseOrders = $em->getRepository(FranchiseOrder::class)->findBy(["franchise" => $franchise]);
         $userOrders = $em->getRepository(UserOrder::class)->findBy(["franchise" => $franchise]);
+
+        $rates = $em->getRepository(Vote::class)->findBy(["franchise" => $franchise]);
+
+        $notices = $em->getRepository(Notify::class)->findBy(["franchise" => $franchise]);
 
         $form = $this->createForm(FranchiseType::class, $franchise);
         $form->handleRequest($request);
@@ -63,7 +66,9 @@ class FranchiseController extends AbstractController
             "credit_cards" => $credit_cards,
             "franchiseOrders" => $franchiseOrders,
             "userOrders" => $userOrders,
-            "FranchiseMoneyData" => $moneyService->getFranchiseSalesRevenu($franchiseOrders, $userOrders)
+            "FranchiseMoneyData" => $moneyService->getFranchiseSalesRevenu($franchiseOrders, $userOrders),
+            "rates" => $rates,
+            "notices" => $notices
         ]);
 
     }

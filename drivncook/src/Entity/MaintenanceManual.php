@@ -7,10 +7,12 @@ use App\Repository\MaintenanceManualRepository;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=MaintenanceManualRepository::class)
  * @Vich\Uploadable
+ * @UniqueEntity(fields={"immatriculation"}, message="Cette immatriculation existe déjà.")
  */
 class MaintenanceManual
 {
@@ -29,31 +31,59 @@ class MaintenanceManual
 
     /**
      * @ORM\Column(type="string", length=20)
+     * @Assert\Type(type="string")
+     * @Assert\NotNull
+     * @Assert\Length(
+     *     min="0",
+     *     minMessage="Vous devez mettre une immatriculation  à 0 caractère minimum",
+     *     max="20",
+     *     maxMessage="Vous devez mettre une immatriculation à 20 caractères maximum"
+     * )
      */
     private $immatriculation;
 
     /**
      * @ORM\Column(type="smallint")
+     * @Assert\Type(type="int")
+     * @Assert\NotNull
+     * @Assert\PositiveOrZero
      */
     private $mileage;
 
     /**
      * @ORM\Column(type="string", length=30)
+     * @Assert\Type(type="string")
+     * @Assert\NotNull
+     * @Assert\Length(
+     *     min="0",
+     *     minMessage="Vous devez mettre une assurance  à 0 caractère minimum",
+     *     max="30",
+     *     maxMessage="Vous devez mettre une assurance à 30 caractères maximum"
+     * )
      */
     private $insurance;
 
     /**
      * @ORM\Column(type="smallint")
+     * @Assert\Type(type="int")
+     * @Assert\NotNull
+     * @Assert\PositiveOrZero
      */
     private $age;
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Assert\Type(type="string")
      */
     private $comment;
 
     /**
      * @ORM\Column(type="date", nullable=true)
+     * @Assert\DateTime()
+     * @Assert\GreaterThanOrEqual(
+     *     "today UTC",
+     *     message="La date ne peut pas être avant aujourd'hui"
+     * )
      */
     private $date;
 

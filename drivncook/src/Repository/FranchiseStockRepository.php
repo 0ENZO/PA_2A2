@@ -47,4 +47,14 @@ class FranchiseStockRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function findByProductAndFranchise($product, $franchise)
+    {
+        return $this->createQueryBuilder('f')
+            ->where('f.franchise = :franchise')->setParameter('franchise',$franchise)
+            ->andWhere('f.product = :product')->setParameter('product',$product)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
 }

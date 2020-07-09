@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %} Génération du menu de base {% endblock %}
+{% block title %}{{ parent() }} -  Génération du menu de base {% endblock %}
 
 {% block body %}
 
@@ -46,7 +46,7 @@
             <hr>
             <p class="lead">{% trans %}En cliquant sur le bouton ci-dessous, vous acceptez le fait qu'un menu commun sera généré, et vous pourrez donc en disposer des droits à la vente, et que vous acceptiez le faits ennoncés ci-dessus.{% endtrans %}</p>
             <div class="text-center mt-4">
-                <a class="btn btn-outline-success" href="{{ path('menu_auto_filled_process', {'id' : id}) }}">J'accepte la création de mon menu ainsi que les conditions évoquées ci-dessus</a>
+                <a class="btn btn-outline-success" href="{{ path('menu_auto_filled_process', {'id' : id}) }}">{% trans %}J'accepte la création de mon menu ainsi que les conditions évoquées ci-dessus{% endtrans %}</a>
             </div>
 
 

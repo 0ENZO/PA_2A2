@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Administration{% endblock %}
+{% block title %}{{ parent() }} - Administration{% endblock %}
 
 {% block body %}
 
@@ -168,7 +168,7 @@
             </div>
 
             <div class="col-3 div-admin-button">
-                <a class="btn btn-dark row admin-link pt-3" href="#" role="button">
+                <a class="btn btn-primary row admin-link pt-3" href="{{ path('admin_fidelity_show') }}" role="button">
                     <div class="row -align-center">
                         <div class="col">
                             <i class="fas fa-crown admin-icon"></i>

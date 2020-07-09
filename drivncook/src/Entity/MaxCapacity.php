@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @ORM\Entity(repositoryClass=MaxCapacityRepository::class)
@@ -24,11 +25,21 @@ class MaxCapacity
 
     /**
      * @ORM\Column(type="string", nullable=true)
+     * @Assert\Type(type="string")
+     * @Assert\Length(
+     *     min="0",
+     *     minMessage="Vous devez mettre un nom  à 0 caractère minimum",
+     *     max="255",
+     *     maxMessage="Vous devez mettre un nom  à 255 caractères maximum"
+     * )
      */
     private $name;
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\Type(type="int")
+     * @Assert\NotNull
+     * @Assert\PositiveOrZero
      * @Assert\Regex(
      *     pattern="/^[0-9]*$/",
      *     match=true,
@@ -39,6 +50,9 @@ class MaxCapacity
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\Type(type="int")
+     * @Assert\NotNull
+     * @Assert\PositiveOrZero
      * @Assert\Regex(
      *     pattern="/^[0-9]*$/",
      *     match=true,
@@ -49,6 +63,9 @@ class MaxCapacity
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\Type(type="int")
+     * @Assert\NotNull
+     * @Assert\PositiveOrZero
      * @Assert\Regex(
      *     pattern="/^[0-9]*$/",
      *     match=true,
@@ -59,6 +76,9 @@ class MaxCapacity
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\Type(type="int")
+     * @Assert\NotNull
+     * @Assert\PositiveOrZero
      * @Assert\Regex(
      *     pattern="/^[0-9]*$/",
      *     match=true,

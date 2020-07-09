@@ -1,114 +1,109 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Editer un article{% endblock %}
+{% block title %}{{ parent() }} - {% trans %}Editer un article{% endtrans %}
+{% endblock %}
 
 {% form_theme form _self %}
 
 {% block body %}
 
-    <div class="container mt-5">
-        {{ form_start(form) }}
-        {{ form_widget(form) }}
-        {{ form_end(form) }}
-    </div>
+	<div class="container mt-5">
+		{{ form_start(form) }}
+		{{ form_widget(form) }}
+		{{ form_end(form) }}
+	</div>
 
 {% endblock %}
 
-    {% block scripts %}
-        {{ parent() }}
+{% block scripts %}
+	{{ parent() }}
 
-        <script>
+	<script>
 
-            $('#add-product').click(function () {
+		$('#add-product').click(function() {
 
-                // Permet de récupérer le nombre de <div> ayant la class="form-group" à l'intérieur de la
-                // <div> ayant comme id="add_product"
-                // Il sera utilisé à la place de __name__ dans les formulaires vierge contenu dans
-                // le formulaire prototype (vierge)
-                // const index = $('#article_recipes div.form-group').length;
+			// Permet de récupérer le nombre de <div> ayant la class="form-group" à l'intérieur de la <div> ayant comme id="add_product" Il sera utilisé à la place de __name__ dans les formulaires vierge contenu dans le formulaire prototype (vierge) const index
+			// = $('#article_recipes div.form-group').length;
 
-                const index = +$('#widgets_counter').val();
+			const index = +$('#widgets_counter').val();
 
-                // Récupération du prototype des entrées
-                const template = $('#article_recipes').data('prototype').replace(/__name__/g, index);
+			// Récupération du prototype des entrées
+			const template = $('#article_recipes')
+				.data('prototype')
+				.replace(/__name__/g, index);
 
-                // On ajoute un nouveau RecipeType à la CollectionType identitié par #article_recipes
-                $('#article_recipes').append(template);
-                // console.log(template);
+			// On ajoute un nouveau RecipeType à la CollectionType identitié par #article_recipes
+			$('#article_recipes').append(template);
+			// console.log(template);
 
-                $('#widgets_counter').val(index + 1);
+			$('#widgets_counter').val(index + 1);
 
-                handleDeleteButton();
+			handleDeleteButton();
 
+		});
 
-            });
+		function handleDeleteButton() {
+			$('button[data-action="delete"]').click(function() {
+				const target = this.dataset.target;
+				console.log(target);
+				$('#' + target).remove();
 
-            function handleDeleteButton() {
-                $('button[data-action="delete"]').click(function () {
-                    const target = this.dataset.target;
-                    console.log(target);
-                    $('#' + target).remove();
+			})
+		}
 
-                })
-            }
+		function updateCounter() {
+			const count = +$('#article_recipes div.form-group').length;
 
-            function updateCounter() {
-                const count = +$('#article_recipes div.form-group').length;
+			$('#widgets_counter').val(count);
+		}
 
-                $('#widgets_counter').val(count);
-            }
+		updateCounter();
 
-            updateCounter();
+		handleDeleteButton();
+	</script>
 
-            handleDeleteButton();
-
-        </script>
-
-    {% endblock %}
-
-
+{% endblock %}
 
 {# La base de ce qui va contenir tout notre CollectionType#}
 {% block _article_recipes_widget %}
-    <div class="lead">Ajouter les produits et les quantités nécessaires à la réalisation de cet article.</div>
-    <hr>
-    {{ form_widget(form) }}
+	<div class="lead">{% trans %}Ajouter les produits et les quantités nécessaires à la réalisation de cet article{% endtrans %}</div>
+	<hr>
+	{{ form_widget(form) }}
 
-    <input type="hidden" value="0" id="widgets_counter">
+	<input type="hidden" value="0" id="widgets_counter">
 
-    <div class="form-group">
-        <button type="button" id="add-product" class="btn btn-info">Ajouter un autre produit à la recette</button>
-    </div>
+	<div class="form-group">
+		<button type="button" id="add-product" class="btn btn-info">{% trans %}Ajouter un autre produit à la recette{% endtrans %}</button>
+	</div>
 {% endblock %}
-
 
 {# Comment une ligne doit s'afficher. Gere les erreurs, les aides etc. Ici on elève le label en mettant juste le necessaire : le formulaire #}
 {% block _article_recipes_entry_row %}
-    {{ form_widget(form) }}
+	{{ form_widget(form) }}
 {% endblock %}
-
 
 {# Comment on affiche les différents champs du ReceipeType #}
 {% block _article_recipes_entry_widget %}
-    <div class="form-group" id="block_{{ id }}"> {# {{ dump(id) }} #}
-        <div class="row">
-            <div class="col-5">
-                <div class="mb-2">Produit</div>
-                {{ form_widget(form.product) }}
-            </div>
-            <div class="col-3">
-                <div class="mb-2">Quantité</div>
-                {{ form_widget(form.quantity) }}
-            </div>
-            <div class="col-3">
-                <div class="mb-2">Unité de la quantité</div>
-                {{ form_widget(form.type) }}
-            </div>
-            <div class="col-1">
-                <div class="mb-2">----</div>
-                <button type="button" data-action="delete" data-target="block_{{ id }}" class="btn btn-danger">X
-                </button>
-            </div>
-        </div>
-    </div>
+	<div class="form-group" id="block_{{ id }}">
+		{# {{ dump(id) }} #}
+		<div class="row">
+			<div class="col-5">
+				<div class="mb-2">{% trans %}Produit{% endtrans %}</div>
+				{{ form_widget(form.product) }}
+			</div>
+			<div class="col-3">
+				<div class="mb-2">{% trans %}Quantité{% endtrans %}</div>
+				{{ form_widget(form.quantity) }}
+			</div>
+			<div class="col-3">
+				<div class="mb-2">{% trans %}Unité de la quantité{% endtrans %}</div>
+				{{ form_widget(form.type) }}
+			</div>
+			<div class="col-1">
+				<div class="mb-2">----</div>
+				<button type="button" data-action="delete" data-target="block_{{ id }}" class="btn btn-danger">X
+				</button>
+			</div>
+		</div>
+	</div>
 {% endblock %}

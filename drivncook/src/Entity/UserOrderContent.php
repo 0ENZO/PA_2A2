@@ -4,9 +4,13 @@ namespace App\Entity;
 
 use App\Repository\UserOrderContentRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=UserOrderContentRepository::class)
+ *  @UniqueEntity(fields={"userOrder", "menu"}, message="Vous avez déjà les stock pour ce menu.")
  */
 class UserOrderContent
 {
@@ -25,6 +29,9 @@ class UserOrderContent
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\Type(type="integer")
+     * @Assert\NotNull
+     * @Assert\PositiveOrZero
      */
     private $quantity;
 
