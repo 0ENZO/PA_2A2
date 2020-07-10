@@ -9,7 +9,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=CreditCardRepository::class)
- * @UniqueEntity(fields={"cardNumber"}, message="Cette carte bancaire existe déjà.")
  */
 class CreditCard
 {

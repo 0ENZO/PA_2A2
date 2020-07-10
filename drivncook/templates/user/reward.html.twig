@@ -5,11 +5,56 @@
 	<div class="container mt-5">
 
 		<h2 class="text-center mt-2">{{ 'Profiter de mes points fidélités'|trans }} </h2>
-		<hr class="my-4">
-
+		<hr class="my-5">
+ 
         {% if euroPoints is defined and euroPoints is null %}
             <h4>{% trans %}Vous avez 0 point{% endtrans %}</h4>
+        {% elseif euroPoints is defined and euroPoints is not null %}
+            <div class="col-md-5 mx-auto my-5 bg-success rounded-circle pt-4 border border-dark" style="height: 200px; width: 200px;">
+                <h3 class="text-center align-ite">{% trans %}Vous avez {% endtrans %}</h3>
+                <h1 class="text-center font-weight-bold">
+                    {{ app.session.get('euroPoints') }}
+                </h1> 
+                <h3 class="text-center">{% trans %} points {% endtrans %}</h3>
+            </div>
+
+            <h3 class="text-center mx-auto">
+                <u>{%trans%}Profitez-en!{%endtrans%}</u>
+            </h3>
+
+            <div class="col-md-12 mx-auto d-flex row justify-content-center pt-4">
+                {% for i in 1..5 %}
+                    {% if app.user.euroPoints >= i*15 %}
+                        <div class="col-md-2 mt-3">
+                            <div class="d-block bg-warning rounded-circle border border-dark pt-3 mb-4" style="height: 100px; width: 100px;">
+                                <h3 class="text-center mx-auto">{{ i* 15}}</h3>
+                                <h6 class="text-center mx-auto">POINTS</h6>
+                            </div>
+
+                            <div>
+                                {% for menu in menus %}
+                                    {% if menu.euroPointsGap == i*15 %}
+                                        <p class="my-2">
+                                            <a href="{{path('user_cart_add', {'id': menu.id, 'qty': 1}) }}">{{ menu.name }} ></a>
+                                        </p>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
         {% endif %}
+
+        <a class="btn btn-primary position-fixed mr-2" href="{{ path('user_cart_show') }}" style="bottom: 7.5vh; left: 5vh;">
+            <i class="fas fa-chevron-left mr-2"></i>{% trans %}Retour au panier{% endtrans %}
+        </a>
+
+        {% set selected_credit_card = null %}
+        <a class="btn btn-success position-fixed mr-2" href="{{ path('payment_process', {'selected_credit_card': selected_credit_card}) }}" style="bottom: 7.5vh; right: 5vh;">
+            {{'Payer'|trans}}
+            <i class="fas fa-check ml-2"></i>
+        </a>
 
 	</div>
 {% endblock %}

@@ -190,10 +190,8 @@
                                     <div class="col-md-8 mx-auto mt-3">
                                         <h2 class="text-bold text-center">{% trans %}Mes informations bancaires{% endtrans %}</h2>
 
-                                        <div class="container text-center">
-                                            <a class="btn btn-primary" href="{{ path('credit_card_add') }}">Ajouter un
-                                                moyen de
-                                                paiement</a>
+                                        <div class="container text-center my-4">
+                                            <a class="btn btn-primary" href="{{ path('credit_card_add') }}">Ajouter un moyen de paiement</a>
                                         </div>
 
                                         {% if credit_cards is defined and credit_cards is not null %}
@@ -255,7 +253,7 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="container text-center">
+                                                <div class="container text-center my-3">
                                                     <a class="btn btn-light"
                                                        href="{{ path('credit_card_edit', {'id' : credit_card.id}) }}"> {% trans %}Modifier{% endtrans %}</a>
                                                     <a class="btn btn-dark"
@@ -290,7 +288,7 @@
                                                                                 data-target="#collapse{{ loop.index }}"
                                                                                 aria-expanded="true"
                                                                                 aria-controls="collapse{{ loop.index }}">
-                                                                            {% trans %}Commande du {% endtrans %}{{ order.date|date("d/m/Y") }}
+                                                                            {% trans %}Commande du {% endtrans %} {{ order.date|date("d/m/Y") }}
                                                                             - {{ order.totalPrice }} €
                                                                         </button>
                                                                     </h5>
@@ -343,7 +341,7 @@
 
                                             {% for vote in votes %}
                                                 <div class="">
-                                                    <h5> {% trans %}Commande du{% endtrans %} {{ vote.date|date("d/m/Y") }} </h5>
+                                                    <h5> {% trans %}Commande du {% endtrans %} {{ vote.date|date("d/m/Y") }} </h5>
                                                     <span>
                                                         {% for i in 1.. vote.rate %}
                                                             <i class="ml-2 fas fa-star"></i>

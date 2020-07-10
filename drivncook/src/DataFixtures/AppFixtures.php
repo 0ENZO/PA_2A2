@@ -5377,23 +5377,23 @@ class AppFixtures extends Fixture
             if ($subCategory == "Galettes")
                 $article->setEuroPointsGap(75);
             elseif ($subCategory == "Crêpes")
-                $article->setEuroPointsGap(55);
+                $article->setEuroPointsGap(60);
             elseif ($subCategory == "Salades")
-                $article->setEuroPointsGap(50);
-            elseif ($subCategory == "Bouteilles en verres")
                 $article->setEuroPointsGap(45);
+            elseif ($subCategory == "Bouteilles en verres")
+                $article->setEuroPointsGap(30);
             elseif ($subCategory == "Boissons chaudes")
-                $article->setEuroPointsGap(40);
+                $article->setEuroPointsGap(15);
             elseif ($subCategory == "Jus")
-                $article->setEuroPointsGap(50);
+                $article->setEuroPointsGap(30);
             elseif ($subCategory == "Smoothies")
-                $article->setEuroPointsGap(50);
+                $article->setEuroPointsGap(45);
             elseif ($subCategory == "Desserts pré-fait")
-                $article->setEuroPointsGap(40);
+                $article->setEuroPointsGap(30);
             elseif ($subCategory == "Plat normal")
-                $article->setEuroPointsGap(55);
+                $article->setEuroPointsGap(60);
             elseif ($subCategory == "Toast")
-                $article->setEuroPointsGap(55);
+                $article->setEuroPointsGap(60);
             elseif ($subCategory == "Brunchs") {
                 $article
                     ->setFormulePointsGap(true)
