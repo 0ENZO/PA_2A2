@@ -89,8 +89,6 @@ class Product
 
     /**
      * @ORM\Column(type="smallint")
-     * @Assert\Type(type="float")
-     * @Assert\NotNull
      * @Assert\PositiveOrZero
      */
     private $quantity;

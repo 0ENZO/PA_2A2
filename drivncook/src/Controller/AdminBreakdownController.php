@@ -131,7 +131,7 @@ class AdminBreakdownController extends AbstractController
     public function admin_breakdown_delete($id, Request $request, BreakdownRepository $breakdownRepository)
     {
         $em = $this->getDoctrine()->getManager();
-        $breakdown = $breakdownRepository->findOneBy($id);
+        $breakdown = $breakdownRepository->findOneBy(["id" => $id]);
 
         $em->remove($breakdown);
         $em->flush();

@@ -50,10 +50,10 @@
 
                         <td>
                             <a class="mr-2" data-toggle="tooltip" data-placement="top" title="Modifier" href="{{ path('admin_breakdownType_edit', { 'id': breakdownType.id}) }}"><i class="fas fa-pen"></i></a>
-                            <a href="#" data-href="{{ path('admin_breakdownType_delete', { 'id': breakdownType.id}) }}" class="" data-placement="bottom" 
-                            title="Supprimer" data-toggle="modal" data-target="#delete_breakdownType">
-                                <i class="fas fa-trash-alt"></i>
-                            </a>  
+{#                            <a href="#" data-href="{{ path('admin_breakdownType_delete', { 'id': breakdownType.id}) }}" class="" data-placement="bottom" #}
+{#                            title="Supprimer" data-toggle="modal" data-target="#delete_breakdownType">#}
+{#                                <i class="fas fa-trash-alt"></i>#}
+{#                            </a>  #}
                         </td>
                     </tr>
                 {% endfor %}
@@ -80,8 +80,7 @@
                         <td>{{ breakdown.breakdownType }}</td>
                         <td>
                             <a class="mr-2" data-toggle="tooltip" data-placement="top" title="Modifier" href="{{ path('admin_breakdown_edit', { 'id': breakdown.id}) }}"><i class="fas fa-pen"></i></a>
-                            <a href="#" data-href="{{ path('admin_breakdown_delete', { 'id': breakdown.id}) }}" class="" data-placement="bottom"
-                               title="Supprimer" data-toggle="modal" data-target="#delete_breakdown">
+                            <a href="{{ path('admin_breakdown_delete', { 'id': breakdown.id}) }}">
                                 <i class="fas fa-trash-alt"></i>
                             </a>
                         </td>
