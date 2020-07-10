@@ -45,10 +45,12 @@
                         <td>{{ franchise.email }}</td>
                         <td>
                             <a class="mr-2" data-toggle="tooltip" data-placement="top" title="Modifier" href="{{ path('admin_franchise_edit', { 'id': franchise.id}) }}"><i class="fas fa-pen"></i></a>
+                            {#
                             <a href="#" data-href="{{ path('admin_franchise_delete', { 'id': franchise.id}) }}" class="" data-placement="bottom" 
                             title="Supprimer" data-toggle="modal" data-target="#delete_franchise">
                                 <i class="fas fa-trash-alt"></i>
                             </a>  
+                            #}
                         </td>
                     </tr>
                 {% endfor %}
@@ -97,4 +99,3 @@
 {% block scripts %}
     {{ parent() }}
 {% endblock %}
-

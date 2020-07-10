@@ -15,8 +15,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @Vich\Uploadable
  * @UniqueEntity(fields={"email"}, message="Cette adresse email est déjà utilisée")
- *  @UniqueEntity(fields={"pseudo"}, message="Ce pseudo est déjà utilisé")
- *  @UniqueEntity(fields={"phoneNumber"}, message="Ce numéro est déjà utilisé")
+ * @UniqueEntity(fields={"pseudo"}, message="Ce pseudo est déjà utilisé")
  */
 class User implements UserInterface
 {
@@ -118,12 +117,6 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Assert\Length(
-     *     min="0",
-     *     minMessage="Vous devez mettre un password  à 0 caractère minimum",
-     *     max="255",
-     *     maxMessage="Vous devez mettre un password  à 255 caractères maximum"
-     * )
      */
     private $completeAddress;
 

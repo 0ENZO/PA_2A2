@@ -30,11 +30,10 @@ class AnswerReportBreakdownType extends AbstractType
                 'label' => 'Technicien',
                 'required' => true
             ])
-            ->add('content', TextType::class)
-            ->add('date', DateType::class)
-            ->add('save', SubmitType::class, [
-                'label' => 'Enregistrer'
+            ->add('content', TextType::class, [
+                'label' => 'Réponse'
             ])
+            ->add('date', DateType::class)
             ;
     }
 

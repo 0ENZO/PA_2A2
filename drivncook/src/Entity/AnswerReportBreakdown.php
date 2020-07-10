@@ -31,18 +31,11 @@ class AnswerReportBreakdown
 
     /**
      * @ORM\Column(type="text", nullable=true)
-     * @Assert\Type(type="string")
      */
     private $content;
 
     /**
      * @ORM\Column(type="datetime")
-     *  @Assert\DateTime()
-     * @Assert\NotNull
-     * @Assert\GreaterThanOrEqual(
-     *     "today UTC",
-     *     message="La date ne peut pas être avant aujourd'hui"
-     * )
      */
     private $date;
 

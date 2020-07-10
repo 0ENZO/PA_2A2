@@ -6,13 +6,21 @@
     <div class="container mt-5">
         {% if reportBreakdown is defined and reportBreakdown is not null %}
 
-            {% if reportBreakdown.status == '0' %}
-                <span class="badge badge-warning mb-3">{% trans %}En cours{% endtrans %}</span>
-            {% elseif reportBreakdown.status == '1' %}
-                <span class="badge badge-success mb-3">{% trans %}Résolu{% endtrans %}</span>
-            {% elseif reportBreakdown.status == '2' %}
-                <span class="badge badge-danger mb-3">{% trans %}Clôturé{% endtrans %}</span>
+            {% if is_granted('ROLE_FRANCHISE') %}
+                <a href="{{ path('show_truck', { 'id': reportBreakdown.truck.id}) }}" class="btn btn-primary mr-auto">{% trans %}Retour{% endtrans %}</a>
             {% endif %}
+
+            <div class="d-flex justify-content-end">
+
+                {% if reportBreakdown.status == '0' %}
+                    <span class="badge badge-warning mb-3">{% trans %}En cours{% endtrans %}</span>
+                {% elseif reportBreakdown.status == '1' %}
+                    <span class="badge badge-success mb-3">{% trans %}Résolu{% endtrans %}</span>
+                {% elseif reportBreakdown.status == '2' %}
+                    <span class="badge badge-danger mb-3">{% trans %}Clôturé{% endtrans %}</span>
+                {% endif %}
+            </div>
+
 
             <div class="row mt-2">
                 <div class="row col-md-4">
@@ -119,9 +127,24 @@
             {% if is_granted('ROLE_ADMIN') %}
                 <hr class="my-4">
 
-                {{ form_start(form) }}
-                    {{ form_widget(form) }}
-                {{ form_end(form) }}
+                <div class="col-md-10 mx-auto">
+                    {{ form_start(form) }}
+                        {{ form_widget(form) }}
+
+                        <div class="d-flex justify-content-between">
+
+                            <a href="{{ path('admin_reportBreakdown_show') }}" class="btn btn-primary mr-auto">{% trans %}Retour{% endtrans %}</a>
+
+                            <button class="btn btn-primary" type="submit" >
+                                {% trans %}Enregister{% endtrans %}
+                                <i class="fas fa-save ml-2"></i>
+                            </button>
+                        </div>
+
+
+                    {{ form_end(form) }}
+                </div>
+
 
             {% endif %}
         {% endif %}

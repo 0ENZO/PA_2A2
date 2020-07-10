@@ -51,9 +51,11 @@
                         <td>{{ reportBreakdown.status }}</td>
 
                         <td>
+                            {#
                             <a class="mr-2" data-toggle="tooltip" data-placement="top" title="Modifier" href="{{ path('admin_breakdownType_edit', { 'id': reportBreakdown.id}) }}">
                                 <i class="fas fa-pen"></i>
                             </a>
+                            #}
                             <a href="#" data-href="{{ path('admin_breakdownType_delete', { 'id': reportBreakdown.id}) }}" class="mr-2" data-placement="bottom" 
                             title="Supprimer" data-toggle="modal" data-target="#delete_breakdownType">
                                 <i class="fas fa-trash-alt"></i>

@@ -105,11 +105,15 @@ class TruckController extends AbstractController
         $form = $this->createForm(ReportBreakdownType::class, $breakdown);
 
         $truck = $truckRepository->findOneById($id);
-        $form->remove('truck');
+        $form
+            ->remove('truck')
+            ->remove('status');
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
-            $breakdown->setTruck($truck);
+            $breakdown
+                ->setTruck($truck)
+                ->setStatus(0);
             $em->persist($breakdown);
             $em->flush();
             $this->addFlash("success", "Votre panne a été déclarée");

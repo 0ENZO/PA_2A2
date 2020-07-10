@@ -50,10 +50,12 @@
                         <td>{{ user.phoneNumber }}</td>
                         <td>
                             <a class="mr-2" data-toggle="tooltip" data-placement="top" title="Modifier" href="{{ path('admin_user_edit', { 'id': user.id}) }}"><i class="fas fa-pen"></i></a>
+                            {#
                             <a href="#" data-href="{{ path('admin_user_delete', { 'id': user.id}) }}" class="" data-placement="bottom" 
                             title="Supprimer" data-toggle="modal" data-target="#delete_user">
                                 <i class="fas fa-trash-alt"></i>
                             </a>  
+                            #}
                         </td>
                     </tr>
                 {% endfor %}
@@ -76,7 +78,7 @@
                 </div>
             </div>
         </div>
-
+        
         <div class="modal fade" id="add_user" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
