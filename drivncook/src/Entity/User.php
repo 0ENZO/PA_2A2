@@ -72,10 +72,6 @@ class User implements UserInterface
      *     max="200",
      *     maxMessage="Vous devez mettre un email  à 200 caractères maximum"
      * )
-     * @Assert\Email(
-     *     message="L'addresse mail que vous venez de saisir n'est pas une addresse valide.",
-     *     normalizer="trim"
-     * )
      */
     private $email;
 

@@ -40,15 +40,6 @@ class ReportBreakdownType extends AbstractType
             ->add('description', TextType::class)
             ->add('date', DateType::class)
             ->add('phoneNumber')
-            ->add('imageFile', VichImageType::class, [
-                'required' => false,
-                'download_uri' => true,
-                'image_uri' => true,
-                'asset_helper' => true,
-                'download_label' => false,
-                'delete_label' => false,
-                "allow_delete" => false,
-            ])
             ->add('status')
             ->add('save', SubmitType::class, [
                 'label' => 'Enregistrer'

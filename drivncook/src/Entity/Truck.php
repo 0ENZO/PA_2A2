@@ -75,12 +75,6 @@ class Truck
 
     /**
      * @ORM\Column(type="date")
-     *  @Assert\Date()
-     * @Assert\NotNull
-     * @Assert\GreaterThanOrEqual(
-     *     "today UTC",
-     *     message="La date ne peut pas être avant aujourd'hui"
-     * )
      */
     private $factoryDate;
 

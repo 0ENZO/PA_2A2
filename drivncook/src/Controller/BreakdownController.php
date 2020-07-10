@@ -19,6 +19,7 @@ use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
 /**
  * @Route("/panne")
  * @IsGranted("ROLE_FRANCHISE")
+ * @IsGranted("ROLE_ADMIN")
  */
 class BreakdownController extends AbstractController
 {

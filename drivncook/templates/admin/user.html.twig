@@ -89,6 +89,10 @@
                     <div class="modal-body bg-body">
                         {{ form_start(form) }}
                             {{ form_widget(form) }}
+                        <button class="btn btn-primary ml-3" type="submit">
+                            {% trans %}Enregister{% endtrans %}
+                            <i class="fas fa-save ml-2"></i>
+                        </button>
                         {{ form_end(form) }}
                     </div>
                 </div>

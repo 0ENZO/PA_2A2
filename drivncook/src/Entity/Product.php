@@ -97,14 +97,6 @@ class Product
 
     /**
      * @ORM\Column(name="UploadDate" ,type="datetime", nullable=true)
-     *
-     *
-     * @var \DateTimeInterface|null
-     * @Assert\DateTime()
-     * @Assert\GreaterThanOrEqual(
-     *     "today UTC",
-     *     message="La date ne peut pas être avant aujourd'hui"
-     * )
      */
     private $updatedAt;
 

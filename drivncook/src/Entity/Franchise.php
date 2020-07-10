@@ -42,7 +42,6 @@ class Franchise implements UserInterface
     /**
      * @ORM\Column(type="string", length=50)
      * @Assert\Type(type="string")
-     * @Assert\NotNull
      * @Assert\Length(
      *     min="0",
      *     minMessage="Vous devez mettre un prénom  à 0 caractère minimum",
@@ -67,11 +66,7 @@ class Franchise implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=200)
-     * @Assert\Email(
-     *     message = "The email is not a valid email."
-     * )
      * @Assert\Type(type="string")
-     * @Assert\NotNull
      * @Assert\Length(
      *     min="0",
      *     minMessage="Vous devez mettre un email  à 0 caractère minimum",
@@ -83,7 +78,6 @@ class Franchise implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=10, nullable=true)
-     * @Assert\Type(type="string")
      * @Assert\Length(
      *     min="10",
      *     minMessage="Vous devez mettre un numéro  à 10 chiffres minimum",
@@ -148,9 +142,8 @@ class Franchise implements UserInterface
     private $votes;
 
     /**
-     * @ORM\Column(type="boolean", options={"default"=0})
+     * @ORM\Column(type="boolean", options={"default"=0}, nullable=true)
      * @Assert\Type(type="int")
-     * @Assert\NotNull
      */
     private $isActivated;
 

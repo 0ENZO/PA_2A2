@@ -42,24 +42,12 @@ class ReportBreakdown
 
     /**
      * @ORM\Column(type="datetime")
-     * @Assert\DateTime()
-     * @Assert\NotNull
-     * @Assert\GreaterThanOrEqual(
-     *     "today UTC",
-     *     message="La date ne peut pas être avant aujourd'hui"
-     * )
      */
     private $date;
 
     /**
      * @ORM\Column(type="string", length=10, nullable=true)
      * @Assert\Type(type="string")
-     * @Assert\Length(
-     *     min="10",
-     *     minMessage="Vous devez mettre un numéro  à 10 caractère minimum",
-     *     max="10",
-     *     maxMessage="Vous devez mettre un numéro  à 10 caractères maximum"
-     * )
      */
     private $phoneNumber;
 

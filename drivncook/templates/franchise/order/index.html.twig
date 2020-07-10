@@ -94,9 +94,7 @@
 				<h3>{{'Votre panier est vide'|trans}}</h3>
 
 				<div class="d-flex justify-content-end mt-5">
-					{% if app
-						.session
-						.get('cart_warehouse')is not null %}
+					{% if app.session.get('cart_warehouse') is not null %}
 						<a href="{{ path('product_index', {'id': app.session.get('cart_warehouse')}) }}" class="btn btn-primary mr-auto">{% trans %}Retour{% endtrans %}</a>
 					{% endif %}
 				</div>

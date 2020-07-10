@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Franchise;
+use App\Entity\Role;
 use App\Form\FranchiseType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -26,7 +27,10 @@ class AdminFranchiseController extends AbstractController
         $franchises = $em->getRepository(Franchise::class)->findAll();
 
         $franchise = new Franchise();
+        $franchise->setIsActivated(0);
+        $franchise->setRole($em->getRepository(Role::class)->findOneBy(["name" => "ROLE_FRANCHISE"]));
         $form = $this->createForm(FranchiseType::class, $franchise);
+        $form->remove("isActivated");
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

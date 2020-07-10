@@ -36,7 +36,6 @@ class ProductType extends AbstractType
                     "Indisponible" => "Indisponible"
                 ]
             ])
-            ->add('expiryDate')
             ->add('type', ChoiceType::class, [
                 "choices" => [
                     "Litre" => "L",

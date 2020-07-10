@@ -27,7 +27,7 @@ class Event
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     *  @Assert\Type(type="string")
+     * @Assert\Type(type="string")
      * @Assert\Length(
      *     min="0",
      *     minMessage="Vous devez mettre une adressse  à 0 caractère minimum",
@@ -40,7 +40,6 @@ class Event
     /**
      * @ORM\Column(type="string", length=100)
      * @Assert\Type(type="string")
-     * @Assert\NotNull
      * @Assert\Length(
      *     min="0",
      *     minMessage="Vous devez mettre un nom d'event  à 0 caractère minimum",
@@ -59,7 +58,6 @@ class Event
     /**
      * @ORM\Column(type="datetime")
      * @Assert\DateTime()
-     * @Assert\NotNull
      * @Assert\GreaterThanOrEqual(
      *     "today UTC",
      *     message="La date de début d'event ne peut pas être avant aujourd'hui"
@@ -70,7 +68,6 @@ class Event
     /**
      * @ORM\Column(type="datetime")
      *  @Assert\DateTime()
-     * @Assert\NotNull
      * @Assert\GreaterThanOrEqual(
      *     propertyPath="dateBegin",
      *     message="La date de fin d'event ne peut pas être avant la date de début"
@@ -81,8 +78,6 @@ class Event
     /**
      * @ORM\Column(type="float")
      * @Assert\Type(type="float")
-     * @Assert\NotNull
-     * @Assert\PositiveOrZero
      */
     private $price;
 
