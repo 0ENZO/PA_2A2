@@ -51,9 +51,9 @@
 								<a class="mr-2" data-toggle="tooltip" data-placement="top" title="Modifier" href="{{ path('admin_event_edit', { 'id': event.id}) }}">
 									<i class="fas fa-pen"></i>
 								</a>
-								<a href="#" data-href="{{ path('admin_event_delete', { 'id': event.id}) }}" class="" data-placement="bottom" title="Supprimer" data-toggle="modal" data-target="#delete_event">
+								<a href="{{ path('admin_event_delete', { 'id': event.id}) }}">
 									<i class="fas fa-trash-alt"></i>
-								</a>
+								</a
 							</td>
 						</tr>
 					{% endfor %}
