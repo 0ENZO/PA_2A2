@@ -68,10 +68,12 @@
                             {% endif %}</td>
                         <td>
                             <a class="mr-2" data-toggle="tooltip" data-placement="top" title="Modifier" href="{{ path('admin_sub_category_edit', { 'id': sub_category.id}) }}"><i class="fas fa-pen"></i></a>
+                            {#
                             <a href="#" data-href="{{ path('admin_sub_category_delete', { 'id': sub_category.id}) }}" class="" data-placement="bottom"
                                title="Supprimer" data-toggle="modal" data-target="#delete_franchise">
                                 <i class="fas fa-trash-alt"></i>
                             </a>
+                            #}
                         </td>
                     </tr>
                 {% endfor %}

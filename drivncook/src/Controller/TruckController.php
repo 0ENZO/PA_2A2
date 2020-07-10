@@ -23,7 +23,6 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
  * @Route("/camion")
- * @isGranted("ROLE_FRANCHISE")
  */
 class TruckController extends AbstractController
 {
