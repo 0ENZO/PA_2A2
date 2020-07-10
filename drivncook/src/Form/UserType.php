@@ -30,7 +30,9 @@ class UserType extends AbstractType
             ->add('firstName', TextType::class)
             ->add('lastName', TextType::class)
             ->add('email', EmailType::class)
-            ->add('completeAddress',TextType::class)
+            ->add('completeAddress',TextType::class, [
+                'required' => false, 
+            ])
             ->add('password')
             ->add('phoneNumber')
             ->add('birthDate', BirthdayType::class);
