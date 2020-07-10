@@ -48,9 +48,6 @@ security:
     access_control:
         - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/login$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/franchise, roles: ROLE_FRANCHISE }
-        - { path: ^/client, roles: ROLE_USER }
-        # - { path: ^/editeur, roles: ROLE_EDITOR }
 
     role_hierarchy:
         ROLE_EDITOR: ROLE_USER

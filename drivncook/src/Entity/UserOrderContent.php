@@ -40,6 +40,11 @@ class UserOrderContent
      */
     private $menu;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $isPromo;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -77,6 +82,18 @@ class UserOrderContent
     public function setMenu(?Menu $menu): self
     {
         $this->menu = $menu;
+
+        return $this;
+    }
+
+    public function getIsPromo(): ?bool
+    {
+        return $this->isPromo;
+    }
+
+    public function setIsPromo(?bool $isPromo): self
+    {
+        $this->isPromo = $isPromo;
 
         return $this;
     }

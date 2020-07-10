@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ parent() }} - {{'Facture'|trans}}
+{% block title %}{{'Facture'|trans}}
 {% endblock %}
 {% block stylesheets %}
 	{% for path in encore_entry_css_files('app') %}
@@ -52,12 +52,21 @@
             <tbody>
 
             {% for userOrderContent in order.userOrderContents %}
-                <tr>
-                    <td>{{ userOrderContent.menu.name }}</td>
-                    <td>{{ userOrderContent.quantity }}</td>
-                    <td>{{ userOrderContent.menu.price }}</td>
-                    <td>{{ userOrderContent.menu.price + userOrderContent.menu.vat }}</td>
-                </tr>
+                {% if userOrderContent.isPromo != true %}
+                    <tr>
+                        <td>{{ userOrderContent.menu.name }}</td>
+                        <td>{{ userOrderContent.quantity }}</td>
+                        <td>{{ userOrderContent.menu.price }}</td>
+                        <td>{{ userOrderContent.menu.price + userOrderContent.menu.vat }}</td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td>{{ userOrderContent.menu.name }}</td>
+                        <td>{{ userOrderContent.quantity }}</td>
+                        <td></td>
+                        <td>{{ userOrderContent.menu.euroPointsGap }} points</td>
+                    </tr>
+                {% endif %}
             {% endfor %}
 
             <tr class="total total-first">

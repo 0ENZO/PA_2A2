@@ -17,7 +17,6 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/payment")
- * @Security("is_granted('ROLE_FRANCHISE') or is_granted('ROLE_USER')")
  */
 class PaymentController extends AbstractController
 {

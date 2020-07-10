@@ -2,6 +2,7 @@
 @import "colors";
 @import "profile";
 @import "pdf";
+@import "typo";
 
 body {
     background-color: lightgray;
@@ -360,7 +361,7 @@ input.qtyminus { width:25px; height:25px;}
     padding: 20px;
   }
   
-  h2 {
+  .h2-menu {
     display: inline-block;
     border-bottom: 4px solid var(--wesbos);
     margin-top: 0;
