@@ -5,7 +5,9 @@ namespace App\Controller;
 use App\Entity\Event;
 use App\Form\EventType;
 use App\Entity\Franchise;
+use App\Entity\User;
 use App\Repository\EventRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\Routing\Annotation\Route;
@@ -90,5 +92,54 @@ class EventController extends AbstractController
         return $this->render('event/eventCreate.html.twig', [
             'form' =>$formView
          ]);
+    }
+
+    /**
+     * @Route("/rejoindre/{id}", name="event_join", requirements={"id"="\d+"})
+     */
+    public function addGuest($id, Request $request, EventRepository $eventRepository, EntityManagerInterface $em)
+    {
+        if ($this->isGranted('ROLE_USER')){
+            $event = $eventRepository->findOneById($id);
+            $event->addUser($this->getUser());
+            $limit = $event->getTickets();
+            $current = count($event->getUsers());
+
+            $users = $event->getUsers();
+
+            if($current == $limit){
+                $this->addFlash("warning", "Toutes les places ont déjà été réservées.");
+                return $this->redirectToRoute('event_index');
+            }
+            if ($users->contains($this->getUser())){
+                $this->addFlash("warning", "Vous êtes déjà inscrit à cet évènement.");
+                return $this->redirectToRoute('event_index');
+            } 
+
+            $em->flush();
+            $this->addFlash("success", "Votre êtes inscris à l'évenement");
+            return $this->redirectToRoute('event_index');
+        }
+    }
+
+    /**
+     * @Route("/quitter/{id}", name="event_remove", requirements={"id"="\d+"})
+     */
+    public function removeGuest($id, Request $request, EventRepository $eventRepository, EntityManagerInterface $em)
+    {
+        if ($this->isGranted('ROLE_USER')){
+            $event = $eventRepository->findOneById($id);
+            $users = $event->getUsers();
+
+            if ($users->contains($this->getUser())){
+                $event->removeUser($this->getUser());
+                $this->addFlash("warning", "Vous n\'êtes plus inscris à cet évenement.");
+                return $this->redirectToRoute('event_index');
+            } 
+
+            $em->flush();
+            $this->addFlash("success", "Votre n\‘êtes pas inscris à l'évenement");
+            return $this->redirectToRoute('event_index');
+        }
     }
 }

@@ -28,10 +28,11 @@ class EventType extends AbstractType
             ->add('dateBegin', DateType::class)
             ->add('dateEnd', DateType::class)
             ->add('price', IntegerType::class)
-           ->add('address', EntityType::class, [
-              'class' => Address::class,
-              'label' => 'Adresse :'
-          ])
+            ->add('tickets', IntegerType::class)
+            ->add('address', EntityType::class, [
+                'class' => Address::class,
+                'label' => 'Adresse :'
+            ])
             ->add('franchise', EntityType::class, [
                 'class' => Franchise::class,
                 'label' => 'Franchisé',
@@ -46,9 +47,6 @@ class EventType extends AbstractType
                 'delete_label' => false,
                 "allow_delete" => false,
             ])
-//            ->add('save', SubmitType::class, [
-//                "label" => 'Enregistrer'
-//            ])
         ;
     }
 

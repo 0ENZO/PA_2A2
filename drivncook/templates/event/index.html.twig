@@ -64,11 +64,16 @@
 
 				<div class="row d-flex align-items-center align-self-center mb-3 mx-auto">
 					<div class="col-md-2">
+						<strong>{% trans %}Places{% endtrans %}</strong>
+					</div>
+					<div class="col-md-2">{{ form_widget(form.tickets) }}</div>
+
+					<div class="col-md-1">
 						<strong>{% trans %}Prix{% endtrans %}</strong>
 					</div>
-					<div class="col-md-4">{{ form_widget(form.price) }}</div>
+					<div class="col-md-2">{{ form_widget(form.price) }}</div>
 
-					<div class="offset-md-3 col-md-3">
+					<div class="offset-md-1 col-md-3">
 						<button class="btn btn-primary" type="submit">
 							{% trans %}Enregister{% endtrans %}
 							<i class="far fa-paper-plane ml-2"></i>
@@ -93,6 +98,11 @@
 							<h5 class="card-title">{{ event.name }}</h5>
 							<p class="card-text">{{ event.description|length > 50 ? event.description|slice(0,50) ~'..' : event.description}}</p>
 							<a href="{{ path('event_show', {'id': event.id }) }}" class="btn btn-primary">{% trans %}Voir plus{% endtrans %}</a>
+							{% if is_granted('ROLE_USER') %}
+								<a href="{{ path('event_join', {'id': event.id }) }}" class="btn btn-primary">
+									<i class="fas fa-user-plus"></i>
+								</a>
+							{% endif %}
 						</div>
 					</div>
 				{% endfor %}
