@@ -14,7 +14,6 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * @ORM\Entity(repositoryClass=EventRepository::class)
  * @Vich\Uploadable
- * @UniqueEntity(fields={"franchise", "name"}, message="Vous avez un nom d'event pour le franchisé.")
  */
 class Event
 {
@@ -57,21 +56,11 @@ class Event
 
     /**
      * @ORM\Column(type="datetime")
-     * @Assert\DateTime()
-     * @Assert\GreaterThanOrEqual(
-     *     "today UTC",
-     *     message="La date de début d'event ne peut pas être avant aujourd'hui"
-     * )
      */
     private $dateBegin;
 
     /**
      * @ORM\Column(type="datetime")
-     *  @Assert\DateTime()
-     * @Assert\GreaterThanOrEqual(
-     *     propertyPath="dateBegin",
-     *     message="La date de fin d'event ne peut pas être avant la date de début"
-     * )
      */
     private $dateEnd;
 

@@ -3,8 +3,6 @@
 {% endblock %}
 {% block body %}
 
-	{{ dump(events)}}
-
 	<div class="container mt-5">
 
 		{% if is_granted('ROLE_FRANCHISE') or is_granted('ROLE_EDITOR') %}
