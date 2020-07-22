@@ -1,5 +1,5 @@
 # PA_2A2
-A full symfony application coupled with three.js, Java and C that spotlights a fictional food trucks industry : Driv'n Cook !
+A full symfony application coupled with three.js, Java and C that spotlights a fictional food trucks industry.
 
 
 ## About
