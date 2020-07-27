@@ -3,12 +3,22 @@
 {% endblock %}
 {% block body %}
 	<div class="container mt-5">
+
+		<div class="d-flex justify-content-between">
+			<a href="{{ path('event_index') }}" class="btn btn-primary mb-3">
+				<i class="fas fa-chevron-left mr-2"></i>Retour
+			</a>
+
+			<a href="{{ path('event_index') }}" class="btn btn-primary mb-3">
+				Se désinscrire<i class="fas fa-user-minus ml-2"></i>
+			</a>
+		</div>
 		<section class="lp">
 			<section class="lp__header">
 				<h1>{{ event.name }}</h1>
 				<p>{{ event.description|slice(0,30) ~'..'}}</p>
 			</section>
-
+			
 			<section class="lp__grid">
 				<div class="lp__gridItem lp__gridItem__image"></div>
 				<div class="lp__gridItem lp__gridItem__text">

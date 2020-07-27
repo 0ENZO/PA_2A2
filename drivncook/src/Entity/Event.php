@@ -103,6 +103,11 @@ class Event
      */
     private $users;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $tickets;
+
     public function __construct()
     {
         $this->franchise = new ArrayCollection();
@@ -286,6 +291,18 @@ class Event
         if ($this->users->contains($user)) {
             $this->users->removeElement($user);
         }
+
+        return $this;
+    }
+
+    public function getTickets(): ?int
+    {
+        return $this->tickets;
+    }
+
+    public function setTickets(?int $tickets): self
+    {
+        $this->tickets = $tickets;
 
         return $this;
     }
