@@ -133,6 +133,7 @@ class EventController extends AbstractController
 
             if ($users->contains($this->getUser())){
                 $event->removeUser($this->getUser());
+                $em->flush();
                 $this->addFlash("warning", "Vous n\'êtes plus inscris à cet évenement.");
                 return $this->redirectToRoute('event_index');
             } 
