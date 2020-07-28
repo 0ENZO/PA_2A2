@@ -29,10 +29,16 @@ int main(int argc, char *argv[])
             fprintf(stderr,"%s\n",mysql_error(con));
         }
 
-        if(mysql_real_connect(con,"localhost","root","jesuisunclown","drivncook",0,NULL,0)==NULL)
+        /*
+        IMPORTANT : Remplacer ici les valeurs pour correspondre à la base de données correpondante.
+                    Ce fichier est sur le serveur, par conséquent les informations de compte et de mot de passe ne peuvent pas 
+                    être marqué ici. 
+                    Vous devez donc l'adapter à vos propre besoin. En bas local avec un pack LAMPP par exemple.
+        if(mysql_real_connect(con,"localhost","UTILISATEUR_BDD_ICI","MOT_DE_PASSE_ICI","NOM_DE_LA_BDD_ICI",0,NULL,0)==NULL)
         {
             finish_with_error(con);
         }
+        */
 
         if(mysql_query(con,try))
         {

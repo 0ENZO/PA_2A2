@@ -81,7 +81,14 @@ public class App_login {
 
             String stockEncrypt = toHexString(getSHA(password));
             Class.forName("com.mysql.jdbc.Driver");
-            Connection con= DriverManager.getConnection("jdbc:mysql://51.77.158.251:3306/drivncook","remote","jesuisunclown");
+            /*
+            IMPORTANT : Remplacer ici les valeurs pour correspondre à la base de données correpondante.
+                        Ce fichier est sur le serveur, par conséquent les informations de compte et de mot de passe ne peuvent pas 
+                        être marqué ici. 
+                        Vous devez donc l'adapter à vos propre besoin. En bas local avec un pack LAMPP par exemple.
+            
+            Connection con= DriverManager.getConnection("jdbc:mysql://ADDRESSE_IP_SERVEUR_ICI:3306/NOM_DE_LA_BDD_ICI","UTILISATEUR_BDD_ICI","MOT_DE_PASSE_ICI");
+            */
 
 
             PreparedStatement statement = con.prepareStatement("select * from user where email = ? and password = ?");

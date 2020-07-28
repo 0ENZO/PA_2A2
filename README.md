@@ -29,7 +29,7 @@ The firm has to keep an eye on everythings related to their brand, that's why th
 The last :  communication has to be secure, and a Network proposal with EVE-NG technology have to be used to represent the trafic between the warehouses
 (This part is independant of the website processus and is not showed here in this repository)
 
-> How can we succed ?
+> How can we succeed ?
 
 We have to respect some programming rules on all the projetcs :
 * Make the registering of franchised people only in C language, via a QRcode creation, FTP/SFTP transfer and reading to the hosting server)
@@ -68,6 +68,17 @@ And the last, having a Machine linux to run the C programm will be useful. This 
 This is just better to have one, to register the franchise people throught the database
 (Because we had to manage the franchise people registration only in C language, but you can still add one manually with the __fixtures__)
 
+### UPDATE
+
+For some security reasons, we let you devide the configuration of the database connexion etc in the C and Java files.
+
+That's why you have to modify these files, for the given paths :
+
+```
+/Applications/MAMP/htdocs/PA_2A2/C/Envoi bdd/try.c 											// At line 32
+/Applications/MAMP/htdocs/PA_2A2/Java/Gestion/src/mysql/App_login.java 	// At line 34
+```
+
 
 
 ## 2. Installation
@@ -77,7 +88,6 @@ This is just better to have one, to register the franchise people throught the d
 We user Webpack encore for this projet, and that's why you need to perform the following commands in order to activate the assets
 
 ```
-yarn install
 yarn encore dev
 ```
 

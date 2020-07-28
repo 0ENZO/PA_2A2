@@ -1,3 +1,5 @@
 #!/bin/sh
 
-rsync -av -e 'ssh -p 37802' ./ rpierucci@drivncook.space:/var/www/www.drivncook.space --include=public/build --exclude-from=.gitignore --exclude=".*"
+# A MODIFIER PUIS DECOMMENRER POUR CORRESPONDRE AUX BESOINS
+
+# rsync -av -e 'ssh -p PORT_CENNEXION_SSH' ./ UTILISATEUR_SERVEUR@ADDRESSE_OU_DNS_SERVEUR:CHEMIN_ABSOLUE_VERS_LE_DOSSIER_DU_SITE --include=public/build --exclude-from=.gitignore --exclude=".*"
